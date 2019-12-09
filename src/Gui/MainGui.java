@@ -136,6 +136,8 @@ public class MainGui extends JPanel {
         }
         jbtn.setBackground(Color.WHITE);
         jbtn.addActionListener(action);
+        jbtn.addMouseListener(action);
+        jbtn.setBorderPainted(false);
         return jbtn;
     }
 
