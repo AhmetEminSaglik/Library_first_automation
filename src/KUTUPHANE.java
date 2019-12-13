@@ -64,7 +64,7 @@ public class KUTUPHANE extends javax.swing.JFrame {
             }
         });
 
-        jTextField2.setText("mavi inci");
+        jTextField2.setText("huwai");
 
         jLabel2.setText("Kitap id (barkod)");
 

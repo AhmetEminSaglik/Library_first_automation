@@ -24,7 +24,7 @@ public class Login extends JPanel {
         this.setBackground(Color.BLUE);
 
         getJf().add(this);
-
+this.setVisible(false);
         MainGui mg = new MainGui(this);
     }
 

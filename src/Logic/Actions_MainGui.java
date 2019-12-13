@@ -1,6 +1,13 @@
 package Logic;
 
+import Gui.BookAddGui;
+import Gui.BookReturnGui;
+import Gui.BookSearch_ListGui;
+import Gui.BookUpdate_RemoveGui;
 import Gui.MainGui;
+import Gui.StudentAddGui;
+import Gui.StudentStateGui;
+import Gui.StudentUpdateGui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,40 +41,45 @@ public class Actions_MainGui implements ActionListener, DocumentListener, MouseL
 
         if (e.getSource() == getMg().getBookAdd()) {
 
+            BookAddGui bag = new BookAddGui(getMg());
+
         }
         if (e.getSource() == getMg().getBookReturn()) {
-
+            BookReturnGui brg = new BookReturnGui(getMg());
         }
         if (e.getSource() == getMg().getBookSearch_List()) {
-
+            BookSearch_ListGui bslg = new BookSearch_ListGui(getMg());
         }
         if (e.getSource() == getMg().getBookUpdate_Remove()) {
-
+            BookUpdate_RemoveGui burg = new BookUpdate_RemoveGui(getMg());
         }
         if (e.getSource() == getMg().getStudentAdd()) {
-
+            StudentAddGui sag = new StudentAddGui(getMg());
         }
         if (e.getSource() == getMg().getStudentUpdate()) {
+            StudentUpdateGui sug = new StudentUpdateGui(getMg());
 
         }
         if (e.getSource() == getMg().getStudentState()) {
+            StudentStateGui ssg = new StudentStateGui(getMg());
 
         }
         if (e.getSource() == getMg().getRegisteredStudent()) {
-
+            //     RegisteredStudentGui rsg = new RegisteredStudentGui(getMg());
         }
         if (e.getSource() == getMg().getTimeControl_ExtraTime()) {
+            //   TimeControl_ExtraTimeGui tc_etg = new TimeControl_ExtraTimeGui(getMg());
 
         }
         if (e.getSource() == getMg().getOvertime_Fine()) {
-
+            //   Overtime_FineGui ot_fg = new Overtime_FineGui(getMg());
         }
         if (e.getSource() == getMg().getAboutUs()) {
-
+            //   AboutUs aug = new AboutUs(getMg());
         }
         if (e.getSource() == getMg().getExit()) {
 
-            int answer = JOptionPane.showConfirmDialog(null, "ÇIKIŞ UYARISI", "Çıkmak İstediğinize Emin Misiniz?", 2, 3);
+            int answer = JOptionPane.showConfirmDialog(null, "Çıkmak İstediğinize Emin Misiniz?", "ÇIKIŞ UYARISI", 2, 3);
 
             if (answer == 0) {
                 System.exit(answer);
@@ -77,30 +89,66 @@ public class Actions_MainGui implements ActionListener, DocumentListener, MouseL
     }
 
     @Override
-    public void insertUpdate(DocumentEvent e) {
+    public void insertUpdate(DocumentEvent e) {     // Buraya eklenir hızlı işlem yapma 2 txt ten ikisi de dolduğu anda işlem yapılır
 
-        if (e.getDocument().getProperty("StudentNo_BookId_txt").equals(1)) {// first for student no
+        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)
+                || e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)) {
+            boolean all_integer = false;
+
+            try {
+
+                Integer.parseInt(getMg().getStudentNo_txt().getText());
+
+            } catch (NumberFormatException nfe) {
+                System.out.println("Karakter giremezsiniz. Sayı girmelisiniz");
+                String txt = getMg().getStudentNo_txt().getText();
+                txt = txt.replaceFirst("[^\\d.]", txt);
+//Integer.valueOf(getMg().getStudentNo_txt().getText().replaceAll("[^\\d.]", ""));
+
+                //getMg().getStudentNo_txt().setText(getMg().getStudentNo_txt().getText().charAt()[length() - 1]);
+                //getMg().getStudentNo_txt().getText()[getMg().getStudentNo_txt().getText().length() - 1];
+            }
+
+        }
+        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)) {// first for student no
 
             System.out.println("----Alinan kelime :" + getMg().getStudentNo_txt().getText());
         }
 
-        if (e.getDocument().getProperty("StudentNo_BookId_txt").equals(2)) { // second for bookId
-            System.out.println("silindikten sonra :" + getMg().getBookId_txt().getText());
+        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(2)) { // second for bookBarcode
+            System.out.println("silindikten sonra :" + getMg().getBookBarcode_txt().getText());
         }
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        if (e.getDocument().getProperty("StudentNo_BookId_txt").equals(1)) { // second for bookId
+        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)) { // second for bookBarcode
             System.out.println("----Alinan kelime :" + getMg().getStudentNo_txt().getText());
         }
-        if (e.getDocument().getProperty("StudentNo_BookId_txt").equals(2)) { // second for bookId
-            System.out.println("silindikten sonra :" + getMg().getBookId_txt().getText());
+        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(2)) { // second for bookBarcode
+            System.out.println("silindikten sonra :" + getMg().getBookBarcode_txt().getText());
         }
+        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)
+                || e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)) {
+            boolean all_integer = false;
+
+            try {
+
+                Integer.parseInt(getMg().getStudentNo_txt().getText());
+
+            } catch (NumberFormatException nfe) {
+
+                JOptionPane.showMessageDialog(null, "Karakter giremezsiniz. Sayı girmelisiniz");
+
+            }
+
+        }
+
     }
 
     @Override
-    public void changedUpdate(DocumentEvent e) {
+    public void changedUpdate(DocumentEvent e
+    ) {
 
     }
 
@@ -153,6 +201,7 @@ public class Actions_MainGui implements ActionListener, DocumentListener, MouseL
             getMg().getExit().setBackground(background_color);
             getMg().getExit().setForeground(foreground_color);
         }
+
     }
 
     @Override
@@ -172,7 +221,8 @@ public class Actions_MainGui implements ActionListener, DocumentListener, MouseL
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        find_buttons_source_with_using_mouse(e, Color.red, Color.WHITE);
+        find_buttons_source_with_using_mouse(e, Color.GRAY, Color.WHITE);
+
     }
 
     @Override
