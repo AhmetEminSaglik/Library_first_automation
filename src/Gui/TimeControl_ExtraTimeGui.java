@@ -5,10 +5,15 @@
  */
 package Gui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ahmet Emin SAĞLIK
  */
 public class TimeControl_ExtraTimeGui {
-    
+
+    public TimeControl_ExtraTimeGui(MainGui mg) {
+        JOptionPane.showMessageDialog(null, "Classa giriş ayarlandı ama başka hiç bir şey yapılmadı");
+    }
 }

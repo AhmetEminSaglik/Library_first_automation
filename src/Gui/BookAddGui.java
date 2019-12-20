@@ -26,11 +26,11 @@ public class BookAddGui {
     JTextField result_txt;
     BookActions bookaction = new BookActions(this);
     JButton comeBack_btn;
+    JButton addBook;
     Font font_lbl = new Font("monospaced", Font.BOLD, 20);
     Font font_txt = new Font("monospaced", Font.BOLD, 15);
 
     public BookAddGui(MainGui mg) {
-
 
         this.mg = mg;
         setJf(mg.getJf());
@@ -52,7 +52,7 @@ public class BookAddGui {
         getJp().add(getAuthorName_txt());
         getJp().add(getResult_txt());
         getJp().add(getComeBack_btn());
-
+        getJp().add(getAddBook());
     }
 
     /*Mainguiyi gönderip jf üzerine burdaki jp'yi ekleyebilirim
@@ -140,9 +140,10 @@ public class BookAddGui {
 
     public JTextField getBookBarcodeNo_txt() {
         if (bookBarcodeNo_txt == null) {
-            bookBarcodeNo_txt = new JTextField();
+            bookBarcodeNo_txt = new JTextField("Kitap onaylanınca buradaki ve alttaki tüm yazılar kaybolur");
             bookBarcodeNo_txt.setBounds(20, 50, 300, 40);
             bookBarcodeNo_txt.setFont(font_txt);
+
         }
         return bookBarcodeNo_txt;
     }
@@ -201,6 +202,7 @@ public class BookAddGui {
             comeBack_btn.setBounds(50, 400, 150, 50);
             comeBack_btn.setBackground(Color.white);
             comeBack_btn.setFont(font_txt);
+
             comeBack_btn.setCursor(new Cursor(12));
         }
         return comeBack_btn;
@@ -208,6 +210,22 @@ public class BookAddGui {
 
     public void setComeBack_btn(JButton comeBack_btn) {
         this.comeBack_btn = comeBack_btn;
+    }
+
+    public JButton getAddBook() {
+        if (addBook == null) {
+            addBook = new JButton("Kitabı Ekle");
+            addBook.setBounds(400, 250, 150, 50);
+            addBook.setBackground(Color.white);
+            addBook.setFont(font_txt);
+
+            comeBack_btn.setCursor(new Cursor(12));
+        }
+        return addBook;
+    }
+
+    public void setAddBook(JButton addBook) {
+        this.addBook = addBook;
     }
 
     public MainGui getMg() {

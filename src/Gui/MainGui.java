@@ -311,7 +311,7 @@ public class MainGui {//extends JPanel
             bookBarcode_txt.getDocument().addDocumentListener(action);
             bookBarcode_txt.getDocument().putProperty("StudentNo_BookBarcode_txt", 2); // first one is key , the other one is value
             bookBarcode_txt.addActionListener(action);
-            
+
         }
         return bookBarcode_txt;
     }
@@ -452,6 +452,7 @@ public class MainGui {//extends JPanel
         if (bookSearch_List == null) {
             bookSearch_List = build_JbuttonForNulls(bookSearch_List, FloorOfBook_X, ThirdButtons_Y);
             bookSearch_List.setText("Kitap Listesi & Sorgula");
+            bookSearch_List.setBackground(Color.red);
         }
         return bookSearch_List;
     }
@@ -515,6 +516,7 @@ public class MainGui {//extends JPanel
         if (registeredStudent == null) {
             registeredStudent = build_JbuttonForNulls(registeredStudent, FloorOfStudent_X, FourthButtons_Y);
             registeredStudent.setText("Kayıtlı Ogrenci listesi");
+            registeredStudent.setBackground(Color.red);
         }
         return registeredStudent;
     }
@@ -527,6 +529,7 @@ public class MainGui {//extends JPanel
         if (TimeControl_ExtraTime == null) {
             TimeControl_ExtraTime = build_JbuttonForNulls(TimeControl_ExtraTime, FloorOf_Time_Exit_X, FirstButtons_Y);
             TimeControl_ExtraTime.setText("Süre Kontrol & Uzatma");
+            TimeControl_ExtraTime.setBackground(Color.red);
         }
         return TimeControl_ExtraTime;
     }
@@ -539,6 +542,7 @@ public class MainGui {//extends JPanel
         if (Overtime_Fine == null) {
             Overtime_Fine = build_JbuttonForNulls(Overtime_Fine, FloorOf_Time_Exit_X, SecondButtons_Y);
             Overtime_Fine.setText("Haddini Aşanlar (edit  )");
+            Overtime_Fine.setBackground(Color.red);
         }
         return Overtime_Fine;
     }
@@ -551,6 +555,7 @@ public class MainGui {//extends JPanel
         if (aboutUs == null) {
             aboutUs = build_JbuttonForNulls(aboutUs, FloorOf_Time_Exit_X, ThirdButtons_Y);
             aboutUs.setText("Hakkımızda");
+            aboutUs.setBackground(Color.red);
         }
         return aboutUs;
     }

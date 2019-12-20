@@ -15,10 +15,14 @@ public class BookActions implements ActionListener {
     BookReturnGui brg;
     BookSearch_ListGui bslg;
     BookUpdate_RemoveGui burg;
+
     MainGui mg;
     JButton clearBook_info_txt;
     JButton saveBook_info_txt;
+
 //eğer bag hata alırsa diğer taraftan burayı setlerim
+    public BookActions(BookReturnGui brg) {
+    }
 
     public BookActions(BookAddGui bag) {
         this.bag = bag;

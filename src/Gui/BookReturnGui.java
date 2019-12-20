@@ -1,6 +1,9 @@
 package Gui;
 
+import Logic.BookActions;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,15 +28,47 @@ public class BookReturnGui {
     JTextField txtStudentName;
     JTextField txtResult;
     JButton btnComeBack;
-    final int lblWidth=150;
-    final int lblHeight=40;
-    
+    final int lblTopSpace = 10;
+    final int lblLeftSpace = 50;
+    final int lblWidth = 250;
+    final int lblHeight = 60;
+    int lblPushRightCounter = 0;
+    int lblPushUnderCounter = 0;
+
+    final int txtTopSpace = lblTopSpace + lblHeight - 10;
+    final int txtLeftSpace = 50;
+    final int txtWidth = 300;
+    final int txtHeight = 40;
+    int txtPushRightCounter = 0;
+    int txtPushUnderCounter = 0;
+
+    final int lblPushSpaceRight = lblLeftSpace + lblWidth + 100;
+    final int lblPushSpaceUnder = lblHeight + 50;
+    final int txtPushSpaceUnder = txtHeight + lblHeight + 10;
+    final int txtPushSpaceRight = txtLeftSpace + txtWidth + 50;
+
+    BookActions action = new BookActions(this);
+    Font lblFont = new Font("monospaced", Font.BOLD, 17);
+    Font txtFont = new Font("", Font.BOLD, 15);
+    JButton comeBackBtn;
 
     public BookReturnGui(MainGui mg) {
         setJf(mg.getJf());
         mg.getJp().setVisible(false);
         getJf().add(getJp());
-
+        getJp().add(getLblBarcodeNo());
+        getJp().add(getLblStudentNo());
+        getJp().add(getLblBookName());
+        getJp().add(getLblAuthorName());
+        getJp().add(getLblStudentName());
+        getJp().add(getLblResult());
+        getJp().add(getTxtBarcodeNo());
+        getJp().add(getTxtStudentNo());
+        getJp().add(getTxtBookName());
+        getJp().add(getTxtAuthorName());
+        getJp().add(getTxtStudentName());
+        getJp().add(getTxtResult());
+        getJp().add(getComeBackBtn());
     }
 
     public JFrame getJf() {
@@ -50,8 +85,9 @@ public class BookReturnGui {
     public JPanel getJp() {
         if (jp == null) {
             jp = new JPanel();
-            jp.setBackground(new Color(152, 57, 65));
+            jp.setBackground(new Color(50, 0, 50));
             jp.setBounds(getJf().getBounds());
+            jp.setLayout(null);
         }
         return jp;
     }
@@ -62,7 +98,11 @@ public class BookReturnGui {
 
     public JLabel getLblBarcodeNo() {
         if (lblBarcodeNo == null) {
-            lblBarcodeNo = new JLabel();
+            lblBarcodeNo = new JLabel("Kitap Barkod No");
+            lblBarcodeNo.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushUnderCounter * lblPushSpaceUnder, lblWidth, lblHeight);
+            lblBarcodeNo.setForeground(Color.white);
+            lblBarcodeNo.setFont(lblFont);
+            lblPushRightCounter++;
 
         }
         return lblBarcodeNo;
@@ -73,6 +113,19 @@ public class BookReturnGui {
     }
 
     public JLabel getLblStudentNo() {
+        if (lblStudentNo == null) {
+            lblStudentNo = new JLabel("Öğrenci Numarası");
+            lblStudentNo.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblStudentNo.setForeground(Color.white);
+            lblStudentNo.setFont(lblFont);
+            lblPushUnderCounter++;
+            if (lblPushRightCounter == 1) {
+                lblPushRightCounter = 0;
+            } else {
+                lblPushRightCounter++;
+            }
+
+        }
         return lblStudentNo;
     }
 
@@ -81,6 +134,21 @@ public class BookReturnGui {
     }
 
     public JLabel getLblBookName() {
+        if (lblBookName == null) {
+
+            lblBookName = new JLabel("Kitap Adı");
+            lblBookName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblBookName.setForeground(Color.white);
+            lblBookName.setFont(lblFont);
+
+            lblPushUnderCounter++;
+            /*  if (lblPushRightCounter == 1) {
+                lblPushRightCounter = 0;
+            } else {
+                lblPushRightCounter++;
+            }*/
+
+        }
         return lblBookName;
     }
 
@@ -89,6 +157,20 @@ public class BookReturnGui {
     }
 
     public JLabel getLblAuthorName() {
+        if (lblAuthorName == null) {
+
+            lblAuthorName = new JLabel("Kitap Yazarı");
+            lblAuthorName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblAuthorName.setForeground(Color.white);
+            lblAuthorName.setFont(lblFont);
+
+            if (lblPushRightCounter == 1) {
+                lblPushRightCounter = 0;
+            } else {
+                lblPushRightCounter++;
+            }
+
+        }
         return lblAuthorName;
     }
 
@@ -97,14 +179,44 @@ public class BookReturnGui {
     }
 
     public JLabel getLblStudentName() {
+        if (lblStudentName == null) {
+
+            lblStudentName = new JLabel("Öğrenci Adı");
+            lblStudentName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblStudentName.setForeground(Color.white);
+            lblStudentName.setFont(lblFont);
+            lblPushUnderCounter++;
+
+            if (lblPushRightCounter == 1) {
+                lblPushRightCounter = 0;
+            } else {
+                lblPushRightCounter++;
+            }
+        }
         return lblStudentName;
     }
 
     public void setLblStudentName(JLabel lblStudentName) {
+
         this.lblStudentName = lblStudentName;
     }
 
     public JLabel getLblResult() {
+        if (lblResult == null) {
+
+            lblResult = new JLabel("Sonuç ");
+            lblResult.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblResult.setForeground(Color.white);
+            lblResult.setFont(lblFont);
+
+            lblPushUnderCounter++;
+            /*  if (lblPushRightCounter == 1) {
+                lblPushRightCounter = 0;
+            } else {
+                lblPushRightCounter++;
+            }*/
+
+        }
         return lblResult;
     }
 
@@ -113,6 +225,20 @@ public class BookReturnGui {
     }
 
     public JTextField getTxtBarcodeNo() {
+
+        if (txtBarcodeNo == null) {
+            txtBarcodeNo = new JTextField();
+            txtBarcodeNo.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
+            txtBarcodeNo.setForeground(Color.BLACK);
+            txtBarcodeNo.setFont(txtFont);
+
+            if (txtPushRightCounter == 1) {
+                txtPushRightCounter = 0;
+            } else {
+                txtPushRightCounter++;
+            }
+
+        }
         return txtBarcodeNo;
     }
 
@@ -121,6 +247,21 @@ public class BookReturnGui {
     }
 
     public JTextField getTxtStudentNo() {
+
+        if (txtStudentNo == null) {
+
+            txtStudentNo = new JTextField();
+            txtStudentNo.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
+            txtStudentNo.setForeground(Color.BLACK);
+            txtStudentNo.setFont(txtFont);
+            txtPushUnderCounter++;
+            if (txtPushRightCounter == 1) {
+                txtPushRightCounter = 0;
+            } else {
+                txtPushRightCounter++;
+            }
+
+        }
         return txtStudentNo;
     }
 
@@ -129,6 +270,17 @@ public class BookReturnGui {
     }
 
     public JTextField getTxtBookName() {
+        if (txtBookName == null) {
+
+            txtBookName = new JTextField();
+            txtBookName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth * 5 / 2, txtHeight);
+            txtBookName.setForeground(Color.BLACK);
+            txtBookName.setFont(txtFont);
+            txtBookName.setEditable(false); // --> change a little bit background color
+            // txtBookName.setFocusable(false);  // do not change background
+            txtPushUnderCounter++;
+
+        }
         return txtBookName;
     }
 
@@ -137,6 +289,22 @@ public class BookReturnGui {
     }
 
     public JTextField getTxtAuthorName() {
+        if (txtAuthorName == null) {
+
+            txtAuthorName = new JTextField();
+            txtAuthorName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
+            txtAuthorName.setForeground(Color.BLACK);
+            txtAuthorName.setFont(txtFont);
+            txtAuthorName.setEditable(false); // --> change a little bit background color
+            // txtAuthorName.setFocusable(false);  // do not change background
+
+            if (txtPushRightCounter == 1) {
+                txtPushRightCounter = 0;
+            } else {
+                txtPushRightCounter++;
+            }
+
+        }
         return txtAuthorName;
     }
 
@@ -145,6 +313,23 @@ public class BookReturnGui {
     }
 
     public JTextField getTxtStudentName() {
+        if (txtStudentName == null) {
+
+            txtStudentName = new JTextField();
+            txtStudentName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
+            txtStudentName.setForeground(Color.BLACK);
+            txtStudentName.setFont(txtFont);
+            txtStudentName.setEditable(false); // --> change a little bit background color
+            // txtStudentName.setFocusable(false);  // do not change background
+
+            txtPushUnderCounter++;
+            if (txtPushRightCounter == 1) {
+                txtPushRightCounter = 0;
+            } else {
+                txtPushRightCounter++;
+            }
+
+        }
         return txtStudentName;
     }
 
@@ -153,6 +338,23 @@ public class BookReturnGui {
     }
 
     public JTextField getTxtResult() {
+        if (txtResult == null) {
+
+            txtResult = new JTextField();
+            txtResult.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth * 5 / 2, txtHeight);
+            txtResult.setForeground(Color.BLACK);
+            txtResult.setFont(txtFont);
+            txtResult.setEditable(false); // --> change a little bit background color
+            // txtResult.setFocusable(false);  // do not change background
+            txtPushUnderCounter++;
+
+            if (txtPushRightCounter == 1) {
+                txtPushRightCounter = 0;
+            } else {
+                txtPushRightCounter++;
+            }
+
+        }
         return txtResult;
     }
 
@@ -166,6 +368,21 @@ public class BookReturnGui {
 
     public void setBtnComeBack(JButton btnComeBack) {
         this.btnComeBack = btnComeBack;
+    }
+
+    public JButton getComeBackBtn() {
+        if (comeBackBtn == null) {
+            comeBackBtn = new JButton("Geri dön");
+            comeBackBtn.setBounds(50, 450, 150, 50);
+            comeBackBtn.setBackground(Color.white);
+            comeBackBtn.setFont(txtFont);
+            comeBackBtn.setCursor(new Cursor(12));
+        }
+        return comeBackBtn;
+    }
+
+    public void setComeBackBtn(JButton comeBackBtn) {
+        this.comeBackBtn = comeBackBtn;
     }
 
 }
