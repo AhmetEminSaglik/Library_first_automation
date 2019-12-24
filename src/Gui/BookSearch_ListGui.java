@@ -6,11 +6,13 @@
 package Gui;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -26,36 +28,73 @@ public class BookSearch_ListGui {
     JLabel lblAuthorName;
     JLabel lblBarcodeNo;
     JTable table;
-
+    JScrollPane sp;
     JTextField txtBookName;
     JTextField txtAuthorName;
     JTextField txtBarcodeNo;
-    JButton btnSearch;
+
     JButton btnComeBack;
+    public String data[][] = {
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"102", "Jai", "780000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Sachin", "700000"}};
+    public String column[] = {"Barkod No", "Yazar Adı", "Kitap Adı"};
 
     final int lblTopSpace = 10;
-    final int leftSpace = 20;
-    final int txtWidth = 250;
-    final int txtHeight = 30;
+    final int leftSpace = 50;
+    final int txtWidth = 275;
+    final int txtHeight = 40;
     final int lblWidth = 150;
-    final int lblHeight = 15;
-    final int pushRightSpace = txtWidth + 50;
+    final int lblHeight = 20;
+    final int pushRightSpace = txtWidth + 137;
     final int txtTopSpace = lblTopSpace + lblHeight + 10;
     int pushRightCounter = 0;
 
-    Font font_lbl = new Font("monospaced", Font.BOLD, 15);
-    Font font_txt = new Font("monospaced", Font.BOLD, 15);
+    Font font_lbl = new Font("monospaced", Font.BOLD, 17);
+    Font font_txt = new Font("monospaced", Font.BOLD, 17);
 
     public BookSearch_ListGui(MainGui mg) {
         setJf(mg.getJf());
-        mg.getJp().setVisible(false);
+
         getJf().add(getJp());
-        getJp().add(getLblBookName());
         getJp().add(getLblAuthorName());
         getJp().add(getLblBarcodeNo());
-        getJp().add(getTxtBookName());
+        getJp().add(getLblBookName());
         getJp().add(getTxtAuthorName());
         getJp().add(getTxtBarcodeNo());
+        getJp().add(getTxtBookName());
+        getJp().add(getBtnComeBack());
+        getJp().add(getSp());
         /*  JFrame jf;
     JPanel jp;
     JLabel lblBookName;
@@ -130,10 +169,10 @@ public class BookSearch_ListGui {
     public JLabel getLblBookName() {
         if (lblBookName == null) {
             lblBookName = new JLabel("Kitap Adı");
-            lblBookName.setBounds(leftSpace + (pushRightSpace * pushRightCounter), lblTopSpace, lblWidth, lblHeight);
+            lblBookName.setBounds(leftSpace, lblTopSpace + lblHeight + txtHeight + 15, lblWidth, lblHeight);
             lblBookName.setFont(font_lbl);
             lblBookName.setForeground(Color.WHITE);
-            pushRightCounter++;
+
         }
         return lblBookName;
     }
@@ -173,6 +212,17 @@ public class BookSearch_ListGui {
     }
 
     public JTable getTable() {
+        if (table == null) {
+
+            table = new JTable(data, column);
+            //    table.setBounds(leftSpace, lblHeight + txtHeight * 4, txtWidth * 5 / 2, 250);
+
+            table.setDefaultEditor(Object.class, null);
+            table.setFont(font_txt);
+            table.setCursor(new Cursor(12));
+
+        }
+
         return table;
     }
 
@@ -180,11 +230,44 @@ public class BookSearch_ListGui {
         this.table = table;
     }
 
+    public JScrollPane getSp() {
+        if (sp == null) {
+            sp = new JScrollPane(getTable());
+            sp.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight * 3, 700, 250);
+
+        }
+        return sp;
+    }
+
+    public void setSp(JScrollPane sp) {
+        this.sp = sp;
+    }
+
+
+    /*
+          f = new JFrame();
+        String data[][] = {{"101", "Amit", "670000"},
+        {"102", "Jai", "780000"},
+        {"101", "Sachin", "700000"}};
+        String column[] = {"ID", "NAME", "SALARY"};
+
+        JTable jt = new JTable(data, column);
+        jt.setBounds(30, 40, 200, 300);
+        // jt.setEnabled(false);
+        //  jt.setFocusable(false);
+        //jt.setCellSelectionEnabled(true);
+        //  jt.setShowVerticalLines(true);
+        JScrollPane sp = new JScrollPane(jt);
+        jt.setDefaultEditor(Object.class, null);// jtable içindeki değerleri değiştirmeyi engeller
+
+        f.add(sp);
+        f.setSize(300, 400);
+        f.setVisible(true);*/
     public JTextField getTxtBookName() {
         if (txtBookName == null) {
             pushRightCounter = 0;
             txtBookName = new JTextField("Kitap Adı");
-            txtBookName.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace, txtWidth, txtHeight);
+            txtBookName.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight + 15, txtWidth * 5 / 2, txtHeight);
             txtBookName.setFont(font_txt);
             pushRightCounter++;
         }
@@ -198,6 +281,8 @@ public class BookSearch_ListGui {
 
     public JTextField getTxtAuthorName() {
         if (txtAuthorName == null) {
+
+            pushRightCounter = 0;
             txtAuthorName = new JTextField("Yazar Adı");
             txtAuthorName.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace, txtWidth, txtHeight);
             txtAuthorName.setFont(font_txt);
@@ -226,15 +311,12 @@ public class BookSearch_ListGui {
         this.txtBarcodeNo = txtBarcodeNo;
     }
 
-    public JButton getBtnSearch() {
-        return btnSearch;
-    }
-
-    public void setBtnSearch(JButton btnSearch) {
-        this.btnSearch = btnSearch;
-    }
-
     public JButton getBtnComeBack() {
+        if (btnComeBack == null) {
+            btnComeBack = new JButton("Geri dön");
+            btnComeBack.setBounds(leftSpace, 450, 150, 30);
+        }
+
         return btnComeBack;
     }
 

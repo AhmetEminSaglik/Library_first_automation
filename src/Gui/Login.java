@@ -34,6 +34,7 @@ this.setVisible(false);
             jf.setBounds(jframeX, jframeY, jframeWidth, jframeHeight);
             //jf.setLayout(null);
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jf.setResizable(false);
         }
         return jf;
     }

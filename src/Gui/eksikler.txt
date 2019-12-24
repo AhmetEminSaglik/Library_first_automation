@@ -1,0 +1,9 @@
+1-)Geri dönüş butonları aktifleştirilecek
+2-)mouse ile butonların üzerinde gezerken renkli olur 
+3-)Hakkımızda & yardım sayfasında neler olmalı :  
+Turuncu --> 5 günden az vakti olanlar için
+Kırmızı --> 3 günden az kalan süre
+Siyah - kahverengi --> Borcu olanlar için
+
+
+ 

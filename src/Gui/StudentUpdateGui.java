@@ -84,6 +84,7 @@ public class StudentUpdateGui extends JPanel {
         this.add(getTxtNewSurname());
         this.add(getTxtNewEmail());
         this.add(getTxtResult());
+        this.add(getBtnComeBack());
     }
 
     @Override
@@ -281,6 +282,10 @@ public class StudentUpdateGui extends JPanel {
     }
 
     public JButton getBtnComeBack() {
+        if (btnComeBack == null) {
+            btnComeBack = new JButton("Geri dön");
+            btnComeBack.setBounds(leftSpace, 450, 100, 30);
+        }
         return btnComeBack;
     }
 

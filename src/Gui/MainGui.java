@@ -43,7 +43,7 @@ public class MainGui {//extends JPanel
     JButton studentState;
     JButton registeredStudent;
     JButton TimeControl_ExtraTime;
-    JButton Overtime_Fine;
+    JButton FineDebtPayment;
     JButton aboutUs;
     JButton exit;
     final int holding_area_scale = 270;
@@ -77,7 +77,7 @@ public class MainGui {//extends JPanel
 
         //getJp(). = login.getJf();
         setJf(login.getJf());
-
+        getJf().setTitle("Ana Sayfa");
         getJp().setBounds(0, 0, getJf().getWidth(), getJf().getHeight());
         getJf().add(getJp());
         getJp().setVisible(true);
@@ -113,7 +113,7 @@ public class MainGui {//extends JPanel
         getJp().add(getStudentState());
         getJp().add(getRegisteredStudent());
         getJp().add(getTimeControl_ExtraTime());
-        getJp().add(getOvertime_Fine());
+        getJp().add(getFineDebtPayment());
         getJp().add(getAboutUs());
         getJp().add(getExit());
 
@@ -452,7 +452,7 @@ public class MainGui {//extends JPanel
         if (bookSearch_List == null) {
             bookSearch_List = build_JbuttonForNulls(bookSearch_List, FloorOfBook_X, ThirdButtons_Y);
             bookSearch_List.setText("Kitap Listesi & Sorgula");
-            bookSearch_List.setBackground(Color.red);
+
         }
         return bookSearch_List;
     }
@@ -516,7 +516,7 @@ public class MainGui {//extends JPanel
         if (registeredStudent == null) {
             registeredStudent = build_JbuttonForNulls(registeredStudent, FloorOfStudent_X, FourthButtons_Y);
             registeredStudent.setText("Kayıtlı Ogrenci listesi");
-            registeredStudent.setBackground(Color.red);
+
         }
         return registeredStudent;
     }
@@ -529,7 +529,7 @@ public class MainGui {//extends JPanel
         if (TimeControl_ExtraTime == null) {
             TimeControl_ExtraTime = build_JbuttonForNulls(TimeControl_ExtraTime, FloorOf_Time_Exit_X, FirstButtons_Y);
             TimeControl_ExtraTime.setText("Süre Kontrol & Uzatma");
-            TimeControl_ExtraTime.setBackground(Color.red);
+
         }
         return TimeControl_ExtraTime;
     }
@@ -538,23 +538,23 @@ public class MainGui {//extends JPanel
         this.TimeControl_ExtraTime = TimeControl_ExtraTime;
     }
 
-    public JButton getOvertime_Fine() {
-        if (Overtime_Fine == null) {
-            Overtime_Fine = build_JbuttonForNulls(Overtime_Fine, FloorOf_Time_Exit_X, SecondButtons_Y);
-            Overtime_Fine.setText("Haddini Aşanlar (edit  )");
-            Overtime_Fine.setBackground(Color.red);
+    public JButton getFineDebtPayment() {
+        if (FineDebtPayment == null) {
+            FineDebtPayment = build_JbuttonForNulls(FineDebtPayment, FloorOf_Time_Exit_X, SecondButtons_Y);
+            FineDebtPayment.setText("Para Cezaları & Ödeme");
+
         }
-        return Overtime_Fine;
+        return FineDebtPayment;
     }
 
-    public void setOvertime_Fine(JButton Overtime_Fine) {
-        this.Overtime_Fine = Overtime_Fine;
+    public void setFineDebtPayment(JButton FineDebtPayment) {
+        this.FineDebtPayment = FineDebtPayment;
     }
 
     public JButton getAboutUs() {
         if (aboutUs == null) {
             aboutUs = build_JbuttonForNulls(aboutUs, FloorOf_Time_Exit_X, ThirdButtons_Y);
-            aboutUs.setText("Hakkımızda");
+            aboutUs.setText("Hakkımızda & Yardım");
             aboutUs.setBackground(Color.red);
         }
         return aboutUs;

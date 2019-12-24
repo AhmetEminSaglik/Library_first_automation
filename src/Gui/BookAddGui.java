@@ -34,6 +34,7 @@ public class BookAddGui {
 
         this.mg = mg;
         setJf(mg.getJf());
+        getJf().setTitle("KİTAP EKLE");
         mg.getJp().setVisible(false);
 
         addAllThingsONPanel();
@@ -155,7 +156,7 @@ public class BookAddGui {
     public JTextField getBookName_txt() {
         if (bookName_txt == null) {
             bookName_txt = new JTextField("kkitap adi");
-            bookName_txt.setBounds(20, 150, 300, 40);
+            bookName_txt.setBounds(20, 150, 680, 40);
             bookName_txt.setFont(font_txt);
         }
         return bookName_txt;

@@ -36,6 +36,7 @@ public class BookActions implements ActionListener {
             if (e.getSource() == bag.getComeBack_btn()) {
                 bag.getJp().setVisible(false);
                 bag.getMg().getJp().setVisible(true);
+                bag.getMg().getJf().setTitle("ANA SAYFA");
                 clear_all_txt();
             }
 
