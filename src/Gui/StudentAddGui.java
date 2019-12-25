@@ -1,5 +1,6 @@
 package Gui;
 
+import Logic.ActionStudent;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -9,7 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class StudentAddGui {
-
+    
+    MainGui mg;
     JFrame jf;
     JPanel jp;
     JLabel lblNo;
@@ -17,7 +19,7 @@ public class StudentAddGui {
     JLabel lblSurname;
     JLabel lblEmail;
     JLabel lblResult;
-
+    
     JTextField txtNo;
     JTextField txtName;
     JTextField txtSurname;
@@ -35,15 +37,17 @@ public class StudentAddGui {
     int lblPushCounter = 0;
     int txtPushCounter = 0;
     int lblpushUnder = lblheight + txtheight + 30;
-
-    Font lblFont = new Font("monospaced", Font.BOLD, 17);
+    
+    Font lblFont = new Font("", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 15);
-
+    ActionStudent action = new ActionStudent(this);
+    
     public StudentAddGui(MainGui mg) {
         setJf(mg.getJf());
+        setMg(mg);
         mg.getJp().setVisible(false);
         getJf().add(getJp());
-
+        
         getJp().add(getLblNo());
         getJp().add(getLblResult());
         getJp().add(getLblName());
@@ -57,20 +61,23 @@ public class StudentAddGui {
         getJp().add(getBtnComeBack());
         getJp().add(getBtnAdd());
         getJp().add(getBtnClear());
+        getBtnAdd().addActionListener(action);
+        getBtnClear().addActionListener(action);
+        getBtnComeBack().addActionListener(action);
     }
-
+    
     public JFrame getJf() {
         if (jf == null) {
             jf = new JFrame();
-
+            
         }
         return jf;
     }
-
+    
     public void setJf(JFrame jf) {
         this.jf = jf;
     }
-
+    
     public JPanel getJp() {
         if (jp == null) {
             jp = new JPanel();
@@ -80,27 +87,27 @@ public class StudentAddGui {
         }
         return jp;
     }
-
+    
     public void setJp(JPanel jp) {
         this.jp = jp;
     }
-
+    
     public JLabel getLblNo() {
         if (lblNo == null) {
             lblNo = new JLabel("Öğrenci No");
             lblNo.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
             lblNo.setForeground(Color.white);
             lblNo.setFont(lblFont);
-
+            
         }
-
+        
         return lblNo;
     }
-
+    
     public void setLblNo(JLabel lblNo) {
         this.lblNo = lblNo;
     }
-
+    
     public JLabel getLblResult() {
         if (lblResult == null) {
             lblResult = new JLabel("Sonuç ");
@@ -108,79 +115,79 @@ public class StudentAddGui {
             lblResult.setForeground(Color.white);
             lblResult.setFont(lblFont);
             lblPushCounter++;
-
+            
         }
         return lblResult;
     }
-
+    
     public void setLblResult(JLabel lblResult) {
         this.lblResult = lblResult;
     }
-
+    
     public JLabel getLblName() {
         if (lblName == null) {
             lblName = new JLabel("Öğrenci Adı");
             lblName.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
             lblName.setForeground(Color.white);
             lblName.setFont(lblFont);
-
+            
         }
         return lblName;
     }
-
+    
     public void setLblName(JLabel lblName) {
         this.lblName = lblName;
     }
-
+    
     public JLabel getLblSurname() {
         if (lblSurname == null) {
-
+            
             lblSurname = new JLabel("Öğrenci Soyadı");
             lblSurname.setBounds(leftSpace + txtWidth + 80, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
             lblSurname.setForeground(Color.white);
             lblSurname.setFont(lblFont);
             lblPushCounter++;
-
+            
         }
         return lblSurname;
     }
-
+    
     public void setLblSurname(JLabel lblSurname) {
         this.lblSurname = lblSurname;
     }
-
+    
     public JLabel getLblEmail() {
         if (lblEmail == null) {
-
+            
             lblEmail = new JLabel("Öğrenci Email");
             lblEmail.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
             lblEmail.setForeground(Color.white);
             lblEmail.setFont(lblFont);
             lblPushCounter++;
-
+            
         }
         return lblEmail;
     }
-
+    
     public void setLblEmail(JLabel lblEmail) {
         this.lblEmail = lblEmail;
     }
-
+    
     public JTextField getTxtNo() {
         if (txtNo == null) {
             lblPushCounter = 0;
             txtNo = new JTextField();
             txtNo.setBounds(leftSpace, topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
             txtNo.setFont(txtFont);
-
+            
         }
         return txtNo;
     }
-
+    
     public void setTxtNo(JTextField txtNo) {
         this.txtNo = txtNo;
     }
-
+    
     public JTextField getTxtResult() {
         if (txtResult == null) {
             txtResult = new JTextField("");
@@ -191,11 +198,11 @@ public class StudentAddGui {
         }
         return txtResult;
     }
-
+    
     public void setTxtResult(JTextField txtResult) {
         this.txtResult = txtResult;
     }
-
+    
     public JTextField getTxtName() {
         if (txtName == null) {
             txtName = new JTextField();
@@ -204,11 +211,11 @@ public class StudentAddGui {
         }
         return txtName;
     }
-
+    
     public void setTxtName(JTextField txtName) {
         this.txtName = txtName;
     }
-
+    
     public JTextField getTxtSurname() {
         if (txtSurname == null) {
             txtSurname = new JTextField();
@@ -218,11 +225,11 @@ public class StudentAddGui {
         }
         return txtSurname;
     }
-
+    
     public void setTxtSurname(JTextField txtSurname) {
         this.txtSurname = txtSurname;
     }
-
+    
     public JTextField getTxtEmail() {
         if (txtEmail == null) {
             txtEmail = new JTextField();
@@ -231,11 +238,11 @@ public class StudentAddGui {
         }
         return txtEmail;
     }
-
+    
     public void setTxtEmail(JTextField txtEmail) {
         this.txtEmail = txtEmail;
     }
-
+    
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri Dön");
@@ -243,43 +250,54 @@ public class StudentAddGui {
         }
         return btnComeBack;
     }
-
+    
     public void setBtnComeBack(JButton btnComeBack) {
         this.btnComeBack = btnComeBack;
     }
-
+    
     public JButton getBtnAdd() {
         if (btnAdd == null) {
             btnAdd = new JButton("Ekle ");
             btnAdd.setBounds(leftSpace, 350, 125, 30);
-
+            
         }
         return btnAdd;
     }
-
+    
     public void setBtnAdd(JButton btnAdd) {
         this.btnAdd = btnAdd;
     }
-
+    
     public JButton getBtnClear() {
         if (btnClear == null) {
             btnClear = new JButton(" Temizle ");
             btnClear.setBounds(leftSpace + 175, 350, 125, 30);
-
+            
         }
         return btnClear;
     }
-
+    
     public void setBtnClear(JButton btnClear) {
         this.btnClear = btnClear;
     }
-
+    
     public Font getTxtFont() {
         return txtFont;
     }
-
+    
     public void setTxtFont(Font txtFont) {
         this.txtFont = txtFont;
     }
-
+    
+    public MainGui getMg() {
+        if (mg == null) {
+            mg = new MainGui();
+        }
+        return mg;
+    }
+    
+    public void setMg(MainGui mg) {
+        this.mg = mg;
+    }
+    
 }

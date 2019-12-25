@@ -1,6 +1,6 @@
 package Gui;
 
-import Logic.Actions_MainGui;
+import Logic.ActionsMainGui;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -68,7 +68,7 @@ public class MainGui {//extends JPanel
     final int SecondButtons_Y = FirstButtons_Y + passing_floor_Y;
     final int ThirdButtons_Y = SecondButtons_Y + passing_floor_Y;
     final int FourthButtons_Y = ThirdButtons_Y + passing_floor_Y;
-    Actions_MainGui action = new Actions_MainGui(this);
+    ActionsMainGui action = new ActionsMainGui(this);
 
     public MainGui() {
     }
@@ -77,7 +77,7 @@ public class MainGui {//extends JPanel
 
         //getJp(). = login.getJf();
         setJf(login.getJf());
-        getJf().setTitle("Ana Sayfa");
+        getJf().setTitle("ANA SAYFA");
         getJp().setBounds(0, 0, getJf().getWidth(), getJf().getHeight());
         getJf().add(getJp());
         getJp().setVisible(true);

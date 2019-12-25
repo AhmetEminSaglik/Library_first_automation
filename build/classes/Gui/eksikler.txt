@@ -5,5 +5,5 @@ Turuncu --> 5 günden az vakti olanlar için
 Kırmızı --> 3 günden az kalan süre
 Siyah - kahverengi --> Borcu olanlar için
 
-
- 
+4-) Kitap kategori eklenmeli
+5-) öğrenci ad soyad birleşmeli

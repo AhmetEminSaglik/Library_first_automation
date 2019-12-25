@@ -25,8 +25,8 @@ public class BookAddGui {
     JTextField authorName_txt;
     JTextField result_txt;
     BookActions bookaction = new BookActions(this);
-    JButton comeBack_btn;
-    JButton addBook;
+    JButton btnComeBack;
+    JButton btnBtnAddBook;
     Font font_lbl = new Font("monospaced", Font.BOLD, 20);
     Font font_txt = new Font("monospaced", Font.BOLD, 15);
 
@@ -35,10 +35,12 @@ public class BookAddGui {
         this.mg = mg;
         setJf(mg.getJf());
         getJf().setTitle("KİTAP EKLE");
-        mg.getJp().setVisible(false);
+ 
 
         addAllThingsONPanel();
-        getComeBack_btn().addActionListener(bookaction);
+        getBtnComeBack().addActionListener(bookaction);
+        getBtnAddBook().addActionListener(bookaction);
+
         getJf().add(getJp());
 
     }
@@ -52,8 +54,8 @@ public class BookAddGui {
         getJp().add(getBookName_txt());
         getJp().add(getAuthorName_txt());
         getJp().add(getResult_txt());
-        getJp().add(getComeBack_btn());
-        getJp().add(getAddBook());
+        getJp().add(getBtnComeBack());
+        getJp().add(getBtnAddBook());
     }
 
     /*Mainguiyi gönderip jf üzerine burdaki jp'yi ekleyebilirim
@@ -197,36 +199,36 @@ public class BookAddGui {
         this.result_txt = result_txt;
     }
 
-    public JButton getComeBack_btn() {
-        if (comeBack_btn == null) {
-            comeBack_btn = new JButton("Geri dön");
-            comeBack_btn.setBounds(50, 400, 150, 50);
-            comeBack_btn.setBackground(Color.white);
-            comeBack_btn.setFont(font_txt);
+    public JButton getBtnComeBack() {
+        if (btnComeBack == null) {
+            btnComeBack = new JButton("Geri dön");
+            btnComeBack.setBounds(50, 400, 150, 50);
+            btnComeBack.setBackground(Color.white);
+            btnComeBack.setFont(font_txt);
 
-            comeBack_btn.setCursor(new Cursor(12));
+            btnComeBack.setCursor(new Cursor(12));
         }
-        return comeBack_btn;
+        return btnComeBack;
     }
 
-    public void setComeBack_btn(JButton comeBack_btn) {
-        this.comeBack_btn = comeBack_btn;
+    public void setBtnComeBack(JButton btnComeBack) {
+        this.btnComeBack = btnComeBack;
     }
 
-    public JButton getAddBook() {
-        if (addBook == null) {
-            addBook = new JButton("Kitabı Ekle");
-            addBook.setBounds(400, 250, 150, 50);
-            addBook.setBackground(Color.white);
-            addBook.setFont(font_txt);
+    public JButton getBtnAddBook() {
+        if (btnBtnAddBook == null) {
+            btnBtnAddBook = new JButton("Kitabı Ekle");
+            btnBtnAddBook.setBounds(400, 250, 150, 50);
+            btnBtnAddBook.setBackground(Color.white);
+            btnBtnAddBook.setFont(font_txt);
 
-            comeBack_btn.setCursor(new Cursor(12));
+            btnComeBack.setCursor(new Cursor(12));
         }
-        return addBook;
+        return btnBtnAddBook;
     }
 
-    public void setAddBook(JButton addBook) {
-        this.addBook = addBook;
+    public void setBtnAddBook(JButton btnBtnAddBook) {
+        this.btnBtnAddBook = btnBtnAddBook;
     }
 
     public MainGui getMg() {

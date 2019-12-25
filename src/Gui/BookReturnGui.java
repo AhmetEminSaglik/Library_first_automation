@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 public class BookReturnGui {
 
+    MainGui mg;
     JFrame jf;
     JPanel jp;
     JLabel lblBarcodeNo;
@@ -50,11 +51,12 @@ public class BookReturnGui {
     BookActions action = new BookActions(this);
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 15);
-    JButton comeBackBtn;
 
+    //BookActions action = new BookActions(this);
     public BookReturnGui(MainGui mg) {
+        setMg(mg);
         setJf(mg.getJf());
-        mg.getJp().setVisible(false);
+  
         getJf().add(getJp());
         getJp().add(getLblBarcodeNo());
         getJp().add(getLblStudentNo());
@@ -68,7 +70,7 @@ public class BookReturnGui {
         getJp().add(getTxtAuthorName());
         getJp().add(getTxtStudentName());
         getJp().add(getTxtResult());
-        getJp().add(getComeBackBtn());
+        getJp().add(getBtnComeBack());
     }
 
     public JFrame getJf() {
@@ -363,6 +365,14 @@ public class BookReturnGui {
     }
 
     public JButton getBtnComeBack() {
+        if (btnComeBack == null) {
+            btnComeBack = new JButton("Geri dön");
+            btnComeBack.setBounds(50, 450, 150, 50);
+            btnComeBack.setBackground(Color.white);
+            btnComeBack.setFont(txtFont);
+            btnComeBack.setCursor(new Cursor(12));
+            btnComeBack.addActionListener(action);
+        }
         return btnComeBack;
     }
 
@@ -370,19 +380,15 @@ public class BookReturnGui {
         this.btnComeBack = btnComeBack;
     }
 
-    public JButton getComeBackBtn() {
-        if (comeBackBtn == null) {
-            comeBackBtn = new JButton("Geri dön");
-            comeBackBtn.setBounds(50, 450, 150, 50);
-            comeBackBtn.setBackground(Color.white);
-            comeBackBtn.setFont(txtFont);
-            comeBackBtn.setCursor(new Cursor(12));
+    public MainGui getMg() {
+        if (mg == null) {
+            mg = new MainGui();
         }
-        return comeBackBtn;
+        return mg;
     }
 
-    public void setComeBackBtn(JButton comeBackBtn) {
-        this.comeBackBtn = comeBackBtn;
+    public void setMg(MainGui mg) {
+        this.mg = mg;
     }
 
 }
