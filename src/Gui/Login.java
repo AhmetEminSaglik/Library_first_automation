@@ -187,27 +187,38 @@ public class Login extends JPanel {
             System.out.println("Connected database successfully...");
 
             stmt = conn.createStatement();
-            String tableControl = "SHOW TABLES LIKE 'Ogrenci' ";
-            String tableYoneticiControl = "SHOW TABLES LIKE 'Yonetici' ";
-            String tableKitapControl = "SHOW TABLES LIKE 'Kitap'";
+            String tableControl = "SHOW TABLES LIKE 'student' ";
+            String tableYoneticiControl = "SHOW TABLES LIKE 'admin' ";
+            String tableKitapControl = "SHOW TABLES LIKE 'book'";
             if (stmt.executeUpdate(tableControl) == -1 || stmt.executeUpdate(tableYoneticiControl) == -1 || stmt.executeUpdate(tableKitapControl) == -1) {
                 return;
             }
-            String sql = "CREATE TABLE `Ogrenci`"
-                    + "( `id` INT NOT NULL AUTO_INCREMENT , `AdSoyad` VARCHAR(50) NOT NULL ,"
-                    + " `No` INT NOT NULL , `Email` VARCHAR(250) NOT NULL ,"
-                    + " `telno` INT NOT NULL , `Borc` INT NOT NULL , `kitap1`"
-                    + " VARCHAR(255) NOT NULL , `kitap2` VARCHAR(255) NOT NULL ,"
-                    + " `kitap3` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`));";
-            String sql2 = "CREATE TABLE `library`.`yonetici` ( `id` INT NOT NULL AUTO_INCREMENT , "
+            String sql = "CREATE TABLE `library`.`student`"
+                    + " ( `id` INT NOT NULL AUTO_INCREMENT , "
+                    + "`No` INT NOT NULL , "
+                    + "`Name` VARCHAR(50) NOT NULL , "
+                    + "`Surname` VARCHAR(50) NOT NULL , "
+                    //   + "`Debt` DOUBLE NOT NULL , "
+                    + "PRIMARY KEY (`id`)) ;";
+            String sql2 = "CREATE TABLE `library`.`admin` "
+                    + "( `Username` VARCHAR(50) NOT NULL  , "
+                    + "`Password` VARCHAR(50) NOT NULL);";
+            /* "CREATE TABLE `library`.`yonetici` ( `id` INT NOT NULL AUTO_INCREMENT , "
                     + "`KullaniciAdi` VARCHAR(255) NOT NULL , "
                     + "`Sifre` VARCHAR(255) NOT NULL "
-                    + ", PRIMARY KEY (`id`)); ";
-            String sql3 = "CREATE TABLE `library`.`kitaplar` "
+                    + ", PRIMARY KEY (`id`)); ";*/
+            String sql3 = "CREATE TABLE `library`.`book` "
+                    + "( `id` INT(50) NOT NULL AUTO_INCREMENT , "
+                    + "`BarcodeNo` VARCHAR(50) NOT NULL , "
+                    + "`Name` VARCHAR(50) NOT NULL , "
+                    + "`AuthorName` VARCHAR(50) NOT NULL , "
+                    + "`Category` VARCHAR(50) NOT NULL , "
+                    + "`TakenDate` DATE NOT NULL , "
+                    + "PRIMARY KEY (`id`));";/*"CREATE TABLE `library`.`kitaplar` "
                     + "( `id` INT NOT NULL AUTO_INCREMENT , "
                     + "`KitapAdi` VARCHAR(255) NOT NULL , `BarkodNo` VARCHAR(255) NOT NULL "
                     + ", `YazarAdi` VARCHAR(255) NOT NULL , `OgrenciId` INT NOT NULL "
-                    + ", `Tarih` DATE , PRIMARY KEY (`id`)) ";
+                    + ", `Tarih` DATE , PRIMARY KEY (`id`)) ";*/
 
             stmt.executeUpdate(sql);
             stmt.executeUpdate(sql2);
@@ -262,20 +273,23 @@ public class Login extends JPanel {
             System.out.println("Inserting records into the table...");
             stmt = conn.createStatement();
 
-            String sql = "INSERT INTO `ogrenci` "
+            String sql = "INSERT INTO `student` (`id`, `No`, `Name`, `Surname`, `Debt`) "
+                    + "VALUES (NULL, '385931', 'Ahmet Emin', 'SAĞLIK', '10,35')";
+            /* "INSERT INTO `ogrenci` "
                     + "( `AdSoyad`, `No`, `Email`, `telno`, `Borc`, `kitap1`, `kitap2`, `kitap3`)"
                     + " VALUES ( 'Mert Can Dudul', '3856161', 'Mertcan@windowslive.com', '538445679',"
                     + " '0', 'Suç ve ceza', 'Matematik', 'Ceza ve suç')"
                     + ", ('Ahmet Emin ', '385646', 'aes@hotmail.com', '25432864', '500000000',"
-                    + " 'Kaya ile ayşe', 'ali ata bak', 'Harun mMrte bak')";
+                    + " 'Kaya ile ayşe', 'ali ata bak', 'Harun mMrte bak')";*/
             stmt.executeUpdate(sql);
             System.out.println("Inserted records into the table...");
 
-            String sql2 = "INSERT INTO `yonetici`"
+            String sql2 = "INSERT INTO `admin` (`Username`, `Password`) VALUES ('root', 'toor')";
+            /*"INSERT INTO `yonetici`"
                     + " (`KullaniciAdi`, `Sifre`) "
                     + "VALUES ( 'Mert', '123'),"
                     + " ( 'Harun', '123'),"
-                    + "('Ferdi','056')";
+                    + "('Ferdi','056')";*/
             stmt.executeUpdate(sql2);
         } catch (SQLException se) {
             //Handle errors for JDBC

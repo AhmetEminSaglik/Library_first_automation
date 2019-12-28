@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 public class ActionsLogin implements ActionListener {
 
+    /*
     public void CreateDatabase() {
         // JDBC driver name and database URL
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -110,7 +111,7 @@ public class ActionsLogin implements ActionListener {
             }//end finally try
         }//end try
         System.out.println("Goodbye!");
-    }
+    }*/
     Login login;
 
     public ActionsLogin(Login login) {
@@ -137,13 +138,14 @@ public class ActionsLogin implements ActionListener {
 
                     stmt = conn.createStatement();
 
-                    String sqlYoneticiKontrol = "SELECT * FROM yonetici WHERE KullaniciAdi='" + login.getTxtusername().getText() + "' AND Sifre ='" + String.valueOf(login.getjPass().getPassword()) + "'";
+                    String sqlYoneticiKontrol = "SELECT * FROM admin WHERE Username='" + login.getTxtusername().getText() + "' AND Password ='" + String.valueOf(login.getjPass().getPassword()) + "'";
                     ResultSet rs = stmt.executeQuery(sqlYoneticiKontrol);
                     boolean girisDogru = false;
                     while (rs.next()) {
-                        String kullaniciAdi = rs.getString("KullaniciAdi");
-                        String Sifre = rs.getString("Sifre");
-
+                        String kullaniciAdi = rs.getString("Username");
+                        String Sifre = rs.getString("Password");
+                        System.out.println( login.getTxtusername().getText());
+                        System.out.println( String.valueOf(login.getjPass().getPassword()));
                         if (kullaniciAdi.equals(login.getTxtusername().getText()) && Sifre.equals(String.valueOf(login.getjPass().getPassword()))) {
                             login.setVisible(false);
                             MainGui mg = new MainGui(login);
@@ -169,3 +171,5 @@ public class ActionsLogin implements ActionListener {
     }
 
 }
+
+sqlite
