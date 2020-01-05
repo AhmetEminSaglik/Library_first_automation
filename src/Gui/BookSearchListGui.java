@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Gui;
 
-import Logic.BookActions;
+import Logic.ActionsBook;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,11 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 
-/**
- *
- * @author Ahmet Emin SAĞLIK
- */
 public class BookSearchListGui {
 
     MainGui mg;
@@ -29,48 +22,51 @@ public class BookSearchListGui {
     JLabel lblBookName;
     JLabel lblAuthorName;
     JLabel lblBarcodeNo;
+    JLabel lblCategory;
     JTable table;
     JScrollPane sp;
+
     JTextField txtBookName;
     JTextField txtAuthorName;
     JTextField txtBarcodeNo;
+    JTextField txtCategory;
 
     JButton btnComeBack;
     public String data[][] = {
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"102", "Jai", "780000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Sachin", "700000"}};
-    public String column[] = {"Barkod No", "Yazar Adı", "Kitap Adı"};
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
+        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"}, //   {"101", "Sachin", "700000"}
+    };
+    public String column[] = {"Barkod No","Kitap Durumu", "Kitap Adı",  "Kitap Kategori",   "Yazar Adı"};
 
     final int lblTopSpace = 10;
     final int leftSpace = 50;
@@ -84,59 +80,30 @@ public class BookSearchListGui {
 
     Font font_lbl = new Font("monospaced", Font.BOLD, 17);
     Font font_txt = new Font("monospaced", Font.BOLD, 17);
-    BookActions action = new BookActions(this);
+    ActionsBook action = new ActionsBook(this);
 
     public BookSearchListGui(MainGui mg) {
         setMg(mg);
         setJf(mg.getJf());
+        getJf().setTitle("KİTAP LİSTESİ & SORGULAMA ");
 
         getJf().add(getJp());
         getJp().add(getLblAuthorName());
         getJp().add(getLblBarcodeNo());
         getJp().add(getLblBookName());
+        getJp().add(getLblCategory());
         getJp().add(getTxtAuthorName());
         getJp().add(getTxtBarcodeNo());
         getJp().add(getTxtBookName());
+        getJp().add(getTxtCategory());
         getJp().add(getBtnComeBack());
         getTxtAuthorName().addActionListener(action);
         getTxtBarcodeNo().addActionListener(action);
         getTxtBookName().addActionListener(action);
         getBtnComeBack().addActionListener(action);
+
+        getTxtCategory().addActionListener(action);
         getJp().add(getSp());
-        getBtnComeBack().addActionListener(action);
-
-        /*  JFrame jf;
-    JPanel jp;
-    JLabel lblBookName;
-    JLabel lblAuthorName;
-    JLabel lblBarcodeNo;
-    JTable table;
-
-    JTextField txtBookName;
-    JTextField txtAuthorName;
-    JTextField txtBarcodeNo;
-    JButton btnSearch;
-    JButton btnComeBack;
-         */
- /*
-          f = new JFrame();
-        String data[][] = {{"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Sachin", "700000"}};
-        String column[] = {"ID", "NAME", "SALARY"};
-
-        JTable jt = new JTable(data, column);
-        jt.setBounds(30, 40, 200, 300);
-        // jt.setEnabled(false);
-        //  jt.setFocusable(false);
-        //jt.setCellSelectionEnabled(true);
-        //  jt.setShowVerticalLines(true);
-        JScrollPane sp = new JScrollPane(jt);
-        jt.setDefaultEditor(Object.class, null);// jtable içindeki değerleri değiştirmeyi engeller
-
-        f.add(sp);
-        f.setSize(300, 400);
-        f.setVisible(true);*/
     }
 
     public JFrame getJf() {
@@ -191,6 +158,25 @@ public class BookSearchListGui {
         this.lblBookName = lblBookName;
     }
 
+    public JLabel getLblCategory() {
+
+        if (lblCategory == null) {
+            pushRightCounter = 1;
+            lblCategory = new JLabel("Kitap Kategori");
+            System.out.println("pushRightSpace : " + pushRightSpace + " ~ pushRightCounter : " + pushRightCounter);
+            lblCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter), lblTopSpace + lblHeight + txtHeight + 15, lblWidth, lblHeight);
+
+            lblCategory.setFont(font_lbl);
+            lblCategory.setForeground(Color.WHITE);
+
+        }
+        return lblCategory;
+    }
+
+    public void setLblCategory(JLabel lblCategory) {
+        this.lblCategory = lblCategory;
+    }
+
     public JLabel getLblAuthorName() {
         if (lblAuthorName == null) {
             lblAuthorName = new JLabel("Yazar Adı");
@@ -225,12 +211,21 @@ public class BookSearchListGui {
         if (table == null) {
 
             table = new JTable(data, column);
-            //    table.setBounds(leftSpace, lblHeight + txtHeight * 4, txtWidth * 5 / 2, 250);
-
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            table.setRowHeight(15);
+            table.getColumnModel().getColumn(0).setPreferredWidth(150);
+            table.getColumnModel().getColumn(1).setPreferredWidth(150);
+            table.getColumnModel().getColumn(2).setPreferredWidth(450);
+            table.getColumnModel().getColumn(3).setPreferredWidth(200);
+            table.getColumnModel().getColumn(4).setPreferredWidth(150);
             table.setDefaultEditor(Object.class, null);
             table.setFont(font_txt);
             table.setCursor(new Cursor(12));
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+            table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 
+            // table.setDefaultRenderer(Object.class, centerRenderer); --> bütün sutunları ortalar
         }
 
         return table;
@@ -253,31 +248,26 @@ public class BookSearchListGui {
         this.sp = sp;
     }
 
+    public JTextField getTxtBarcodeNo() {
+        if (txtBarcodeNo == null) {
+            txtBarcodeNo = new JTextField("Barkod No");
+            txtBarcodeNo.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace, txtWidth, txtHeight);
+            txtBarcodeNo.setFont(font_txt);
+            pushRightCounter++;
+        }
 
-    /*
-          f = new JFrame();
-        String data[][] = {{"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Sachin", "700000"}};
-        String column[] = {"ID", "NAME", "SALARY"};
+        return txtBarcodeNo;
+    }
 
-        JTable jt = new JTable(data, column);
-        jt.setBounds(30, 40, 200, 300);
-        // jt.setEnabled(false);
-        //  jt.setFocusable(false);
-        //jt.setCellSelectionEnabled(true);
-        //  jt.setShowVerticalLines(true);
-        JScrollPane sp = new JScrollPane(jt);
-        jt.setDefaultEditor(Object.class, null);// jtable içindeki değerleri değiştirmeyi engeller
+    public void setTxtBarcodeNo(JTextField txtBarcodeNo) {
+        this.txtBarcodeNo = txtBarcodeNo;
+    }
 
-        f.add(sp);
-        f.setSize(300, 400);
-        f.setVisible(true);*/
     public JTextField getTxtBookName() {
         if (txtBookName == null) {
             pushRightCounter = 0;
             txtBookName = new JTextField("Kitap Adı");
-            txtBookName.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight + 15, txtWidth * 5 / 2, txtHeight);
+            txtBookName.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight + 15, txtWidth, txtHeight);
             txtBookName.setFont(font_txt);
             pushRightCounter++;
         }
@@ -287,6 +277,23 @@ public class BookSearchListGui {
 
     public void setTxtBookName(JTextField txtBookName) {
         this.txtBookName = txtBookName;
+    }
+
+    public JTextField getTxtCategory() {
+        if (txtCategory == null) {
+            pushRightCounter = 1;
+            txtCategory = new JTextField("Kitap Kategori");
+            System.out.println("pushRightSpace : " + pushRightSpace + "  ~ pushRightCounter : " + pushRightCounter);
+            txtCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace + lblHeight + txtHeight + 15, txtWidth, txtHeight);
+            txtCategory.setFont(font_txt);
+
+        }
+
+        return txtCategory;
+    }
+
+    public void setTxtCategory(JTextField txtCategory) {
+        this.txtCategory = txtCategory;
     }
 
     public JTextField getTxtAuthorName() {
@@ -304,21 +311,6 @@ public class BookSearchListGui {
 
     public void setTxtAuthorName(JTextField txtAuthorName) {
         this.txtAuthorName = txtAuthorName;
-    }
-
-    public JTextField getTxtBarcodeNo() {
-        if (txtBarcodeNo == null) {
-            txtBarcodeNo = new JTextField("Barkod No");
-            txtBarcodeNo.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace, txtWidth, txtHeight);
-            txtBarcodeNo.setFont(font_txt);
-            pushRightCounter++;
-        }
-
-        return txtBarcodeNo;
-    }
-
-    public void setTxtBarcodeNo(JTextField txtBarcodeNo) {
-        this.txtBarcodeNo = txtBarcodeNo;
     }
 
     public JButton getBtnComeBack() {

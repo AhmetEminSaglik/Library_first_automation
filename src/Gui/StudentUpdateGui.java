@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Gui;
 
+import Logic.ActionStudent;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,11 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 
-/**
- *
- * @author Ahmet Emin SAĞLIK
- */
 public class StudentUpdateGui extends JPanel {
 
     JFrame jf;
@@ -28,6 +21,7 @@ public class StudentUpdateGui extends JPanel {
     JLabel lblNewSurname;
     JLabel lblNewEmail;
     JLabel lblResult;
+    JLabel lblPhoneNo;
 
     JTextField txtno;
     JTextField txtNewNo;
@@ -35,10 +29,13 @@ public class StudentUpdateGui extends JPanel {
     JTextField txtNewSurname;
     JTextField txtNewEmail;
     JTextField txtResult;
+    JTextField txtPhoneNo;
 
     JButton btnComeBack;
     JButton btnUpdate;
     JButton btnDelete;
+    MainGui mg;
+    ActionStudent action = new ActionStudent(this);
 
     final int leftSpace = 50;
     final int lblWidth = 500;
@@ -63,7 +60,9 @@ public class StudentUpdateGui extends JPanel {
     Font txtFont = new Font("", Font.BOLD, 15);
 
     public StudentUpdateGui(MainGui mg) {
+        this.mg = mg;
         this.jf = mg.getJf();
+        getJf().setTitle("ÖĞRENCİ GÜNCELLE");
         this.setBounds(getJf().getBounds());
         this.setBackground(new Color(75, 153, 23));
         this.setLayout(null);
@@ -77,6 +76,7 @@ public class StudentUpdateGui extends JPanel {
         this.add(getLblNewName());
         this.add(getLblNewSurname());
         this.add(getLblNewEmail());
+        this.add(getLblPhoneNo());
         this.add(getLblResult());
         this.add(getTxtno());
         this.add(getTxtNewNo());
@@ -84,7 +84,16 @@ public class StudentUpdateGui extends JPanel {
         this.add(getTxtNewSurname());
         this.add(getTxtNewEmail());
         this.add(getTxtResult());
+        this.add(getTxtPhoneNo());
         this.add(getBtnComeBack());
+        getBtnComeBack().addActionListener(action);
+        getTxtno().addActionListener(action);
+        getTxtResult().addActionListener(action);
+        getTxtNewSurname().addActionListener(action);
+        getTxtNewNo().addActionListener(action);
+        getTxtNewName().addActionListener(action);
+        getTxtNewEmail().addActionListener(action);
+        getTxtPhoneNo().addActionListener(action);
     }
 
     @Override
@@ -168,7 +177,7 @@ public class StudentUpdateGui extends JPanel {
             lblNewEmail.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewEmail.setForeground(Color.WHITE);
             lblNewEmail.setFont(lblFont);
-            lblPushUnderCounter++;
+
         }
 
         return lblNewEmail;
@@ -176,6 +185,23 @@ public class StudentUpdateGui extends JPanel {
 
     public void setLblNewEmail(JLabel lblNewEmail) {
         this.lblNewEmail = lblNewEmail;
+    }
+
+    public JLabel getLblPhoneNo() {
+        if (lblPhoneNo == null) {
+            lblPhoneNo = new JLabel("Öğrenci Telefon No");
+            lblPhoneNo.setBounds(leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
+            //  (leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
+
+            lblPhoneNo.setForeground(Color.WHITE);
+            lblPhoneNo.setFont(lblFont);
+            lblPushUnderCounter++;
+        }
+        return lblPhoneNo;
+    }
+
+    public void setLblPhoneNo(JLabel lblPhoneNo) {
+        this.lblPhoneNo = lblPhoneNo;
     }
 
     public JLabel getLblResult() {
@@ -265,6 +291,20 @@ public class StudentUpdateGui extends JPanel {
         this.txtNewEmail = txtNewEmail;
     }
 
+    public JTextField getTxtPhoneNo() {
+        if (txtPhoneNo == null) {
+            txtPhoneNo = new JTextField("Öğrenci Telefon Numarası");
+            txtPhoneNo.setBounds(leftSpace + txtWidth + 50, txtTopSpace + txtPushSpaceUnder * txtPushUnderCounter, txtWidth, txtHeight);
+            txtPhoneNo.setFont(txtFont);
+
+        }
+        return txtPhoneNo;
+    }
+
+    public void setTxtPhoneNo(JTextField txtPhoneNo) {
+        this.txtPhoneNo = txtPhoneNo;
+    }
+
     public JTextField getTxtResult() {
         if (txtResult == null) {
             txtResult = new JTextField("Sonuç");
@@ -272,6 +312,10 @@ public class StudentUpdateGui extends JPanel {
             txtResult.setBounds(txtWidth + leftSpace + 50, 50, txtWidth, txtHeight);
             txtResult.setFont(txtFont);
             txtResult.setEditable(false);
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtResult.setToolTipText("Buraya Erişemezsiniz");
 
         }
         return txtResult;
@@ -317,4 +361,14 @@ public class StudentUpdateGui extends JPanel {
         this.lblPushUnderCounter = lblPushUnderCounter;
     }
 
+    public MainGui getMg() {
+        if (mg == null) {
+            mg = new MainGui();
+        }
+        return mg;
+    }
+
+    public void setMg(MainGui mg) {
+        this.mg = mg;
+    }
 }

@@ -1,5 +1,6 @@
 package Gui;
 
+import Logic.ActionTimeFine;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -11,9 +12,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 
 public class FineDebtPayment {
 
+    MainGui mg;
     JFrame jf;
     JPanel jp;
 
@@ -55,8 +58,10 @@ public class FineDebtPayment {
     public String HeaderOfTable[] = {"Öğrenci No", "Kitap Barko No", "Kitap Adı", "Kitabın Alındığı Tarih", "Borç (TL)"};
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 15);
+    ActionTimeFine action = new ActionTimeFine(this);
 
     public FineDebtPayment(MainGui mg) {
+        setMg(mg);
         setJf(mg.getJf());
         getJf().setTitle("Para Cezaları & Borç ödeme");
         getJf().add(getJp());
@@ -75,6 +80,8 @@ public class FineDebtPayment {
         getJp().add(getBtnPay());
         getJp().add(getBtnComeBack());
         getJp().add(getSp());
+        getBtnPay().addActionListener(action);
+        getBtnComeBack().addActionListener(action);
 
     }
 
@@ -191,6 +198,11 @@ public class FineDebtPayment {
             txtDebt.setForeground(Color.BLACK);
             txtDebt.setFont(txtFont);
             txtDebt.setFocusable(false);
+            txtDebt.setEditable(false);
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtDebt.setToolTipText("Buraya Erişemezsiniz");
             pushRightCounter++;
 
         }
@@ -225,6 +237,11 @@ public class FineDebtPayment {
             txtResult.setForeground(Color.BLACK);
             txtResult.setFont(txtFont);
             txtResult.setFocusable(false);
+            txtResult.setEditable(false);
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtResult.setToolTipText("Buraya Erişemezsiniz");
             pushRightCounter++;
 
         }
@@ -296,6 +313,17 @@ public class FineDebtPayment {
 
     public void setBtnComeBack(JButton btnComeBack) {
         this.btnComeBack = btnComeBack;
+    }
+
+    public MainGui getMg() {
+        if (mg == null) {
+            mg = new MainGui();
+        }
+        return mg;
+    }
+
+    public void setMg(MainGui mg) {
+        this.mg = mg;
     }
 
 }

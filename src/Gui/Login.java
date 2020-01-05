@@ -10,6 +10,7 @@ import java.sql.Statement;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -148,24 +149,31 @@ public class Login extends JPanel {
 
         Connection conn = null;
         Statement stmt = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        boolean xamppIsOpen = false;
+        while (!xamppIsOpen) {
+            try {
 
-            stmt = conn.createStatement();
+                Class.forName(JDBC_DRIVER);
+                conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-            String sqlControl = "SHOW DATABASES LIKE 'LIBRARY' ";
-            stmt.executeUpdate(sqlControl);
-            if (stmt.executeUpdate(sqlControl) == -1) { // conn.createStatement() dene bir de stmt yerine
-                return; //Veri tabanı zaten var
+                stmt = conn.createStatement();
+
+                String sqlControl = "SHOW DATABASES LIKE 'LIBRARY' ";
+                stmt.executeUpdate(sqlControl);
+                if (stmt.executeUpdate(sqlControl) == -1) { // conn.createStatement() dene bir de stmt yerine
+                    return; //Veri tabanı zaten var
+                }
+                String sql = "CREATE DATABASE LIBRARY";
+                xamppIsOpen = true;
+                stmt.executeUpdate(sql);
+            } catch (SQLException se) {
+                JOptionPane.showMessageDialog(null, "Lütfen xampp portunu açınız");
+
+            } catch (ClassNotFoundException ex) {
+
+                JOptionPane.showMessageDialog(null, "catch (mistake): ClassNotFoundException ");
+
             }
-            String sql = "CREATE DATABASE LIBRARY";
-
-            stmt.executeUpdate(sql);
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-
         }
     }
 

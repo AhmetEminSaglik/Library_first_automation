@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 
 public class StudentAddGui {
     
@@ -19,6 +20,7 @@ public class StudentAddGui {
     JLabel lblSurname;
     JLabel lblEmail;
     JLabel lblResult;
+    JLabel lblPhoneNo;
     
     JTextField txtNo;
     JTextField txtName;
@@ -26,8 +28,10 @@ public class StudentAddGui {
     JTextField txtEmail;
     JTextField txtResult;
     JButton btnComeBack;
+    JTextField txtPhoneNo;
     JButton btnAdd;
     JButton btnClear;
+    
     final int lblWidth = 300;
     final int lblheight = 40;
     final int txtWidth = 300;
@@ -44,6 +48,7 @@ public class StudentAddGui {
     
     public StudentAddGui(MainGui mg) {
         setJf(mg.getJf());
+        getJf().setTitle("ÖĞRENCİ EKLE");
         setMg(mg);
         mg.getJp().setVisible(false);
         getJf().add(getJp());
@@ -53,6 +58,7 @@ public class StudentAddGui {
         getJp().add(getLblName());
         getJp().add(getLblSurname());
         getJp().add(getLblEmail());
+        getJp().add(getLblPhoneNo());
         getJp().add(getTxtNo());
         getJp().add(getTxtResult());
         getJp().add(getTxtName());
@@ -61,9 +67,11 @@ public class StudentAddGui {
         getJp().add(getBtnComeBack());
         getJp().add(getBtnAdd());
         getJp().add(getBtnClear());
+        getJp().add(getTxtPhoneNo());
         getBtnAdd().addActionListener(action);
         getBtnClear().addActionListener(action);
         getBtnComeBack().addActionListener(action);
+        
     }
     
     public JFrame getJf() {
@@ -163,7 +171,6 @@ public class StudentAddGui {
             lblEmail.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
             lblEmail.setForeground(Color.white);
             lblEmail.setFont(lblFont);
-            lblPushCounter++;
             
         }
         return lblEmail;
@@ -171,6 +178,21 @@ public class StudentAddGui {
     
     public void setLblEmail(JLabel lblEmail) {
         this.lblEmail = lblEmail;
+    }
+    
+    public JLabel getLblPhoneNo() {
+        
+        lblPhoneNo = new JLabel("Öğrenci Telefon No");
+        //lblPhoneNo.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
+        lblPhoneNo.setBounds(leftSpace + txtWidth + 80, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
+        lblPhoneNo.setForeground(Color.white);
+        lblPhoneNo.setFont(lblFont);
+        lblPushCounter++;
+        return lblPhoneNo;
+    }
+    
+    public void setLblPhoneNo(JLabel lblPhoneNo) {
+        this.lblPhoneNo = lblPhoneNo;
     }
     
     public JTextField getTxtNo() {
@@ -194,6 +216,10 @@ public class StudentAddGui {
             txtResult.setBounds(leftSpace + txtWidth + 80, topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
             txtResult.setEditable(false);
             txtResult.setFocusable(false);
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtResult.setToolTipText("Buraya Erişemezsiniz");
             lblPushCounter++;
         }
         return txtResult;
@@ -287,6 +313,20 @@ public class StudentAddGui {
     
     public void setTxtFont(Font txtFont) {
         this.txtFont = txtFont;
+    }
+    
+    public JTextField getTxtPhoneNo() {
+        if (txtPhoneNo == null) {
+            txtPhoneNo = new JTextField();
+            txtPhoneNo.setBounds(leftSpace + txtWidth + 80, topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
+            txtPhoneNo.setFont(txtFont);
+            lblPushCounter++;
+        }
+        return txtPhoneNo;
+    }
+    
+    public void setTxtPhoneNo(JTextField txtPhoneNo) {
+        this.txtPhoneNo = txtPhoneNo;
     }
     
     public MainGui getMg() {

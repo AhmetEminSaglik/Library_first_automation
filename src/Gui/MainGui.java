@@ -10,34 +10,35 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 
 public class MainGui {//extends JPanel
 
     JFrame jf = null;
     JPanel jp = null;
 
-    JLabel studentNo_jlabel;
-    JLabel bookBarcode_jlabel;
-    JLabel resultScreen_jlabel;
-    JLabel bookName_jlabel;
+    JLabel lblStudentNo;
+    JLabel lblBookBarcode;
+    JLabel lblResultScreen;
+    JLabel lblBookName;
 
-    JLabel totalBook_jlabel;// totalBook_jlabel,remainBook_jlabel,givenBook_jlabel are different label not like aboves
-    JLabel remainBook_jlabel;
-    JLabel givenBook_jlabel;
+    JLabel lblTotalBook;// lblTotalBook,lblRemainBook,lblGivenBook are different label not like aboves
+    JLabel lblRemainBook;
+    JLabel lblGivenBook;
 
-    JTextField StudentNo_txt;
-    JTextField bookBarcode_txt;
-    JTextField resultScreen_txt;
-    JTextField bookName_txt;
+    JTextField txtStudentNo;
+    JTextField txtBookBarcode;
+    JTextField txtResultScreen;
+    JTextField txtBookName;
 
-    JTextField totalBook_txt;
-    JTextField remainBook_txt;
-    JTextField givenBook_txt;
+    JTextField txtTotalBook;
+    JTextField txtRemainBook;
+    JTextField txtGivenBook;
 
     JButton bookAdd;
     JButton bookReturn;
-    JButton bookSearch_List;
-    JButton bookUpdate_Remove;
+    JButton bookSearchList;
+    JButton bookUpdateRemove;
     JButton studentAdd;
     JButton studentUpdate;
     JButton studentState;
@@ -68,6 +69,9 @@ public class MainGui {//extends JPanel
     final int SecondButtons_Y = FirstButtons_Y + passing_floor_Y;
     final int ThirdButtons_Y = SecondButtons_Y + passing_floor_Y;
     final int FourthButtons_Y = ThirdButtons_Y + passing_floor_Y;
+    final ToolTipManager ttm = ToolTipManager.sharedInstance();
+    final int oldDelay = ttm.getInitialDelay();
+
     ActionsMainGui action = new ActionsMainGui(this);
 
     public MainGui() {
@@ -90,29 +94,29 @@ public class MainGui {//extends JPanel
     public void addAllThingsONPanel() {
 
         getJp().setVisible(true);
-        getJp().add(getStudentNo_jlabel());
-        getJp().add(getBookBarcode_jlabel());
-        getJp().add(getResultScreen_jlabel());
-        getJp().add(getBookName_jlabel());
-        getJp().add(getRemainBook_jlabel());
-        getJp().add(getGivenBook_jlabel());
-        getJp().add(getTotalBook_jlabel());
-        getJp().add(getRemainBook_txt());
-        getJp().add(getGivenBook_txt());
-        getJp().add(getTotalBook_txt());
-        getJp().add(getStudentNo_txt());
-        getJp().add(getBookBarcode_txt());
-        getJp().add(getResultScreen_txt());
-        getJp().add(getBookName_txt());
+        getJp().add(getLblStudentNo());
+        getJp().add(getLblBookBarcode());
+        getJp().add(getLblResultScreen());
+        getJp().add(getLblBookName());
+        getJp().add(getLblRemainBook());
+        getJp().add(getLblGivenBook());
+        getJp().add(getLblTotalBook());
+        getJp().add(getTxtRemainBook());
+        getJp().add(getTxtGivenBook());
+        getJp().add(getTxtTotalBook());
+        getJp().add(gettxtStudentNo());
+        getJp().add(getTxtBookBarcode());
+        getJp().add(gettxtResultScreen());
+        getJp().add(getTxtBookName());
         getJp().add(getBookAdd());
         getJp().add(getBookReturn());
-        getJp().add(getBookSearch_List());
-        getJp().add(getBookUpdate_Remove());
+        getJp().add(getBookSearchList());
+        getJp().add(getBookUpdateRemove());
         getJp().add(getStudentAdd());
         getJp().add(getStudentUpdate());
         getJp().add(getStudentState());
         getJp().add(getRegisteredStudent());
-        getJp().add(getTimeControl_ExtraTime());
+        getJp().add(getTimeControlExtraTime());
         getJp().add(getFineDebtPayment());
         getJp().add(getAboutUs());
         getJp().add(getExit());
@@ -186,242 +190,254 @@ public class MainGui {//extends JPanel
         this.jf = Jf;
     }
 
-    public JLabel getStudentNo_jlabel() {
-        if (studentNo_jlabel == null) {
-            studentNo_jlabel = build_JlabelForNulls(studentNo_jlabel);
-            studentNo_jlabel.setText("Öğrenci No ");
+    public JLabel getLblStudentNo() {
+        if (lblStudentNo == null) {
+            lblStudentNo = build_JlabelForNulls(lblStudentNo);
+            lblStudentNo.setText("Öğrenci No ");
 
         }
-        return studentNo_jlabel;
+        return lblStudentNo;
     }
 
-    public void setStudentNo_jlabel(JLabel studentNo_jlabel) {
-        this.studentNo_jlabel = studentNo_jlabel;
+    public void setLblStudentNo(JLabel lblStudentNo) {
+        this.lblStudentNo = lblStudentNo;
     }
 
-    public JLabel getBookBarcode_jlabel() {
-        if (bookBarcode_jlabel == null) {
-            bookBarcode_jlabel = build_JlabelForNulls(bookBarcode_jlabel);
-            bookBarcode_jlabel.setText("Kitap Barkod No");
+    public JLabel getLblBookBarcode() {
+        if (lblBookBarcode == null) {
+            lblBookBarcode = build_JlabelForNulls(lblBookBarcode);
+            lblBookBarcode.setText("Kitap Barkod No");
         }
-        return bookBarcode_jlabel;
+        return lblBookBarcode;
     }
 
-    public void setBookBarcode_jlabel(JLabel bookBarcode_jlabel) {
-        this.bookBarcode_jlabel = bookBarcode_jlabel;
+    public void setLblBookBarcode(JLabel lblBookBarcode) {
+        this.lblBookBarcode = lblBookBarcode;
     }
 
-    public JLabel getResultScreen_jlabel() {
-        if (resultScreen_jlabel == null) {
-            resultScreen_jlabel = build_JlabelForNulls(resultScreen_jlabel);
-            resultScreen_jlabel.setText("Sonuç ");
+    public JLabel getLblResultScreen() {
+        if (lblResultScreen == null) {
+            lblResultScreen = build_JlabelForNulls(lblResultScreen);
+            lblResultScreen.setText("Sonuç ");
 
         }
-        return resultScreen_jlabel;
+        return lblResultScreen;
     }
 
-    public void setResultScreen_jlabel(JLabel resultScreen_jlabel) {
-        this.resultScreen_jlabel = resultScreen_jlabel;
+    public void setLblResultScreen(JLabel lblResultScreen) {
+        this.lblResultScreen = lblResultScreen;
     }
 
-    public JLabel getBookName_jlabel() {
-        if (bookName_jlabel == null) {
-            bookName_jlabel = new JLabel("Kitap  Adı");
-            bookName_jlabel.setBounds(10, 135, 300, 70);
-            bookName_jlabel.setForeground(Color.WHITE);
-            bookName_jlabel.setFont(new Font("monospaced", Font.BOLD, 25));
+    public JLabel getLblBookName() {
+        if (lblBookName == null) {
+            lblBookName = new JLabel("Kitap  Adı");
+            lblBookName.setBounds(10, 135, 300, 70);
+            lblBookName.setForeground(Color.WHITE);
+            lblBookName.setFont(new Font("monospaced", Font.BOLD, 25));
         }
-        return bookName_jlabel;
+        return lblBookName;
     }
 
-    public void setBookName_jlabel(JLabel bookName_jlabel) {
-        this.bookName_jlabel = bookName_jlabel;
+    public void setLblBookName(JLabel lblBookName) {
+        this.lblBookName = lblBookName;
     }
 
-    public JLabel getTotalBook_jlabel() {
-        if (totalBook_jlabel == null) {
-            totalBook_jlabel = new JLabel("Toplam Kitap Sayısı");
-            totalBook_jlabel.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+    public JLabel getLblTotalBook() {
+        if (lblTotalBook == null) {
+            lblTotalBook = new JLabel("Toplam Kitap Sayısı");
+            lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,
                     50);
-            totalBook_jlabel.setFont(new Font("monospaced", Font.BOLD, 22));
-            totalBook_jlabel.setForeground(new Color(116, 185, 255));
+            lblTotalBook.setFont(new Font("monospaced", Font.BOLD, 22));
+            lblTotalBook.setForeground(new Color(116, 185, 255));
             total_remain_given_books_counter = 0;
         }
         /*    final int push_total_remain_given_books = 30;
               int total_remain_given_books_x = 30;
          */
-        return totalBook_jlabel;
+        return lblTotalBook;
     }
 
-    public void setTotalBook_jlabel(JLabel totalBook_jlabel) {
-        this.totalBook_jlabel = totalBook_jlabel;
+    public void setLblTotalBook(JLabel lblTotalBook) {
+        this.lblTotalBook = lblTotalBook;
     }
 
-    public JLabel getRemainBook_jlabel() {
-        if (remainBook_jlabel == null) {
-            remainBook_jlabel = new JLabel("Verilen Kitap Sayısı");
-            remainBook_jlabel.setBounds(10 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+    public JLabel getLblRemainBook() {
+        if (lblRemainBook == null) {
+            lblRemainBook = new JLabel("Verilen Kitap Sayısı");
+            lblRemainBook.setBounds(10 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale, 50);
-            remainBook_jlabel.setFont(new Font("monospaced", Font.BOLD, 22));
-            remainBook_jlabel.setForeground(Color.red);
+            lblRemainBook.setFont(new Font("monospaced", Font.BOLD, 22));
+            lblRemainBook.setForeground(Color.red);
             total_remain_given_books_counter++;
         }
-        return remainBook_jlabel;
+        return lblRemainBook;
     }
 
-    public void setRemainBook_jlabel(JLabel remainBook_jlabel) {
-        this.remainBook_jlabel = remainBook_jlabel;
+    public void setLblRemainBook(JLabel lblRemainBook) {
+        this.lblRemainBook = lblRemainBook;
     }
 
-    public JLabel getGivenBook_jlabel() {
-        if (givenBook_jlabel == null) {
-            givenBook_jlabel = new JLabel("Kalan Kitap Sayısı");
-            givenBook_jlabel.setBounds(15 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+    public JLabel getLblGivenBook() {
+        if (lblGivenBook == null) {
+            lblGivenBook = new JLabel("Kalan Kitap Sayısı");
+            lblGivenBook.setBounds(15 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     1 + total_remain_given_books_y, holding_area_scale, 50);
-            givenBook_jlabel.setFont(new Font("monospaced", Font.BOLD, 22));
-            givenBook_jlabel.setForeground(Color.GREEN);
+            lblGivenBook.setFont(new Font("monospaced", Font.BOLD, 22));
+            lblGivenBook.setForeground(Color.GREEN);
             total_remain_given_books_counter++;
         }
-        return givenBook_jlabel;
+        return lblGivenBook;
     }
 
-    public void setGivenBook_jlabel(JLabel givenBook_jlabel) {
-        this.givenBook_jlabel = givenBook_jlabel;
+    public void setLblGivenBook(JLabel lblGivenBook) {
+        this.lblGivenBook = lblGivenBook;
     }
 
-    public JTextField getStudentNo_txt() {
-        if (StudentNo_txt == null) {
-            StudentNo_txt = build_JTextfiledForNulls(StudentNo_txt);
-            StudentNo_txt.getDocument().addDocumentListener(action);
-            StudentNo_txt.getDocument().putProperty("StudentNo_BookBarcode_txt", 1); // first one is key , the other one is value
-            StudentNo_txt.addActionListener(action);
-//StudentNo_txt.set
+    public JTextField gettxtStudentNo() {
+        if (txtStudentNo == null) {
+            txtStudentNo = build_JTextfiledForNulls(txtStudentNo);
+            txtStudentNo.getDocument().addDocumentListener(action);
+            txtStudentNo.getDocument().putProperty("StudentNoBookBarcodetxt", 1); // first one is key , the other one is value
+            txtStudentNo.addActionListener(action);
+            txtStudentNo.addFocusListener(action);
+            txtStudentNo.setForeground(Color.GRAY);
+            txtStudentNo.setText("Öğrenci No Girin");
+
+//txtStudentNo.set
         }
-        return StudentNo_txt;
+        return txtStudentNo;
     }
 
-    public void setStudentNo_txt(JTextField StudentNo_txt) {
-        this.StudentNo_txt = StudentNo_txt;
+    public void settxtStudentNo(JTextField txtStudentNo) {
+        this.txtStudentNo = txtStudentNo;
     }
 
-    public JTextField getBookBarcode_txt() {
-        if (bookBarcode_txt == null) {
-            bookBarcode_txt = build_JTextfiledForNulls(bookBarcode_txt);
-            bookBarcode_txt.getDocument().addDocumentListener(action);
-            bookBarcode_txt.getDocument().putProperty("StudentNo_BookBarcode_txt", 2); // first one is key , the other one is value
-            bookBarcode_txt.addActionListener(action);
-
-        }
-        return bookBarcode_txt;
-    }
-
-    public void setBookBarcode_txt(JTextField bookBarcode_txt) {
-        this.bookBarcode_txt = bookBarcode_txt;
-    }
-
-    public JTextField getResultScreen_txt() {
-        if (resultScreen_txt == null) {
-            resultScreen_txt = build_JTextfiledForNulls(resultScreen_txt);
-            resultScreen_txt.setEditable(false);
-        }
-        return resultScreen_txt;
-    }
-
-    public void setResultScreen_txt(JTextField resultScreen_txt) {
-        this.resultScreen_txt = resultScreen_txt;
-    }
-
-    public JTextField getBookName_txt() {
-        if (bookName_txt == null) {
-            bookName_txt = new JTextField("");
-            bookName_txt.setBounds(3, 190, getJf().getWidth() - 24, 55);
-            bookName_txt.setFont(new Font("monospaced", Font.BOLD, 19));
-            bookName_txt.setEditable(false);
-            bookName_txt.setFocusable(false);
-            // bookName_txt.setEnabled(false);
-            bookName_txt.setBackground(Color.WHITE);
+    public JTextField getTxtBookBarcode() {
+        if (txtBookBarcode == null) {
+            txtBookBarcode = build_JTextfiledForNulls(txtBookBarcode);
+            txtBookBarcode.getDocument().addDocumentListener(action);
+            txtBookBarcode.getDocument().putProperty("StudentNoBookBarcodetxt", 2); // first one is key , the other one is value
+            txtBookBarcode.addActionListener(action);
+            txtBookBarcode.addFocusListener(action);
+            txtBookBarcode.setForeground(Color.GRAY);
+            txtBookBarcode.setText("Kitap Barkod No girin");
 
         }
-        return bookName_txt;
+        return txtBookBarcode;
     }
 
-    public void setBookName_txt(JTextField bookName_txt) {
-        this.bookName_txt = bookName_txt;
+    public void setTxtBookBarcode(JTextField txtBookBarcode) {
+        this.txtBookBarcode = txtBookBarcode;
     }
 
-    public JTextField getTotalBook_txt() {
-        if (totalBook_txt == null) {
-            totalBook_txt = new JTextField("10810");
-            totalBook_txt.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+    public JTextField gettxtResultScreen() {
+        if (txtResultScreen == null) {
+            txtResultScreen = build_JTextfiledForNulls(txtResultScreen);
+            txtResultScreen.setEditable(false);
+            txtResultScreen.setToolTipText("Buraya Erişemezsiniz");
+            ttm.setInitialDelay(100); // when entered  wait time
+            ttm.setDismissDelay(1000);// seeing time tooltips
+        }
+        return txtResultScreen;
+    }
+
+    public void settxtResultScreen(JTextField txtResultScreen) {
+        this.txtResultScreen = txtResultScreen;
+    }
+
+    public JTextField getTxtBookName() {
+        if (txtBookName == null) {
+            txtBookName = new JTextField("");
+            txtBookName.setBounds(3, 190, getJf().getWidth() - 24, 55);
+            txtBookName.setFont(new Font("monospaced", Font.BOLD, 19));
+            txtBookName.setEditable(false);
+            txtBookName.setFocusable(false);
+            // txtBookName.setEnabled(false);
+            txtBookName.setBackground(Color.WHITE);
+            ttm.setInitialDelay(100); // when entered  wait time
+            ttm.setDismissDelay(1000);// seeing time tooltips
+            txtBookName.setToolTipText("Buraya Erişemezsiniz");
+        }
+        return txtBookName;
+    }
+
+    public void setTxtBookName(JTextField txtBookName) {
+        this.txtBookName = txtBookName;
+    }
+
+    public JTextField getTxtTotalBook() {
+        if (txtTotalBook == null) {
+            txtTotalBook = new JTextField("10810");
+            txtTotalBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y + 45, 150, 30);
-            totalBook_txt.setFont(new Font("", Font.BOLD, 22));
-            totalBook_txt.setEditable(false);
-            totalBook_txt.setFocusable(false);
-            totalBook_txt.setBackground(new Color(116, 185, 255));
-            totalBook_txt.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
-            totalBook_txt.setBorder(BorderFactory.createCompoundBorder(remainBook_txt.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+            txtTotalBook.setFont(new Font("", Font.BOLD, 22));
+            txtTotalBook.setEditable(false);
+            txtTotalBook.setFocusable(false);
+            txtTotalBook.setBackground(new Color(116, 185, 255));
+            txtTotalBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
+            txtTotalBook.setBorder(BorderFactory.createCompoundBorder(txtRemainBook.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
             total_remain_given_books_counter++;
 
-            /*  totalBook_jlabel.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+            /*  lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,
                     50);*/
         }
-        return totalBook_txt;
+        return txtTotalBook;
     }
 
-    public void setTotalBook_txt(JTextField totalBook_txt) {
-        this.totalBook_txt = totalBook_txt;
+    public void setTxtTotalBook(JTextField txtTotalBook) {
+        this.txtTotalBook = txtTotalBook;
     }
 
-    public JTextField getRemainBook_txt() {
-        if (remainBook_txt == null) {
-            remainBook_txt = new JTextField("9999");
-            remainBook_txt.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+    public JTextField getTxtRemainBook() {
+        if (txtRemainBook == null) {
+            txtRemainBook = new JTextField("9999");
+            txtRemainBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y + 45, 150, 30);
-            remainBook_txt.setFont(new Font("", Font.BOLD, 22));
-            remainBook_txt.setEditable(false);
-            remainBook_txt.setFocusable(false);
-            remainBook_txt.setBackground(Color.red);
-            remainBook_txt.setForeground(Color.BLACK);
+            txtRemainBook.setFont(new Font("", Font.BOLD, 22));
+            txtRemainBook.setEditable(false);
+            txtRemainBook.setFocusable(false);
+            txtRemainBook.setBackground(Color.red);
+            txtRemainBook.setForeground(Color.BLACK);
             total_remain_given_books_counter++;
-            remainBook_txt.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
-            remainBook_txt.setBorder(BorderFactory.createCompoundBorder(remainBook_txt.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
-            /*  totalBook_jlabel.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+            txtRemainBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
+            txtRemainBook.setBorder(BorderFactory.createCompoundBorder(txtRemainBook.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+            /*  lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,
                     50);*/
 
         }
-        return remainBook_txt;
+        return txtRemainBook;
     }
 
-    public void setRemainBook_txt(JTextField remainBook_txt) {
+    public void setTxtRemainBook(JTextField txtRemainBook) {
 
-        this.remainBook_txt = remainBook_txt;
+        this.txtRemainBook = txtRemainBook;
     }
 
-    public JTextField getGivenBook_txt() {
-        if (givenBook_txt == null) {
-            givenBook_txt = new JTextField("375");
-            givenBook_txt.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+    public JTextField getTxtGivenBook() {
+        if (txtGivenBook == null) {
+            txtGivenBook = new JTextField("375");
+            txtGivenBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y + 45, 150, 30);
-            givenBook_txt.setBackground(Color.GREEN);
-            givenBook_txt.setForeground(Color.BLACK);
-            givenBook_txt.setFont(new Font("", Font.BOLD, 22));
-            givenBook_txt.setEditable(false);
-            givenBook_txt.setFocusable(false);
-            givenBook_txt.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
-            givenBook_txt.setBorder(BorderFactory.createCompoundBorder(remainBook_txt.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+            txtGivenBook.setBackground(Color.GREEN);
+            txtGivenBook.setForeground(Color.BLACK);
+            txtGivenBook.setFont(new Font("", Font.BOLD, 22));
+            txtGivenBook.setEditable(false);
+            txtGivenBook.setFocusable(false);
+            txtGivenBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
+            txtGivenBook.setBorder(BorderFactory.createCompoundBorder(txtRemainBook.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
             total_remain_given_books_counter++;
-            /*   remainBook_jlabel.setBounds(10 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+            /*   lblRemainBook.setBounds(10 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale, 50);*/
 
         }
-        return givenBook_txt;
+        return txtGivenBook;
     }
 
-    public void setGivenBook_txt(JTextField givenBook_txt) {
-        this.givenBook_txt = givenBook_txt;
+    public void setTxtGivenBook(JTextField txtGivenBook) {
+        this.txtGivenBook = txtGivenBook;
     }
 
     public JButton getBookAdd() {
@@ -448,30 +464,30 @@ public class MainGui {//extends JPanel
         this.bookReturn = bookReturn;
     }
 
-    public JButton getBookSearch_List() {
-        if (bookSearch_List == null) {
-            bookSearch_List = build_JbuttonForNulls(bookSearch_List, FloorOfBook_X, ThirdButtons_Y);
-            bookSearch_List.setText("Kitap Listesi & Sorgula");
+    public JButton getBookSearchList() {
+        if (bookSearchList == null) {
+            bookSearchList = build_JbuttonForNulls(bookSearchList, FloorOfBook_X, ThirdButtons_Y);
+            bookSearchList.setText("Kitap Listesi & Sorgula");
 
         }
-        return bookSearch_List;
+        return bookSearchList;
     }
 
-    public void setBookSearch_List(JButton bookSearch_List) {
-        this.bookSearch_List = bookSearch_List;
+    public void setBookSearchList(JButton bookSearchList) {
+        this.bookSearchList = bookSearchList;
     }
 
-    public JButton getBookUpdate_Remove() {
-        if (bookUpdate_Remove == null) {
-            bookUpdate_Remove = build_JbuttonForNulls(bookUpdate_Remove, FloorOfBook_X, FourthButtons_Y);
-            bookUpdate_Remove.setText("Kitap Guncelle & Sil");
+    public JButton getBookUpdateRemove() {
+        if (bookUpdateRemove == null) {
+            bookUpdateRemove = build_JbuttonForNulls(bookUpdateRemove, FloorOfBook_X, FourthButtons_Y);
+            bookUpdateRemove.setText("Kitap Guncelle & Sil");
         }
 
-        return bookUpdate_Remove;
+        return bookUpdateRemove;
     }
 
-    public void setBookUpdate_Remove(JButton bookUpdate_Remove) {
-        this.bookUpdate_Remove = bookUpdate_Remove;
+    public void setBookUpdateRemove(JButton bookUpdateRemove) {
+        this.bookUpdateRemove = bookUpdateRemove;
     }
 
     public JButton getStudentAdd() {
@@ -525,7 +541,7 @@ public class MainGui {//extends JPanel
         this.registeredStudent = registeredStudent;
     }
 
-    public JButton getTimeControl_ExtraTime() {
+    public JButton getTimeControlExtraTime() {
         if (TimeControl_ExtraTime == null) {
             TimeControl_ExtraTime = build_JbuttonForNulls(TimeControl_ExtraTime, FloorOf_Time_Exit_X, FirstButtons_Y);
             TimeControl_ExtraTime.setText("Süre Kontrol & Uzatma");

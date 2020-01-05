@@ -1,5 +1,6 @@
 package Gui;
 
+import Logic.ActionStudent;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 
 public class StudentStateGui extends JPanel {
 
@@ -45,8 +47,13 @@ public class StudentStateGui extends JPanel {
     final int topSpaceBook = topSpace + txtHeight + 5;
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 15);
+    MainGui mg;
+    ActionStudent action = new ActionStudent(this);
+    ToolTipManager ttm = ToolTipManager.sharedInstance();
 
     public StudentStateGui(MainGui mg) {
+        setMg(mg);
+        getMg().getJf().setTitle("ÖĞRENCİ DURUMU");
         this.setBounds(getJf().getBounds());
         this.setBackground(new Color(0, 0, 0));
         this.setLayout(null);
@@ -68,6 +75,8 @@ public class StudentStateGui extends JPanel {
         this.add(getTxtBookName2());
         this.add(getTxtBookName3());
         this.add(getBtnComeBack());
+        getBtnComeBack().addActionListener(action);
+        getTxtStudentNo().addActionListener(action);
     }
 
     @Override
@@ -182,6 +191,9 @@ public class StudentStateGui extends JPanel {
             txtDept.setFont(txtFont);
             txtDept.setEditable(false);
             txtDept.setFocusable(false);
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtDept.setToolTipText("Buraya Erişemezsiniz");
         }
         return txtDept;
     }
@@ -198,7 +210,11 @@ public class StudentStateGui extends JPanel {
             txtBookBarcodeNo1.setFont(txtFont);
             txtBookBarcodeNo1.setEditable(false);
             txtBookBarcodeNo1.setFocusable(false);
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtBookBarcodeNo1.setToolTipText("Buraya Erişemezsiniz");
             pushUndertxtCounter++;
+
         }
         return txtBookBarcodeNo1;
     }
@@ -214,6 +230,9 @@ public class StudentStateGui extends JPanel {
             txtBookBarcodeNo2.setFont(txtFont);
             txtBookBarcodeNo2.setEditable(false);
             txtBookBarcodeNo2.setFocusable(false);
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtBookBarcodeNo2.setToolTipText("Buraya Erişemezsiniz");
             pushUndertxtCounter++;
         }/* if (txtBookBarcodeNo1 == null) {
             
@@ -237,7 +256,9 @@ public class StudentStateGui extends JPanel {
             txtBookBarcodeNo3.setFont(txtFont);
             txtBookBarcodeNo3.setEditable(false);
             txtBookBarcodeNo3.setFocusable(false);
-
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtBookBarcodeNo3.setToolTipText("Buraya Erişemezsiniz");
             pushUndertxtCounter++;
         }
         return txtBookBarcodeNo3;
@@ -255,6 +276,9 @@ public class StudentStateGui extends JPanel {
             txtBookName1.setFont(txtFont);
             txtBookName1.setEditable(false);
             txtBookName1.setFocusable(false);
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtBookName1.setToolTipText("Buraya Erişemezsiniz");
             pushUndertxtCounter++;
         }
 
@@ -272,6 +296,9 @@ public class StudentStateGui extends JPanel {
             txtBookName2.setFont(txtFont);
             txtBookName2.setEditable(false);
             txtBookName2.setFocusable(false);
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtBookName2.setToolTipText("Buraya Erişemezsiniz");
             pushUndertxtCounter++;
         }
         return txtBookName2;
@@ -288,6 +315,9 @@ public class StudentStateGui extends JPanel {
             txtBookName3.setFont(txtFont);
             txtBookName3.setEditable(false);
             txtBookName3.setFocusable(false);
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtBookName3.setToolTipText("Buraya Erişemezsiniz");
             pushUndertxtCounter++;
         }
         return txtBookName3;
@@ -308,6 +338,18 @@ public class StudentStateGui extends JPanel {
 
     public void setBtnComeBack(JButton btnComeBack) {
         this.btnComeBack = btnComeBack;
+    }
+
+    public MainGui getMg() {
+        if (mg == null) {
+            mg = new MainGui();
+
+        }
+        return mg;
+    }
+
+    public void setMg(MainGui mg) {
+        this.mg = mg;
     }
 
 }

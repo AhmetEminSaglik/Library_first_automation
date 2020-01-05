@@ -1,8 +1,10 @@
 package Gui;
 
+import Logic.ActionStudent;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 public class RegisteredStudentGui {
 
@@ -26,23 +30,45 @@ public class RegisteredStudentGui {
     JTextField txtNo;
     JButton btnComeBack;
     public String DataOfTable[][] = {
-        {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"101", "Sachin", "700000"}, {"101", "Amit", "670000"},
-        {"102", "Jai", "780000"},
-        {"101", "Sachin", "700000"}};
-    public String HeadersOfTable[] = {"Öğrenci No", "Öğrenci Adı", "Öğrenci Soyadı"};
+        {"486581", "Ahmet Emin SAĞLIK", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "AhmetEminSaglik@hotmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
+        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"}};
+    public String HeadersOfTable[] = {"Öğrenci No", "Öğrenci Adı-Soyadı", "Email", "Telefon"};
 
     final int lblTopSpace = 10;
     final int leftSpace = 30;
@@ -54,12 +80,16 @@ public class RegisteredStudentGui {
     final int txtTopSpace = lblTopSpace + lblHeight + 10;
     final int topSpace = 15;
     int pushRightCounter = 0;
+    MainGui mg;
+    ActionStudent action = new ActionStudent(this);
 
     Font font_lbl = new Font("", Font.BOLD, 17);
     Font font_txt = new Font("", Font.BOLD, 13);
 
     public RegisteredStudentGui(MainGui mg) {
+        setMg(mg);
         setJf(mg.getJf());
+        getJf().setTitle("KAYITLI ÖĞRENCİ SAYFASI");
         getJp().add(getLblName());
         getJp().add(getLblSurname());
         getJp().add(getLblNo());
@@ -68,9 +98,13 @@ public class RegisteredStudentGui {
         getJp().add(getTxtNo());
         getJp().add(getSp());
         getJp().add(getBtnComeBack());
+        getTxtNo().addActionListener(action);
+        getTxtName().addActionListener(action);
+        getTxtSurname().addActionListener(action);
+        getBtnComeBack().addActionListener(action);
+        getTable().addMouseListener(action);
 
         getJf().add(getJp());
-        JOptionPane.showMessageDialog(null, "Buraya mouse ile üzerinden gezinen yer renkli olur");
 
     }
 
@@ -164,8 +198,17 @@ public class RegisteredStudentGui {
             table = new JTable(DataOfTable, HeadersOfTable);
             table.setDefaultEditor(Object.class, null);
             table.setFont(font_txt);
-
             table.setCursor(new Cursor(12));
+            table.setFont(new Font("", Font.BOLD, 15));
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            table.getColumnModel().getColumn(0).setPreferredWidth(92);
+            table.getColumnModel().getColumn(1).setPreferredWidth(250);
+            table.getColumnModel().getColumn(2).setPreferredWidth(250);
+            table.getColumnModel().getColumn(3).setPreferredWidth(150);
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+            table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+            table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 
         }
         return table;
@@ -241,14 +284,25 @@ public class RegisteredStudentGui {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
             btnComeBack.setBounds(leftSpace, 450, 150, 30);
-            btnComeBack.setBackground(Color.BLACK);
-            btnComeBack.setForeground(Color.WHITE);
+            //btnComeBack.setBackground(Color.BLACK);   btnComeBack.setForeground(Color.WHITE);
         }
+
         return btnComeBack;
     }
 
     public void setBtnComeBack(JButton btnComeBack) {
         this.btnComeBack = btnComeBack;
+    }
+
+    public MainGui getMg() {
+        if (mg == null) {
+            mg = new MainGui();
+        }
+        return mg;
+    }
+
+    public void setMg(MainGui mg) {
+        this.mg = mg;
     }
 
 }

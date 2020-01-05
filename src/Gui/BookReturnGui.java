@@ -1,6 +1,6 @@
 package Gui;
 
-import Logic.BookActions;
+import Logic.ActionsBook;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 
 public class BookReturnGui {
 
@@ -48,15 +49,15 @@ public class BookReturnGui {
     final int txtPushSpaceUnder = txtHeight + lblHeight + 10;
     final int txtPushSpaceRight = txtLeftSpace + txtWidth + 50;
 
-    BookActions action = new BookActions(this);
+    ActionsBook action = new ActionsBook(this);
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 15);
 
-    //BookActions action = new BookActions(this);
+    //BookActions action = new ActionsBook(this);
     public BookReturnGui(MainGui mg) {
         setMg(mg);
         setJf(mg.getJf());
-  
+        getMg().getJf().setTitle("KİTAP İADE ");
         getJf().add(getJp());
         getJp().add(getLblBarcodeNo());
         getJp().add(getLblStudentNo());
@@ -71,6 +72,10 @@ public class BookReturnGui {
         getJp().add(getTxtStudentName());
         getJp().add(getTxtResult());
         getJp().add(getBtnComeBack());
+
+        btnComeBack.addActionListener(action);
+        getTxtBarcodeNo().addActionListener(action);
+        getTxtStudentNo().addActionListener(action);
     }
 
     public JFrame getJf() {
@@ -280,6 +285,10 @@ public class BookReturnGui {
             txtBookName.setFont(txtFont);
             txtBookName.setEditable(false); // --> change a little bit background color
             // txtBookName.setFocusable(false);  // do not change background
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtBookName.setToolTipText("Buraya Erişemezsiniz");
             txtPushUnderCounter++;
 
         }
@@ -299,7 +308,10 @@ public class BookReturnGui {
             txtAuthorName.setFont(txtFont);
             txtAuthorName.setEditable(false); // --> change a little bit background color
             // txtAuthorName.setFocusable(false);  // do not change background
-
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtAuthorName.setToolTipText("Buraya Erişemezsiniz");
             if (txtPushRightCounter == 1) {
                 txtPushRightCounter = 0;
             } else {
@@ -323,7 +335,10 @@ public class BookReturnGui {
             txtStudentName.setFont(txtFont);
             txtStudentName.setEditable(false); // --> change a little bit background color
             // txtStudentName.setFocusable(false);  // do not change background
-
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtStudentName.setToolTipText("Buraya Erişemezsiniz");
             txtPushUnderCounter++;
             if (txtPushRightCounter == 1) {
                 txtPushRightCounter = 0;
@@ -348,6 +363,10 @@ public class BookReturnGui {
             txtResult.setFont(txtFont);
             txtResult.setEditable(false); // --> change a little bit background color
             // txtResult.setFocusable(false);  // do not change background
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtResult.setToolTipText("Buraya Erişemezsiniz");
             txtPushUnderCounter++;
 
             if (txtPushRightCounter == 1) {
@@ -371,7 +390,7 @@ public class BookReturnGui {
             btnComeBack.setBackground(Color.white);
             btnComeBack.setFont(txtFont);
             btnComeBack.setCursor(new Cursor(12));
-            btnComeBack.addActionListener(action);
+
         }
         return btnComeBack;
     }

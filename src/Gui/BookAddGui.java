@@ -1,6 +1,6 @@
 package Gui;
 
-import Logic.BookActions;
+import Logic.ActionsBook;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -9,51 +9,57 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 
 public class BookAddGui {
-
+    
     MainGui mg;
     JFrame jf;
     JPanel jp;
-    JLabel bookBarcodeNo_lbl;
-    JLabel bookName_lbl;
-    JLabel authorName_lbl;
-    JLabel result_lbl;
-
-    JTextField bookBarcodeNo_txt;
-    JTextField bookName_txt;
-    JTextField authorName_txt;
-    JTextField result_txt;
-    BookActions bookaction = new BookActions(this);
+    JLabel lblBookBarcodeNo;
+    JLabel lblBookName;
+    JLabel lblAuthorName;
+    JLabel lblCategory;
+    JLabel lblResult;
+    
+    JTextField txtBookName;
+    JTextField txtBookBarcodeNo;
+    JTextField txtAuthorName;
+    JTextField txtCategory;
+    JTextField txtResult;
+    
+    ActionsBook bookaction = new ActionsBook(this);
     JButton btnComeBack;
     JButton btnBtnAddBook;
     Font font_lbl = new Font("monospaced", Font.BOLD, 20);
     Font font_txt = new Font("monospaced", Font.BOLD, 15);
-
+    
     public BookAddGui(MainGui mg) {
-
+        
         this.mg = mg;
         setJf(mg.getJf());
         getJf().setTitle("KİTAP EKLE");
- 
-
+        
         addAllThingsONPanel();
         getBtnComeBack().addActionListener(bookaction);
         getBtnAddBook().addActionListener(bookaction);
-
+        getTxtBookBarcodeNo().addActionListener(bookaction);
+        
         getJf().add(getJp());
-
+        
     }
-
+    
     public void addAllThingsONPanel() {
-        getJp().add(getBookBarcodeNo_lbl());
-        getJp().add(getBookName_lbl());
-        getJp().add(getAuthorName_lbl());
-        getJp().add(getResult_lbl());
-        getJp().add(getBookBarcodeNo_txt());
-        getJp().add(getBookName_txt());
-        getJp().add(getAuthorName_txt());
-        getJp().add(getResult_txt());
+        getJp().add(getLblBookBarcodeNo());
+        getJp().add(getLblBookName());
+        getJp().add(getLblAuthorName());
+        getJp().add(getLblResult());
+        getJp().add(getLblCategory());
+        getJp().add(getTxtBookBarcodeNo());
+        getJp().add(getTxtBookName());
+        getJp().add(getTxtAuthorName());
+        getJp().add(getTxtResult());
+        getJp().add(getTxtCategory());
         getJp().add(getBtnComeBack());
         getJp().add(getBtnAddBook());
     }
@@ -67,179 +73,210 @@ public class BookAddGui {
         }
         return jf;
     }
-
+    
     public void setJf(JFrame jf) {
         this.jf = jf;
     }
-
+    
     public JPanel getJp() {
         if (jp == null) {
             jp = new JPanel();
-            getJp().setBackground(Color.red);
+            getJp().setBackground(new Color(87, 88, 187));
             jp.setLayout(null);
         }
         return jp;
     }
-
+    
     public void setJp(JPanel jp) {
         this.jp = jp;
     }
-
-    public JLabel getBookBarcodeNo_lbl() {
-        if (bookBarcodeNo_lbl == null) {
-            bookBarcodeNo_lbl = new JLabel("Kitap Barkod Numarası ");
-            bookBarcodeNo_lbl.setBounds(20, 0, 450, 50);
-            bookBarcodeNo_lbl.setFont(font_lbl);
-
+    
+    public JLabel getLblBookBarcodeNo() {
+        if (lblBookBarcodeNo == null) {
+            lblBookBarcodeNo = new JLabel("Kitap Barkod Numarası ");
+            lblBookBarcodeNo.setBounds(20, 0, 450, 50);
+            lblBookBarcodeNo.setFont(font_lbl);
+            
         }
-
-        return bookBarcodeNo_lbl;
+        
+        return lblBookBarcodeNo;
     }
-
-    public void setBookBarcodeNo_lbl(JLabel bookBarcodeNo_lbl) {
-        this.bookBarcodeNo_lbl = bookBarcodeNo_lbl;
+    
+    public void setLblBookBarcodeNo(JLabel lblBookBarcodeNo) {
+        this.lblBookBarcodeNo = lblBookBarcodeNo;
     }
-
-    public JLabel getBookName_lbl() {
-        if (bookName_lbl == null) {
-            bookName_lbl = new JLabel("Kitap Adı");
-            bookName_lbl.setBounds(20, 100, 450, 50);
-            bookName_lbl.setFont(font_lbl);
-
+    
+    public JLabel getLblBookName() {
+        if (lblBookName == null) {
+            lblBookName = new JLabel("Kitap Adı");
+            lblBookName.setBounds(20, 100, 450, 50);
+            lblBookName.setFont(font_lbl);
+            
         }
-        return bookName_lbl;
+        return lblBookName;
     }
-
-    public void setBookName_lbl(JLabel bookName_lbl) {
-        this.bookName_lbl = bookName_lbl;
+    
+    public void setLblBookName(JLabel lblBookName) {
+        this.lblBookName = lblBookName;
     }
-
-    public JLabel getAuthorName_lbl() {
-        if (authorName_lbl == null) {
-            authorName_lbl = new JLabel("Yazar Adı");
-            authorName_lbl.setBounds(20, 200, 450, 50);
-            authorName_lbl.setFont(font_lbl);
+    
+    public JLabel getLblAuthorName() {
+        if (lblAuthorName == null) {
+            lblAuthorName = new JLabel("Yazar Adı");
+            lblAuthorName.setBounds(20, 200, 450, 50);
+            lblAuthorName.setFont(font_lbl);
         }
-        return authorName_lbl;
+        return lblAuthorName;
     }
-
-    public void setAuthorName_lbl(JLabel authorName_lbl) {
-        this.authorName_lbl = authorName_lbl;
+    
+    public void setLblAuthorName(JLabel lblAuthorName) {
+        this.lblAuthorName = lblAuthorName;
     }
-
-    public JLabel getResult_lbl() {
-        if (result_lbl == null) {
-            result_lbl = new JLabel("SONUC");
-            result_lbl.setBounds(515, 0, 450, 50);
-            result_lbl.setFont(font_lbl);
-
+    
+    public JLabel getLblCategory() {
+        if (lblCategory == null) {
+            lblCategory = new JLabel("Kategori Adı");
+            lblCategory.setBounds(400, 200, 450, 50);
+            lblCategory.setFont(font_lbl);
         }
-        return result_lbl;
+        return lblCategory;
     }
-
-    public void setResult_lbl(JLabel result_lbl) {
-        this.result_lbl = result_lbl;
+    
+    public void setLblCategory(JLabel lblCategory) {
+        this.lblCategory = lblCategory;
     }
-
-    public JTextField getBookBarcodeNo_txt() {
-        if (bookBarcodeNo_txt == null) {
-            bookBarcodeNo_txt = new JTextField("Kitap onaylanınca buradaki ve alttaki tüm yazılar kaybolur");
-            bookBarcodeNo_txt.setBounds(20, 50, 300, 40);
-            bookBarcodeNo_txt.setFont(font_txt);
-
+    
+    public JLabel getLblResult() {
+        if (lblResult == null) {
+            lblResult = new JLabel("SONUC");
+            lblResult.setBounds(515, 0, 450, 50);
+            lblResult.setFont(font_lbl);
+            
         }
-        return bookBarcodeNo_txt;
+        return lblResult;
     }
-
-    public void setBookBarcodeNo_txt(JTextField bookBarcodeNo_txt) {
-        this.bookBarcodeNo_txt = bookBarcodeNo_txt;
+    
+    public void setLblResult(JLabel lblResult) {
+        this.lblResult = lblResult;
     }
-
-    public JTextField getBookName_txt() {
-        if (bookName_txt == null) {
-            bookName_txt = new JTextField("kkitap adi");
-            bookName_txt.setBounds(20, 150, 680, 40);
-            bookName_txt.setFont(font_txt);
+    
+    public JTextField getTxtBookBarcodeNo() {
+        if (txtBookBarcodeNo == null) {
+            txtBookBarcodeNo = new JTextField("");
+            txtBookBarcodeNo.setBounds(20, 50, 300, 40);
+            txtBookBarcodeNo.setFont(font_txt);
+            
         }
-        return bookName_txt;
+        return txtBookBarcodeNo;
     }
-
-    public void setBookName_txt(JTextField bookName_txt) {
-        this.bookName_txt = bookName_txt;
+    
+    public void setTxtBookBarcodeNo(JTextField txtBookBarcodeNo) {
+        this.txtBookBarcodeNo = txtBookBarcodeNo;
     }
-
-    public JTextField getAuthorName_txt() {
-        if (authorName_txt == null) {
-            authorName_txt = new JTextField("yazar adı");
-            authorName_txt.setBounds(20, 250, 300, 40);
-            authorName_txt.setFont(font_txt);
+    
+    public JTextField getTxtBookName() {
+        if (txtBookName == null) {
+            txtBookName = new JTextField("");
+            txtBookName.setBounds(20, 150, 680, 40);
+            txtBookName.setFont(font_txt);
         }
-        return authorName_txt;
+        return txtBookName;
     }
-
-    public void setAuthorName_txt(JTextField authorName_txt) {
-        this.authorName_txt = authorName_txt;
+    
+    public void setTxtBookName(JTextField txtBookName) {
+        this.txtBookName = txtBookName;
     }
-
-    public JTextField getResult_txt() {
-        if (result_txt == null) {
-            result_txt = new JTextField("Onaylanacak kısım");
-            result_txt.setBounds(400, 50, 300, 40);
-            //bookBarcodeNo_txt.setBounds(20, 50, 300, 40);
-            result_txt.setFont(font_txt);
-
-            result_txt.setEditable(false);
-            result_txt.setBackground(Color.WHITE);
-            result_txt.setFocusable(false);
+    
+    public JTextField getTxtAuthorName() {
+        if (txtAuthorName == null) {
+            txtAuthorName = new JTextField("");
+            txtAuthorName.setBounds(20, 250, 300, 40);
+            txtAuthorName.setFont(font_txt);
         }
-        return result_txt;
+        return txtAuthorName;
     }
-
-    public void setResult_txt(JTextField result_txt) {
-        this.result_txt = result_txt;
+    
+    public void setTxtAuthorName(JTextField txtAuthorName) {
+        this.txtAuthorName = txtAuthorName;
     }
-
+    
+    public JTextField getTxtCategory() {
+        
+        if (txtCategory == null) {
+            txtCategory = new JTextField("");
+            txtCategory.setBounds(400, 250, 300, 40);
+            txtCategory.setFont(font_txt);
+        }
+        return txtCategory;
+    }
+    
+    public void setTxtCategory(JTextField txtCategory) {
+        this.txtCategory = txtCategory;
+    }
+    
+    public JTextField getTxtResult() {
+        if (txtResult == null) {
+            txtResult = new JTextField("");
+            txtResult.setBounds(400, 50, 300, 40);
+            //txtBookBarcodeNo.setBounds(20, 50, 300, 40);
+            txtResult.setFont(font_txt);
+            
+            txtResult.setEditable(false);
+            txtResult.setBackground(Color.WHITE);
+            txtResult.setFocusable(false);
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtResult.setToolTipText("Buraya Erişemezsiniz");
+        }
+        return txtResult;
+    }
+    
+    public void setTxtResult(JTextField txtResult) {
+        this.txtResult = txtResult;
+    }
+    
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
             btnComeBack.setBounds(50, 400, 150, 50);
             btnComeBack.setBackground(Color.white);
             btnComeBack.setFont(font_txt);
-
+            
             btnComeBack.setCursor(new Cursor(12));
         }
         return btnComeBack;
     }
-
+    
     public void setBtnComeBack(JButton btnComeBack) {
         this.btnComeBack = btnComeBack;
     }
-
+    
     public JButton getBtnAddBook() {
         if (btnBtnAddBook == null) {
             btnBtnAddBook = new JButton("Kitabı Ekle");
-            btnBtnAddBook.setBounds(400, 250, 150, 50);
+            btnBtnAddBook.setBounds(400, 400, 150, 50);
             btnBtnAddBook.setBackground(Color.white);
             btnBtnAddBook.setFont(font_txt);
-
+            
             btnComeBack.setCursor(new Cursor(12));
         }
         return btnBtnAddBook;
     }
-
+    
     public void setBtnAddBook(JButton btnBtnAddBook) {
         this.btnBtnAddBook = btnBtnAddBook;
     }
-
+    
     public MainGui getMg() {
         if (mg == null) {
             mg = new MainGui();
         }
         return mg;
     }
-
+    
     public void setMg(MainGui mg) {
         this.mg = mg;
     }
-
+    
 }

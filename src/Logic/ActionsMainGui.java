@@ -11,17 +11,19 @@ import Gui.RegisteredStudentGui;
 import Gui.StudentAddGui;
 import Gui.StudentStateGui;
 import Gui.StudentUpdateGui;
-import Gui.TimeControl_ExtraTimeGui;
+import Gui.TimeControlExtraTimeGui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class ActionsMainGui implements ActionListener, DocumentListener, MouseListener {//DocumentListener
+public class ActionsMainGui implements ActionListener, DocumentListener, MouseListener, FocusListener {
 
     MainGui mg = null;
 
@@ -52,11 +54,11 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
             getMg().getJp().setVisible(false);
             BookReturnGui brg = new BookReturnGui(getMg());
         }
-        if (e.getSource() == getMg().getBookSearch_List()) {
+        if (e.getSource() == getMg().getBookSearchList()) {
             mg.getJp().setVisible(false);
             BookSearchListGui bslg = new BookSearchListGui(getMg());
         }
-        if (e.getSource() == getMg().getBookUpdate_Remove()) {
+        if (e.getSource() == getMg().getBookUpdateRemove()) {
             getMg().getJp().setVisible(false);
             BookUpdateRemoveGui burg = new BookUpdateRemoveGui(getMg());
         }
@@ -69,6 +71,7 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
 
         }
         if (e.getSource() == getMg().getStudentState()) {
+
             StudentStateGui ssg = new StudentStateGui(getMg());
 
         }
@@ -76,16 +79,13 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
             getMg().getJp().setVisible(false);
             RegisteredStudentGui rsg = new RegisteredStudentGui(getMg());
         }
-        if (e.getSource() == getMg().getTimeControl_ExtraTime()) {
+        if (e.getSource() == getMg().getTimeControlExtraTime()) {
             getMg().getJp().setVisible(false);
-            TimeControl_ExtraTimeGui tc_etg = new TimeControl_ExtraTimeGui(getMg());
+            TimeControlExtraTimeGui tc_etg = new TimeControlExtraTimeGui(getMg());
 
         }
-        /*  if (e.getSource() == getMg().getOvertime_Fine()) {
-            getMg().getJp().setVisible(false);
-            Overtime_FineGui ot_fg = new Overtime_FineGui(getMg());
-        }*/
         if (e.getSource() == getMg().getAboutUs()) {
+            getMg().getJp().setVisible(false);
             AboutUs aug = new AboutUs(getMg());
         }
         if (e.getSource() == getMg().getFineDebtPayment()) {
@@ -106,49 +106,49 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
     @Override
     public void insertUpdate(DocumentEvent e) {     // Buraya eklenir hızlı işlem yapma 2 txt ten ikisi de dolduğu anda işlem yapılır
 
-        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)
-                || e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(2)) {
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)
+                || e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) {
 
             try {
 
-                Integer.parseInt(getMg().getStudentNo_txt().getText());
+                Integer.parseInt(getMg().gettxtStudentNo().getText());
 
             } catch (NumberFormatException nfe) {
 
                 //  JOptionPane.showMessageDialog(null, "Karakter giremezsiniz. Sayı girmelisiniz");
-                int txtLength = getMg().getStudentNo_txt().getText().length();
+                int txtLength = getMg().gettxtStudentNo().getText().length();
 
-                int i = getMg().getStudentNo_txt().getText().length();
+                int i = getMg().gettxtStudentNo().getText().length();
                 while (i > 0) {
                     i--;
                     try {
                         System.out.println(" i : " + i);
-                        if (getMg().getStudentNo_txt().getText().charAt(i) <= 9 || getMg().getStudentNo_txt().getText().charAt(i) >= 0) {
+                        if (getMg().gettxtStudentNo().getText().charAt(i) <= 9 || getMg().gettxtStudentNo().getText().charAt(i) >= 0) {
 //sayi değeri 0-9 arası değil ise ki catch e girecek o zaman o char'ı silip yazdıracam ekrana 
                         }
                     } catch (NumberFormatException nfe2) {
                         String StudentText = "";
                         for (int j = 0; j < i; j++) {
-                            StudentText = "" + getMg().getStudentNo_txt().getText().charAt(j);
+                            StudentText = "" + getMg().gettxtStudentNo().getText().charAt(j);
 
                         }
-                        getMg().getStudentNo_txt().setText(StudentText);
+                        getMg().gettxtStudentNo().setText(StudentText);
                     }
-                }//Integer.valueOf(getMg().getStudentNo_txt().getText().replaceAll("[^\\d.]", ""));
-                //getMg().getStudentNo_txt().setText(getMg().getStudentNo_txt().getText().charAt()[length() - 1]);
-                //getMg().getStudentNo_txt().getText()[getMg().getStudentNo_txt().getText().length() - 1];
+                }//Integer.valueOf(getMg().gettxtStudentNo().getText().replaceAll("[^\\d.]", ""));
+                //getMg().gettxtStudentNo().setText(getMg().gettxtStudentNo().getText().charAt()[length() - 1]);
+                //getMg().gettxtStudentNo().getText()[getMg().gettxtStudentNo().getText().length() - 1];
                 {
 
                 }
             }
         }
-        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)) {// first for student no
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) {// first for student no
 
-            System.out.println("----Alinan kelime :" + getMg().getStudentNo_txt().getText());
+            System.out.println("----Alinan kelime :" + getMg().gettxtStudentNo().getText());
         }
 
-        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(2)) { // second for bookBarcode
-            System.out.println("----Alinan kelime :" + getMg().getBookBarcode_txt().getText());
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) { // second for bookBarcode
+            System.out.println("----Alinan kelime :" + getMg().getTxtBookBarcode().getText());
         }
 
     }
@@ -156,19 +156,19 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
     @Override
     public void removeUpdate(DocumentEvent e
     ) {
-        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)) { // second for bookBarcode
-            System.out.println("silindikten sonra :" + getMg().getStudentNo_txt().getText());
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) { // second for bookBarcode
+            System.out.println("silindikten sonra :" + getMg().gettxtStudentNo().getText());
         }
-        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(2)) { // second for bookBarcode
-            System.out.println("silindikten sonra :" + getMg().getBookBarcode_txt().getText());
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) { // second for bookBarcode
+            System.out.println("silindikten sonra :" + getMg().getTxtBookBarcode().getText());
         }
-        if (e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(1)
-                || e.getDocument().getProperty("StudentNo_BookBarcode_txt").equals(2)) {
-            boolean all_integer = false;
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)
+                || e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) {
+            boolean allInteger = false;
 
             try {
 
-                Integer.parseInt(getMg().getStudentNo_txt().getText());
+                Integer.parseInt(getMg().gettxtStudentNo().getText());
 
             } catch (NumberFormatException nfe) {
                 //JOptionPane.showMessageDialog(null, "Karakter giremezsiniz. Sayı girmelisiniz (aciton 163 satır şuana kadar çalışmadı)");
@@ -180,12 +180,11 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
     }
 
     @Override
-    public void changedUpdate(DocumentEvent e
-    ) {
+    public void changedUpdate(DocumentEvent e) {
 
     }
 
-    public void find_buttons_source_with_using_mouse(MouseEvent e, Color background_color, Color foreground_color) { // to clear make which button you on 
+    public void findButtonsSourceWithUsingMouse(MouseEvent e, Color background_color, Color foreground_color) { // to clear make which button you on 
         if (e.getSource() == getMg().getBookAdd()) {
             getMg().getBookAdd().setBackground(background_color);
             getMg().getBookAdd().setForeground(foreground_color);
@@ -194,13 +193,13 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
             getMg().getBookReturn().setBackground(background_color);
             getMg().getBookReturn().setForeground(foreground_color);
         }
-        if (e.getSource() == getMg().getBookSearch_List()) {
-            getMg().getBookSearch_List().setBackground(background_color);
-            getMg().getBookSearch_List().setForeground(foreground_color);
+        if (e.getSource() == getMg().getBookSearchList()) {
+            getMg().getBookSearchList().setBackground(background_color);
+            getMg().getBookSearchList().setForeground(foreground_color);
         }
-        if (e.getSource() == getMg().getBookUpdate_Remove()) {
-            getMg().getBookUpdate_Remove().setBackground(background_color);
-            getMg().getBookUpdate_Remove().setForeground(foreground_color);
+        if (e.getSource() == getMg().getBookUpdateRemove()) {
+            getMg().getBookUpdateRemove().setBackground(background_color);
+            getMg().getBookUpdateRemove().setForeground(foreground_color);
         }
         if (e.getSource() == getMg().getStudentAdd()) {
             getMg().getStudentAdd().setBackground(background_color);
@@ -218,9 +217,9 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
             getMg().getRegisteredStudent().setBackground(background_color);
             getMg().getRegisteredStudent().setForeground(foreground_color);
         }
-        if (e.getSource() == getMg().getTimeControl_ExtraTime()) {
-            getMg().getTimeControl_ExtraTime().setBackground(background_color);
-            getMg().getTimeControl_ExtraTime().setForeground(foreground_color);
+        if (e.getSource() == getMg().getTimeControlExtraTime()) {
+            getMg().getTimeControlExtraTime().setBackground(background_color);
+            getMg().getTimeControlExtraTime().setForeground(foreground_color);
         }
         /*  if (e.getSource() == getMg().getOvertime_Fine()) {
             getMg().getOvertime_Fine().setBackground(background_color);
@@ -254,13 +253,46 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        find_buttons_source_with_using_mouse(e, Color.GRAY, Color.WHITE);
+        findButtonsSourceWithUsingMouse(e, Color.GRAY, Color.WHITE);
 
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        find_buttons_source_with_using_mouse(e, Color.WHITE, Color.BLACK);// this make buttons as before
+        findButtonsSourceWithUsingMouse(e, Color.WHITE, Color.BLACK);// this make buttons as before
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        if (e.getSource() == getMg().gettxtStudentNo()) {
+            if (getMg().gettxtStudentNo().getText().trim().equals("Öğrenci No Girin")) {
+                getMg().gettxtStudentNo().setText("");
+                getMg().gettxtStudentNo().setForeground(Color.BLACK);
+            }
+        } else if (e.getSource() == getMg().getTxtBookBarcode()) {
+            if (getMg().getTxtBookBarcode().getText().trim().equals("Kitap Barkod No girin")) {
+                getMg().getTxtBookBarcode().setText("");
+                getMg().getTxtBookBarcode().setForeground(Color.BLACK);
+
+            }
+
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource() == getMg().gettxtStudentNo()) {
+            if (getMg().gettxtStudentNo().getText().trim().equals("")) {
+                getMg().gettxtStudentNo().setForeground(Color.GRAY);
+                getMg().gettxtStudentNo().setText("Öğrenci No Girin");
+            }
+        } else if (e.getSource() == getMg().getTxtBookBarcode()) {
+            if (getMg().getTxtBookBarcode().getText().trim().equals("")) {
+                getMg().getTxtBookBarcode().setForeground(Color.GRAY);
+                getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
+
+            }
+        }
     }
 
 }
