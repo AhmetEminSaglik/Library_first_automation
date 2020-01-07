@@ -156,7 +156,7 @@ public class BookUpdateRemoveGui extends JPanel {
 
     public JLabel getLblNewCategory() {
         if (lblNewCategory == null) {
-            lblNewCategory = new JLabel("Yeni Kategori Numarası");
+            lblNewCategory = new JLabel("Yeni Kategori Adı");
             lblNewCategory.setBounds(leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewCategory.setForeground(Color.WHITE);
             lblNewCategory.setFont(lblFont);
@@ -235,7 +235,7 @@ public class BookUpdateRemoveGui extends JPanel {
 
     public JTextField getTxtNewBarcodeNo() {
         if (txtNewBarcodeNo == null) {
-            txtNewBarcodeNo = new JTextField("asd");
+            txtNewBarcodeNo = new JTextField("");
             txtNewBarcodeNo.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
             txtNewBarcodeNo.setFont(txtFont);
 
@@ -250,7 +250,7 @@ public class BookUpdateRemoveGui extends JPanel {
     public JTextField getTxtNewCategory() {
         //lblNewCategory.setBounds(leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight) * lblPushUnderCounter, lblWidth, lblHeight);
         if (txtNewCategory == null) {
-            txtNewCategory = new JTextField("yeni kategori numarası 6556465");
+            txtNewCategory = new JTextField("");
             txtNewCategory.setBounds(leftSpace + txtWidth + 50, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
             txtNewCategory.setFont(txtFont);
             txtPushUnderCounter++;
@@ -297,6 +297,7 @@ public class BookUpdateRemoveGui extends JPanel {
             txtResult.setBounds(txtWidth + leftSpace + 50, 50, txtWidth, txtHeight);
             txtResult.setFont(txtFont);
             txtResult.setEditable(false);
+            txtResult.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);

@@ -8,11 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ToolTipManager;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class FineDebtPayment {
 
@@ -199,6 +199,7 @@ public class FineDebtPayment {
             txtDebt.setFont(txtFont);
             txtDebt.setFocusable(false);
             txtDebt.setEditable(false);
+            txtDebt.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);
@@ -238,6 +239,7 @@ public class FineDebtPayment {
             txtResult.setFont(txtFont);
             txtResult.setFocusable(false);
             txtResult.setEditable(false);
+            txtResult.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);
@@ -265,6 +267,11 @@ public class FineDebtPayment {
             tbl.getColumnModel().getColumn(3).setPreferredWidth(250);
             tbl.getColumnModel().getColumn(4).setPreferredWidth(200);
             tbl.setFont(lblFont);
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+            tbl.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+            tbl.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+
         }
         return tbl;
     }

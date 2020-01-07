@@ -285,6 +285,7 @@ public class BookReturnGui {
             txtBookName.setFont(txtFont);
             txtBookName.setEditable(false); // --> change a little bit background color
             // txtBookName.setFocusable(false);  // do not change background
+            txtBookName.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);
@@ -308,6 +309,7 @@ public class BookReturnGui {
             txtAuthorName.setFont(txtFont);
             txtAuthorName.setEditable(false); // --> change a little bit background color
             // txtAuthorName.setFocusable(false);  // do not change background
+            txtAuthorName.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);
@@ -338,6 +340,7 @@ public class BookReturnGui {
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);
+            txtStudentName.setBackground(new Color(206, 214, 224));
             txtStudentName.setToolTipText("Buraya Erişemezsiniz");
             txtPushUnderCounter++;
             if (txtPushRightCounter == 1) {
@@ -367,6 +370,7 @@ public class BookReturnGui {
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);
             txtResult.setToolTipText("Buraya Erişemezsiniz");
+            txtResult.setBackground(new Color(206, 214, 224));
             txtPushUnderCounter++;
 
             if (txtPushRightCounter == 1) {

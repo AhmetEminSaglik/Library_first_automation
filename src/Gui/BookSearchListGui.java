@@ -33,40 +33,40 @@ public class BookSearchListGui {
 
     JButton btnComeBack;
     public String data[][] = {
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"},
-        {"544656545",  "ALINDI","Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları","Enerji", "Canan Atasoy"}, //   {"101", "Sachin", "700000"}
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
+        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
+        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"}, //   {"101", "Sachin", "700000"}
     };
-    public String column[] = {"Barkod No","Kitap Durumu", "Kitap Adı",  "Kitap Kategori",   "Yazar Adı"};
+    public String column[] = {"Barkod No", "Kitap Durumu", "Kitap Adı", "Kitap Kategori", "Yazar Adı"};
 
     final int lblTopSpace = 10;
     final int leftSpace = 50;
@@ -250,7 +250,7 @@ public class BookSearchListGui {
 
     public JTextField getTxtBarcodeNo() {
         if (txtBarcodeNo == null) {
-            txtBarcodeNo = new JTextField("Barkod No");
+            txtBarcodeNo = new JTextField("");
             txtBarcodeNo.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace, txtWidth, txtHeight);
             txtBarcodeNo.setFont(font_txt);
             pushRightCounter++;
@@ -266,7 +266,7 @@ public class BookSearchListGui {
     public JTextField getTxtBookName() {
         if (txtBookName == null) {
             pushRightCounter = 0;
-            txtBookName = new JTextField("Kitap Adı");
+            txtBookName = new JTextField("");
             txtBookName.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight + 15, txtWidth, txtHeight);
             txtBookName.setFont(font_txt);
             pushRightCounter++;
@@ -282,7 +282,7 @@ public class BookSearchListGui {
     public JTextField getTxtCategory() {
         if (txtCategory == null) {
             pushRightCounter = 1;
-            txtCategory = new JTextField("Kitap Kategori");
+            txtCategory = new JTextField("");
             System.out.println("pushRightSpace : " + pushRightSpace + "  ~ pushRightCounter : " + pushRightCounter);
             txtCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace + lblHeight + txtHeight + 15, txtWidth, txtHeight);
             txtCategory.setFont(font_txt);
@@ -300,7 +300,7 @@ public class BookSearchListGui {
         if (txtAuthorName == null) {
 
             pushRightCounter = 0;
-            txtAuthorName = new JTextField("Yazar Adı");
+            txtAuthorName = new JTextField("");
             txtAuthorName.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace, txtWidth, txtHeight);
             txtAuthorName.setFont(font_txt);
             pushRightCounter++;

@@ -224,6 +224,7 @@ public class BookAddGui {
             txtResult.setEditable(false);
             txtResult.setBackground(Color.WHITE);
             txtResult.setFocusable(false);
+            txtResult.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);

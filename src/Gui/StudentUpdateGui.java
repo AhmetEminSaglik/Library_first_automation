@@ -235,7 +235,7 @@ public class StudentUpdateGui extends JPanel {
 
     public JTextField getTxtNewNo() {
         if (txtNewNo == null) {
-            txtNewNo = new JTextField("yeni no");
+            txtNewNo = new JTextField("");
             txtNewNo.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
             txtNewNo.setFont(txtFont);
             txtPushUnderCounter++;
@@ -249,7 +249,7 @@ public class StudentUpdateGui extends JPanel {
 
     public JTextField getTxtNewName() {
         if (txtNewName == null) {
-            txtNewName = new JTextField("yeni ad");
+            txtNewName = new JTextField("");
             txtNewName.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
             txtNewName.setFont(txtFont);
 
@@ -264,7 +264,7 @@ public class StudentUpdateGui extends JPanel {
     public JTextField getTxtNewSurname() {
 
         if (txtNewSurname == null) {
-            txtNewSurname = new JTextField("Öğrenci Soyadı");
+            txtNewSurname = new JTextField("");
             txtNewSurname.setBounds(leftSpace + txtWidth + 50, txtTopSpace + txtPushSpaceUnder * txtPushUnderCounter, txtWidth, txtHeight);
             txtNewSurname.setForeground(Color.BLACK);
             txtNewSurname.setFont(lblFont);
@@ -279,7 +279,7 @@ public class StudentUpdateGui extends JPanel {
 
     public JTextField getTxtNewEmail() {
         if (txtNewEmail == null) {
-            txtNewEmail = new JTextField("yeni Email");
+            txtNewEmail = new JTextField("");
             txtNewEmail.setBounds(leftSpace, txtTopSpace + txtPushSpaceUnder * txtPushUnderCounter, txtWidth, txtHeight);
             txtNewEmail.setFont(txtFont);
 
@@ -293,7 +293,7 @@ public class StudentUpdateGui extends JPanel {
 
     public JTextField getTxtPhoneNo() {
         if (txtPhoneNo == null) {
-            txtPhoneNo = new JTextField("Öğrenci Telefon Numarası");
+            txtPhoneNo = new JTextField("");
             txtPhoneNo.setBounds(leftSpace + txtWidth + 50, txtTopSpace + txtPushSpaceUnder * txtPushUnderCounter, txtWidth, txtHeight);
             txtPhoneNo.setFont(txtFont);
 
@@ -307,11 +307,12 @@ public class StudentUpdateGui extends JPanel {
 
     public JTextField getTxtResult() {
         if (txtResult == null) {
-            txtResult = new JTextField("Sonuç");
+            txtResult = new JTextField("");
             //txtResult.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
             txtResult.setBounds(txtWidth + leftSpace + 50, 50, txtWidth, txtHeight);
             txtResult.setFont(txtFont);
             txtResult.setEditable(false);
+            txtResult.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);

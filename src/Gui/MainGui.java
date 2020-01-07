@@ -338,6 +338,7 @@ public class MainGui {//extends JPanel
             txtResultScreen.setToolTipText("Buraya Erişemezsiniz");
             ttm.setInitialDelay(100); // when entered  wait time
             ttm.setDismissDelay(1000);// seeing time tooltips
+            txtResultScreen.setBackground(new Color(206, 214, 224));
         }
         return txtResultScreen;
     }
@@ -354,10 +355,12 @@ public class MainGui {//extends JPanel
             txtBookName.setEditable(false);
             txtBookName.setFocusable(false);
             // txtBookName.setEnabled(false);
-            txtBookName.setBackground(Color.WHITE);
+            txtBookName.setBackground(new Color(206, 214, 224));
+           
             ttm.setInitialDelay(100); // when entered  wait time
             ttm.setDismissDelay(1000);// seeing time tooltips
             txtBookName.setToolTipText("Buraya Erişemezsiniz");
+
         }
         return txtBookName;
     }

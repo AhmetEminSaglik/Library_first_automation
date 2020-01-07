@@ -217,7 +217,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
         if (txtResult == null) {
             txtResult = new JTextField("SONUÇ");
             txtResult.setBounds(leftSpace + lblWidth * 2, txtTopSpace, txtWidth, txtHeight);
-            txtResult.setForeground(new Color(9, 132, 227));
+            txtResult.setBackground(new Color(206, 214, 224));
             txtResult.setFont(font_txt);
             txtResult.setEditable(false);
             ToolTipManager ttm = ToolTipManager.sharedInstance();
@@ -238,7 +238,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
         if (txtBookNameToExtendTime == null) {
             txtBookNameToExtendTime = new JTextField("Kitap Adı");
             txtBookNameToExtendTime.setBounds(leftSpace, (lblPushUnder * pushUnderCounter) + txtTopSpace, txtWidth * 3, txtHeight);
-            txtBookNameToExtendTime.setForeground(new Color(9, 132, 227));
+            txtBookNameToExtendTime.setBackground(new Color(206, 214, 224));
             txtBookNameToExtendTime.setFont(font_lbl);
             txtBookNameToExtendTime.setEditable(false);
             ToolTipManager ttm = ToolTipManager.sharedInstance();
@@ -335,10 +335,8 @@ public final class TimeControlExtraTimeGui extends JPanel {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri Dön");
             btnComeBack.setBounds(leftSpace, 470, 100, 30);
-            btnComeBack.setBackground(Color.BLACK);
-            btnComeBack.setForeground(Color.WHITE);
-        }
 
+        }
         return btnComeBack;
     }
 

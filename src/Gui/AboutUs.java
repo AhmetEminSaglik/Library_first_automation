@@ -43,10 +43,8 @@ public class AboutUs {
         }
         int maxNumber = whichColor + 30;
 
-        System.out.println(" whichColor  : " + whichColor + " <-> maxNumber : " + maxNumber);
-
         for (int i = whichColor; i < maxNumber; i++) {
-            System.out.println(">>>>>>>>>>>>>>>>>> FOR İÇİNDE >>>>>>>>>>>>>>>> whichColor  : " + whichColor + " <-> maxNumber : " + maxNumber);
+
             if (i > 255) {
                 i = 0;
 
