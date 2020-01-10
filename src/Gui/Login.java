@@ -2,6 +2,7 @@ package Gui;
 
 import Logic.ActionsLogin;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -130,6 +131,7 @@ public class Login extends JPanel {
             signIn.setBounds(530, 270, 150, 40);
             signIn.setFont(txtFont);
             signIn.addActionListener(action);
+            signIn.setCursor(new Cursor(12));
         }
         return signIn;
     }
@@ -149,8 +151,8 @@ public class Login extends JPanel {
 
         Connection conn = null;
         Statement stmt = null;
-        boolean xamppIsOpen = false;
-        while (!xamppIsOpen) {
+
+        while (true) {
             try {
 
                 Class.forName(JDBC_DRIVER);
@@ -158,20 +160,20 @@ public class Login extends JPanel {
 
                 stmt = conn.createStatement();
 
-                String sqlControl = "SHOW DATABASES LIKE 'LIBRARY' ";
+                String sqlControl = "SHOW DATABASES LIKE 'library' ";
                 stmt.executeUpdate(sqlControl);
                 if (stmt.executeUpdate(sqlControl) == -1) { // conn.createStatement() dene bir de stmt yerine
                     return; //Veri tabanı zaten var
                 }
-                String sql = "CREATE DATABASE LIBRARY";
-                xamppIsOpen = true;
+                String sql = "CREATE DATABASE library";
+
                 stmt.executeUpdate(sql);
             } catch (SQLException se) {
                 JOptionPane.showMessageDialog(null, "Lütfen xampp portunu açınız");
 
             } catch (ClassNotFoundException ex) {
 
-                JOptionPane.showMessageDialog(null, "catch (mistake): ClassNotFoundException ");
+                JOptionPane.showMessageDialog(null, "catch (mistake): ClassNotFoundException " + ex);
 
             }
         }
@@ -179,7 +181,7 @@ public class Login extends JPanel {
 
     public void CreateTable() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         //  Database credentials
         String USER = "root";
@@ -199,15 +201,26 @@ public class Login extends JPanel {
             String tableYoneticiControl = "SHOW TABLES LIKE 'admin' ";
             String tableKitapControl = "SHOW TABLES LIKE 'book'";
             if (stmt.executeUpdate(tableControl) == -1 || stmt.executeUpdate(tableYoneticiControl) == -1 || stmt.executeUpdate(tableKitapControl) == -1) {
+
                 return;
-            }
+            }/*
             String sql = "CREATE TABLE `library`.`student`"
                     + " ( `id` INT NOT NULL AUTO_INCREMENT , "
                     + "`No` INT NOT NULL , "
                     + "`Name` VARCHAR(50) NOT NULL , "
                     + "`Surname` VARCHAR(50) NOT NULL , "
-                    //   + "`Debt` DOUBLE NOT NULL , "
-                    + "PRIMARY KEY (`id`)) ;";
+                    + "`Debt` DOUBLE NOT NULL , "
+                    + "PRIMARY KEY (`id`));";*/
+            String sql1 = "CREATE TABLE `library`.`student` "
+                    + "( `Id` INT(0) NOT NULL AUTO_INCREMENT ,"
+                    + " `No`  INT(0) NOT NULL , "
+                    + "`Name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
+                    + "`Surname` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
+                    + "`Email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
+                    + "`Phone` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
+                    + " `Debt` DOUBLE NOT NULL , PRIMARY KEY (`Id`));";
+            //utf32 COLLATE utf32_turkish_ci             
+            //+ "`debt` DOUBLE NOT NULL ); ";
             String sql2 = "CREATE TABLE `library`.`admin` "
                     + "( `Username` VARCHAR(50) NOT NULL  , "
                     + "`Password` VARCHAR(50) NOT NULL);";
@@ -215,28 +228,40 @@ public class Login extends JPanel {
                     + "`KullaniciAdi` VARCHAR(255) NOT NULL , "
                     + "`Sifre` VARCHAR(255) NOT NULL "
                     + ", PRIMARY KEY (`id`)); ";*/
-            String sql3 = "CREATE TABLE `library`.`book` "
+            String sql3 = "CREATE TABLE `library`.`book`"
+                    + " ( `Id` INT(10) NOT NULL AUTO_INCREMENT ,"
+                    + " `BarcodeNo` BIGINT(20) NOT NULL ,"
+                    // CHARACTER SET utf32 COLLATE utf32_turkish_ci NOT NULL
+                    + " `Name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
+                    + " `AuthorName` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
+                    + " `CategoryName` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
+                    + " `StudentNo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci  ,"
+                    + " `BorrowedDate` DATETIME   ,"
+                    + " PRIMARY KEY (`Id`));";
+            /*String sql3 = "CREATE TABLE `library`.`book` "
                     + "( `id` INT(50) NOT NULL AUTO_INCREMENT , "
                     + "`BarcodeNo` VARCHAR(50) NOT NULL , "
                     + "`Name` VARCHAR(50) NOT NULL , "
                     + "`AuthorName` VARCHAR(50) NOT NULL , "
                     + "`Category` VARCHAR(50) NOT NULL , "
                     + "`TakenDate` DATE NOT NULL , "
-                    + "PRIMARY KEY (`id`));";/*"CREATE TABLE `library`.`kitaplar` "
+                    + "PRIMARY KEY (`id`));";*/
+ /*"CREATE TABLE `library`.`kitaplar` "
                     + "( `id` INT NOT NULL AUTO_INCREMENT , "
                     + "`KitapAdi` VARCHAR(255) NOT NULL , `BarkodNo` VARCHAR(255) NOT NULL "
                     + ", `YazarAdi` VARCHAR(255) NOT NULL , `OgrenciId` INT NOT NULL "
                     + ", `Tarih` DATE , PRIMARY KEY (`id`)) ";*/
 
-            stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql1);
             stmt.executeUpdate(sql2);
             stmt.executeUpdate(sql3);
         } catch (SQLException se) {
             //Handle errors for JDBC
-            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Beklenmeyen Hata : \n" + se);
         } catch (Exception e) {
             //Handle errors for Class.forName
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Beklenmeyen Hata : \n" + e);
+
         } finally {
             //finally block used to close resources
             try {
@@ -281,18 +306,28 @@ public class Login extends JPanel {
             System.out.println("Inserting records into the table...");
             stmt = conn.createStatement();
 
-            String sql = "INSERT INTO `student` (`id`, `No`, `Name`, `Surname`, `Debt`) "
-                    + "VALUES (NULL, '385931', 'Ahmet Emin', 'SAĞLIK', '10,35')";
-            /* "INSERT INTO `ogrenci` "
+            String sql1 = "INSERT INTO `student` (`Id`, `No`, `Name`, `Surname`,`Email`, `Phone`,`Debt`) "
+                    + "VALUES (NULL, '385931', 'Ahmet Emin', 'SAĞLIK','Ahmeteminsaglik@gmail.com','0538 065 31 46 ', 10.35)";
+
+            /*     + "( `Id` INT(50) NOT NULL AUTO_INCREMENT ,"
+                    + " `No` DOUBLE NOT NULL , "
+                    + "`Name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
+                    + "`Surname` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
+                    + "`Email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
+                    + "`Phone` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
+                    + " `Debt` DOUBLE NOT NULL , PRIMARY KEY (`Id`));";*/
+ /* "INSERT INTO `ogrenci` "
                     + "( `AdSoyad`, `No`, `Email`, `telno`, `Borc`, `kitap1`, `kitap2`, `kitap3`)"
                     + " VALUES ( 'Mert Can Dudul', '3856161', 'Mertcan@windowslive.com', '538445679',"
                     + " '0', 'Suç ve ceza', 'Matematik', 'Ceza ve suç')"
                     + ", ('Ahmet Emin ', '385646', 'aes@hotmail.com', '25432864', '500000000',"
                     + " 'Kaya ile ayşe', 'ali ata bak', 'Harun mMrte bak')";*/
-            stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql1);
             System.out.println("Inserted records into the table...");
 
-            String sql2 = "INSERT INTO `admin` (`Username`, `Password`) VALUES ('root', 'toor')";
+            String sql2 = "INSERT INTO `admin` (`Username`, `Password`) "
+                    + "VALUES ('1', '1'),"
+                    + "('','')";
             /*"INSERT INTO `yonetici`"
                     + " (`KullaniciAdi`, `Sifre`) "
                     + "VALUES ( 'Mert', '123'),"

@@ -122,7 +122,7 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
                 while (i > 0) {
                     i--;
                     try {
-                        System.out.println(" i : " + i);
+
                         if (getMg().gettxtStudentNo().getText().charAt(i) <= 9 || getMg().gettxtStudentNo().getText().charAt(i) >= 0) {
 //sayi değeri 0-9 arası değil ise ki catch e girecek o zaman o char'ı silip yazdıracam ekrana 
                         }

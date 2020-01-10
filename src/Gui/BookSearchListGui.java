@@ -8,6 +8,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,40 +33,9 @@ public class BookSearchListGui {
     JTextField txtCategory;
 
     JButton btnComeBack;
-    public String data[][] = {
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"},
-        {"544656545", "ALINDI", "Kim Korkar Javadan", "Yazlılım", "Şahin tümer"},
-        {"789653684", "Müsayit", "Enerji Korunum Yolları", "Enerji", "Canan Atasoy"}, //   {"101", "Sachin", "700000"}
-    };
+    public String data[][] = {{"Barkod No", "Kitap Durumu", "Kitap Adı", "Kitap Kategori", "Yazar Adı"},
+    {"Barkod No", "Kitap Durumu", "Kitap Adı", "Kitap Kategori", "Yazar Adı"},
+    {"Barkod No", "Kitap Durumu", "Kitap Adı", "Kitap Kategori", "Yazar Adı"}};
     public String column[] = {"Barkod No", "Kitap Durumu", "Kitap Adı", "Kitap Kategori", "Yazar Adı"};
 
     final int lblTopSpace = 10;
@@ -163,7 +133,6 @@ public class BookSearchListGui {
         if (lblCategory == null) {
             pushRightCounter = 1;
             lblCategory = new JLabel("Kitap Kategori");
-            System.out.println("pushRightSpace : " + pushRightSpace + " ~ pushRightCounter : " + pushRightCounter);
             lblCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter), lblTopSpace + lblHeight + txtHeight + 15, lblWidth, lblHeight);
 
             lblCategory.setFont(font_lbl);
@@ -209,8 +178,9 @@ public class BookSearchListGui {
 
     public JTable getTable() {
         if (table == null) {
-
             table = new JTable(data, column);
+            JOptionPane.showMessageDialog(null, "gettable null");
+
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             table.setRowHeight(15);
             table.getColumnModel().getColumn(0).setPreferredWidth(150);
@@ -224,23 +194,36 @@ public class BookSearchListGui {
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(JLabel.CENTER);
             table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-
-            // table.setDefaultRenderer(Object.class, centerRenderer); --> bütün sutunları ortalar
         }
 
         return table;
     }
 
-    public void setTable(JTable table) {
+    public void setTable(JTable table/*String data[][], String column[]*/) {//String data[][], String column[]
         this.table = table;
+        /*table = new JTable(data, column);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setRowHeight(15);
+        table.getColumnModel().getColumn(0).setPreferredWidth(150);
+        table.getColumnModel().getColumn(1).setPreferredWidth(150);
+        table.getColumnModel().getColumn(2).setPreferredWidth(450);
+        table.getColumnModel().getColumn(3).setPreferredWidth(200);
+        table.getColumnModel().getColumn(4).setPreferredWidth(150);
+        table.setDefaultEditor(Object.class, null);
+        table.setFont(font_txt);
+        table.setCursor(new Cursor(12));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);*/
+        //table = new JTable(data, column);
     }
 
     public JScrollPane getSp() {
-        if (sp == null) {
-            sp = new JScrollPane(getTable());
-            sp.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight * 3, 700, 250);
 
-        }
+        sp = new JScrollPane(getTable());
+
+        sp.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight * 3, 700, 250);
+
         return sp;
     }
 
@@ -283,7 +266,6 @@ public class BookSearchListGui {
         if (txtCategory == null) {
             pushRightCounter = 1;
             txtCategory = new JTextField("");
-            System.out.println("pushRightSpace : " + pushRightSpace + "  ~ pushRightCounter : " + pushRightCounter);
             txtCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace + lblHeight + txtHeight + 15, txtWidth, txtHeight);
             txtCategory.setFont(font_txt);
 

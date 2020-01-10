@@ -71,7 +71,11 @@ public class StudentAddGui {
         getBtnAdd().addActionListener(action);
         getBtnClear().addActionListener(action);
         getBtnComeBack().addActionListener(action);
-
+        getTxtNo().addFocusListener(action);
+        getTxtName().addFocusListener(action);
+        getTxtSurname().addFocusListener(action);
+        getTxtPhoneNo().addFocusListener(action);
+        getTxtEmail().addFocusListener(action);
     }
 
     public JFrame getJf() {
@@ -216,6 +220,7 @@ public class StudentAddGui {
             txtResult.setBounds(leftSpace + txtWidth + 80, topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
             txtResult.setEditable(false);
             txtResult.setFocusable(false);
+            txtResult.setFont(new Font("", Font.BOLD, 17));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             txtResult.setBackground(new Color(206, 214, 224));
             ttm.setInitialDelay(100);

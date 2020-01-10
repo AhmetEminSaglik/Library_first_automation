@@ -205,8 +205,7 @@ public class StudentStateGui extends JPanel {
 
     public JTextField getTxtBookBarcodeNo1() {
         if (txtBookBarcodeNo1 == null) {
-            System.out.println("pushUndertxtCounter : " + pushUndertxtCounter);
-            txtBookBarcodeNo1 = new JTextField("kitap yok");
+                        txtBookBarcodeNo1 = new JTextField("kitap yok");
             txtBookBarcodeNo1.setBounds(LeftSpace, topSpace + (txtHeight + 70) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
             txtBookBarcodeNo1.setFont(txtFont);
             txtBookBarcodeNo1.setEditable(false);

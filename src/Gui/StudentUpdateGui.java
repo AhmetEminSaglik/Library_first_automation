@@ -34,6 +34,7 @@ public class StudentUpdateGui extends JPanel {
     JButton btnComeBack;
     JButton btnUpdate;
     JButton btnDelete;
+
     MainGui mg;
     ActionStudent action = new ActionStudent(this);
 
@@ -86,6 +87,8 @@ public class StudentUpdateGui extends JPanel {
         this.add(getTxtResult());
         this.add(getTxtPhoneNo());
         this.add(getBtnComeBack());
+        this.add(getBtnUpdate());
+        this.add(getBtnDelete());
         getBtnComeBack().addActionListener(action);
         getTxtno().addActionListener(action);
         getTxtResult().addActionListener(action);
@@ -94,6 +97,9 @@ public class StudentUpdateGui extends JPanel {
         getTxtNewName().addActionListener(action);
         getTxtNewEmail().addActionListener(action);
         getTxtPhoneNo().addActionListener(action);
+        getBtnUpdate().addActionListener(action);
+        getBtnDelete().addActionListener(action);
+
     }
 
     @Override
@@ -127,7 +133,7 @@ public class StudentUpdateGui extends JPanel {
 
     public JLabel getLblNewNo() {
         if (lblNewNo == null) {
-            lblNewNo = new JLabel("Öğrenci Numarası");
+            lblNewNo = new JLabel("Yeni Öğrenci Numarası");
             lblNewNo.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewNo.setForeground(Color.WHITE);
             lblNewNo.setFont(lblFont);
@@ -143,7 +149,7 @@ public class StudentUpdateGui extends JPanel {
     public JLabel getLblNewName() {
 
         if (lblNewName == null) {
-            lblNewName = new JLabel("Öğrenci Adı");
+            lblNewName = new JLabel("Yeni Öğrenci Adı");
             lblNewName.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewName.setForeground(Color.WHITE);
             lblNewName.setFont(lblFont);
@@ -158,7 +164,7 @@ public class StudentUpdateGui extends JPanel {
 
     public JLabel getLblNewSurname() {
         if (lblNewSurname == null) {
-            lblNewSurname = new JLabel("Öğrenci Soyadı");
+            lblNewSurname = new JLabel("Yeni Öğrenci Soyadı");
             lblNewSurname.setBounds(leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewSurname.setForeground(Color.WHITE);
             lblNewSurname.setFont(lblFont);
@@ -173,7 +179,7 @@ public class StudentUpdateGui extends JPanel {
 
     public JLabel getLblNewEmail() {
         if (lblNewEmail == null) {
-            lblNewEmail = new JLabel("Öğrenci Email");
+            lblNewEmail = new JLabel("Yeni Öğrenci Email");
             lblNewEmail.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewEmail.setForeground(Color.WHITE);
             lblNewEmail.setFont(lblFont);
@@ -189,7 +195,7 @@ public class StudentUpdateGui extends JPanel {
 
     public JLabel getLblPhoneNo() {
         if (lblPhoneNo == null) {
-            lblPhoneNo = new JLabel("Öğrenci Telefon No");
+            lblPhoneNo = new JLabel("Yeni Öğrenci Telefon No");
             lblPhoneNo.setBounds(leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
             //  (leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
 
@@ -329,7 +335,7 @@ public class StudentUpdateGui extends JPanel {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
-            btnComeBack.setBounds(leftSpace, 450, 100, 30);
+            btnComeBack.setBounds(leftSpace, 450, 200, 30);
         }
         return btnComeBack;
     }
@@ -339,6 +345,10 @@ public class StudentUpdateGui extends JPanel {
     }
 
     public JButton getBtnUpdate() {
+        if (btnUpdate == null) {
+            btnUpdate = new JButton("Öğrenci Güncelle");
+            btnUpdate.setBounds(leftSpace + 550, 450, 200, 30);
+        }
         return btnUpdate;
     }
 
@@ -347,6 +357,10 @@ public class StudentUpdateGui extends JPanel {
     }
 
     public JButton getBtnDelete() {
+        if (btnDelete == null) {
+            btnDelete = new JButton("Öğrenci Sil");
+            btnDelete.setBounds(leftSpace + 275, 450, 200, 30);
+        }
         return btnDelete;
     }
 

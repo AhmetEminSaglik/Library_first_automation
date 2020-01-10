@@ -483,7 +483,7 @@ public class MainGui {//extends JPanel
     public JButton getBookUpdateRemove() {
         if (bookUpdateRemove == null) {
             bookUpdateRemove = build_JbuttonForNulls(bookUpdateRemove, FloorOfBook_X, FourthButtons_Y);
-            bookUpdateRemove.setText("Kitap Guncelle & Sil");
+            bookUpdateRemove.setText("Kitap Güncelle & Sil");
         }
 
         return bookUpdateRemove;
@@ -509,7 +509,7 @@ public class MainGui {//extends JPanel
     public JButton getStudentUpdate() {
         if (studentUpdate == null) {
             studentUpdate = build_JbuttonForNulls(studentUpdate, FloorOfStudent_X, SecondButtons_Y);
-            studentUpdate.setText("Ögrenci Güncelle");
+            studentUpdate.setText("Ögrenci Güncelle & Sil");
         }
         return studentUpdate;
     }
@@ -521,7 +521,7 @@ public class MainGui {//extends JPanel
     public JButton getStudentState() {
         if (studentState == null) {
             studentState = build_JbuttonForNulls(studentState, FloorOfStudent_X, ThirdButtons_Y);
-            studentState.setText("Ogrenci Durumu");
+            studentState.setText("Ögrenci Durumu");
         }
 
         return studentState;
@@ -534,7 +534,7 @@ public class MainGui {//extends JPanel
     public JButton getRegisteredStudent() {
         if (registeredStudent == null) {
             registeredStudent = build_JbuttonForNulls(registeredStudent, FloorOfStudent_X, FourthButtons_Y);
-            registeredStudent.setText("Kayıtlı Ogrenci listesi");
+            registeredStudent.setText("Kayıtlı Ögrenci listesi");
 
         }
         return registeredStudent;

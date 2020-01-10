@@ -7,3 +7,17 @@ Siyah - kahverengi --> Borcu olanlar için
 
 4-) Kitap kategori eklenmeli
 5-) öğrenci ad soyad birleşmeli
+
+
+-----------------------------------------
+kayıt edilecek numara / barcode no database de yok ise alınmalı
+güncellenirken hata olursa güncelleme başarısız olduğu ve hatası gösterilmeli
+
+
+eğer bir şeyler güncellenirken başka numara ile çakışacak olursa o numara ile çakıştığını belirtmeli ve onu silmemeli diye uyarı verilmeli
+isterse o numarayı kendi eliyle silip yükleyebilir
+
+veri silerken emin misiniz diye sormalı
+veriyi silebilir eğer borcu varsa silinmesi engellenmeli
+
+ÖĞRENCİ GÜNCELLE--> SİLMEYİ EKLİCEM

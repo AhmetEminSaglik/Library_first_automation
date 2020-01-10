@@ -3,6 +3,7 @@ package Logic;
 import Gui.AboutUs;
 import Gui.FineDebtPayment;
 import Gui.TimeControlExtraTimeGui;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -25,6 +26,34 @@ public class ActionTimeFine implements ActionListener {
         this.dep = dep;
     }
 
+    public void clearAllTxtMainGui() {
+
+        if (tcet != null) {
+            tcet.getMg().gettxtStudentNo().setForeground(Color.GRAY);
+            tcet.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
+            tcet.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
+            tcet.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
+            tcet.getMg().getTxtBookName().setText("");
+            tcet.getMg().gettxtResultScreen().setText("");
+        } else if (dep != null) {
+            dep.getMg().gettxtStudentNo().setForeground(Color.GRAY);
+            dep.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
+            dep.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
+            dep.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
+            dep.getMg().getTxtBookName().setText("");
+            dep.getMg().gettxtResultScreen().setText("");
+
+        } else if (au != null) {
+            au.getMg().gettxtStudentNo().setForeground(Color.GRAY);
+            au.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
+            au.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
+            au.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
+            au.getMg().getTxtBookName().setText("");
+            au.getMg().gettxtResultScreen().setText("");
+
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (tcet != null) {
@@ -33,6 +62,7 @@ public class ActionTimeFine implements ActionListener {
                 tcet.setVisible(false);
                 tcet.getMg().getJf().setTitle("ANA SAYFA");
                 tcet.getMg().getJp().setVisible(true);
+                clearAllTxtMainGui();
             } else if (e.getSource() == tcet.getBtnExtendTime()) {
                 JOptionPane.showMessageDialog(null, "süre uzatma sql'e bağlanacak");
             } else if (e.getSource() == tcet.getTxtBookBarcodeNoToExtendTime()) {
@@ -50,6 +80,7 @@ public class ActionTimeFine implements ActionListener {
                 dep.getJp().setVisible(false);
                 dep.getMg().getJp().setVisible(true);
                 dep.getMg().getJf().setTitle("ANA SAYFA");
+                clearAllTxtMainGui();
             }
 
         } else if (au != null) {
@@ -58,6 +89,7 @@ public class ActionTimeFine implements ActionListener {
                 au.getJp().setVisible(false);
                 au.getMg().getJp().setVisible(true);
                 au.getMg().getJf().setTitle("ANA SAYFA");
+                clearAllTxtMainGui();
 
             }
         }
