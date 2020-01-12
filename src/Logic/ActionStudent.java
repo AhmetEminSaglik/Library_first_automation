@@ -283,6 +283,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         Connection conn = null;
         Statement stmt = null;
         StudentBringCame = false;
+        Boolean AlreadyCame = false;
         try {
             Class.forName(JDBC_DRIVER);
             System.out.println("Connecting to a selected database...");
@@ -294,6 +295,14 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
 
             ResultSet rs = stmt.executeQuery(SqlStudentUpdateQuery);
             while (rs.next()) {
+                if (sug.getTxtNewNo().getText().equals(Long.toString((rs.getLong("No"))))
+                        && sug.getTxtNewName().getText().equals(rs.getString("Name"))
+                        && sug.getTxtNewSurname().getText().equals(rs.getString("Surname"))
+                        && sug.getTxtNewEmail().getText().equals(rs.getString("Email"))
+                        && sug.getTxtPhoneNo().getText().equals(rs.getString("Phone"))) {
+                    AlreadyCame = true;
+                    throw new Exception();
+                }
                 sug.getTxtNewNo().setText(Long.toString(rs.getLong("No")));
                 sug.getTxtNewName().setText(rs.getString("Name"));
                 sug.getTxtNewSurname().setText(rs.getString("SurName"));
@@ -302,6 +311,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 StudentBringCame = true;
                 sug.getTxtResult().setBackground(new Color(24, 220, 255));
                 sug.getTxtResult().setText("Bilgiler Getirildi");
+
                 SuccessVoice();
             }
             if (!StudentBringCame) {
@@ -323,6 +333,11 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Lütfen Öğrenci Numarasına Sayı girin", "DEĞER HATASI", JOptionPane.ERROR_MESSAGE);
 
+        } catch (Exception ex) {
+            if (AlreadyCame == true) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Bilgiler Zaten Getirildi", "UYARI", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
 
     }
@@ -385,7 +400,8 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         StudentCanUpdate = true;
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-
+        Boolean newStudentNoFree = true;
+        Boolean oldStudentNoFree = false;
         //  Database credentials
         String USER = "root";
         String PASS = "";
@@ -403,9 +419,29 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
 
             ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
+
             while (rs.next()) {
 
+                newStudentNoFree = false;
                 throw new Exception();
+            }
+            SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No=" + sug.getTxtno().getText();
+            rs = null;
+            rs = stmt.executeQuery(SqlStudentControlQuery);
+            //      rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
+
+            while (rs.next()) {
+                System.out.println("ESKİ NUMARADAKİ BİLGİLER ::: ");
+                System.out.println("Name : " + rs.getString("Name"));
+                System.out.println("Surname : " + rs.getString("Surname"));
+                System.out.println("Email : " + rs.getString("Email"));
+                System.out.println("Phone : " + rs.getString("Phone"));
+                oldStudentNoFree = true;
+
+            }
+            if (oldStudentNoFree == false) {
+                throw new Exception();
+
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
@@ -414,8 +450,14 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         } catch (Exception ex) {
             StudentCanUpdate = false;
             java.awt.Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, sug.getTxtNewNo().getText() + " Numarada Başka Bir Öğrenci Kayıtlı Olduğu için\n"
-                    + "Güncelleme Başarısız");
+            if (newStudentNoFree == false) {
+                JOptionPane.showMessageDialog(null, " YENİ Öğrenci Numarasında Başka Bir Öğrenci Kayıtlı Olduğu için\n"
+                        + "Güncelleme Başarısız", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
+            } else if (oldStudentNoFree == false) {
+                JOptionPane.showMessageDialog(null, " ESKİ Öğrenci Numarasında Kayıtlı Kimse Bulunmamaktadır\n"
+                        + "Güncelleme Başarısız", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
+            }
+
             sug.getTxtResult().setBackground(Color.red);
             sug.getTxtResult().setBackground(new Color(255, 82, 82));
             sug.getTxtResult().setText("Güncelleme Başarısız");
