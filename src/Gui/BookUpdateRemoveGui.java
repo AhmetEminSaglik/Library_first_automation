@@ -23,7 +23,7 @@ public class BookUpdateRemoveGui extends JPanel {
     JLabel lblResult;
     JLabel lblNewCategory;
 
-    JTextField txtToBeChangedBarcodeNo;
+    JTextField txtBarcodeNo;
     JTextField txtNewBarcodeNo;
     JTextField txtNewBookName;
     JTextField txtNewAuthorName;
@@ -74,7 +74,7 @@ public class BookUpdateRemoveGui extends JPanel {
         this.add(getLblNewAuthorName());
         this.add(getLblResult());
 
-        this.add(getTxtToBeChangedBarcodeNo());
+        this.add(getTxtBarcodeNo());
         this.add(getTxtNewBarcodeNo());
         this.add(getTxtNewCategory());
         this.add(getTxtNewBookName());
@@ -86,7 +86,11 @@ public class BookUpdateRemoveGui extends JPanel {
         getBtnComeBack().addActionListener(action);
         getBtnDelete().addActionListener(action);
         getBtnUpdate().addActionListener(action);
-        getTxtToBeChangedBarcodeNo().addActionListener(action);
+        getTxtBarcodeNo().addActionListener(action);
+        getTxtNewBookName().addActionListener(action);
+        getTxtNewAuthorName().addActionListener(action);
+        getTxtNewBarcodeNo().addActionListener(action);
+        getTxtNewCategory().addActionListener(action);
 
     }
 
@@ -218,19 +222,19 @@ public class BookUpdateRemoveGui extends JPanel {
         this.lblResult = lblResult;
     }
 
-    public JTextField getTxtToBeChangedBarcodeNo() {
-        if (txtToBeChangedBarcodeNo == null) {
-            txtToBeChangedBarcodeNo = new JTextField();
-            txtToBeChangedBarcodeNo.setBounds(leftSpace, 50, txtWidth, txtHeight);
-            txtToBeChangedBarcodeNo.setFont(txtFont);
+    public JTextField getTxtBarcodeNo() {
+        if (txtBarcodeNo == null) {
+            txtBarcodeNo = new JTextField();
+            txtBarcodeNo.setBounds(leftSpace, 50, txtWidth, txtHeight);
+            txtBarcodeNo.setFont(txtFont);
 
         }
 
-        return txtToBeChangedBarcodeNo;
+        return txtBarcodeNo;
     }
 
-    public void setTxtToBeChangedBarcodeNo(JTextField txtToBeChangedBarcodeNo) {
-        this.txtToBeChangedBarcodeNo = txtToBeChangedBarcodeNo;
+    public void setTxtBarcodeNo(JTextField txtBarcodeNo) {
+        this.txtBarcodeNo = txtBarcodeNo;
     }
 
     public JTextField getTxtNewBarcodeNo() {
@@ -280,7 +284,7 @@ public class BookUpdateRemoveGui extends JPanel {
         if (txtNewAuthorName == null) {
             txtNewAuthorName = new JTextField();
             txtNewAuthorName.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
-            txtNewBookName.setFont(txtFont);
+            txtNewAuthorName.setFont(txtFont);
 
         }
         return txtNewAuthorName;

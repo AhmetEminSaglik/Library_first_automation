@@ -297,8 +297,8 @@ public class MainGui {//extends JPanel
     public JTextField gettxtStudentNo() {
         if (txtStudentNo == null) {
             txtStudentNo = build_JTextfiledForNulls(txtStudentNo);
-            txtStudentNo.getDocument().addDocumentListener(action);
-            txtStudentNo.getDocument().putProperty("StudentNoBookBarcodetxt", 1); // first one is key , the other one is value
+            //   txtStudentNo.getDocument().addDocumentListener(action);
+            //    txtStudentNo.getDocument().putProperty("StudentNoBookBarcodetxt", 1); // first one is key , the other one is value
             txtStudentNo.addActionListener(action);
             txtStudentNo.addFocusListener(action);
             txtStudentNo.setForeground(Color.GRAY);
@@ -316,8 +316,8 @@ public class MainGui {//extends JPanel
     public JTextField getTxtBookBarcode() {
         if (txtBookBarcode == null) {
             txtBookBarcode = build_JTextfiledForNulls(txtBookBarcode);
-            txtBookBarcode.getDocument().addDocumentListener(action);
-            txtBookBarcode.getDocument().putProperty("StudentNoBookBarcodetxt", 2); // first one is key , the other one is value
+            //  txtBookBarcode.getDocument().addDocumentListener(action);
+            //txtBookBarcode.getDocument().putProperty("StudentNoBookBarcodetxt", 2); // first one is key , the other one is value
             txtBookBarcode.addActionListener(action);
             txtBookBarcode.addFocusListener(action);
             txtBookBarcode.setForeground(Color.GRAY);
@@ -356,7 +356,7 @@ public class MainGui {//extends JPanel
             txtBookName.setFocusable(false);
             // txtBookName.setEnabled(false);
             txtBookName.setBackground(new Color(206, 214, 224));
-           
+
             ttm.setInitialDelay(100); // when entered  wait time
             ttm.setDismissDelay(1000);// seeing time tooltips
             txtBookName.setToolTipText("Buraya Erişemezsiniz");

@@ -46,9 +46,10 @@ public class Login extends JPanel {
         this.add(getSignIn());
         getJf().add(this);
         getJf().setVisible(true);
-
+        getJf().setCursor(new Cursor(3));
         CreateDatabase();
         CreateTable();
+        getJf().setCursor(null);
         //this.setVisible(false);
         //MainGui mg = new MainGui(this);
     }
@@ -141,6 +142,7 @@ public class Login extends JPanel {
     }
 
     public void CreateDatabase() {
+
         // JDBC driver name and database URL
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/";
@@ -192,9 +194,7 @@ public class Login extends JPanel {
         try {
             Class.forName(JDBC_DRIVER);
 
-            System.out.println("Connecting to a selected database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             stmt = conn.createStatement();
             String tableControl = "SHOW TABLES LIKE 'student' ";
@@ -213,7 +213,7 @@ public class Login extends JPanel {
                     + "PRIMARY KEY (`id`));";*/
             String sql1 = "CREATE TABLE `library`.`student` "
                     + "( `Id` INT(0) NOT NULL AUTO_INCREMENT ,"
-                    + " `No`  INT(0) NOT NULL , "
+                    + " `No`  VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
                     + "`Name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
                     + "`Surname` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
                     + "`Email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
@@ -230,7 +230,7 @@ public class Login extends JPanel {
                     + ", PRIMARY KEY (`id`)); ";*/
             String sql3 = "CREATE TABLE `library`.`book`"
                     + " ( `Id` INT(10) NOT NULL AUTO_INCREMENT ,"
-                    + " `BarcodeNo` BIGINT(20) NOT NULL ,"
+                    + " `BarcodeNo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
                     // CHARACTER SET utf32 COLLATE utf32_turkish_ci NOT NULL
                     + " `Name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
                     + " `AuthorName` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
@@ -275,10 +275,10 @@ public class Login extends JPanel {
                     conn.close();
                 }
             } catch (SQLException se) {
-                se.printStackTrace();
+                JOptionPane.showMessageDialog(null, se);
             }//end finally try
         }//end try
-        System.out.println("BİTTİ");
+
         Initializer();
     }
 
@@ -298,12 +298,9 @@ public class Login extends JPanel {
             Class.forName(JDBC_DRIVER);
 
             //STEP 3: Open a connection
-            System.out.println("Connecting to a selected database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             //STEP 4: Execute a query
-            System.out.println("Inserting records into the table...");
             stmt = conn.createStatement();
 
             String sql1 = "INSERT INTO `student` (`Id`, `No`, `Name`, `Surname`,`Email`, `Phone`,`Debt`) "
@@ -323,7 +320,6 @@ public class Login extends JPanel {
                     + ", ('Ahmet Emin ', '385646', 'aes@hotmail.com', '25432864', '500000000',"
                     + " 'Kaya ile ayşe', 'ali ata bak', 'Harun mMrte bak')";*/
             stmt.executeUpdate(sql1);
-            System.out.println("Inserted records into the table...");
 
             String sql2 = "INSERT INTO `admin` (`Username`, `Password`) "
                     + "VALUES ('1', '1'),"
@@ -336,10 +332,10 @@ public class Login extends JPanel {
             stmt.executeUpdate(sql2);
         } catch (SQLException se) {
             //Handle errors for JDBC
-            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, se);
         } catch (Exception e) {
             //Handle errors for Class.forName
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
         } finally {
             //finally block used to close resources
             try {
@@ -353,12 +349,11 @@ public class Login extends JPanel {
                     conn.close();
                 }
             } catch (SQLException se) {
-                se.printStackTrace();
+                JOptionPane.showMessageDialog(null, se);
             }//end finally try
         }//end try
-        System.out.println("Goodbye!");
-        //end main
 
+        //end main
     }
 
 }

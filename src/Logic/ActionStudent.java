@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -65,17 +66,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                         && !sag.getTxtSurname().getText().trim().equals("") && !sag.getTxtSurname().getText().equals(emptyError)
                         && !sag.getTxtEmail().getText().trim().equals("") && !sag.getTxtEmail().getText().equals(emptyError)
                         && !sag.getTxtPhoneNo().getText().trim().equals("") && !sag.getTxtPhoneNo().getText().equals(emptyError)) {
-                    try {
-                        if (Integer.parseInt(sag.getTxtNo().getText()) > 0) {
-                            DbStudentAdd();
-                        } else {
-                            throw new NumberFormatException();
-                        }
-                    } catch (NumberFormatException ex) {
-                        java.awt.Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(null, "Öğrenci Numarası 0 dan büyük SAYI  OLMAK zorundadır", "SAYI FORMAT HATASI", JOptionPane.ERROR_MESSAGE);
-                        sag.getTxtNo().setText("");
-                    }
+                    DbStudentAdd();
                 } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
                     if (sag.getTxtNo().getText().trim().equals("")) {
@@ -125,18 +116,12 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 clearAllTxtMainGui();
 
             } else if (e.getSource() == sug.getTxtno()) {
-                try {
-                    if (Integer.parseInt(sug.getTxtno().getText()) > 0) {
-                        DBStudentBringData();
-                    } else {
-                        java.awt.Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(null, "Öğrenci Numarası 0 dan büyük olmak zorundadır", "NEGATİF DEĞER HATASI", JOptionPane.ERROR_MESSAGE);
-                        sug.getTxtno().setText("");
-                    }
-                } catch (NumberFormatException ex) {
+                if (!sug.getTxtno().getText().trim().equals("")) {
+                    DBStudentBringData();
+                } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
-                    JOptionPane.showMessageDialog(null, "Öğrenci Numarasına Sayı girmelisiniz", "SAYI FORMAT HATASI", JOptionPane.ERROR_MESSAGE);
-                    sug.getTxtno().setText("");
+                    JOptionPane.showMessageDialog(null, "Öğrenci numarasını doldurmadan aratamazsınız",
+                            "ARAMA HATASI", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (e.getSource() == sug.getBtnUpdate()
                     || e.getSource() == sug.getTxtResult()
@@ -148,19 +133,9 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 /* if (sug.getTxtResult().getBackground() == Color.green) {
                     clearAllTxtMainGui();
                 }*/
-                try {
-                    if (Integer.parseInt(sug.getTxtNewNo().getText()) > 0) {
-                        DBStudentUpdate();
-                    } else {
-                        throw new NumberFormatException();
-                    }
-                } catch (NumberFormatException ex) {
-                    java.awt.Toolkit.getDefaultToolkit().beep();
-                    JOptionPane.showMessageDialog(null, "Öğrenci Numarası 0 dan büyük SAYI  OLMAK zorundadır", "SAYI FORMAT HATASI", JOptionPane.ERROR_MESSAGE);
-                    sug.getTxtNewNo().setText("");
-                }
+                DBStudentUpdate();
             } else if (e.getSource() == sug.getBtnDelete()) {
-
+                DBStudentDelete();
             }
         } else if (ssg != null) {
             if (e.getSource() == ssg.getBtnComeBack()) {
@@ -204,13 +179,117 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
     @Override
     public void mouseEntered(MouseEvent e) {
         rsg.getTable().setSelectionBackground(Color.GREEN);
-        System.out.println(rsg.getTable().getSelectedColumn());
 
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public void DBStudentDelete() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+        StudentCanUpdate = true;
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        boolean StudentDeleted = true;
+        boolean AlreadyCame = true;
+        boolean StudentHasDebt = false;
+
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            String SqlStudentControlQuery = "SELECT * FROM `student` WHERE  No LIKE '" + sug.getTxtno().getText() + "'";
+
+            ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
+            /* while (rs.next()) {
+                if (!sug.getTxtNewNo().getText().equals(Long.toString((rs.getLong("No"))))
+                        || !sug.getTxtNewName().getText().equals(rs.getString("Name"))
+                        || !sug.getTxtNewSurname().getText().equals(rs.getString("Surname"))
+                        || !sug.getTxtNewEmail().getText().equals(rs.getString("Email"))
+                        || !sug.getTxtPhoneNo().getText().equals(rs.getString("Phone"))) {
+                    AlreadyCame = false;
+                    throw new Exception();
+                }
+            }*/
+            if (rs.next()) {
+                if (!sug.getTxtNewNo().getText().equals((rs.getString("No")))
+                        || !sug.getTxtNewName().getText().equals(rs.getString("Name"))
+                        || !sug.getTxtNewSurname().getText().equals(rs.getString("Surname"))
+                        || !sug.getTxtNewEmail().getText().equals(rs.getString("Email"))
+                        || !sug.getTxtPhoneNo().getText().equals(rs.getString("Phone"))) {
+                    AlreadyCame = false;
+                    throw new Exception();
+                }
+                if (Double.parseDouble(rs.getString("Debt")) > 0.0) {
+                    StudentHasDebt = true;
+                    throw new Exception();
+
+                }
+            } else {
+                throw new Exception("Kayıtlı Öğrenci Bulunamadı");
+            }
+
+            stmt = conn.createStatement();
+
+            String SqlStudentdDeleteQuery = "DELETE FROM `student` WHERE No LIKE '" + sug.getTxtNewNo().getText() + "'";
+
+            //    stmt.executeQuery(SqlStudentdDeleteQuery);
+            PreparedStatement preparedStmt = conn.prepareStatement(SqlStudentdDeleteQuery);
+
+            int answer = JOptionPane.showConfirmDialog(null, "Öğrenciyi Silmek istediğinizden Emin misiniz ? ", "SİLME UYARISI",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (answer == JOptionPane.YES_OPTION) {
+                SuccessVoice();
+
+                sug.getTxtNewNo().setText("");
+                sug.getTxtNewName().setText("");
+                sug.getTxtNewSurname().setText("");
+                sug.getTxtPhoneNo().setText("");
+                sug.getTxtNewEmail().setText("");
+                sug.getTxtResult().setText("Öğrenci Silindi");
+                sug.getTxtResult().setBackground(new Color(255, 121, 63));
+                preparedStmt.execute();
+            } else {
+                sug.getTxtResult().setText("Öğrenci Silme İşlemi İptal Edildi");
+                sug.getTxtResult().setBackground(Color.PINK);
+                java.awt.Toolkit.getDefaultToolkit().beep();
+            }
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "ClASS NOT FOUND");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex + "\n\n\nÖğrenci Silebilmek İçin Önce Öğrenci Kayıtlı Öğrenci Bilgilerini Getirmelisiniz");
+        } catch (Exception ex) {
+            if (AlreadyCame == false) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                int answer = JOptionPane.showConfirmDialog(null, "Öğrenciyi Silmek İçin Önce Öğrenci Bilgilerini Getirmeniz gerekmektedir\n"
+                        + "                                        Bilgiler Getirilsin mi ?", "EŞLEŞME HATASI", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) {
+                    DBStudentBringData();
+                }
+            } else if (StudentHasDebt == true) {
+                //     JOptionPane.showMessageDialog(null, "Öğrencinin " + debt + " TL borcu olduğu için silinemiyor");
+                JOptionPane.showMessageDialog(null, "Öğrencinin borcu olduğu için silinemiyor");
+
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                sug.getTxtResult().setBackground(new Color(255, 82, 82));
+                sug.getTxtResult().setText("Silme Başarısız");
+            } else {
+                JOptionPane.showConfirmDialog(null, sug.getTxtno().getText() + " Nolu Kayıtlı Öğrenci bulunamadı", "SİLME HATASI", JOptionPane.ERROR_MESSAGE);
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                sug.getTxtResult().setBackground(new Color(255, 82, 82));
+                sug.getTxtResult().setText("Silme Başarısız");
+            }
+        }
     }
 
     public void DBStudentUpdate() {
@@ -225,18 +304,17 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         Statement stmt = null;
         try {
             Class.forName(JDBC_DRIVER);
-            System.out.println("Connecting to a selected database...");
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             stmt = conn.createStatement();
             String SqlStudentUpdateQuery = "UPDATE `student` SET \n"
-                    + "No=" + sug.getTxtNewNo().getText() + ",\n"
+                    + "No='" + sug.getTxtNewNo().getText().trim() + "',\n"
                     + "Name='" + sug.getTxtNewName().getText() + "',\n "
                     + "Surname='" + sug.getTxtNewSurname().getText() + "', \n"
                     + "Email = '" + sug.getTxtNewEmail().getText() + "',\n "
                     + "Phone ='" + sug.getTxtPhoneNo().getText() + "'\n "
-                    + "WHERE No= " + sug.getTxtno().getText() + " ";
+                    + "WHERE No LIKE  '" + sug.getTxtno().getText().trim() + "' ";
 
             DBStudentControlToUpdate();
             if (!StudentCanUpdate) {
@@ -259,6 +337,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             stmt.executeUpdate(SqlStudentUpdateQuery);
             sug.getTxtResult().setBackground(Color.GREEN);
             sug.getTxtResult().setText("GÜNCELLENME BAŞARILI");
+            //ClearAllTxtGui();
             SuccessVoice();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex + "aaaaaaaaaaaaaaaaa");
@@ -286,16 +365,16 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         Boolean AlreadyCame = false;
         try {
             Class.forName(JDBC_DRIVER);
-            System.out.println("Connecting to a selected database...");
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             stmt = conn.createStatement();
-            String SqlStudentUpdateQuery = "SELECT * FROM `student` WHERE  No=" + sug.getTxtno().getText();
+            String SqlStudentUpdateQuery = "SELECT * FROM `student` WHERE  No LIKE '" + sug.getTxtno().getText() + "' ";
 
             ResultSet rs = stmt.executeQuery(SqlStudentUpdateQuery);
             while (rs.next()) {
-                if (sug.getTxtNewNo().getText().equals(Long.toString((rs.getLong("No"))))
+
+                if (sug.getTxtNewNo().getText().equals(rs.getString("No"))
                         && sug.getTxtNewName().getText().equals(rs.getString("Name"))
                         && sug.getTxtNewSurname().getText().equals(rs.getString("Surname"))
                         && sug.getTxtNewEmail().getText().equals(rs.getString("Email"))
@@ -303,7 +382,8 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     AlreadyCame = true;
                     throw new Exception();
                 }
-                sug.getTxtNewNo().setText(Long.toString(rs.getLong("No")));
+
+                sug.getTxtNewNo().setText(rs.getString("No"));
                 sug.getTxtNewName().setText(rs.getString("Name"));
                 sug.getTxtNewSurname().setText(rs.getString("SurName"));
                 sug.getTxtNewEmail().setText(rs.getString("Email"));
@@ -328,10 +408,10 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             }
 
         } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex + "111111111111111111");
+            JOptionPane.showMessageDialog(null, ex);
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lütfen Öğrenci Numarasına Sayı girin", "DEĞER HATASI", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex + "\nLütfen Öğrenci Numarasına Sayı girin", "DEĞER HATASI", JOptionPane.ERROR_MESSAGE);
 
         } catch (Exception ex) {
             if (AlreadyCame == true) {
@@ -356,9 +436,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         try {
             Class.forName(JDBC_DRIVER);
 
-            System.out.println("Connecting to a selected database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             DBStudentControlToAdd();
             if (!StudentCanAdd) {
@@ -368,7 +446,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             String SqlStudentAdd = "INSERT INTO `student` "
                     + "(`Id`,`No`,`Name`,`Surname`,`Email`,`Phone`,`Debt`) VALUES "
                     + "(NULL,"
-                    + "'" + sag.getTxtNo().getText() + "',"
+                    + "'" + sag.getTxtNo().getText().trim() + "',"
                     + "'" + sag.getTxtName().getText() + "',"
                     + "'" + sag.getTxtSurname().getText() + "',"
                     + "'" + sag.getTxtEmail().getText() + "',"
@@ -379,7 +457,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             sag.getTxtResult().setText("Öğrenci Kayıt edilmiştir");
             SuccessVoice();
         } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex + "ddddddddddddddddddddd");
+            JOptionPane.showMessageDialog(null, ex);
         } catch (SQLException ex) {
             java.awt.Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "Xampp hata meydana geldi ",
@@ -391,18 +469,22 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         } catch (Exception ex) {
             java.awt.Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "Bu Öğrenci Numarası Zaten Kayıtlı", "KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
+            sag.getTxtResult().setBackground(Color.red);
+            sag.getTxtResult().setText("Kayıt Başarısız");
+
         }
 
     }
 
     public void DBStudentControlToUpdate() {
+
         //DBStudentUpdate
         StudentCanUpdate = true;
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
         Boolean newStudentNoFree = true;
         Boolean oldStudentNoFree = false;
-        //  Database credentials
+        Boolean allSame = false;//  Database credentials
         String USER = "root";
         String PASS = "";
 
@@ -410,47 +492,54 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         Statement stmt = null;
         try {
             Class.forName(JDBC_DRIVER);
-            System.out.println("Connecting to a selected database...");
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             stmt = conn.createStatement();
-            String SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No=" + sug.getTxtNewNo().getText();
+            String SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sug.getTxtNewNo().getText() + "'";
 
             ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
 
             while (rs.next()) {
+                if (sug.getTxtno().getText().equals(rs.getString("No"))) {
+                    if (sug.getTxtNewNo().getText().equals(rs.getString("No"))
+                            && sug.getTxtNewName().getText().equals(rs.getString("Name"))
+                            && sug.getTxtNewSurname().getText().equals(rs.getString("Surname"))
+                            && sug.getTxtNewEmail().getText().equals(rs.getString("Email"))
+                            && sug.getTxtPhoneNo().getText().equals(rs.getString("Phone"))) {
 
-                newStudentNoFree = false;
-                throw new Exception();
+                        allSame = true;
+                        throw new Exception();
+                    }
+                } else {
+                    newStudentNoFree = false;
+                    throw new Exception();
+                }
             }
-            SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No=" + sug.getTxtno().getText();
+            SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sug.getTxtno().getText() + "'";
             rs = null;
             rs = stmt.executeQuery(SqlStudentControlQuery);
             //      rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
 
             while (rs.next()) {
-                System.out.println("ESKİ NUMARADAKİ BİLGİLER ::: ");
-                System.out.println("Name : " + rs.getString("Name"));
-                System.out.println("Surname : " + rs.getString("Surname"));
-                System.out.println("Email : " + rs.getString("Email"));
-                System.out.println("Phone : " + rs.getString("Phone"));
                 oldStudentNoFree = true;
-
             }
             if (oldStudentNoFree == false) {
+
                 throw new Exception();
 
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "CLASS BULUNAMADI", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             StudentCanUpdate = false;
             java.awt.Toolkit.getDefaultToolkit().beep();
-            if (newStudentNoFree == false) {
+            if (allSame == true) {
+                JOptionPane.showMessageDialog(null, "BİLGİLER ZATEN GÜNCEL", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
+            } else if (newStudentNoFree == false) {
                 JOptionPane.showMessageDialog(null, " YENİ Öğrenci Numarasında Başka Bir Öğrenci Kayıtlı Olduğu için\n"
                         + "Güncelleme Başarısız", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
             } else if (oldStudentNoFree == false) {
@@ -477,12 +566,11 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         Statement stmt = null;
         try {
             Class.forName(JDBC_DRIVER);
-            System.out.println("Connecting to a selected database...");
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             stmt = conn.createStatement();
-            String SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No=" + sag.getTxtNo().getText();
+            String SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sag.getTxtNo().getText().trim() + "'";
 
             ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
@@ -572,6 +660,16 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             rsg.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             rsg.getMg().getTxtBookName().setText("");
             rsg.getMg().gettxtResultScreen().setText("");
+        }
+    }
+
+    public void ClearAllTxtGui() {
+        if (sug != null) {
+            sug.getTxtNewNo().setText("");
+            sug.getTxtNewName().setText("");
+            sug.getTxtNewSurname().setText("");
+            sug.getTxtPhoneNo().setText("");
+            sug.getTxtNewEmail().setText("");
         }
     }
 

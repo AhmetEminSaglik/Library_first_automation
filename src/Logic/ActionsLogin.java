@@ -144,8 +144,7 @@ public class ActionsLogin implements ActionListener {
                     while (rs.next()) {
                         String kullaniciAdi = rs.getString("Username");
                         String Sifre = rs.getString("Password");
-                        System.out.println( login.getTxtusername().getText());
-                        System.out.println( String.valueOf(login.getjPass().getPassword()));
+
                         if (kullaniciAdi.equals(login.getTxtusername().getText()) && Sifre.equals(String.valueOf(login.getjPass().getPassword()))) {
                             login.setVisible(false);
                             MainGui mg = new MainGui(login);

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -43,6 +44,8 @@ public class ActionsBook implements ActionListener, FocusListener {
     public final int DB_AUTHORNAME = 2;
     public final int DB_CATEGORYNAME = 3;
     Boolean BookCanAdd; // database den kitap kontrolu yapmak için true ise kitap alınabilir
+    boolean BookBringCame;
+    boolean BookCanUpdate;
 
     //eğer bag hata alırsa diğer taraftan burayı setlerim
     public ActionsBook(BookReturnGui brg) {
@@ -82,18 +85,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                         && !bag.getTxtCategory().getText().trim().equals("") && !bag.getTxtCategory().getText().trim().equals(emptyError)
                         && !bag.getTxtAuthorName().getText().trim().equals("") && !bag.getTxtAuthorName().getText().trim().equals(emptyError)) {
 
-                    try {
-
-                        if (Long.parseLong(bag.getTxtBookBarcodeNo().getText()) > 0) {
-                            DBbookAdd();
-                        } else {
-                            throw new NumberFormatException();
-                        }
-                    } catch (NumberFormatException ex) {
-                        java.awt.Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası 0 dan büyük SAYI  OLMAK zorundadır", "SAYI FORMAT HATASI", JOptionPane.ERROR_MESSAGE);
-                        bag.getTxtBookBarcodeNo().setText("");
-                    }
+                    DBbookAdd();
 
                 } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
@@ -161,12 +153,17 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getMg().getJp().setVisible(true);
                 burg.getJf().setTitle("ANA SAYFA");
                 clearAllTxtMainGui();
-            } else if (e.getSource() == burg.getBtnUpdate()) {
-                JOptionPane.showMessageDialog(null, "buton aktifleştirildi sql komutları kaldı");
+            } else if (e.getSource() == burg.getBtnUpdate()
+                    || e.getSource() == burg.getTxtNewBarcodeNo()
+                    || e.getSource() == burg.getTxtNewBookName()
+                    || e.getSource() == burg.getTxtNewAuthorName()
+                    || e.getSource() == burg.getTxtNewCategory()) {
+                DBBookUpdate();
             } else if (e.getSource() == burg.getBtnDelete()) {
-                JOptionPane.showMessageDialog(null, "buton aktifleştirildi sql komutları kaldı");
-            } else if (e.getSource() == burg.getTxtToBeChangedBarcodeNo()) {
-                JOptionPane.showConfirmDialog(null, "Aktifleşti sql'e bağlanılacak");
+                DBBookDelete();
+            } else if (e.getSource() == burg.getTxtBarcodeNo()) {
+
+                DBBookBringData();
             }
         }
     }
@@ -305,12 +302,11 @@ public class ActionsBook implements ActionListener, FocusListener {
         Statement stmt = null;
         try {
             Class.forName(JDBC_DRIVER);
-            System.out.println("Connecting to a selected database...");
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             stmt = conn.createStatement();
-            String SqlBookControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo=" + bag.getTxtBookBarcodeNo().getText();
+            String SqlBookControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + bag.getTxtBookBarcodeNo().getText().trim() + "'";
 
             ResultSet rs = stmt.executeQuery(SqlBookControlQuery);
 
@@ -335,7 +331,6 @@ public class ActionsBook implements ActionListener, FocusListener {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
-        //  Database credentials
         String USER = "root";
         String PASS = "";
 
@@ -344,9 +339,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         try {
             Class.forName(JDBC_DRIVER);
 
-            System.out.println("Connecting to a selected database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             DBbookControl();
             if (!BookCanAdd) {
@@ -356,7 +349,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             String SqlBookAdd = "INSERT INTO `book` "
                     + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
                     + "(NULL,"
-                    + "'" + bag.getTxtBookBarcodeNo().getText() + "',"
+                    + "'" + bag.getTxtBookBarcodeNo().getText().trim() + "',"
                     + "'" + bag.getTxtBookName().getText() + "',"
                     + "'" + bag.getTxtAuthorName().getText() + "',"
                     + "'" + bag.getTxtCategory().getText() + "')";
@@ -384,6 +377,8 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (Exception ex) {
             java.awt.Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "Bu Barkod Numarası Zaten Kayıtlı", "KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
+            bag.getTxtResult().setBackground(Color.red);
+            bag.getTxtResult().setText(" Kayıt başarısız");
 
         }
 
@@ -403,9 +398,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             Class.forName(JDBC_DRIVER);
             Class.forName(JDBC_DRIVER);
 
-            System.out.println("Connecting to a selected database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             stmt = conn.createStatement();
             String SqlListQuery = null; //
@@ -420,7 +413,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     int i = 0;
                     while (rs.next()) {
                         JOptionPane.showMessageDialog(null, rs.getInt("Id"));
-                        System.out.println(rs.getString("Name"));
+
                         i++;
                     }
                     rs = stmt.executeQuery(SqlListQuery);
@@ -429,9 +422,9 @@ public class ActionsBook implements ActionListener, FocusListener {
                     int j = 0;
                     while (rs.next()) {
                         JOptionPane.showMessageDialog(null, rs.getInt("Id"));
-                        System.out.println(rs.getString("Name"));
+
                         bslg.data[j][2] = rs.getString("Name");
-                        System.out.println("bslg.data[" + j + "][2]  : " + bslg.data[j][2]);
+
                         j++;
                         //    bslg.setTable(bslg.data, bslg.column);
                         //  bslg.setTable(bslg.data, bslg.column);
@@ -456,10 +449,10 @@ public class ActionsBook implements ActionListener, FocusListener {
             stmt.executeUpdate(SqlBookAdd);*/
             }
         } catch (ClassNotFoundException ex) {
-            System.out.println(ex);
+
             JOptionPane.showMessageDialog(null, ex);
         } catch (SQLException ex) {
-            System.out.println(ex);
+
             JOptionPane.showMessageDialog(null, ex);
         }
 
@@ -488,5 +481,298 @@ public class ActionsBook implements ActionListener, FocusListener {
             Logger.getLogger(ActionsBook.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void DBBookDelete() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+        BookCanUpdate = true;
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        boolean BookDeleted = true;
+        boolean AlreadyCame = true;
+
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            String SqlBookControlQuery = "SELECT * FROM `book` WHERE  BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "'";
+
+            ResultSet rs = stmt.executeQuery(SqlBookControlQuery);
+
+            if (rs.next()) {
+                if (!burg.getTxtNewBarcodeNo().getText().equals((rs.getString("BarcodeNo")))
+                        || !burg.getTxtNewBookName().getText().equals(rs.getString("Name"))
+                        || !burg.getTxtNewAuthorName().getText().equals(rs.getString("AuthorName"))
+                        || !burg.getTxtNewCategory().getText().equals(rs.getString("CategoryName"))) {
+                    AlreadyCame = false;
+
+                    throw new Exception();
+                }
+            } else {
+                throw new Exception("Kayıtlı Kitap Bulunamadı");
+            }
+
+            stmt = conn.createStatement();
+
+            String SqlBookdDeleteQuery = "DELETE FROM `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText() + "'";
+
+            //    stmt.executeQuery(SqlStudentdDeleteQuery);
+            PreparedStatement preparedStmt = conn.prepareStatement(SqlBookdDeleteQuery);
+
+            int answer = JOptionPane.showConfirmDialog(null, "Kitabı Silmek istediğinizden Emin misiniz ? ", "SİLME UYARISI",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (answer == JOptionPane.YES_OPTION) {
+                SuccessVoice();
+
+                burg.getTxtNewBarcodeNo().setText("");
+                burg.getTxtNewBookName().setText("");
+                burg.getTxtNewAuthorName().setText("");
+                burg.getTxtNewCategory().setText("");
+                burg.getTxtResult().setText("Kitap Silindi");
+                burg.getTxtResult().setBackground(new Color(255, 121, 63));
+                preparedStmt.execute();
+            } else {
+                burg.getTxtResult().setText("Kitap Silme İşlemi İptal Edildi");
+                burg.getTxtResult().setBackground(Color.PINK);
+                java.awt.Toolkit.getDefaultToolkit().beep();
+            }
+ 
+            
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "ClASS NOT FOUND");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+
+            if (AlreadyCame == false) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                int answer = JOptionPane.showConfirmDialog(null, "Kitabı Silmek İçin Önce Kitap Bilgilerini Getirmeniz gerekmektedir\n"
+                        + "                                        Bilgiler Getirilsin mi ?", "EŞLEŞME HATASI", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) {
+                    DBBookBringData();
+                }
+            } else {
+                JOptionPane.showConfirmDialog(null, burg.getTxtBarcodeNo().getText() + " Nolu Kayıtlı Kitap bulunamadı", "SİLME HATASI", JOptionPane.ERROR_MESSAGE);
+                java.awt.Toolkit.getDefaultToolkit().beep();
+
+                burg.getTxtResult().setBackground(new Color(255, 82, 82));
+                burg.getTxtResult().setText("Silme Başarısız");
+            }
+        }
+
+    }
+
+    public void DBBookBringData() {
+
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        BookBringCame = false;
+        Boolean AlreadyCame = false;
+        boolean BarcodeNoEmpty = false;
+
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            String SqlBookBrinQuery = "SELECT * FROM `book` WHERE  BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText().trim() + "'";
+
+            ResultSet rs = stmt.executeQuery(SqlBookBrinQuery);
+            while (rs.next()) {
+
+                BarcodeNoEmpty = true;
+                if (burg.getTxtNewBarcodeNo().getText().equals((rs.getString("BarcodeNo")))
+                        && burg.getTxtNewBookName().getText().equals(rs.getString("Name"))
+                        && burg.getTxtNewAuthorName().getText().equals(rs.getString("AuthorName"))
+                        && burg.getTxtNewCategory().getText().equals(rs.getString("CategoryName"))) {
+                    AlreadyCame = true;
+
+                    throw new Exception();
+                }
+
+                burg.getTxtNewBarcodeNo().setText(rs.getString("BarcodeNo"));
+                burg.getTxtNewBookName().setText(rs.getString("Name"));
+                burg.getTxtNewAuthorName().setText(rs.getString("AuthorName"));
+                burg.getTxtNewCategory().setText(rs.getString("CategoryName"));
+                BookBringCame = true;
+                burg.getTxtResult().setBackground(new Color(24, 220, 255));
+                burg.getTxtResult().setText("Bilgiler Getirildi");
+
+                SuccessVoice();
+            }
+            if (!BookBringCame) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, burg.getTxtBarcodeNo().getText() + " Barkod Nolu Kitap Kaydı YOKTUR", "EKSİK KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
+                burg.getTxtNewBarcodeNo().setText("");
+                burg.getTxtNewBookName().setText("");
+                burg.getTxtNewAuthorName().setText("");
+                burg.getTxtNewCategory().setText("");
+
+                burg.getTxtResult().setBackground(new Color(255, 82, 82));
+                burg.getTxtResult().setText("İstenilen Bilgiler Kayıtta Bulunamadı");
+
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex + " ");
+        } catch (SQLException ex) {
+            if (BarcodeNoEmpty == false) {
+                JOptionPane.showMessageDialog(null, "Barkod Numarasını Doldurup Aratmalısınız", "SQL HATASI", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            if (AlreadyCame == true) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Aratılan Barkod Nolu Kitap  Zaten Getirildi", "ARAMA HATASI", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public void DBBookUpdate() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+        BookCanUpdate = true;
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            String SqlBookUpdateQuery = "UPDATE `book` SET \n"
+                    + "BarcodeNo= '" + burg.getTxtNewBarcodeNo().getText() + "' ,\n"
+                    + "Name='" + burg.getTxtNewBookName().getText() + "',\n"
+                    + "AuthorName='" + burg.getTxtNewAuthorName().getText() + "', \n"
+                    + "CategoryName= '" + burg.getTxtNewCategory().getText() + "'\n"
+                    + "WHERE  BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "' ";
+
+            DBBookControlToUpdate();
+
+            if (!BookCanUpdate) {
+
+                throw new Exception();
+
+            }
+            int answer = JOptionPane.showConfirmDialog(null, "Güncellemek İstediğinize Emin misiniz?", "GÜNCELLEME ONAYI", JOptionPane.YES_NO_OPTION);
+            if (answer != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            stmt.executeUpdate(SqlBookUpdateQuery);
+
+            burg.getTxtResult().setBackground(Color.GREEN);
+            burg.getTxtResult().setText("GÜNCELLENME BAŞARILI");
+            SuccessVoice();
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex + "aaaaaaaaaaaaaaaaa");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex + "\n\n\n1-) Bilgileri Güncelleyebilmeniz İçin Önce Öğrenci Numarasını\n"
+                    + "Aratmalısınız\n"
+                    + "2-) Yeni Öğrenci Numarasına Sayı girmelisiniz", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            if (BookCanUpdate == false) {
+
+            }
+        }
+
+    }
+
+    public void DBBookControlToUpdate() {
+        //DBStudentUpdate
+        BookCanUpdate = true;
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+        boolean newBookNoFree = true;
+        boolean oldBookNoFree = false;
+        boolean allSame = false;
+//  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            String SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText().trim() + "'";
+
+            ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
+            //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
+
+            while (rs.next()) {
+
+                if (burg.getTxtBarcodeNo().getText().equals(rs.getString("BarcodeNo"))) {
+
+                    if (burg.getTxtNewBarcodeNo().getText().equals(rs.getString("BarcodeNo"))
+                            && burg.getTxtNewBookName().getText().equals(rs.getString("Name"))
+                            && burg.getTxtNewAuthorName().getText().equals(rs.getString("AuthorName"))
+                            && burg.getTxtNewCategory().getText().equals(rs.getString("CategoryName"))) {
+                        allSame = true;
+
+                        throw new Exception();
+                    }
+                } else {
+
+                    newBookNoFree = false;
+
+                    throw new Exception();
+                }
+            }
+            SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "'";
+            rs = null;
+            rs = stmt.executeQuery(SqlStudentControlQuery);
+            //      rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
+
+            while (rs.next()) {
+
+                oldBookNoFree = true;
+            }
+            if (oldBookNoFree == false) {
+
+                throw new Exception();
+
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Class Bulunamadı", "CLASS BULUNAMADI", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            BookCanUpdate = false;
+            java.awt.Toolkit.getDefaultToolkit().beep();
+            if (allSame == true) {
+                JOptionPane.showMessageDialog(null, "Bilgiler zaten güncel", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
+            } else if (newBookNoFree == false) {
+                JOptionPane.showMessageDialog(null, " YENİ Kitap Barkod Numarasında Başka Bir Kitap Kayıtlı", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
+            } else if (oldBookNoFree == false) {
+                JOptionPane.showMessageDialog(null, " ESKİ Kitap BArkod Numarasında Kayıtlı Kitap Bulunmamaktadır\n"
+                        + "Güncelleme Başarısız", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
+            }
+
+            
+            burg.getTxtResult().setBackground(Color.red);
+            burg.getTxtResult().setBackground(new Color(255, 82, 82));
+            burg.getTxtResult().setText("Güncelleme Başarısız");
+        }
     }
 }

@@ -19,13 +19,34 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
-public class ActionsMainGui implements ActionListener, DocumentListener, MouseListener, FocusListener {
+public class ActionsMainGui implements ActionListener, MouseListener, FocusListener {
 
     MainGui mg = null;
+
+    boolean studentExist = true;
+    boolean bookExist = true;
+    boolean StudentCanTakeBook = true;
+    boolean BookDeliveredSomeone = false;
+    boolean bookFree = true;
+    String StudentPlaceHolder = "Öğrenci No Girin";
+    String BarcodeNoPlaceHolder = "Kitap Barkod No girin";
 
     public ActionsMainGui(MainGui mg) {
         this.mg = mg;
@@ -42,9 +63,31 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
         this.mg = mg;
     }
 
+    /*boolean studentExist = true;
+        boolean bookExist = true;
+        boolean StudentCanTakeBook = true;
+        boolean BookDeliveredSomeone = false;*/
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == getMg().gettxtStudentNo() || e.getSource() == getMg().getTxtBookBarcode()) {
+            if (getMg().gettxtStudentNo().getText().trim().equals("") || getMg().gettxtStudentNo().getText().equals(StudentPlaceHolder)) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                BookCanBeTake();
+                JOptionPane.showMessageDialog(null, "Öğrenci numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
+            } else if (getMg().getTxtBookBarcode().getText().trim().equals("")
+                    || getMg().getTxtBookBarcode().getText().equals(BarcodeNoPlaceHolder)) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                StudentCanTakeBook();
+                JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
+            } else {
 
+                DeliverBookToStudent();
+            }
+
+        }
+        if (e.getSource() == getMg().getTxtBookBarcode()) {
+
+        }
         if (e.getSource() == getMg().getBookAdd()) {
             getMg().getJp().setVisible(false);
             BookAddGui bag = new BookAddGui(getMg());
@@ -103,7 +146,7 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
 
     }
 
-    @Override
+    //@Override
     public void insertUpdate(DocumentEvent e) {     // Buraya eklenir hızlı işlem yapma 2 txt ten ikisi de dolduğu anda işlem yapılır
 
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)
@@ -144,23 +187,21 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
         }
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) {// first for student no
 
-            System.out.println("----Alinan kelime :" + getMg().gettxtStudentNo().getText());
         }
 
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) { // second for bookBarcode
-            System.out.println("----Alinan kelime :" + getMg().getTxtBookBarcode().getText());
+
         }
 
     }
 
-    @Override
-    public void removeUpdate(DocumentEvent e
-    ) {
+    //  @Override
+    public void removeUpdate(DocumentEvent e) {
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) { // second for bookBarcode
-            System.out.println("silindikten sonra :" + getMg().gettxtStudentNo().getText());
+
         }
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) { // second for bookBarcode
-            System.out.println("silindikten sonra :" + getMg().getTxtBookBarcode().getText());
+
         }
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)
                 || e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) {
@@ -179,7 +220,7 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
 
     }
 
-    @Override
+    // @Override
     public void changedUpdate(DocumentEvent e) {
 
     }
@@ -221,10 +262,7 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
             getMg().getTimeControlExtraTime().setBackground(background_color);
             getMg().getTimeControlExtraTime().setForeground(foreground_color);
         }
-        /*  if (e.getSource() == getMg().getOvertime_Fine()) {
-            getMg().getOvertime_Fine().setBackground(background_color);
-            getMg().getOvertime_Fine().setForeground(foreground_color);
-        }*/
+
         if (e.getSource() == getMg().getAboutUs()) {
             getMg().getAboutUs().setBackground(background_color);
             getMg().getAboutUs().setForeground(foreground_color);
@@ -265,12 +303,12 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
     @Override
     public void focusGained(FocusEvent e) {
         if (e.getSource() == getMg().gettxtStudentNo()) {
-            if (getMg().gettxtStudentNo().getText().trim().equals("Öğrenci No Girin")) {
+            if (getMg().gettxtStudentNo().getText().trim().equals(StudentPlaceHolder)) {
                 getMg().gettxtStudentNo().setText("");
                 getMg().gettxtStudentNo().setForeground(Color.BLACK);
             }
         } else if (e.getSource() == getMg().getTxtBookBarcode()) {
-            if (getMg().getTxtBookBarcode().getText().trim().equals("Kitap Barkod No girin")) {
+            if (getMg().getTxtBookBarcode().getText().trim().equals(BarcodeNoPlaceHolder)) {
                 getMg().getTxtBookBarcode().setText("");
                 getMg().getTxtBookBarcode().setForeground(Color.BLACK);
 
@@ -295,4 +333,190 @@ public class ActionsMainGui implements ActionListener, DocumentListener, MouseLi
         }
     }
 
+    public void StudentCanTakeBook() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+
+            String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
+            ResultSet rs = stmt.executeQuery(StudentExistQuery);
+
+            if (!rs.next()) {
+
+                StudentCanTakeBook = false;
+                throw new Exception();
+            } else {
+
+            }
+
+            getMg().gettxtResultScreen().setBackground(Color.CYAN);
+            getMg().gettxtResultScreen().setText("Öğrenci Kayıtlı");
+            String CanStudentTakeBookQuery = "SELECT * FROM book  RIGHT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo LIKE'"
+                    + getMg().gettxtStudentNo().getText() + "'";
+
+            rs = stmt.executeQuery(CanStudentTakeBookQuery);
+            int TookBookCounter = 0;
+            while (rs.next()) {
+                TookBookCounter++;
+            }
+            if (TookBookCounter == 3) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Öğrencide Zaten 3 tane kitap var ");
+                StudentCanTakeBook = false;
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "CLASS NOT FOUND");
+        } catch (SQLException ex) {
+            //  JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            if (StudentCanTakeBook == false) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+
+                getMg().gettxtResultScreen().setBackground(Color.red);
+                getMg().gettxtResultScreen().setText("ÖĞRENCİ BULUNAMADI");
+            }
+        }
+    }
+
+    public void BookCanBeTake() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            stmt = conn.createStatement();
+
+            String BookExistQuery = "Select * FROM book WHERE BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText().trim() + "'";
+            stmt = conn.createStatement();
+
+            /*String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
+            ResultSet rs = stmt.executeQuery(StudentExistQuery);*/
+            ResultSet rs = stmt.executeQuery(BookExistQuery);
+
+            if (!rs.next()) //    ResultSet rs = stmt.executeQuery(CanStudentTakeBookQuery);
+            {
+
+                bookExist = false;
+
+                getMg().gettxtResultScreen().setBackground(Color.red);
+                getMg().gettxtResultScreen().setText("Kitap Bulunamadı");
+                throw new Exception();
+            }
+
+            getMg().gettxtResultScreen().setBackground(Color.CYAN);
+            getMg().gettxtResultScreen().setText("Kitap Kayıtlı");
+
+            String BookCanBeDelivered = "SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  "
+                    + "WHERE  book.BarcodeNo LIKE  '" + getMg().getTxtBookBarcode().getText() + "' and book.StudentNo is null";
+            rs = stmt.executeQuery(BookCanBeDelivered);
+            if (!rs.next()) {
+
+                BookDeliveredSomeone = true;
+                throw new Exception();
+            }
+
+        } catch (ClassNotFoundException ex) {
+
+        } catch (SQLException ex) {
+
+        } catch (Exception ex) {
+            bookFree = false;
+            if (bookExist == false) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Eksik Numara Girdiniz  Ya da Kitap Barkod Numarası Kayıtlı değil",
+                        "KİTAP BARKOD NUMARASI HATASI", JOptionPane.ERROR_MESSAGE);
+                getMg().gettxtResultScreen().setText("Kitap Bulunamadı");
+                getMg().gettxtResultScreen().setBackground(Color.red);
+            } else if (BookDeliveredSomeone == true) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Eksik Numara Girdiniz  Ya da Kitap Barkod Numarası Kayıtlı değil",
+                        "KİTAP BARKOD NUMARASI HATASI", JOptionPane.ERROR_MESSAGE);
+                getMg().gettxtResultScreen().setText("Kitap Alınmış");
+                getMg().gettxtResultScreen().setBackground(Color.ORANGE);
+            }
+        }
+
+    }
+
+    public void DeliverBookToStudent() {
+
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            StudentCanTakeBook();
+            if (StudentCanTakeBook == false) {
+                return;
+            }
+            BookCanBeTake();
+            if (bookFree == false) {
+                return;
+            }
+
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            String SqlDeliverBookStudent = "Update  book set StudentNo LIKE '" + getMg().gettxtStudentNo().getText()
+                    + "' where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
+            stmt.executeUpdate(SqlDeliverBookStudent);
+
+            getMg().gettxtResultScreen().setBackground(Color.GREEN);
+            getMg().gettxtResultScreen().setText("EŞLEŞME BAŞARILI");
+            SuccessVoice();
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    public void SuccessVoice() {
+        try {
+            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(stream);
+            clip.start();
+
+        } catch (UnsupportedAudioFileException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } catch (LineUnavailableException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+
+    }
+
+    public void DeliverBookToLibrary() {
+    }
 }
