@@ -177,6 +177,8 @@ public class ActionsBook implements ActionListener, FocusListener {
             bag.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             bag.getMg().getTxtBookName().setText("");
             bag.getMg().gettxtResultScreen().setText("");
+            bag.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
+
         } else if (brg != null) {
             brg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             brg.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
@@ -184,7 +186,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             brg.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             brg.getMg().getTxtBookName().setText("");
             brg.getMg().gettxtResultScreen().setText("");
-
+            brg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
         } else if (bslg != null) {
             bslg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             bslg.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
@@ -192,6 +194,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             bslg.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             bslg.getMg().getTxtBookName().setText("");
             bslg.getMg().gettxtResultScreen().setText("");
+            bslg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         } else if (burg != null) {
             burg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
@@ -200,6 +203,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             burg.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             burg.getMg().getTxtBookName().setText("");
             burg.getMg().gettxtResultScreen().setText("");
+            burg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
         }
     }
 
@@ -542,8 +546,6 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getTxtResult().setBackground(Color.PINK);
                 java.awt.Toolkit.getDefaultToolkit().beep();
             }
- 
-            
 
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "ClASS NOT FOUND");
@@ -769,7 +771,6 @@ public class ActionsBook implements ActionListener, FocusListener {
                         + "Güncelleme Başarısız", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
             }
 
-            
             burg.getTxtResult().setBackground(Color.red);
             burg.getTxtResult().setBackground(new Color(255, 82, 82));
             burg.getTxtResult().setText("Güncelleme Başarısız");

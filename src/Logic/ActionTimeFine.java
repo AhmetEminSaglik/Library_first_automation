@@ -35,6 +35,8 @@ public class ActionTimeFine implements ActionListener {
             tcet.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             tcet.getMg().getTxtBookName().setText("");
             tcet.getMg().gettxtResultScreen().setText("");
+            tcet.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
+
         } else if (dep != null) {
             dep.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             dep.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
@@ -42,6 +44,7 @@ public class ActionTimeFine implements ActionListener {
             dep.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             dep.getMg().getTxtBookName().setText("");
             dep.getMg().gettxtResultScreen().setText("");
+            dep.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         } else if (au != null) {
             au.getMg().gettxtStudentNo().setForeground(Color.GRAY);
@@ -50,6 +53,7 @@ public class ActionTimeFine implements ActionListener {
             au.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             au.getMg().getTxtBookName().setText("");
             au.getMg().gettxtResultScreen().setText("");
+            au.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         }
     }

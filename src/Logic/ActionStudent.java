@@ -94,6 +94,8 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             } else if (e.getSource() == sag.getBtnClear()) {
                 int answer = JOptionPane.showConfirmDialog(null, "Tüm veriler Silinecektir Emin misiniz? ", "Silme Uyarısı", 0);
                 if (answer == JOptionPane.YES_OPTION) {
+
+                    SuccessVoice();
                     sag.getTxtEmail().setText("");
                     sag.getTxtName().setText("");
                     sag.getTxtNo().setText("");
@@ -101,6 +103,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     sag.getTxtPhoneNo().setText("");
                     sag.getTxtResult().setText("");
                     sag.getTxtResult().setBackground(new Color(206, 214, 224));
+
                 }
             } else if (e.getSource() == sag.getBtnComeBack()) {
                 sag.getJp().setVisible(false);
@@ -135,7 +138,9 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 }*/
                 DBStudentUpdate();
             } else if (e.getSource() == sug.getBtnDelete()) {
-                DBStudentDelete();
+                if (ControlBeforeRemoveStudent() == true) {
+                    DBStudentDelete();
+                }
             }
         } else if (ssg != null) {
             if (e.getSource() == ssg.getBtnComeBack()) {
@@ -547,9 +552,15 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                         + "Güncelleme Başarısız", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
             }
 
-            sug.getTxtResult().setBackground(Color.red);
-            sug.getTxtResult().setBackground(new Color(255, 82, 82));
-            sug.getTxtResult().setText("Güncelleme Başarısız");
+            if (oldStudentNoFree == false) {
+
+                sug.getTxtResult().setBackground(new Color(254, 202, 87));
+                sug.getTxtResult().setText("Bilgiler Zaten Güncel");
+            } else {
+
+                sug.getTxtResult().setBackground(new Color(255, 82, 82));
+                sug.getTxtResult().setText("Güncelleme Başarısız");
+            }
         }
     }
 
@@ -637,6 +648,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             sag.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             sag.getMg().getTxtBookName().setText("");
             sag.getMg().gettxtResultScreen().setText("");
+            sag.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
         } else if (ssg != null) {
             ssg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             ssg.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
@@ -644,6 +656,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             ssg.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             ssg.getMg().getTxtBookName().setText("");
             ssg.getMg().gettxtResultScreen().setText("");
+            ssg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         } else if (sug != null) {
             sug.getMg().gettxtStudentNo().setForeground(Color.GRAY);
@@ -652,6 +665,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             sug.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             sug.getMg().getTxtBookName().setText("");
             sug.getMg().gettxtResultScreen().setText("");
+            sug.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         } else if (rsg != null) {
             rsg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
@@ -660,6 +674,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             rsg.getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
             rsg.getMg().getTxtBookName().setText("");
             rsg.getMg().gettxtResultScreen().setText("");
+            rsg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
         }
     }
 
@@ -714,5 +729,54 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             Logger.getLogger(ActionsBook.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public boolean ControlBeforeRemoveStudent() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            stmt = conn.createStatement();
+
+            String BookExistQuery = "Select * FROM book WHERE StudentNo LIKE '" + sug.getTxtNewNo().getText() + "'";
+            stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(BookExistQuery);
+
+            int BookCounter = 0;
+            while (rs.next()) //    ;
+            {
+
+                BookCounter++;
+
+            }
+
+            if (BookCounter > 0) {
+
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Öğrencinin elinde " + BookCounter + " adet kitap vardır. Kayıt Silinemez");
+                return false;
+            } else {
+                SuccessVoice();
+                return true;
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // eğer kitaplardın StudentNo 'sunda öğrenci numarası  varsa öğrenci silinemicek
+        return true;
     }
 }

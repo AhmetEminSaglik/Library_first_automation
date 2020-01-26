@@ -72,12 +72,12 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().gettxtStudentNo() || e.getSource() == getMg().getTxtBookBarcode()) {
             if (getMg().gettxtStudentNo().getText().trim().equals("") || getMg().gettxtStudentNo().getText().equals(StudentPlaceHolder)) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                BookCanBeTake();
+                //     BookCanBeTake();
                 JOptionPane.showMessageDialog(null, "Öğrenci numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
             } else if (getMg().getTxtBookBarcode().getText().trim().equals("")
                     || getMg().getTxtBookBarcode().getText().equals(BarcodeNoPlaceHolder)) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                StudentCanTakeBook();
+                //   StudentCanTakeBook();
                 JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
             } else {
 
@@ -361,9 +361,9 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             } else {
 
             }
-
+            /*
             getMg().gettxtResultScreen().setBackground(Color.CYAN);
-            getMg().gettxtResultScreen().setText("Öğrenci Kayıtlı");
+            getMg().gettxtResultScreen().setText("Öğrenci Kayıtlı");*/
             String CanStudentTakeBookQuery = "SELECT * FROM book  RIGHT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo LIKE'"
                     + getMg().gettxtStudentNo().getText() + "'";
 
@@ -374,7 +374,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             }
             if (TookBookCounter == 3) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, "Öğrencide Zaten 3 tane kitap var ");
+                JOptionPane.showMessageDialog(null, "Öğrencide Zaten 3 tane kitap var ", "KİTAP VERME HATASI", JOptionPane.ERROR_MESSAGE);
                 StudentCanTakeBook = false;
             }
         } catch (ClassNotFoundException ex) {
@@ -419,13 +419,18 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
                 bookExist = false;
 
-                getMg().gettxtResultScreen().setBackground(Color.red);
-                getMg().gettxtResultScreen().setText("Kitap Bulunamadı");
                 throw new Exception();
             }
-
+            /*else {
+                if (getMg().gettxtResultScreen().getText().equals("Kitap Bulunamadı")
+                        && getMg().gettxtResultScreen().getBackground() == Color.red) {
+                  getMg().gettxtResultScreen().setText("Kitap bulundu");
+                getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));  }
+            
+            }*/
+ /*
             getMg().gettxtResultScreen().setBackground(Color.CYAN);
-            getMg().gettxtResultScreen().setText("Kitap Kayıtlı");
+            getMg().gettxtResultScreen().setText("Kitap Kayıtlı");*/
 
             String BookCanBeDelivered = "SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  "
                     + "WHERE  book.BarcodeNo LIKE  '" + getMg().getTxtBookBarcode().getText() + "' and book.StudentNo is null";
@@ -444,15 +449,15 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             bookFree = false;
             if (bookExist == false) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, "Eksik Numara Girdiniz  Ya da Kitap Barkod Numarası Kayıtlı değil",
+                JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası Kayıtlı değil",
                         "KİTAP BARKOD NUMARASI HATASI", JOptionPane.ERROR_MESSAGE);
                 getMg().gettxtResultScreen().setText("Kitap Bulunamadı");
                 getMg().gettxtResultScreen().setBackground(Color.red);
             } else if (BookDeliveredSomeone == true) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, "Eksik Numara Girdiniz  Ya da Kitap Barkod Numarası Kayıtlı değil",
-                        "KİTAP BARKOD NUMARASI HATASI", JOptionPane.ERROR_MESSAGE);
-                getMg().gettxtResultScreen().setText("Kitap Alınmış");
+                JOptionPane.showMessageDialog(null, "Kitap başkasına verilmiş",
+                        "ÖĞRECİDE BULUNAN KİTAP EŞLEŞTİRME HATASI", JOptionPane.ERROR_MESSAGE);
+                getMg().gettxtResultScreen().setText("Kitap Önceden Alınmış");
                 getMg().gettxtResultScreen().setBackground(Color.ORANGE);
             }
         }
@@ -469,14 +474,21 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         Connection conn = null;
         Statement stmt = null;
+        StudentCanTakeBook = true;
+        BookDeliveredSomeone = false;
+        bookFree = true;
+        boolean studentExist = true;
+        bookExist = true;
 
         try {
             StudentCanTakeBook();
             if (StudentCanTakeBook == false) {
+
                 return;
             }
             BookCanBeTake();
             if (bookFree == false) {
+
                 return;
             }
 
@@ -485,8 +497,8 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             stmt = conn.createStatement();
-            String SqlDeliverBookStudent = "Update  book set StudentNo LIKE '" + getMg().gettxtStudentNo().getText()
-                    + "' where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
+            String SqlDeliverBookStudent = "Update  book set StudentNo = '" + getMg().gettxtStudentNo().getText()
+                    + "' \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
             stmt.executeUpdate(SqlDeliverBookStudent);
 
             getMg().gettxtResultScreen().setBackground(Color.GREEN);
