@@ -124,7 +124,10 @@ public class ActionsBook implements ActionListener, FocusListener {
                     JOptionPane.showMessageDialog(null, "Öğrenci Numarası boş bırakılamaz");
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "sql e bağlanacak");
+                    if (StudentExist() == true && BookExist() == true) {
+                        ReturnBookToLibrary();
+                    }
+
                 }
             }
         } else if (bslg != null) {
@@ -775,5 +778,125 @@ public class ActionsBook implements ActionListener, FocusListener {
             burg.getTxtResult().setBackground(new Color(255, 82, 82));
             burg.getTxtResult().setText("Güncelleme Başarısız");
         }
+    }
+
+    public boolean StudentExist() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            stmt = conn.createStatement();
+
+            String StudentExistQuery = "Select * FROM student WHERE No LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
+            //stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(StudentExistQuery);
+            if (rs.next()) {
+                brg.getTxtStudentName().setText(rs.getString("Name"));
+                return true;
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "SQL HATASI");
+        }
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        brg.getTxtResult().setBackground(Color.red);
+        brg.getTxtResult().setText("Kayıtlı Öğrenci Bulunamadı");
+        return false;
+    }
+
+    public boolean BookExist() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            stmt = conn.createStatement();
+
+            String BookExistQuery = "Select * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "'";
+
+            ResultSet rs = stmt.executeQuery(BookExistQuery);
+            if (!rs.next()) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                brg.getTxtResult().setBackground(Color.red);
+                brg.getTxtResult().setText("Kayıtlı Kitap Bulunamadı");
+                return false;
+            }
+            brg.getTxtBookName().setText(rs.getString("Name"));
+            brg.getTxtAuthorName().setText(rs.getString("AuthorName"));
+
+            String BookFree = "Select * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and "
+                    + "StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
+            rs = stmt.executeQuery(BookFree);
+            if (!rs.next()) {
+                if (rs.getString("StudentNo").equals(null)) {
+                    brg.getTxtResult().setBackground(Color.CYAN);
+                    brg.getTxtResult().setText("Kitap Zaten Kütüphanede bulunuyor");
+                } else {
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+
+                    brg.getTxtResult().setBackground(Color.ORANGE);
+                    brg.getTxtResult().setText("Kitap Başkasının üzerine Kayıtlı / İADE YAPILAMADI");
+                }
+                return false;
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex + " --> SQL HATASI book");
+            brg.getTxtResult().setText("Kitap İade Edilmiş /Kitap Şuan Kütüphanemizde bulunmaktadır");
+            brg.getTxtResult().setBackground(new Color(250, 130, 49));
+            return false;
+        }
+
+        return true;
+    }
+
+    public void ReturnBookToLibrary() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+
+// öğrenci var mı
+// kitap var mı
+// ikiside uygun ise iade edilir
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            stmt = conn.createStatement();
+
+            String BookExistQuery = "Select * FROM book WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
+            stmt = conn.createStatement();
+            String DeliverBookToLibraryQuery = "Update book SET StudentNo= NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
+                    + "BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' ";
+            stmt.executeUpdate(DeliverBookToLibraryQuery);
+            SuccessVoice();
+            brg.getTxtResult().setBackground(Color.green);
+            brg.getTxtResult().setText("KİTAP İADE BAŞARILI");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "SQL HATASI");
+        }
+
     }
 }
