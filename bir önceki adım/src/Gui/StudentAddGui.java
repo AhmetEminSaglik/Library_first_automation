@@ -71,18 +71,11 @@ public class StudentAddGui {
         getBtnAdd().addActionListener(action);
         getBtnClear().addActionListener(action);
         getBtnComeBack().addActionListener(action);
-
         getTxtNo().addFocusListener(action);
         getTxtName().addFocusListener(action);
         getTxtSurname().addFocusListener(action);
         getTxtPhoneNo().addFocusListener(action);
         getTxtEmail().addFocusListener(action);
-
-        getTxtNo().addActionListener(action);
-        getTxtName().addActionListener(action);
-        getTxtSurname().addActionListener(action);
-        getTxtPhoneNo().addActionListener(action);
-        getTxtEmail().addActionListener(action);
     }
 
     public JFrame getJf() {

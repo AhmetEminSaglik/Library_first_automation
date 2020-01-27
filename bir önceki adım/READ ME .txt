@@ -1,0 +1,2 @@
+Veri  tabanýna  10 a yakýn veri ekleyince  paneller kaybolmuyor hata meydana geliyor.
+Bundan dolayý bunu saklýyorum. Bu hatasýz çalýþan versiyonu.

@@ -6,7 +6,6 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JButton;
@@ -202,27 +201,7 @@ public class Login extends JPanel {
             String tableYoneticiControl = "SHOW TABLES LIKE 'admin' ";
             String tableKitapControl = "SHOW TABLES LIKE 'book'";
             if (stmt.executeUpdate(tableControl) == -1 || stmt.executeUpdate(tableYoneticiControl) == -1 || stmt.executeUpdate(tableKitapControl) == -1) {
-// Eğer önceden kayıt varsa ise program açılırken süre hesaplanacak
 
-                String detectWhoHasBookOverThirtyDays = "SELECT * FROM book WHERE NOW()  >=BorrowedDate + INTERVAL 30 DAY";
-                ResultSet rs = stmt.executeQuery(detectWhoHasBookOverThirtyDays);
-                int Over30Day = 0;
-
-                while (rs.next()) {
-                    Over30Day++;
-                }
-
-                detectWhoHasBookOverThirtyDays = "SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY  ";
-                rs = stmt.executeQuery(detectWhoHasBookOverThirtyDays);
-                int Last3Day = 0;
-
-                while (rs.next()) {
-                    Last3Day++;
-                }
-                if (Over30Day > 0 || Last3Day > 0) {
-                    JOptionPane.showMessageDialog(null, "Son 3 günü kalan Öğrenci Sayısı : " + Last3Day + "\n\n 30 Günü Aşan  öğrenci Sayısı      : " + Over30Day,
-                            "ZAMAN UYARISI", JOptionPane.WARNING_MESSAGE);
-                }
                 return;
             }/*
             String sql = "CREATE TABLE `library`.`student`"

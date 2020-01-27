@@ -63,15 +63,10 @@ public class BookAddGui {
         getJp().add(getBtnComeBack());
         getJp().add(getBtnAddBook());
 
-        getTxtAuthorName().addActionListener(bookaction);
-        getTxtBookBarcodeNo().addActionListener(bookaction);
-        getTxtCategory().addActionListener(bookaction);
-        getTxtBookName().addActionListener(bookaction);
         getTxtBookName().addFocusListener(bookaction);
         getTxtBookBarcodeNo().addFocusListener(bookaction);
         getTxtCategory().addFocusListener(bookaction);
         getTxtAuthorName().addFocusListener(bookaction);
-        
 
     }
 

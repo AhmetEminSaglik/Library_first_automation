@@ -37,9 +37,9 @@ import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 
 public class ActionsMainGui implements ActionListener, MouseListener, FocusListener {
-
+    
     MainGui mg = null;
-
+    
     boolean studentExist = true;
     boolean bookExist = true;
     boolean StudentCanTakeBook = true;
@@ -47,18 +47,18 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
     boolean bookFree = true;
     String StudentPlaceHolder = "Öğrenci No Girin";
     String BarcodeNoPlaceHolder = "Kitap Barkod No girin";
-
+    
     public ActionsMainGui(MainGui mg) {
         this.mg = mg;
     }
-
+    
     public MainGui getMg() {
         if (mg == null) {
             mg = new MainGui();
         }
         return mg;
     }
-
+    
     public void setMg(MainGui mg) {
         this.mg = mg;
     }
@@ -80,19 +80,18 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 //   StudentCanTakeBook();
                 JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
             } else {
-
+                
                 DeliverBookToStudent();
             }
-
+            
         }
         if (e.getSource() == getMg().getTxtBookBarcode()) {
-
+            
         }
         if (e.getSource() == getMg().getBookAdd()) {
-            //getMg().getJf().setVisible(false);
             getMg().getJp().setVisible(false);
             BookAddGui bag = new BookAddGui(getMg());
-
+            
         }
         if (e.getSource() == getMg().getBookReturn()) {
             getMg().getJp().setVisible(false);
@@ -112,12 +111,12 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().getStudentUpdate()) {
             getMg().getJp().setVisible(false);
             StudentUpdateGui sug = new StudentUpdateGui(getMg());
-
+            
         }
         if (e.getSource() == getMg().getStudentState()) {
-
+            
             StudentStateGui ssg = new StudentStateGui(getMg());
-
+            
         }
         if (e.getSource() == getMg().getRegisteredStudent()) {
             getMg().getJp().setVisible(false);
@@ -126,7 +125,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().getTimeControlExtraTime()) {
             getMg().getJp().setVisible(false);
             TimeControlExtraTimeGui tc_etg = new TimeControlExtraTimeGui(getMg());
-
+            
         }
         if (e.getSource() == getMg().getAboutUs()) {
             getMg().getJp().setVisible(false);
@@ -137,14 +136,14 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             FineDebtPayment fdp = new FineDebtPayment(getMg());
         }
         if (e.getSource() == getMg().getExit()) {
-
+            
             int answer = JOptionPane.showConfirmDialog(null, "Çıkmak İstediğinize Emin Misiniz?", "ÇIKIŞ UYARISI", 2, 3);
-
+            
             if (answer == 0) {
                 System.exit(answer);
             }
         }
-
+        
     }
 
     //@Override
@@ -152,21 +151,21 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)
                 || e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) {
-
+            
             try {
-
+                
                 Integer.parseInt(getMg().gettxtStudentNo().getText());
-
+                
             } catch (NumberFormatException nfe) {
 
                 //  JOptionPane.showMessageDialog(null, "Karakter giremezsiniz. Sayı girmelisiniz");
                 int txtLength = getMg().gettxtStudentNo().getText().length();
-
+                
                 int i = getMg().gettxtStudentNo().getText().length();
                 while (i > 0) {
                     i--;
                     try {
-
+                        
                         if (getMg().gettxtStudentNo().getText().charAt(i) <= 9 || getMg().gettxtStudentNo().getText().charAt(i) >= 0) {
 //sayi değeri 0-9 arası değil ise ki catch e girecek o zaman o char'ı silip yazdıracam ekrana 
                         }
@@ -174,7 +173,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                         String StudentText = "";
                         for (int j = 0; j < i; j++) {
                             StudentText = "" + getMg().gettxtStudentNo().getText().charAt(j);
-
+                            
                         }
                         getMg().gettxtStudentNo().setText(StudentText);
                     }
@@ -182,18 +181,18 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 //getMg().gettxtStudentNo().setText(getMg().gettxtStudentNo().getText().charAt()[length() - 1]);
                 //getMg().gettxtStudentNo().getText()[getMg().gettxtStudentNo().getText().length() - 1];
                 {
-
+                    
                 }
             }
         }
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) {// first for student no
 
         }
-
+        
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) { // second for bookBarcode
 
         }
-
+        
     }
 
     //  @Override
@@ -207,25 +206,25 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)
                 || e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) {
             boolean allInteger = false;
-
+            
             try {
-
+                
                 Integer.parseInt(getMg().gettxtStudentNo().getText());
-
+                
             } catch (NumberFormatException nfe) {
                 //JOptionPane.showMessageDialog(null, "Karakter giremezsiniz. Sayı girmelisiniz (aciton 163 satır şuana kadar çalışmadı)");
 
             }
-
+            
         }
-
+        
     }
 
     // @Override
     public void changedUpdate(DocumentEvent e) {
-
+        
     }
-
+    
     public void findButtonsSourceWithUsingMouse(MouseEvent e, Color background_color, Color foreground_color) { // to clear make which button you on 
         if (e.getSource() == getMg().getBookAdd()) {
             getMg().getBookAdd().setBackground(background_color);
@@ -263,7 +262,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             getMg().getTimeControlExtraTime().setBackground(background_color);
             getMg().getTimeControlExtraTime().setForeground(foreground_color);
         }
-
+        
         if (e.getSource() == getMg().getAboutUs()) {
             getMg().getAboutUs().setBackground(background_color);
             getMg().getAboutUs().setForeground(foreground_color);
@@ -272,35 +271,35 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             getMg().getExit().setBackground(background_color);
             getMg().getExit().setForeground(foreground_color);
         }
-
+        
     }
-
+    
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        
     }
-
+    
     @Override
     public void mousePressed(MouseEvent e) {
-
+        
     }
-
+    
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        
     }
-
+    
     @Override
     public void mouseEntered(MouseEvent e) {
         findButtonsSourceWithUsingMouse(e, Color.GRAY, Color.WHITE);
-
+        
     }
-
+    
     @Override
     public void mouseExited(MouseEvent e) {
         findButtonsSourceWithUsingMouse(e, Color.WHITE, Color.BLACK);// this make buttons as before
     }
-
+    
     @Override
     public void focusGained(FocusEvent e) {
         if (e.getSource() == getMg().gettxtStudentNo()) {
@@ -312,12 +311,12 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             if (getMg().getTxtBookBarcode().getText().trim().equals(BarcodeNoPlaceHolder)) {
                 getMg().getTxtBookBarcode().setText("");
                 getMg().getTxtBookBarcode().setForeground(Color.BLACK);
-
+                
             }
-
+            
         }
     }
-
+    
     @Override
     public void focusLost(FocusEvent e) {
         if (e.getSource() == getMg().gettxtStudentNo()) {
@@ -329,11 +328,11 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             if (getMg().getTxtBookBarcode().getText().trim().equals("")) {
                 getMg().getTxtBookBarcode().setForeground(Color.GRAY);
                 getMg().getTxtBookBarcode().setText("Kitap Barkod No girin");
-
+                
             }
         }
     }
-
+    
     public void StudentCanTakeBook() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
@@ -341,33 +340,33 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         //  Database credentials
         String USER = "root";
         String PASS = "";
-
+        
         Connection conn = null;
         Statement stmt = null;
-
+        
         try {
             Class.forName(JDBC_DRIVER);
-
+            
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
+            
             stmt = conn.createStatement();
-
+            
             String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
             ResultSet rs = stmt.executeQuery(StudentExistQuery);
-
+            
             if (!rs.next()) {
-
+                
                 StudentCanTakeBook = false;
                 throw new Exception();
             } else {
-
+                
             }
             /*
             getMg().gettxtResultScreen().setBackground(Color.CYAN);
             getMg().gettxtResultScreen().setText("Öğrenci Kayıtlı");*/
             String CanStudentTakeBookQuery = "SELECT * FROM book  RIGHT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo LIKE'"
                     + getMg().gettxtStudentNo().getText() + "'";
-
+            
             rs = stmt.executeQuery(CanStudentTakeBookQuery);
             int TookBookCounter = 0;
             while (rs.next()) {
@@ -387,41 +386,41 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         } catch (Exception ex) {
             if (StudentCanTakeBook == false) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-
+                
                 getMg().gettxtResultScreen().setBackground(Color.red);
                 getMg().gettxtResultScreen().setText("ÖĞRENCİ BULUNAMADI");
             }
         }
     }
-
+    
     public void BookCanBeTake() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-
+        
         String USER = "root";
         String PASS = "";
-
+        
         Connection conn = null;
         Statement stmt = null;
-
+        
         try {
             Class.forName(JDBC_DRIVER);
-
+            
             conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
             stmt = conn.createStatement();
-
+            
             String BookExistQuery = "Select * FROM book WHERE BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText().trim() + "'";
             stmt = conn.createStatement();
 
             /*String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
             ResultSet rs = stmt.executeQuery(StudentExistQuery);*/
             ResultSet rs = stmt.executeQuery(BookExistQuery);
-
+            
             if (!rs.next()) //    ResultSet rs = stmt.executeQuery(CanStudentTakeBookQuery);
             {
-
+                
                 bookExist = false;
-
+                
                 throw new Exception();
             }
             /*else {
@@ -434,20 +433,20 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
  /*
             getMg().gettxtResultScreen().setBackground(Color.CYAN);
             getMg().gettxtResultScreen().setText("Kitap Kayıtlı");*/
-
+            
             String BookCanBeDelivered = "SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  "
                     + "WHERE  book.BarcodeNo LIKE  '" + getMg().getTxtBookBarcode().getText() + "' and book.StudentNo is null";
             rs = stmt.executeQuery(BookCanBeDelivered);
             if (!rs.next()) {
-
+                
                 BookDeliveredSomeone = true;
                 throw new Exception();
             }
-
+            
         } catch (ClassNotFoundException ex) {
-
+            
         } catch (SQLException ex) {
-
+            
         } catch (Exception ex) {
             bookFree = false;
             if (bookExist == false) {
@@ -464,17 +463,17 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setBackground(Color.ORANGE);
             }
         }
-
+        
     }
-
+    
     public void DeliverBookToStudent() {
-
+        
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-
+        
         String USER = "root";
         String PASS = "";
-
+        
         Connection conn = null;
         Statement stmt = null;
         StudentCanTakeBook = true;
@@ -482,29 +481,28 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         bookFree = true;
         boolean studentExist = true;
         bookExist = true;
-
+        
         try {
             StudentCanTakeBook();
             if (StudentCanTakeBook == false) {
-
+                
                 return;
             }
             BookCanBeTake();
             if (bookFree == false) {
-
+                
                 return;
             }
-
+            
             Class.forName(JDBC_DRIVER);
-
+            
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
+            
             stmt = conn.createStatement();
             String SqlDeliverBookStudent = "Update  book set StudentNo = '" + getMg().gettxtStudentNo().getText()
-                    + "' , BorrowedDate = NOW()  -INTERVAL 32 DAY"
-                    + " \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
+                    + "' \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
             stmt.executeUpdate(SqlDeliverBookStudent);
-
+            
             getMg().gettxtResultScreen().setBackground(Color.GREEN);
             getMg().gettxtResultScreen().setText("EŞLEŞME BAŞARILI");
             SuccessVoice();
@@ -513,16 +511,16 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
         }
-
+        
     }
-
+    
     public void SuccessVoice() {
         try {
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
             clip.start();
-
+            
         } catch (UnsupportedAudioFileException ex) {
             JOptionPane.showMessageDialog(null, ex);
         } catch (IOException ex) {
@@ -530,7 +528,9 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         } catch (LineUnavailableException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
-
+        
     }
-
+    
+    public void DeliverBookToLibrary() {
+    }
 }

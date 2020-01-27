@@ -12,14 +12,11 @@ import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -82,11 +79,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 bag.getMg().getJf().setTitle("ANA SAYFA");
                 clearAllTxtMainGui();
             }
-            if (e.getSource() == bag.getBtnAddBook()
-                    || e.getSource() == bag.getTxtBookBarcodeNo()
-                    || e.getSource() == bag.getTxtBookName()
-                    || e.getSource() == bag.getTxtCategory()
-                    || e.getSource() == bag.getTxtAuthorName()) {
+            if (e.getSource() == bag.getBtnAddBook()) {
                 if (!bag.getTxtBookBarcodeNo().getText().trim().equals("") && !bag.getTxtBookBarcodeNo().getText().trim().equals(emptyError)
                         && !bag.getTxtBookName().getText().trim().equals("") && !bag.getTxtBookName().getText().trim().equals(emptyError)
                         && !bag.getTxtCategory().getText().trim().equals("") && !bag.getTxtCategory().getText().trim().equals(emptyError)
@@ -864,7 +857,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
         } catch (SQLException ex) {
-
+            JOptionPane.showMessageDialog(null, ex + " --> SQL HATASI book");
             brg.getTxtResult().setText("Kitap İade Edilmiş /Kitap Şuan Kütüphanemizde bulunmaktadır");
             brg.getTxtResult().setBackground(new Color(250, 130, 49));
             return false;
@@ -891,31 +884,11 @@ public class ActionsBook implements ActionListener, FocusListener {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
             stmt = conn.createStatement();
 
-            // String BookExistQuery = "SELECT * FROM book WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
-            //stmt = conn.createStatement();
-          /*   String AddFineQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "'"
-                    + " StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and  NOW() > BorrowedDate + INTERVAL 30 DAY";
-            ResultSet rs = stmt.executeQuery(AddFineQuery);
-            double AddDebt = 0.0;
-            Date date;
-            //java.util.Date today = Calendar.getInstance().getTime();
-           Calendar c = new GregorianCalendar();
-            c.add(Calendar.DATE, 30);
-            Date d = (Date) c.getTime();
-            Date overday;
-            overday = date - d;
-
-            if (rs.next()) {
-                date = rs.getDate("BorrowedDate");
-
-                if (rs.next()) {
-
-                }
-            }*/
-            String DeliverBookToLibraryQuery = "Update book SET StudentNo= NULL , BorrowedDate=NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
+            String BookExistQuery = "Select * FROM book WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
+            stmt = conn.createStatement();
+            String DeliverBookToLibraryQuery = "Update book SET StudentNo= NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
                     + "BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' ";
             stmt.executeUpdate(DeliverBookToLibraryQuery);
-
             SuccessVoice();
             brg.getTxtResult().setBackground(Color.green);
             brg.getTxtResult().setText("KİTAP İADE BAŞARILI");
