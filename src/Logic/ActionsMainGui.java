@@ -344,6 +344,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
 
         try {
             Class.forName(JDBC_DRIVER);
@@ -353,7 +354,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             stmt = conn.createStatement();
 
             String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
-            ResultSet rs = stmt.executeQuery(StudentExistQuery);
+            rs = stmt.executeQuery(StudentExistQuery);
 
             if (!rs.next()) {
 
@@ -391,7 +392,28 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setBackground(Color.red);
                 getMg().gettxtResultScreen().setText("ÖĞRENCİ BULUNAMADI");
             }
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
+
     }
 
     public void BookCanBeTake() {
@@ -403,6 +425,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
 
         try {
             Class.forName(JDBC_DRIVER);
@@ -415,7 +438,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
             /*String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
             ResultSet rs = stmt.executeQuery(StudentExistQuery);*/
-            ResultSet rs = stmt.executeQuery(BookExistQuery);
+            rs = stmt.executeQuery(BookExistQuery);
 
             if (!rs.next()) //    ResultSet rs = stmt.executeQuery(CanStudentTakeBookQuery);
             {
@@ -463,6 +486,26 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setText("Kitap Önceden Alınmış");
                 getMg().gettxtResultScreen().setBackground(Color.ORANGE);
             }
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
     }
@@ -500,8 +543,8 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             stmt = conn.createStatement();
-            String SqlDeliverBookStudent = "Update  book set StudentNo = '" + getMg().gettxtStudentNo().getText()
-                    + "' , BorrowedDate = NOW()  -INTERVAL 32 DAY"
+            String SqlDeliverBookStudent = "UPDATE  book SET StudentNo = '" + getMg().gettxtStudentNo().getText()
+                    + "' , BorrowedDate = NOW()  -INTERVAL 29 DAY"
                     + " \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
             stmt.executeUpdate(SqlDeliverBookStudent);
 
@@ -512,6 +555,26 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             JOptionPane.showMessageDialog(null, ex);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                /*    if (rs != null) {
+                    rs.close();
+                }
+                 if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
     }

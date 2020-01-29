@@ -314,6 +314,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
 
@@ -322,7 +323,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             stmt = conn.createStatement();
             String SqlBookControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + bag.getTxtBookBarcodeNo().getText().trim() + "'";
 
-            ResultSet rs = stmt.executeQuery(SqlBookControlQuery);
+            rs = stmt.executeQuery(SqlBookControlQuery);
 
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
             while (rs.next()) {
@@ -336,6 +337,26 @@ public class ActionsBook implements ActionListener, FocusListener {
             //JOptionPane.showMessageDialog(null, "Lütfen Kitap Barkod Numarsına Sadece Sayı Girin", "Kayıt Hatası", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             BookCanAdd = false;
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
     }
@@ -354,7 +375,6 @@ public class ActionsBook implements ActionListener, FocusListener {
             Class.forName(JDBC_DRIVER);
 
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
             DBbookControl();
             if (!BookCanAdd) {
                 throw new Exception();
@@ -390,9 +410,29 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         } catch (Exception ex) {
             java.awt.Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "Bu Barkod Numarası Zaten Kayıtlı", "KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
-            bag.getTxtResult().setBackground(Color.red);
-            bag.getTxtResult().setText(" Kayıt başarısız");
+            //JOptionPane.showMessageDialog(null, "Bu Barkod Numarası Zaten Kayıtlı", "KAYI2T HATASI", JOptionPane.ERROR_MESSAGE);
+            bag.getTxtResult().setBackground(Color.ORANGE);
+            bag.getTxtResult().setText("Bu Barkod Numarası Zaten Kayıtlı");
+
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                /*  if (rs != null) {
+                    rs.close();
+                }
+                 if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
 
         }
 
@@ -408,6 +448,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
             Class.forName(JDBC_DRIVER);
@@ -417,7 +458,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             stmt = conn.createStatement();
             String SqlListQuery = null; //
 
-            ResultSet rs = null;
+            rs = null;
             switch (sectorNumber) {
                 case DB_BARKODNO:
                     SqlListQuery = "SELECT * FROM book where BarcodeNo= '" + bslg.getTxtBarcodeNo().getText() + "'";
@@ -468,7 +509,28 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(null, ex);
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
+
 
         /*   } else if (e.getSource() == bslg.getTxtBarcodeNo()) {
 
@@ -507,6 +569,8 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
+        PreparedStatement preparedStmt = null;
         boolean BookDeleted = true;
         boolean AlreadyCame = true;
 
@@ -517,7 +581,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             stmt = conn.createStatement();
             String SqlBookControlQuery = "SELECT * FROM `book` WHERE  BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "'";
 
-            ResultSet rs = stmt.executeQuery(SqlBookControlQuery);
+            rs = stmt.executeQuery(SqlBookControlQuery);
 
             if (rs.next()) {
                 if (!burg.getTxtNewBarcodeNo().getText().equals((rs.getString("BarcodeNo")))
@@ -537,7 +601,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             String SqlBookdDeleteQuery = "DELETE FROM `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText() + "'";
 
             //    stmt.executeQuery(SqlStudentdDeleteQuery);
-            PreparedStatement preparedStmt = conn.prepareStatement(SqlBookdDeleteQuery);
+            preparedStmt = conn.prepareStatement(SqlBookdDeleteQuery);
 
             int answer = JOptionPane.showConfirmDialog(null, "Kitabı Silmek istediğinizden Emin misiniz ? ", "SİLME UYARISI",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -577,6 +641,26 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getTxtResult().setBackground(new Color(255, 82, 82));
                 burg.getTxtResult().setText("Silme Başarısız");
             }
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStmt != null) {
+                    preparedStmt.close();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
     }
@@ -592,6 +676,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         BookBringCame = false;
         Boolean AlreadyCame = false;
         boolean BarcodeNoEmpty = false;
@@ -604,7 +689,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             stmt = conn.createStatement();
             String SqlBookBrinQuery = "SELECT * FROM `book` WHERE  BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText().trim() + "'";
 
-            ResultSet rs = stmt.executeQuery(SqlBookBrinQuery);
+            rs = stmt.executeQuery(SqlBookBrinQuery);
             while (rs.next()) {
 
                 BarcodeNoEmpty = true;
@@ -650,7 +735,28 @@ public class ActionsBook implements ActionListener, FocusListener {
                 java.awt.Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null, "Aratılan Barkod Nolu Kitap  Zaten Getirildi", "ARAMA HATASI", JOptionPane.ERROR_MESSAGE);
             }
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
+
     }
 
     public void DBBookUpdate() {
@@ -703,6 +809,27 @@ public class ActionsBook implements ActionListener, FocusListener {
             if (BookCanUpdate == false) {
 
             }
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                /*    if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStmt != null) {
+                    prepSQLException ex) {
+                JOptionPane.shoaredStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
     }
@@ -721,6 +848,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
 
@@ -729,7 +857,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             stmt = conn.createStatement();
             String SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText().trim() + "'";
 
-            ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
+            rs = stmt.executeQuery(SqlStudentControlQuery);
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
 
             while (rs.next()) {
@@ -784,7 +912,28 @@ public class ActionsBook implements ActionListener, FocusListener {
             burg.getTxtResult().setBackground(Color.red);
             burg.getTxtResult().setBackground(new Color(255, 82, 82));
             burg.getTxtResult().setText("Güncelleme Başarısız");
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
+
     }
 
     public boolean StudentExist() {
@@ -796,6 +945,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
@@ -804,7 +954,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             String StudentExistQuery = "Select * FROM student WHERE No LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
             //stmt = conn.createStatement();
 
-            ResultSet rs = stmt.executeQuery(StudentExistQuery);
+            rs = stmt.executeQuery(StudentExistQuery);
             if (rs.next()) {
                 brg.getTxtStudentName().setText(rs.getString("Name"));
                 return true;
@@ -813,11 +963,32 @@ public class ActionsBook implements ActionListener, FocusListener {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "SQL HATASI");
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
         java.awt.Toolkit.getDefaultToolkit().beep();
         brg.getTxtResult().setBackground(Color.red);
         brg.getTxtResult().setText("Kayıtlı Öğrenci Bulunamadı");
         return false;
+
     }
 
     public boolean BookExist() {
@@ -829,6 +1000,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
@@ -836,7 +1008,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
             String BookExistQuery = "Select * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "'";
 
-            ResultSet rs = stmt.executeQuery(BookExistQuery);
+            rs = stmt.executeQuery(BookExistQuery);
             if (!rs.next()) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
                 brg.getTxtResult().setBackground(Color.red);
@@ -865,9 +1037,29 @@ public class ActionsBook implements ActionListener, FocusListener {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
         } catch (SQLException ex) {
 
-            brg.getTxtResult().setText("Kitap İade Edilmiş /Kitap Şuan Kütüphanemizde bulunmaktadır");
+            brg.getTxtResult().setText("EŞLEŞME BAŞARISIZ / Kitap Şuan Kütüphanemizde bulunmaktadır");
             brg.getTxtResult().setBackground(new Color(250, 130, 49));
             return false;
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
         return true;
@@ -893,7 +1085,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
             // String BookExistQuery = "SELECT * FROM book WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
             //stmt = conn.createStatement();
-          /*   String AddFineQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "'"
+            /*   String AddFineQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "'"
                     + " StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and  NOW() > BorrowedDate + INTERVAL 30 DAY";
             ResultSet rs = stmt.executeQuery(AddFineQuery);
             double AddDebt = 0.0;
@@ -923,6 +1115,26 @@ public class ActionsBook implements ActionListener, FocusListener {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "SQL HATASI");
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                /*   if (rs != null) {
+                    rs.close();
+                }
+                 if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
     }

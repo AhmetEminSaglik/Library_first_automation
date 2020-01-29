@@ -1,0 +1,14 @@
+1-) 29.01.2020 -->      Bütün sql bağlantılı yerlerin hepsini sql classına 
+                    geçiriyorum yani fazla kodu silmeye yönelik çalışma yapıyorum.
+
+Sonuç : Login sayfası bitti diğerleri kaldı
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------
+Kitap eklemede kitap barkod numarasında 1 kere enter'a basınca 2 kere algılıyor Düzeltilecek

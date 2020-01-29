@@ -29,7 +29,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 
 public class ActionStudent implements ActionListener, MouseListener, FocusListener {
-    
+
     StudentAddGui sag;
     StudentStateGui ssg;
     StudentUpdateGui sug;
@@ -44,19 +44,19 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
     public ActionStudent(StudentAddGui sag) {
         this.sag = sag;
     }
-    
+
     public ActionStudent(StudentStateGui ssg) {
         this.ssg = ssg;
     }
-    
+
     public ActionStudent(StudentUpdateGui sug) {
         this.sug = sug;
     }
-    
+
     public ActionStudent(RegisteredStudentGui rsg) {
         this.rsg = rsg;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (sag != null) {
@@ -81,7 +81,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     if (sag.getTxtName().getText().trim().equals("")) {
                         sag.getTxtName().setForeground(Color.red);
                         sag.getTxtName().setText(emptyError);
-                        
+
                     }
                     if (sag.getTxtSurname().getText().trim().equals("")) {
                         sag.getTxtSurname().setForeground(Color.red);
@@ -99,7 +99,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             } else if (e.getSource() == sag.getBtnClear()) {
                 int answer = JOptionPane.showConfirmDialog(null, "Tüm veriler Silinecektir Emin misiniz? ", "Silme Uyarısı", 0);
                 if (answer == JOptionPane.YES_OPTION) {
-                    
+
                     SuccessVoice();
                     sag.getTxtEmail().setText("");
                     sag.getTxtName().setText("");
@@ -108,7 +108,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     sag.getTxtPhoneNo().setText("");
                     sag.getTxtResult().setText("");
                     sag.getTxtResult().setBackground(new Color(206, 214, 224));
-                    
+
                 }
             } else if (e.getSource() == sag.getBtnComeBack()) {
                 sag.getJp().setVisible(false);
@@ -122,7 +122,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 sug.getMg().getJf().setTitle("ANA SAYFA");
                 sug.getMg().getJp().setVisible(true);
                 clearAllTxtMainGui();
-                
+
             } else if (e.getSource() == sug.getTxtno()) {
                 if (!sug.getTxtno().getText().trim().equals("")) {
                     DBStudentBringData();
@@ -167,37 +167,37 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     || e.getSource() == rsg.getTxtName()
                     || e.getSource() == rsg.getTxtSurname()) {
                 JOptionPane.showMessageDialog(null, "aşağıdaki tablolara bağlanılacak");
-                
+
             }
         }
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
         rsg.getTable().setSelectionBackground(Color.GREEN);
-        
+
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
-        
+
     }
-    
+
     public void DBStudentDelete() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
@@ -205,22 +205,32 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         //  Database credentials
         String USER = "root";
         String PASS = "";
-        
+
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
+        PreparedStatement preparedStmt = null;
+        StudentCanUpdate = true;
+        //  Database credentials
+        /*   String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;*/
         boolean StudentDeleted = true;
         boolean AlreadyCame = true;
         boolean StudentHasDebt = false;
-        
+
         try {
             Class.forName(JDBC_DRIVER);
-            
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             stmt = conn.createStatement();
             String SqlStudentControlQuery = "SELECT * FROM `student` WHERE  No LIKE '" + sug.getTxtno().getText() + "'";
-            
-            ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
+
+            rs = stmt.executeQuery(SqlStudentControlQuery);
+
             /* while (rs.next()) {
                 if (!sug.getTxtNewNo().getText().equals(Long.toString((rs.getLong("No"))))
                         || !sug.getTxtNewName().getText().equals(rs.getString("Name"))
@@ -243,24 +253,23 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 if (Double.parseDouble(rs.getString("Debt")) > 0.0) {
                     StudentHasDebt = true;
                     throw new Exception();
-                    
                 }
             } else {
                 throw new Exception("Kayıtlı Öğrenci Bulunamadı");
             }
-            
             stmt = conn.createStatement();
-            
+
             String SqlStudentdDeleteQuery = "DELETE FROM `student` WHERE No LIKE '" + sug.getTxtNewNo().getText() + "'";
 
             //    stmt.executeQuery(SqlStudentdDeleteQuery);
-            PreparedStatement preparedStmt = conn.prepareStatement(SqlStudentdDeleteQuery);
-            
+            //PreparedStatement preparedStmt = conn.prepareStatement(SqlStudentdDeleteQuery);
+            preparedStmt = conn.prepareStatement(SqlStudentdDeleteQuery);
+
             int answer = JOptionPane.showConfirmDialog(null, "Öğrenciyi Silmek istediğinizden Emin misiniz ? ", "SİLME UYARISI",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (answer == JOptionPane.YES_OPTION) {
                 SuccessVoice();
-                
+
                 sug.getTxtNewNo().setText("");
                 sug.getTxtNewName().setText("");
                 sug.getTxtNewSurname().setText("");
@@ -268,13 +277,14 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 sug.getTxtNewEmail().setText("");
                 sug.getTxtResult().setText("Öğrenci Silindi");
                 sug.getTxtResult().setBackground(new Color(255, 121, 63));
+                //preparedStmt.execute();
                 preparedStmt.execute();
             } else {
                 sug.getTxtResult().setText("Öğrenci Silme İşlemi İptal Edildi");
                 sug.getTxtResult().setBackground(Color.PINK);
                 java.awt.Toolkit.getDefaultToolkit().beep();
             }
-            
+
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "ClASS NOT FOUND");
         } catch (SQLException ex) {
@@ -290,7 +300,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             } else if (StudentHasDebt == true) {
                 //     JOptionPane.showMessageDialog(null, "Öğrencinin " + debt + " TL borcu olduğu için silinemiyor");
                 JOptionPane.showMessageDialog(null, "Öğrencinin borcu olduğu için silinemiyor");
-                
+
                 java.awt.Toolkit.getDefaultToolkit().beep();
                 sug.getTxtResult().setBackground(new Color(255, 82, 82));
                 sug.getTxtResult().setText("Silme Başarısız");
@@ -300,24 +310,48 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 sug.getTxtResult().setBackground(new Color(255, 82, 82));
                 sug.getTxtResult().setText("Silme Başarısız");
             }
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStmt != null) {
+                    preparedStmt.close();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
+        /*finally {
+
+        }*/
     }
-    
+
     public void DBStudentUpdate() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
         StudentCanUpdate = true;
         //  Database credentials
         String USER = "root";
         String PASS = "";
-        
+
         Connection conn = null;
         Statement stmt = null;
         try {
             Class.forName(JDBC_DRIVER);
-            
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             stmt = conn.createStatement();
             if (sug.getTxtNewNo().getText().trim().equals("")
                     || sug.getTxtNewName().getText().trim().equals("")
@@ -338,12 +372,12 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     + "Email = '" + sug.getTxtNewEmail().getText().trim() + "',\n "
                     + "Phone ='" + sug.getTxtPhoneNo().getText().trim() + "'\n "
                     + "WHERE No LIKE  '" + sug.getTxtno().getText().trim() + "' ";
-            
+
             DBStudentControlToUpdate();
             if (!StudentCanUpdate) {
                 throw new Exception("Güncellenecek Hedef Öğrenecek Numarası Kayıt Bulundurduğu için\n"
                         + "Güncelleme İptal Edilmiştir");
-                
+
             }
             int answer = JOptionPane.showConfirmDialog(null, "Güncellemek İstediğinize Emin misiniz?", "GÜNCELLEME ONAYI", JOptionPane.YES_NO_OPTION);
             if (answer != JOptionPane.YES_OPTION) {
@@ -370,10 +404,30 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     + "2-) Yeni Öğrenci Numarasına Sayı girmelisiniz", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             //   JOptionPane.showMessageDialog(null, ex);
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                /*  if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
-        
+
     }
-    
+
     public void DBStudentBringData() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
@@ -381,22 +435,23 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         //  Database credentials
         String USER = "root";
         String PASS = "";
-        
+
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         StudentBringCame = false;
         Boolean AlreadyCame = false;
         try {
             Class.forName(JDBC_DRIVER);
-            
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             stmt = conn.createStatement();
             String SqlStudentUpdateQuery = "SELECT * FROM `student` WHERE  No LIKE '" + sug.getTxtno().getText() + "' ";
-            
-            ResultSet rs = stmt.executeQuery(SqlStudentUpdateQuery);
+
+            rs = stmt.executeQuery(SqlStudentUpdateQuery);
             while (rs.next()) {
-                
+
                 if (sug.getTxtNewNo().getText().equals(rs.getString("No"))
                         && sug.getTxtNewName().getText().equals(rs.getString("Name"))
                         && sug.getTxtNewSurname().getText().equals(rs.getString("Surname"))
@@ -405,7 +460,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     AlreadyCame = true;
                     throw new Exception();
                 }
-                
+
                 sug.getTxtNewNo().setText(rs.getString("No"));
                 sug.getTxtNewName().setText(rs.getString("Name"));
                 sug.getTxtNewSurname().setText(rs.getString("SurName"));
@@ -414,7 +469,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 StudentBringCame = true;
                 sug.getTxtResult().setBackground(new Color(24, 220, 255));
                 sug.getTxtResult().setText("Bilgiler Getirildi");
-                
+
                 SuccessVoice();
             }
             if (!StudentBringCame) {
@@ -427,24 +482,44 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 sug.getTxtPhoneNo().setText("");
                 sug.getTxtResult().setBackground(new Color(255, 82, 82));
                 sug.getTxtResult().setText("İstenilen Bilgiler Kayıtta Bulunamadı");
-                
+
             }
-            
+
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex);
-            
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + "\nLütfen Öğrenci Numarasına Sayı girin", "DEĞER HATASI", JOptionPane.ERROR_MESSAGE);
-            
+
         } catch (Exception ex) {
             if (AlreadyCame == true) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null, "Bilgiler Zaten Getirildi", "UYARI", JOptionPane.INFORMATION_MESSAGE);
             }
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
-        
+
     }
-    
+
     public void DbStudentAdd() {
         StudentCanAdd = true;
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -453,14 +528,14 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         //  Database credentials
         String USER = "root";
         String PASS = "";
-        
+
         Connection conn = null;
         Statement stmt = null;
         try {
             Class.forName(JDBC_DRIVER);
-            
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             DBStudentControlToAdd();
             if (!StudentCanAdd) {
                 throw new Exception();
@@ -485,20 +560,40 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             java.awt.Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "Xampp hata meydana geldi ",
                     "SQL HATASI", JOptionPane.ERROR_MESSAGE);
-            
+
             sag.getTxtNo().setText(NumberError);
             sag.getTxtNo().setForeground(new Color(255, 159, 26));
-            
+
         } catch (Exception ex) {
             java.awt.Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "Bu Öğrenci Numarası Zaten Kayıtlı", "KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
-            sag.getTxtResult().setBackground(Color.red);
-            sag.getTxtResult().setText("Kayıt Başarısız");
-            
+            //JOptionPane.showMessageDialog(null, "Bu Öğrenci Numarası Zaten Kayıtlı", "KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
+            sag.getTxtResult().setBackground(Color.ORANGE);
+            sag.getTxtResult().setText("Öğrenci Zaten Kayıtlı");
+
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                /* if (rs != null) {
+                    rs.close();
+                }
+                   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
-        
+
     }
-    
+
     public void DBStudentControlToUpdate() {
 
         //DBStudentUpdate
@@ -510,18 +605,19 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         Boolean allSame = false;//  Database credentials
         String USER = "root";
         String PASS = "";
-        
+
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
-            
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             stmt = conn.createStatement();
             String SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sug.getTxtNewNo().getText() + "'";
-            
-            ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
+
+            rs = stmt.executeQuery(SqlStudentControlQuery);
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
 
             while (rs.next()) {
@@ -531,7 +627,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                             && sug.getTxtNewSurname().getText().equals(rs.getString("Surname"))
                             && sug.getTxtNewEmail().getText().equals(rs.getString("Email"))
                             && sug.getTxtPhoneNo().getText().equals(rs.getString("Phone"))) {
-                        
+
                         allSame = true;
                         throw new Exception();
                     }
@@ -549,9 +645,9 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 oldStudentNoFree = true;
             }
             if (oldStudentNoFree == false) {
-                
+
                 throw new Exception();
-                
+
             }
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex, "CLASS BULUNAMADI", JOptionPane.ERROR_MESSAGE);
@@ -569,19 +665,39 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 JOptionPane.showMessageDialog(null, " ESKİ Öğrenci Numarasında Kayıtlı Kimse Bulunmamaktadır\n"
                         + "Güncelleme Başarısız", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
             }
-            
+
             if (oldStudentNoFree == false) {
-                
+
                 sug.getTxtResult().setBackground(new Color(254, 202, 87));
                 sug.getTxtResult().setText("Bilgiler Zaten Güncel");
             } else {
-                
+
                 sug.getTxtResult().setBackground(new Color(255, 82, 82));
                 sug.getTxtResult().setText("Güncelleme Başarısız");
             }
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
     }
-    
+
     public void DBStudentControlToAdd() {
         StudentCanAdd = true;
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -590,34 +706,55 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         //  Database credentials
         String USER = "root";
         String PASS = "";
-        
+
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
-            
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             stmt = conn.createStatement();
             String SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sag.getTxtNo().getText().trim() + "'";
-            
-            ResultSet rs = stmt.executeQuery(SqlStudentControlQuery);
+
+            rs = stmt.executeQuery(SqlStudentControlQuery);
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
             while (rs.next()) {
-                
+
                 throw new Exception();
             }
-            
+
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "BEKLENMEYEN HATA ", "Kayıt Hatası", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             //JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             StudentCanAdd = false;
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
-        
+
     }
-    
+
     @Override
     public void focusGained(FocusEvent e) {
         if (sag != null) {
@@ -629,7 +766,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 sag.getTxtSurname().setText("");
                 sag.getTxtEmail().setText("");
                 sag.getTxtPhoneNo().setText("");
-                
+
             } else {
                 if (e.getSource() == sag.getTxtNo() && sag.getTxtNo().getText().equals(emptyError)
                         || e.getSource() == sag.getTxtNo() && sag.getTxtNo().getText().equals(NumberError)) {
@@ -639,7 +776,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 if (e.getSource() == sag.getTxtName() && sag.getTxtName().getText().equals(emptyError)) {
                     sag.getTxtName().setForeground(Color.BLACK);
                     sag.getTxtName().setText("");
-                    
+
                 }
                 if (e.getSource() == sag.getTxtSurname() && sag.getTxtSurname().getText().equals(emptyError)) {
                     sag.getTxtSurname().setText("");
@@ -656,9 +793,9 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             }
         }
     }
-    
+
     public void clearAllTxtMainGui() {
-        
+
         if (sag != null) {
             sag.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             sag.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
@@ -675,7 +812,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             ssg.getMg().getTxtBookName().setText("");
             ssg.getMg().gettxtResultScreen().setText("");
             ssg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
-            
+
         } else if (sug != null) {
             sug.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             sug.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
@@ -684,7 +821,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             sug.getMg().getTxtBookName().setText("");
             sug.getMg().gettxtResultScreen().setText("");
             sug.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
-            
+
         } else if (rsg != null) {
             rsg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             rsg.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
@@ -695,7 +832,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             rsg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
         }
     }
-    
+
     public void ClearAllTxtGui() {
         if (sug != null) {
             sug.getTxtNewNo().setText("");
@@ -705,7 +842,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             sug.getTxtNewEmail().setText("");
         }
     }
-    
+
     @Override
     public void focusLost(FocusEvent e) {
         if (sag != null) {
@@ -731,14 +868,14 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             }
         }
     }
-    
+
     public void SuccessVoice() {
         try {
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
             clip.start();
-            
+
         } catch (UnsupportedAudioFileException ex) {
             Logger.getLogger(ActionsBook.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -746,40 +883,38 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         } catch (LineUnavailableException ex) {
             Logger.getLogger(ActionsBook.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     public boolean ControlBeforeRemoveStudent() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-        
+
         String USER = "root";
         String PASS = "";
-        
+
         Connection conn = null;
         Statement stmt = null;
-        
+        ResultSet rs = null;
         try {
-            
+
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
             stmt = conn.createStatement();
-            
+
             String BookExistQuery = "Select * FROM book WHERE StudentNo LIKE '" + sug.getTxtNewNo().getText() + "'";
             stmt = conn.createStatement();
-            
-            ResultSet rs = stmt.executeQuery(BookExistQuery);
-            
+
+            rs = stmt.executeQuery(BookExistQuery);
+
             int BookCounter = 0;
             while (rs.next()) //    ;
             {
-                
                 BookCounter++;
-                
             }
-            
+
             if (BookCounter > 0) {
-                
+
                 java.awt.Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null, "Öğrencinin elinde " + BookCounter + " adet kitap vardır. Kayıt Silinemez");
                 return false;
@@ -787,17 +922,37 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 SuccessVoice();
                 return true;
             }
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
         // eğer kitaplardın StudentNo 'sunda öğrenci numarası  varsa öğrenci silinemicek
         return true;
     }
-    
+
     public void BringStudentState() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
@@ -805,18 +960,18 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         //  Database credentials
         String USER = "root";
         String PASS = "";
-        
+
         Connection conn = null;
         Statement stmt = null;
-        
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            
+
             stmt = conn.createStatement();
             String StudentQuery = "SELECT * FROM  student LEFT JOIN book ON book.StudentNo=student.No WHERE No LIKE '" + ssg.getTxtStudentNo().getText().trim() + "'";
-            
-            ResultSet rs = stmt.executeQuery(StudentQuery);
+
+            rs = stmt.executeQuery(StudentQuery);
             if (rs.next()) {
                 ssg.getTxtDept().setText(rs.getString("Debt"));
                 ssg.getTxtBookBarcodeNo1().setText(rs.getString("BarcodeNo"));
@@ -831,16 +986,36 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 }
             } else {
                 JOptionPane.showMessageDialog(null, ssg.getTxtStudentNo().getText().trim() + "  Numaralı öğrenci Kayıtlı değildir");
-                
+
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
-        
+
     }
-    
+
     public void ResetStudentState() {
         String EmptyTextForStudentState = "Kitap yok";
         ssg.getTxtDept().setText("");
@@ -853,6 +1028,6 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         ssg.getLblLendingDayNumber1().setText("---");
         ssg.getLblLendingDayNumber2().setText("---");
         ssg.getLblLendingDayNumber3().setText("---");
-        
+
     }
 }

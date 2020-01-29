@@ -164,15 +164,19 @@ public class Login extends JPanel {
                 stmt = conn.createStatement();
 
                 String sqlControl = "SHOW DATABASES LIKE 'library' ";
+
                 stmt.executeUpdate(sqlControl);
-                if (stmt.executeUpdate(sqlControl) == -1) { // conn.createStatement() dene bir de stmt yerine
+
+                if (stmt.executeUpdate(sqlControl) == -1) {
                     return; //Veri tabanı zaten var
                 }
+
                 String sql = "CREATE DATABASE library";
 
                 stmt.executeUpdate(sql);
+
             } catch (SQLException se) {
-                JOptionPane.showMessageDialog(null, "Lütfen xampp portunu açınız");
+                JOptionPane.showMessageDialog(null, se + "    :::: Lütfen xampp portunu açınız");
 
             } catch (ClassNotFoundException ex) {
 
@@ -192,6 +196,7 @@ public class Login extends JPanel {
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             Class.forName(JDBC_DRIVER);
 
@@ -202,26 +207,53 @@ public class Login extends JPanel {
             String tableYoneticiControl = "SHOW TABLES LIKE 'admin' ";
             String tableKitapControl = "SHOW TABLES LIKE 'book'";
             if (stmt.executeUpdate(tableControl) == -1 || stmt.executeUpdate(tableYoneticiControl) == -1 || stmt.executeUpdate(tableKitapControl) == -1) {
-// Eğer önceden kayıt varsa ise program açılırken süre hesaplanacak
+                // conn.createStatement() dene bir de stmt yerine
+                String ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() >  BorrowedDate + INTERVAL 30 DAY ";
+                //"SELECT * FROM book WHERE NOW()  >=BorrowedDate + INTERVAL 30 DAY"
+                //"SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY  "
+                int over30Days = 0;
 
-                String detectWhoHasBookOverThirtyDays = "SELECT * FROM book WHERE NOW()  >=BorrowedDate + INTERVAL 30 DAY";
-                ResultSet rs = stmt.executeQuery(detectWhoHasBookOverThirtyDays);
-                int Over30Day = 0;
-
-                while (rs.next()) {
-                    Over30Day++;
-                }
-
-                detectWhoHasBookOverThirtyDays = "SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY  ";
-                rs = stmt.executeQuery(detectWhoHasBookOverThirtyDays);
-                int Last3Day = 0;
+                rs = stmt.executeQuery(ControlQueryOver30Days0rOver27);
 
                 while (rs.next()) {
-                    Last3Day++;
+
+                    over30Days++;
                 }
-                if (Over30Day > 0 || Last3Day > 0) {
-                    JOptionPane.showMessageDialog(null, "Son 3 günü kalan Öğrenci Sayısı : " + Last3Day + "\n\n 30 Günü Aşan  öğrenci Sayısı      : " + Over30Day,
-                            "ZAMAN UYARISI", JOptionPane.WARNING_MESSAGE);
+                ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY ";
+                //SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY 
+                rs = stmt.executeQuery(ControlQueryOver30Days0rOver27);
+                int inLast3Days = 0;
+                while (rs.next()) {
+
+                    inLast3Days++;
+                }
+                if (over30Days > 0 || inLast3Days > 0) {
+                    JOptionPane.showMessageDialog(null, "30 günü aşmış ödünç verilen kitapların sayısı : " + over30Days
+                            + "\n\n Son üç gün  içinde iade edilmesi gereken kitap sayısı : " + inLast3Days);
+
+                }
+
+                if (stmt != null) {
+
+                    stmt.close();
+
+                }
+                if (conn != null) {
+
+                    conn.close();
+
+                }
+                if (rs != null) {
+
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+
+                }
+                if (conn != null) {
+                    conn.close();
+
                 }
                 return;
             }/*
@@ -287,17 +319,17 @@ public class Login extends JPanel {
             //finally block used to close resources
             try {
                 if (stmt != null) {
+
+                    stmt.close();
+
+                }
+                if (conn != null) {
+
                     conn.close();
                 }
             } catch (SQLException se) {
             }// do nothing
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                JOptionPane.showMessageDialog(null, se);
-            }//end finally try
+
         }//end try
 
         Initializer();
@@ -361,13 +393,13 @@ public class Login extends JPanel {
             //finally block used to close resources
             try {
                 if (stmt != null) {
-                    conn.close();
+
+                    stmt.close();
+
                 }
-            } catch (SQLException se) {
-            }// do nothing
-            try {
                 if (conn != null) {
                     conn.close();
+
                 }
             } catch (SQLException se) {
                 JOptionPane.showMessageDialog(null, se);
