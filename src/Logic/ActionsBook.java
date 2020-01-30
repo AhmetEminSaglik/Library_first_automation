@@ -12,14 +12,11 @@ import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -962,7 +959,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "SQL HATASI");
+            JOptionPane.showMessageDialog(null, "1 SQL HATASI");
         } finally {
 
             try {
@@ -1018,7 +1015,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             brg.getTxtBookName().setText(rs.getString("Name"));
             brg.getTxtAuthorName().setText(rs.getString("AuthorName"));
 
-            String BookFree = "Select * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and "
+            /*     String BookFree = "Select * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and "
                     + "StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
             rs = stmt.executeQuery(BookFree);
             if (!rs.next()) {
@@ -1032,12 +1029,12 @@ public class ActionsBook implements ActionListener, FocusListener {
                     brg.getTxtResult().setText("Kitap Başkasının üzerine Kayıtlı / İADE YAPILAMADI");
                 }
                 return false;
-            }
+            }*/
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
         } catch (SQLException ex) {
-
-            brg.getTxtResult().setText("EŞLEŞME BAŞARISIZ / Kitap Şuan Kütüphanemizde bulunmaktadır");
+            java.awt.Toolkit.getDefaultToolkit().beep();
+            brg.getTxtResult().setText("EŞLEŞME BAŞARISIZ (Öğrenci Ödünç Alan kişi) / ( YADA ) / Kitap Şuan Kütüphanemizde bulunmaktadır");
             brg.getTxtResult().setBackground(new Color(250, 130, 49));
             return false;
         } finally {
@@ -1104,17 +1101,35 @@ public class ActionsBook implements ActionListener, FocusListener {
 
                 }
             }*/
-            String DeliverBookToLibraryQuery = "Update book SET StudentNo= NULL , BorrowedDate=NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
+            String DeliverBookToLibraryQuery = "UPDATE book SET StudentNo= NULL , BorrowedDate=NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
                     + "BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' ";
-            stmt.executeUpdate(DeliverBookToLibraryQuery);
+            // stmt.executeUpdate(DeliverBookToLibraryQuery);
 
-            SuccessVoice();
-            brg.getTxtResult().setBackground(Color.green);
-            brg.getTxtResult().setText("KİTAP İADE BAŞARILI");
+            if (stmt.executeUpdate(DeliverBookToLibraryQuery) == 1) {
+
+                SuccessVoice();
+                brg.getTxtResult().setBackground(Color.green);
+                brg.getTxtResult().setText("KİTAP İADE BAŞARILI");
+            } else {
+                DeliverBookToLibraryQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and StudentNo  IS NULL ";
+                ResultSet rs = stmt.executeQuery(DeliverBookToLibraryQuery);
+                if (rs.next()) {
+
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+                    brg.getTxtResult().setBackground(Color.ORANGE);
+                    brg.getTxtResult().setText("Kitap Kütüphanemize Zaten İade Edilmiş.");
+                } else {
+
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+                    brg.getTxtResult().setBackground(Color.RED);
+                    brg.getTxtResult().setText("Kitap - Öğrenci Uyuşmamaktadır. İade Alınmamıştır.");
+                }
+            }
+
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "SQL HATASI");
+            JOptionPane.showMessageDialog(null, ex + " : 2 SQL HATASI");
         } finally {
 
             try {

@@ -14,11 +14,15 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -365,6 +369,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 JOptionPane.showMessageDialog(null, "Lütfen Bütün Bilgileri eksiksiz bir şekilde Doldurunuz", "EKSİK BİLGİ GÜNCELLEMESİ", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             String SqlStudentUpdateQuery = "UPDATE `student` SET \n"
                     + "No='" + sug.getTxtNewNo().getText().trim() + "',\n"
                     + "Name='" + sug.getTxtNewName().getText().trim() + "',\n "
@@ -391,7 +396,13 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             JOptionPane.showMessageDialog(null, Integer.parseInt(options[selection]));
             JOptionPane.showMessageDialog(null, selection);
             JOptionPane.showMessageDialog(null, "sdfafsfas");*/
+
             stmt.executeUpdate(SqlStudentUpdateQuery);
+            String SqlBookStudentNoUpdateQuery = "UPDATE `book` SET \n"
+                    + "StudentNo = '" + sug.getTxtNewNo().getText().trim() + "' "
+                    + "WHERE StudentNo LIKE '" + sug.getTxtno().getText().trim() + "'";
+
+            stmt.executeUpdate(SqlBookStudentNoUpdateQuery);
             sug.getTxtResult().setBackground(Color.GREEN);
             sug.getTxtResult().setText("GÜNCELLENME BAŞARILI");
             //ClearAllTxtGui();
@@ -399,7 +410,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex + "aaaaaaaaaaaaaaaaa");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "1-) Bilgileri Güncelleyebilmeniz İçin Önce Öğrenci Numarasını\n"
+            JOptionPane.showMessageDialog(null, ex + "\n\n\n1-) Bilgileri Güncelleyebilmeniz İçin Önce Öğrenci Numarasını\n"
                     + "Aratmalısınız\n"
                     + "2-) Yeni Öğrenci Numarasına Sayı girmelisiniz", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
@@ -964,7 +975,9 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
+
         try {
+
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
@@ -972,19 +985,140 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             String StudentQuery = "SELECT * FROM  student LEFT JOIN book ON book.StudentNo=student.No WHERE No LIKE '" + ssg.getTxtStudentNo().getText().trim() + "'";
 
             rs = stmt.executeQuery(StudentQuery);
+            Date BorrowedDate1 = null;
+            Date BorrowedDate2 = null;
+            Date BorrowedDate3 = null;
+            LocalDate localdate = LocalDate.now();
+            SimpleDateFormat df2 = new SimpleDateFormat("EEE, dd MMM yyyy");
+
             if (rs.next()) {
                 ssg.getTxtDept().setText(rs.getString("Debt"));
                 ssg.getTxtBookBarcodeNo1().setText(rs.getString("BarcodeNo"));
-                ssg.getTxtBookName1().setText(rs.getString("name"));
+                ssg.getTxtBookName1().setText(rs.getString("Book.Name"));
+                BorrowedDate1 = rs.getDate("borrowedDate");
                 if (rs.next()) {
                     ssg.getTxtBookBarcodeNo2().setText(rs.getString("BarcodeNo"));
-                    ssg.getTxtBookName2().setText(rs.getString("name"));
+                    ssg.getTxtBookName2().setText(rs.getString("Book.Name"));
+                    //barcode2 = rs.getString("BarcodeNo");
+
+                    BorrowedDate2 = rs.getDate("borrowedDate");
+
+                    if (rs.next()) {
+                        ssg.getTxtBookBarcodeNo3().setText(rs.getString("BarcodeNo"));
+                        ssg.getTxtBookName3().setText(rs.getString("Book.Name"));
+                        BorrowedDate3 = rs.getDate("borrowedDate");
+                        // barcode3 = rs.getString("BarcodeNo");
+                    }
                 }
-                if (rs.next()) {
-                    ssg.getTxtBookBarcodeNo3().setText(rs.getString("BarcodeNo"));
-                    ssg.getTxtBookName3().setText(rs.getString("name"));
+                int delay = 0;
+                String delayString = "";
+                if (BorrowedDate1 != null) {
+                    String dayQuery = "SELECT DATEDIFF ('" + BorrowedDate1 + "',NOW())";
+                    rs = stmt.executeQuery(dayQuery);
+
+                    Date d = new Date(System.currentTimeMillis());
+                    //d = (date) (d - BorrowedDate1);
+                    LocalDate borrowedDate = BorrowedDate1.toLocalDate();
+                    LocalDate now = LocalDate.now();
+
+                    Period diff = Period.between(borrowedDate, now);
+
+                    if (diff.getYears() > 0) {
+                        delay += 365 * diff.getYears();
+                    }
+                    if (diff.getMonths() > 0) {
+                        delay += 30 * diff.getMonths();
+                    }
+                    if (diff.getDays() > 0) {
+                        delay += diff.getDays();
+                    }
+
+                    if (delay < 30) {
+                        delay = 30 - delay;
+                        delayString = "+" + Integer.toString(delay);
+                        ssg.getLblLendingDayNumber1().setForeground(Color.green);
+
+                    } else {
+                        delay -= 30;
+                        delayString = "-" + Integer.toString(delay);
+                        ssg.getLblLendingDayNumber1().setForeground(Color.red);
+                    }
+
+                    ssg.getLblLendingDayNumber1().setText(delayString);
+
+                    if (BorrowedDate2 != null) {
+                        borrowedDate = BorrowedDate2.toLocalDate();
+                        delay = 0;
+                        diff = Period.between(borrowedDate, now);
+
+                        if (diff.getYears() > 0) {
+                            delay += 365 * diff.getYears();
+                        }
+                        if (diff.getMonths() > 0) {
+                            delay += 30 * diff.getMonths();
+                        }
+                        if (diff.getDays() > 0) {
+                            delay += diff.getDays();
+                        }
+
+                        if (delay < 30) {
+                            delay = 30 - delay;
+                            delayString = "+" + Integer.toString(delay);
+                            ssg.getLblLendingDayNumber2().setForeground(Color.green);
+                        } else {
+                            delay -= 30;
+                            delayString = "-" + Integer.toString(delay);
+                            ssg.getLblLendingDayNumber2().setForeground(Color.red);
+                        }
+
+                        ssg.getLblLendingDayNumber2().setText(delayString);
+
+                        if (BorrowedDate3 != null) {
+
+                            delay = 0;
+                            borrowedDate = BorrowedDate3.toLocalDate();
+                            diff = Period.between(borrowedDate, now);
+                            System.out.println("dif : " + diff.getMonths());
+
+                            if (diff.getYears() > 0) {
+                                delay += 365 * diff.getYears();
+                            }
+                            if (diff.getMonths() > 0) {
+                                delay += 30 * diff.getMonths();
+                            }
+                            if (diff.getDays() > 0) {
+                                delay += diff.getDays();
+                            }
+
+                            if (delay < 30) {
+                                delay = 30 - delay;
+                                delayString = "+" + Integer.toString(delay);
+                                ssg.getLblLendingDayNumber3().setForeground(Color.green);
+                            } else {
+                                delay -= 30;
+                                delayString = "-" + Integer.toString(delay);
+                                ssg.getLblLendingDayNumber3().setForeground(Color.red);
+                            }
+                            ssg.getLblLendingDayNumber3().setText(delayString);
+
+                        }
+                    }
                 }
+
+
+                /*  if (!barcode1.equals("")) {
+                    String TimeQuery = "SELECT (   (BorrowedDate + INTERVAL 30 DAY )- NOW())  from book WHERE book.StudentNo LIKE '" + ssg.getTxtStudentNo().getText().trim() + "' and book.BarcodeNo LIKE '" + barcode1 + "' ";
+                    rs = stmt.executeQuery(TimeQuery);
+
+                  if (!barcode2.equals("")) {
+                        if (!barcode3.equals("")) {
+
+                        }
+                    }
+                }*/
+                SuccessVoice();
             } else {
+                java.awt.Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null, ssg.getTxtStudentNo().getText().trim() + "  Numaralı öğrenci Kayıtlı değildir");
 
             }
@@ -1005,6 +1139,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 if (rs != null) {
                     rs.close();
                 }
+
                 /*   if (preparedStmt != null) {
                     preparedStmt.close();
                 }*/
@@ -1017,7 +1152,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
     }
 
     public void ResetStudentState() {
-        String EmptyTextForStudentState = "Kitap yok";
+        String EmptyTextForStudentState = "KİTAP YOK";
         ssg.getTxtDept().setText("");
         ssg.getTxtBookName1().setText(EmptyTextForStudentState);
         ssg.getTxtBookName2().setText(EmptyTextForStudentState);
@@ -1028,6 +1163,9 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         ssg.getLblLendingDayNumber1().setText("---");
         ssg.getLblLendingDayNumber2().setText("---");
         ssg.getLblLendingDayNumber3().setText("---");
+        ssg.getLblLendingDayNumber1().setForeground(Color.MAGENTA);
+        ssg.getLblLendingDayNumber2().setForeground(Color.MAGENTA);
+        ssg.getLblLendingDayNumber3().setForeground(Color.MAGENTA);
 
     }
 }

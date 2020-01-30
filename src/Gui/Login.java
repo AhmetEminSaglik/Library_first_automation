@@ -176,7 +176,8 @@ public class Login extends JPanel {
                 stmt.executeUpdate(sql);
 
             } catch (SQLException se) {
-                JOptionPane.showMessageDialog(null, se + "    :::: Lütfen xampp portunu açınız");
+                JOptionPane.showMessageDialog(null, se + "\n\n   Çözüm Önerileri: \n"
+                        + "1-) Lütfen xampp portunu açınız");
 
             } catch (ClassNotFoundException ex) {
 

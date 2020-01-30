@@ -72,15 +72,15 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().gettxtStudentNo() || e.getSource() == getMg().getTxtBookBarcode()) {
             if (getMg().gettxtStudentNo().getText().trim().equals("") || getMg().gettxtStudentNo().getText().equals(StudentPlaceHolder)) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                //     BookCanBeTake();
+
                 JOptionPane.showMessageDialog(null, "Öğrenci numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
             } else if (getMg().getTxtBookBarcode().getText().trim().equals("")
                     || getMg().getTxtBookBarcode().getText().equals(BarcodeNoPlaceHolder)) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                //   StudentCanTakeBook();
+
                 JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
             } else {
-
+                getMg().getTxtBookName().setText("");
                 DeliverBookToStudent();
             }
 
@@ -89,7 +89,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         }
         if (e.getSource() == getMg().getBookAdd()) {
-            //getMg().getJf().setVisible(false);
+
             getMg().getJp().setVisible(false);
             BookAddGui bag = new BookAddGui(getMg());
 
@@ -447,6 +447,12 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
                 throw new Exception();
             }
+            String TakeBookName = "SELECT * FROM book WHERE BarcodeNo like '" + getMg().getTxtBookBarcode().getText().trim() + "'";
+
+            rs = stmt.executeQuery(TakeBookName);
+            if (rs.next()) {
+                getMg().getTxtBookName().setText(rs.getString("Name"));
+            }
             /*else {
                 if (getMg().gettxtResultScreen().getText().equals("Kitap Bulunamadı")
                         && getMg().gettxtResultScreen().getBackground() == Color.red) {
@@ -520,6 +526,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         StudentCanTakeBook = true;
         BookDeliveredSomeone = false;
         bookFree = true;
@@ -544,7 +551,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
             stmt = conn.createStatement();
             String SqlDeliverBookStudent = "UPDATE  book SET StudentNo = '" + getMg().gettxtStudentNo().getText()
-                    + "' , BorrowedDate = NOW()  -INTERVAL 29 DAY"
+                    + "' , BorrowedDate = NOW() "
                     + " \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
             stmt.executeUpdate(SqlDeliverBookStudent);
 
@@ -565,9 +572,10 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                     conn.close();
 
                 }
-                /*    if (rs != null) {
+                if (rs != null) {
                     rs.close();
                 }
+                /* 
                  if (preparedStmt != null) {
                     preparedStmt.close();
                 }*/

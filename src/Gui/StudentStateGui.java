@@ -130,7 +130,7 @@ public class StudentStateGui extends JPanel {
         if (lblLendingDayNumber1 == null) {
             lblLendingDayNumber1 = new JLabel("---");
             lblLendingDayNumber1.setBounds(LeftSpace + txtBarcodeWidth + 40, topSpace + (txtHeight + 70) * pushUnderlblCounter, lblWidth, lblHeight);
-            lblLendingDayNumber1.setForeground(Color.GREEN);
+            lblLendingDayNumber1.setForeground(Color.MAGENTA);
             lblLendingDayNumber1.setFont(lblFont);
             pushUnderlblCounter++;
         }
@@ -145,7 +145,7 @@ public class StudentStateGui extends JPanel {
         if (lblLendingDayNumber2 == null) {
             lblLendingDayNumber2 = new JLabel("---");
             lblLendingDayNumber2.setBounds(LeftSpace + txtBarcodeWidth + 40, topSpace + (txtHeight + 70) * pushUnderlblCounter, lblWidth, lblHeight);
-            lblLendingDayNumber2.setForeground(Color.GREEN);
+            lblLendingDayNumber2.setForeground(Color.MAGENTA);
             lblLendingDayNumber2.setFont(lblFont);
             pushUnderlblCounter++;
         }
@@ -160,7 +160,7 @@ public class StudentStateGui extends JPanel {
         if (lblLendingDayNumber3 == null) {
             lblLendingDayNumber3 = new JLabel("---");
             lblLendingDayNumber3.setBounds(LeftSpace + txtBarcodeWidth + 40, topSpace + (txtHeight + 70) * pushUnderlblCounter, lblWidth, lblHeight);
-            lblLendingDayNumber3.setForeground(Color.GREEN);
+            lblLendingDayNumber3.setForeground(Color.MAGENTA);
             lblLendingDayNumber3.setFont(lblFont);
             pushUnderlblCounter++;
         }
@@ -205,7 +205,7 @@ public class StudentStateGui extends JPanel {
 
     public JTextField getTxtBookBarcodeNo1() {
         if (txtBookBarcodeNo1 == null) {
-                        txtBookBarcodeNo1 = new JTextField("kitap yok");
+            txtBookBarcodeNo1 = new JTextField("KİTAP YOK");
             txtBookBarcodeNo1.setBounds(LeftSpace, topSpace + (txtHeight + 70) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
             txtBookBarcodeNo1.setFont(txtFont);
             txtBookBarcodeNo1.setEditable(false);
@@ -226,7 +226,7 @@ public class StudentStateGui extends JPanel {
 
     public JTextField getTxtBookBarcodeNo2() {
         if (txtBookBarcodeNo2 == null) {
-            txtBookBarcodeNo2 = new JTextField("kitap yok");
+            txtBookBarcodeNo2 = new JTextField("KİTAP YOK");
             txtBookBarcodeNo2.setBounds(LeftSpace, topSpace + (txtHeight + 70) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
             txtBookBarcodeNo2.setFont(txtFont);
             txtBookBarcodeNo2.setEditable(false);
@@ -253,7 +253,7 @@ public class StudentStateGui extends JPanel {
 
     public JTextField getTxtBookBarcodeNo3() {
         if (txtBookBarcodeNo3 == null) {
-            txtBookBarcodeNo3 = new JTextField("kitap yok");
+            txtBookBarcodeNo3 = new JTextField("KİTAP YOK");
             txtBookBarcodeNo3.setBounds(LeftSpace, topSpace + (txtHeight + 70) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
             txtBookBarcodeNo3.setFont(txtFont);
             txtBookBarcodeNo3.setEditable(false);
@@ -274,7 +274,7 @@ public class StudentStateGui extends JPanel {
     public JTextField getTxtBookName1() {
         if (txtBookName1 == null) {
             pushUndertxtCounter = 0;
-            txtBookName1 = new JTextField("kitap yok"
+            txtBookName1 = new JTextField("KİTAP YOK"
                     + "");
             txtBookName1.setBounds(LeftSpace, topSpaceBook + (txtHeight + 70) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
             txtBookName1.setFont(txtFont);
@@ -296,7 +296,7 @@ public class StudentStateGui extends JPanel {
 
     public JTextField getTxtBookName2() {
         if (txtBookName2 == null) {
-            txtBookName2 = new JTextField("kitap yok");
+            txtBookName2 = new JTextField("KİTAP YOK");
             txtBookName2.setBounds(LeftSpace, topSpaceBook + (txtHeight + 70) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
             txtBookName2.setFont(txtFont);
             txtBookName2.setEditable(false);
@@ -316,7 +316,7 @@ public class StudentStateGui extends JPanel {
 
     public JTextField getTxtBookName3() {
         if (txtBookName3 == null) {
-            txtBookName3 = new JTextField("kitap yok");
+            txtBookName3 = new JTextField("KİTAP YOK");
             txtBookName3.setBounds(LeftSpace, topSpaceBook + (txtHeight + 70) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
             txtBookName3.setFont(txtFont);
             txtBookName3.setEditable(false);
