@@ -125,6 +125,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().getRegisteredStudent()) {
             getMg().getJp().setVisible(false);
             RegisteredStudentGui rsg = new RegisteredStudentGui(getMg());
+
         }
         if (e.getSource() == getMg().getTimeControlExtraTime()) {
             getMg().getJp().setVisible(false);

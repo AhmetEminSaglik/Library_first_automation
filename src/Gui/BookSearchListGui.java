@@ -179,7 +179,6 @@ public class BookSearchListGui {
     public JTable getTable() {
         if (table == null) {
             table = new JTable(data, column);
-            JOptionPane.showMessageDialog(null, "gettable null");
 
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             table.setRowHeight(15);
@@ -188,6 +187,7 @@ public class BookSearchListGui {
             table.getColumnModel().getColumn(2).setPreferredWidth(450);
             table.getColumnModel().getColumn(3).setPreferredWidth(200);
             table.getColumnModel().getColumn(4).setPreferredWidth(150);
+
             table.setDefaultEditor(Object.class, null);
             table.setFont(font_txt);
             table.setCursor(new Cursor(12));

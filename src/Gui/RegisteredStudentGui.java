@@ -26,46 +26,8 @@ public class RegisteredStudentGui {
     JTextField txtSurname;
     JTextField txtNo;
     JButton btnComeBack;
-    public String DataOfTable[][] = {
-        {"486581", "Ahmet Emin SAĞLIK", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "AhmetEminSaglik@hotmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"},
-        {"486581", "Ebru", "Ebru@gmail.com", "0538 654 78 45"}};
-    public String HeadersOfTable[] = {"Öğrenci No", "Öğrenci Adı-Soyadı", "Email", "Telefon"};
+    public String DataOfTable[][] = {};
+    public String HeadersOfTable[] = {"", "Öğrenci No", "Öğrenci Adı", "Öğrenci Soyadı", "Email", "Telefon"};
 
     final int lblTopSpace = 10;
     final int leftSpace = 30;
@@ -78,12 +40,14 @@ public class RegisteredStudentGui {
     final int topSpace = 15;
     int pushRightCounter = 0;
     MainGui mg;
-    ActionStudent action = new ActionStudent(this);
+    public ActionStudent action = new ActionStudent(this);
 
     Font font_lbl = new Font("", Font.BOLD, 17);
     Font font_txt = new Font("", Font.BOLD, 13);
+    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
 
     public RegisteredStudentGui(MainGui mg) {
+        action.ShowRegisteredStudent();
         setMg(mg);
         setJf(mg.getJf());
         getJf().setTitle("KAYITLI ÖĞRENCİ SAYFASI");
@@ -100,6 +64,10 @@ public class RegisteredStudentGui {
         getTxtSurname().addActionListener(action);
         getBtnComeBack().addActionListener(action);
         getTable().addMouseListener(action);
+
+        getTxtNo().addFocusListener(action);
+        getTxtName().addFocusListener(action);
+        getTxtSurname().addFocusListener(action);
 
         getJf().add(getJp());
 
@@ -193,49 +161,64 @@ public class RegisteredStudentGui {
     public JTable getTable() {
         if (table == null) {
             table = new JTable(DataOfTable, HeadersOfTable);
-            table.setDefaultEditor(Object.class, null);
-            table.setFont(font_txt);
-            table.setCursor(new Cursor(12));
-            table.setFont(new Font("", Font.BOLD, 15));
-            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            table.getColumnModel().getColumn(0).setPreferredWidth(92);
-            table.getColumnModel().getColumn(1).setPreferredWidth(250);
-            table.getColumnModel().getColumn(2).setPreferredWidth(250);
-            table.getColumnModel().getColumn(3).setPreferredWidth(150);
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-            table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-            table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-
+            table = OrganizeTable(table);
         }
+
         return table;
     }
 
-    public void setTable(JTable table) {
+    public JTable OrganizeTable(JTable table) {
+        table.setSelectionBackground(Color.GREEN);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setRowHeight(15);
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(130);
+        table.getColumnModel().getColumn(3).setPreferredWidth(130);
+        table.getColumnModel().getColumn(4).setPreferredWidth(250);
+        table.getColumnModel().getColumn(5).setPreferredWidth(150);
 
+        table.setDefaultEditor(Object.class, null);
+        table.setFont(font_txt);
+        table.setCursor(new Cursor(12));
+        table.setFont(new Font("", Font.BOLD, 15));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        return table;
+
+    }
+
+    public void setTable(JTable table) {
+        table = OrganizeTable(table);
         this.table = table;
     }
 
     public JScrollPane getSp() {
         if (sp == null) {
             sp = new JScrollPane(getTable());
-            sp.setBounds(leftSpace, 125, (pushRightCounter * (lblWidth + pushRightSpace)) + txtWidth, 300);
 
         }
+        sp.setBounds(leftSpace, 125, (pushRightCounter * (lblWidth + pushRightSpace)) + txtWidth, 300);
         return sp;
     }
 
-    public void setSp(JScrollPane sp) {
+    public void setSp(JTable table) {
+        table = OrganizeTable(table);
+        sp = new JScrollPane(table);
         this.sp = sp;
     }
 
     public JTextField getTxtName() {
         if (txtName == null) {
             pushRightCounter = 0;
-            txtName = new JTextField("Öğrenci Adı");
+            txtName = new JTextField("İsim Giriniz");
             txtName.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + 10, txtWidth, txtHeight);
-            txtName.setForeground(Color.BLACK);
-            txtName.setFont(font_txt);
+            txtName.setForeground(Color.GRAY);
+            txtName.setFont(fontTxtPlaceHolder);
             pushRightCounter++;
 
         }
@@ -248,10 +231,11 @@ public class RegisteredStudentGui {
 
     public JTextField getTxtSurname() {
         if (txtSurname == null) {
-            txtSurname = new JTextField("Öğrenci Soyadı");
+            txtSurname = new JTextField("Soyisim Giriniz");
             txtSurname.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + 10, txtWidth, txtHeight);
-            txtSurname.setForeground(Color.BLACK);
-            txtSurname.setFont(font_txt);
+            txtSurname.setForeground(Color.GRAY);
+            txtSurname.setFont(fontTxtPlaceHolder);
+         
             pushRightCounter++;
 
         }
@@ -264,10 +248,10 @@ public class RegisteredStudentGui {
 
     public JTextField getTxtNo() {
         if (txtNo == null) {
-            txtNo = new JTextField("Öğrenci No");
+            txtNo = new JTextField("Numara Giriniz");
             txtNo.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + 10, txtWidth, txtHeight);
-            txtNo.setForeground(Color.BLACK);
-            txtNo.setFont(font_txt);
+            txtNo.setForeground(Color.GRAY);
+            txtNo.setFont(fontTxtPlaceHolder);
 
         }
         return txtNo;

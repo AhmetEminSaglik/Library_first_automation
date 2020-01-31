@@ -5,6 +5,7 @@ import Gui.StudentAddGui;
 import Gui.StudentStateGui;
 import Gui.StudentUpdateGui;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -31,6 +32,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 public class ActionStudent implements ActionListener, MouseListener, FocusListener {
 
@@ -39,12 +41,14 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
     StudentUpdateGui sug;
     RegisteredStudentGui rsg;
     String emptyError = "BOŞ GEÇİLEMEZ";
-    String NumberError = "SADECE SAYI GİRİN";
+    //String NumberError = "SADECE SAYI GİRİN";
     boolean StudentCanAdd;
     boolean StudentBringCame;
     boolean StudentCanUpdate;
-
+    Color rsgPlaceHolder = Color.GRAY;
+    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
     //StudentGui 
+
     public ActionStudent(StudentAddGui sag) {
         this.sag = sag;
     }
@@ -167,10 +171,13 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 rsg.getMg().getJf().setTitle("ANA SAYFA");
                 rsg.getMg().getJp().setVisible(true);
                 clearAllTxtMainGui();
-            } else if (e.getSource() == rsg.getTxtNo()
-                    || e.getSource() == rsg.getTxtName()
-                    || e.getSource() == rsg.getTxtSurname()) {
-                JOptionPane.showMessageDialog(null, "aşağıdaki tablolara bağlanılacak");
+            } else if (e.getSource() == rsg.getTxtName()) {
+                SearchRegisteredStudent(0);
+
+            } else if (e.getSource() == rsg.getTxtSurname()) {
+                SearchRegisteredStudent(1);
+            } else if (e.getSource() == rsg.getTxtNo()) {
+                SearchRegisteredStudent(2);
 
             }
         }
@@ -193,7 +200,6 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        rsg.getTable().setSelectionBackground(Color.GREEN);
 
     }
 
@@ -567,14 +573,6 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             SuccessVoice();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex);
-        } catch (SQLException ex) {
-            java.awt.Toolkit.getDefaultToolkit().beep();
-            JOptionPane.showMessageDialog(null, "Xampp hata meydana geldi ",
-                    "SQL HATASI", JOptionPane.ERROR_MESSAGE);
-
-            sag.getTxtNo().setText(NumberError);
-            sag.getTxtNo().setForeground(new Color(255, 159, 26));
-
         } catch (Exception ex) {
             java.awt.Toolkit.getDefaultToolkit().beep();
             //JOptionPane.showMessageDialog(null, "Bu Öğrenci Numarası Zaten Kayıtlı", "KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
@@ -779,8 +777,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 sag.getTxtPhoneNo().setText("");
 
             } else {
-                if (e.getSource() == sag.getTxtNo() && sag.getTxtNo().getText().equals(emptyError)
-                        || e.getSource() == sag.getTxtNo() && sag.getTxtNo().getText().equals(NumberError)) {
+                if (e.getSource() == sag.getTxtNo() && sag.getTxtNo().getText().equals(emptyError)) {
                     sag.getTxtNo().setText("");
                     sag.getTxtNo().setForeground(Color.BLACK);
                 }
@@ -800,6 +797,47 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 if (e.getSource() == sag.getTxtEmail() && sag.getTxtEmail().getText().equals(emptyError)) {
                     sag.getTxtEmail().setText("");
                     sag.getTxtEmail().setForeground(Color.BLACK);
+                }
+            }
+        }
+
+        if (rsg != null) {
+            if (e.getSource() == rsg.getTxtNo()) {
+                rsg.getTxtNo().setForeground(Color.BLACK);
+                rsg.getTxtNo().setFont(new Font("", Font.BOLD, 15));
+                rsg.getTxtName().setForeground(rsgPlaceHolder);
+                rsg.getTxtName().setFont(fontTxtPlaceHolder);
+                rsg.getTxtName().setText("İsim Giriniz");
+                rsg.getTxtSurname().setForeground(rsgPlaceHolder);
+                rsg.getTxtSurname().setText("Soyisim Giriniz");
+                rsg.getTxtSurname().setFont(fontTxtPlaceHolder);
+                if (rsg.getTxtNo().getText().trim().equals("Numara Giriniz")) {
+                    rsg.getTxtNo().setText("");
+                }
+
+            } else if (e.getSource() == rsg.getTxtName()) {
+                rsg.getTxtName().setForeground(Color.BLACK);
+                rsg.getTxtName().setFont(new Font("", Font.BOLD, 15));
+                rsg.getTxtNo().setForeground(rsgPlaceHolder);
+                rsg.getTxtNo().setText("Numara Giriniz");
+                rsg.getTxtNo().setFont(fontTxtPlaceHolder);
+                rsg.getTxtSurname().setForeground(rsgPlaceHolder);
+                rsg.getTxtSurname().setText("Soyisim Giriniz");
+                rsg.getTxtSurname().setFont(fontTxtPlaceHolder);
+                if (rsg.getTxtName().getText().trim().equals("İsim Giriniz")) {
+                    rsg.getTxtName().setText("");
+                }
+            } else if (e.getSource() == rsg.getTxtSurname()) {
+                rsg.getTxtSurname().setForeground(Color.BLACK);
+                rsg.getTxtSurname().setFont(new Font("", Font.BOLD, 15));
+                rsg.getTxtName().setForeground(rsgPlaceHolder);
+                rsg.getTxtName().setFont(fontTxtPlaceHolder);
+                rsg.getTxtName().setText("İsim Giriniz");
+                rsg.getTxtNo().setForeground(rsgPlaceHolder);
+                rsg.getTxtNo().setText("Numara Giriniz");
+                rsg.getTxtNo().setFont(fontTxtPlaceHolder);
+                if (rsg.getTxtSurname().getText().trim().equals("Soyisim Giriniz")) {
+                    rsg.getTxtSurname().setText("");
                 }
             }
         }
@@ -1171,6 +1209,140 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         ssg.getLblLendingDayNumber1().setForeground(Color.MAGENTA);
         ssg.getLblLendingDayNumber2().setForeground(Color.MAGENTA);
         ssg.getLblLendingDayNumber3().setForeground(Color.MAGENTA);
+
+    }
+
+    public void SearchRegisteredStudent(int search) {
+
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+        StudentCanUpdate = true;
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        final int searchName = 0;
+        final int searchSurname = 1;
+        final int searchNo = 2;
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        String searchQuery = "";
+        switch (search) {
+            case searchName:
+                searchQuery = "SELECT * FROM student WHERE name LIKE '%" + rsg.getTxtName().getText().trim() + "%'";
+                break;
+            case searchSurname:
+                searchQuery = "SELECT * FROM student WHERE Surname LIKE '%" + rsg.getTxtSurname().getText().trim() + "%'";
+                break;
+            case searchNo:
+                searchQuery = "SELECT * FROM student WHERE No LIKE '" + rsg.getTxtNo().getText().trim() + "%'";
+                break;
+        }
+
+        try {
+
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(searchQuery);
+            int totalStudentForQuery = 0;
+            while (rs.next()) {
+                totalStudentForQuery++;
+            }
+
+            rs = stmt.executeQuery(searchQuery);
+
+            int counter = 0;
+            rsg.DataOfTable = new String[totalStudentForQuery][6];
+
+            while (rs.next()) {
+
+                rsg.DataOfTable[counter][0] = Integer.toString(counter + 1);
+                rsg.DataOfTable[counter][1] = rs.getString("No");
+                rsg.DataOfTable[counter][2] = rs.getString("Name");
+                rsg.DataOfTable[counter][3] = rs.getString("Surname");
+                rsg.DataOfTable[counter][4] = rs.getString("Email");
+                rsg.DataOfTable[counter][5] = rs.getString("Phone");
+
+                counter++;
+            }
+
+            /*    String ClearQuery = "SELECT * FROM student";
+            rs = stmt.executeQuery(ClearQuery);
+            int deleteRows = counter;
+           while (rs.next() && deleteRows < rsg.DataOfTable.length) {
+                rsg.DataOfTable[deleteRows][0] = null;
+                rsg.DataOfTable[deleteRows][1] = null;
+                rsg.DataOfTable[deleteRows][2] = null;
+                rsg.DataOfTable[deleteRows][3] = null;
+                rsg.DataOfTable[deleteRows][4] = null;
+                rsg.DataOfTable[deleteRows][5] = null;
+
+            }*/
+            rsg.getJp().remove(rsg.getSp());
+            rsg.setSp(new JTable(rsg.DataOfTable, rsg.HeadersOfTable));
+            rsg.getJp().add(rsg.getSp());
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void ShowRegisteredStudent() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+        StudentCanUpdate = true;
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            String StudentQuery = "SELECT * FROM  Student";
+
+            rs = stmt.executeQuery(StudentQuery);
+
+            int studetTotalNumber = 0;
+            while (rs.next()) {
+                studetTotalNumber++;
+            }
+
+            rs = stmt.executeQuery(StudentQuery);
+
+            rsg.DataOfTable = new String[studetTotalNumber][6];
+            int counter = 0;
+            while (rs.next()) {
+                rsg.DataOfTable[counter][0] = Integer.toString(counter + 1);
+                rsg.DataOfTable[counter][1] = rs.getString("No");
+                rsg.DataOfTable[counter][2] = rs.getString("Name");
+                rsg.DataOfTable[counter][3] = rs.getString("Surname");
+                rsg.DataOfTable[counter][4] = rs.getString("Email");
+                rsg.DataOfTable[counter][5] = rs.getString("Phone");
+
+                counter++;
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 }
