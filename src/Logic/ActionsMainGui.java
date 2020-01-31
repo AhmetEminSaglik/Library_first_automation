@@ -49,6 +49,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
     String BarcodeNoPlaceHolder = "Kitap Barkod No girin";
 
     public ActionsMainGui(MainGui mg) {
+
         this.mg = mg;
     }
 
@@ -81,7 +82,9 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
             } else {
                 getMg().getTxtBookName().setText("");
+
                 DeliverBookToStudent();
+                NumbersOfBooks();
             }
 
         }
@@ -600,6 +603,50 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             JOptionPane.showMessageDialog(null, ex);
         } catch (LineUnavailableException ex) {
             JOptionPane.showMessageDialog(null, ex);
+        }
+
+    }
+
+    public void NumbersOfBooks() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        int bookNumber = 0;
+
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+
+            String bookTotalNumberQuery = "SELECT COUNT(*) FROM book ";
+            rs = stmt.executeQuery(bookTotalNumberQuery);
+            if (rs.next()) {
+                getMg().getTxtTotalBook().setText(Integer.toString(rs.getInt("COUNT(*)")));
+
+            }
+            String bookRemainNumberQuery = "SELECT COUNT(*) FROM book WHERE StudentNo IS NULL";
+            rs = stmt.executeQuery(bookRemainNumberQuery);
+            if (rs.next()) {
+                getMg().getTxtRemainBook().setText(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+            String bookGivenNumberQuery = "SELECT COUNT(*) FROM book  WHERE StudentNo IS NOT NULL";
+            rs = stmt.executeQuery(bookGivenNumberQuery);
+            if (rs.next()) {
+                getMg().getTxtGivenBook().setText(Integer.toString(rs.getInt("COUNT(*)")));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

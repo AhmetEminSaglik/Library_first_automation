@@ -32,8 +32,8 @@ public class MainGui {//extends JPanel
     JTextField txtBookName;
 
     JTextField txtTotalBook;
-    JTextField txtRemainBook;
-    JTextField txtGivenBook;
+    JTextField txtGivenBook;//txtGivenBook
+    JTextField txtRemainBook;//txtRemainBook
 
     JButton bookAdd;
     JButton bookReturn;
@@ -72,7 +72,7 @@ public class MainGui {//extends JPanel
     final ToolTipManager ttm = ToolTipManager.sharedInstance();
     final int oldDelay = ttm.getInitialDelay();
 
-    ActionsMainGui action = new ActionsMainGui(this);
+    public ActionsMainGui action = new ActionsMainGui(this);
 
     public MainGui() {
     }
@@ -101,8 +101,8 @@ public class MainGui {//extends JPanel
         getJp().add(getLblRemainBook());
         getJp().add(getLblGivenBook());
         getJp().add(getLblTotalBook());
-        getJp().add(getTxtRemainBook());
         getJp().add(getTxtGivenBook());
+        getJp().add(getTxtRemainBook());
         getJp().add(getTxtTotalBook());
         getJp().add(gettxtStudentNo());
         getJp().add(getTxtBookBarcode());
@@ -371,7 +371,7 @@ public class MainGui {//extends JPanel
 
     public JTextField getTxtTotalBook() {
         if (txtTotalBook == null) {
-            txtTotalBook = new JTextField("10810");
+            txtTotalBook = new JTextField("0");
             txtTotalBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y + 45, 150, 30);
             txtTotalBook.setFont(new Font("", Font.BOLD, 22));
@@ -379,8 +379,11 @@ public class MainGui {//extends JPanel
             txtTotalBook.setFocusable(false);
             txtTotalBook.setBackground(new Color(116, 185, 255));
             txtTotalBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
-            txtTotalBook.setBorder(BorderFactory.createCompoundBorder(txtRemainBook.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+            txtTotalBook.setBorder(BorderFactory.createCompoundBorder(txtGivenBook.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+
+            txtTotalBook.addActionListener(action);
             total_remain_given_books_counter++;
+
 
             /*  lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,
@@ -393,54 +396,56 @@ public class MainGui {//extends JPanel
         this.txtTotalBook = txtTotalBook;
     }
 
-    public JTextField getTxtRemainBook() {
-        if (txtRemainBook == null) {
-            txtRemainBook = new JTextField("9999");
-            txtRemainBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+    public JTextField getTxtGivenBook() {
+        if (txtGivenBook == null) {
+            txtGivenBook = new JTextField("0");
+            txtGivenBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y + 45, 150, 30);
-            txtRemainBook.setFont(new Font("", Font.BOLD, 22));
-            txtRemainBook.setEditable(false);
-            txtRemainBook.setFocusable(false);
-            txtRemainBook.setBackground(Color.red);
-            txtRemainBook.setForeground(Color.BLACK);
+            txtGivenBook.setFont(new Font("", Font.BOLD, 22));
+            txtGivenBook.setEditable(false);
+            txtGivenBook.setFocusable(false);
+            txtGivenBook.setBackground(Color.red);
+            txtGivenBook.setForeground(Color.BLACK);
             total_remain_given_books_counter++;
-            txtRemainBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
-            txtRemainBook.setBorder(BorderFactory.createCompoundBorder(txtRemainBook.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
+            txtGivenBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
+            txtGivenBook.setBorder(BorderFactory.createCompoundBorder(txtGivenBook.getBorder(), BorderFactory.createEmptyBorder(0, 50, 0, 0)));
+
             /*  lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,
                     50);*/
+            txtGivenBook.addActionListener(action);
+        }
+        return txtGivenBook;
+    }
+
+    public void setTxtGivenBook(JTextField txtGivenBook) {
+
+        this.txtGivenBook = txtGivenBook;
+    }
+
+    public JTextField getTxtRemainBook() {
+        if (txtRemainBook == null) {
+            txtRemainBook = new JTextField("0");
+            txtRemainBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+                    total_remain_given_books_y + 45, 150, 30);
+            txtRemainBook.setBackground(Color.GREEN);
+            txtRemainBook.setForeground(Color.BLACK);
+            txtRemainBook.setFont(new Font("", Font.BOLD, 22));
+            txtRemainBook.setEditable(false);
+            txtRemainBook.setFocusable(false);
+            txtRemainBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
+            txtRemainBook.setBorder(BorderFactory.createCompoundBorder(txtGivenBook.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+            txtRemainBook.addActionListener(action);
+            total_remain_given_books_counter++;
+            /*   lblRemainBook.setBounds(10 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+                    total_remain_given_books_y, holding_area_scale, 50);*/
 
         }
         return txtRemainBook;
     }
 
     public void setTxtRemainBook(JTextField txtRemainBook) {
-
         this.txtRemainBook = txtRemainBook;
-    }
-
-    public JTextField getTxtGivenBook() {
-        if (txtGivenBook == null) {
-            txtGivenBook = new JTextField("375");
-            txtGivenBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y + 45, 150, 30);
-            txtGivenBook.setBackground(Color.GREEN);
-            txtGivenBook.setForeground(Color.BLACK);
-            txtGivenBook.setFont(new Font("", Font.BOLD, 22));
-            txtGivenBook.setEditable(false);
-            txtGivenBook.setFocusable(false);
-            txtGivenBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
-            txtGivenBook.setBorder(BorderFactory.createCompoundBorder(txtRemainBook.getBorder(), BorderFactory.createEmptyBorder(0, 20, 0, 0)));
-            total_remain_given_books_counter++;
-            /*   lblRemainBook.setBounds(10 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y, holding_area_scale, 50);*/
-
-        }
-        return txtGivenBook;
-    }
-
-    public void setTxtGivenBook(JTextField txtGivenBook) {
-        this.txtGivenBook = txtGivenBook;
     }
 
     public JButton getBookAdd() {

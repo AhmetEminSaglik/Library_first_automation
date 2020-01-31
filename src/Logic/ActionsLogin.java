@@ -148,6 +148,7 @@ public class ActionsLogin implements ActionListener {
                         if (kullaniciAdi.equals(login.getTxtusername().getText()) && Sifre.equals(String.valueOf(login.getjPass().getPassword()))) {
                             login.setVisible(false);
                             MainGui mg = new MainGui(login);
+                            mg.action.NumbersOfBooks();
                             girisDogru = true;
 
                         }

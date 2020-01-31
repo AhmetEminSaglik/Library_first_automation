@@ -124,8 +124,8 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             if (e.getSource() == sug.getBtnComeBack()) {
                 sug.setVisible(false);
                 sug.getMg().getJf().setTitle("ANA SAYFA");
-                sug.getMg().getJp().setVisible(true);
                 clearAllTxtMainGui();
+                sug.getMg().getJp().setVisible(true);
 
             } else if (e.getSource() == sug.getTxtno()) {
                 if (!sug.getTxtno().getText().trim().equals("")) {
@@ -808,6 +808,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
     public void clearAllTxtMainGui() {
 
         if (sag != null) {
+
             sag.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             sag.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
             sag.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
@@ -816,6 +817,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             sag.getMg().gettxtResultScreen().setText("");
             sag.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
         } else if (ssg != null) {
+
             ssg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             ssg.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
             ssg.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
@@ -825,6 +827,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             ssg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         } else if (sug != null) {
+
             sug.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             sug.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
             sug.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
@@ -834,6 +837,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             sug.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         } else if (rsg != null) {
+
             rsg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             rsg.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
             rsg.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
@@ -844,6 +848,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         }
     }
 
+    /*
     public void ClearAllTxtGui() {
         if (sug != null) {
             sug.getTxtNewNo().setText("");
@@ -853,7 +858,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             sug.getTxtNewEmail().setText("");
         }
     }
-
+     */
     @Override
     public void focusLost(FocusEvent e) {
         if (sag != null) {

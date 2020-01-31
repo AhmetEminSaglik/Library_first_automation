@@ -178,6 +178,7 @@ public class ActionsBook implements ActionListener, FocusListener {
     public void clearAllTxtMainGui() {
 
         if (bag != null) {
+            bag.getMg().action.NumbersOfBooks();
             bag.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             bag.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
             bag.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
@@ -187,6 +188,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             bag.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         } else if (brg != null) {
+            brg.getMg().action.NumbersOfBooks();
             brg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             brg.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
             brg.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
@@ -204,6 +206,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             bslg.getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));
 
         } else if (burg != null) {
+            burg.getMg().action.NumbersOfBooks();
             burg.getMg().gettxtStudentNo().setForeground(Color.GRAY);
             burg.getMg().gettxtStudentNo().setText("Öğrenci No Girin");
             burg.getMg().getTxtBookBarcode().setForeground(Color.GRAY);
