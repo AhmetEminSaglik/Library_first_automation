@@ -235,7 +235,7 @@ public class RegisteredStudentGui {
             txtSurname.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + 10, txtWidth, txtHeight);
             txtSurname.setForeground(Color.GRAY);
             txtSurname.setFont(fontTxtPlaceHolder);
-         
+
             pushRightCounter++;
 
         }

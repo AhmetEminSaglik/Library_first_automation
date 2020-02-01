@@ -5,6 +5,7 @@ import Gui.BookReturnGui;
 import Gui.BookSearchListGui;
 import Gui.BookUpdateRemoveGui;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -12,11 +13,14 @@ import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -26,6 +30,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class ActionsBook implements ActionListener, FocusListener {
 
@@ -38,14 +44,17 @@ public class ActionsBook implements ActionListener, FocusListener {
     JButton clearBook_info_txt;
     JButton saveBook_info_txt;
     String emptyError = "BOŞ GEÇİLEMEZ";
-    String NumberError = "SADECE SAYI GİRİN";
+    //  String NumberError = "SADECE SAYI GİRİN";
     public final int DB_BARKODNO = 0;
     public final int DB_BOOKNAME = 1;
     public final int DB_AUTHORNAME = 2;
     public final int DB_CATEGORYNAME = 3;
+
     Boolean BookCanAdd; // database den kitap kontrolu yapmak için true ise kitap alınabilir
     boolean BookBringCame;
     boolean BookCanUpdate;
+    Color bslgPlaceHolder = Color.GRAY;
+    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
 
     //eğer bag hata alırsa diğer taraftan burayı setlerim
     public ActionsBook(BookReturnGui brg) {
@@ -60,7 +69,9 @@ public class ActionsBook implements ActionListener, FocusListener {
     }
 
     public ActionsBook(BookSearchListGui bslg) {
+
         this.bslg = bslg;
+        SearcBookList(5);
         //     mg = bslg.getMg();
     }
 
@@ -144,16 +155,16 @@ public class ActionsBook implements ActionListener, FocusListener {
                 bslg.getMg().getJf().setTitle("ANA SAYFA");
                 bslg.getMg().getJp().setVisible(true);
                 clearAllTxtMainGui();
-            } else if (e.getSource() == bslg.getTxtBarcodeNo()) {
-                DBBookList(DB_BARKODNO);
-            } else if (e.getSource() == bslg.getTxtBookName()) {
-                DBBookList(DB_BOOKNAME);
             } else if (e.getSource() == bslg.getTxtAuthorName()) {
-                DBBookList(DB_AUTHORNAME);
+                SearcBookList(0);
+            } else if (e.getSource() == bslg.getTxtBookName()) {
+                SearcBookList(1);
+            } else if (e.getSource() == bslg.getTxtBarcodeNo()) {
+                SearcBookList(2);
             } else if (e.getSource() == bslg.getTxtCategory()) {
-
-                DBBookList(DB_CATEGORYNAME);
+                SearcBookList(3);
             }
+
         } else if (burg != null) {
             if (e.getSource() == burg.getBtnComeBack()) {
                 burg.setVisible(false);
@@ -246,6 +257,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
     @Override
     public void focusGained(FocusEvent e) {
+
         if (bag != null) {
             if (bag.getTxtResult().getBackground() == Color.GREEN) {
                 bag.getTxtResult().setBackground(new Color(206, 214, 224));
@@ -255,8 +267,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 bag.getTxtBookName().setText("");
                 bag.getTxtBookBarcodeNo().setText("");
             }
-            if (e.getSource() == bag.getTxtBookBarcodeNo() && bag.getTxtBookBarcodeNo().getText().trim().equals(emptyError)
-                    || e.getSource() == bag.getTxtBookBarcodeNo() && bag.getTxtBookBarcodeNo().getText().trim().equals(NumberError)) {
+            if (e.getSource() == bag.getTxtBookBarcodeNo() && bag.getTxtBookBarcodeNo().getText().trim().equals(emptyError)) {//  || e.getSource() == bag.getTxtBookBarcodeNo() && bag.getTxtBookBarcodeNo().getText().trim().equals(NumberError)
 
                 bag.getTxtBookBarcodeNo().setText("");
                 bag.getTxtBookBarcodeNo().setForeground(Color.black);
@@ -276,7 +287,58 @@ public class ActionsBook implements ActionListener, FocusListener {
                 bag.getTxtAuthorName().setText("");
                 bag.getTxtAuthorName().setForeground(Color.black);
             }
+        } else if (bslg != null) {
+            /*
+    Color bslgPlaceHolder = Color.GRAY;
+    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);*/
+            if (e.getSource() == bslg.getTxtAuthorName()) {
+
+                //   bslgPlaceHolder(bslg.getTxtAuthorName());
+                bslg.setTxtAuthorName(bslgPlaceHolder(bslg.getTxtAuthorName()));
+            } else if (e.getSource() == bslg.getTxtBarcodeNo()) {
+
+                bslg.setTxtBarcodeNo(bslgPlaceHolder(bslg.getTxtBarcodeNo()));
+                //  bslgPlaceHolder(bslg.getTxtAuthorName());
+            } else if (e.getSource() == bslg.getTxtBookName()) {
+                bslg.setTxtBookName(bslgPlaceHolder(bslg.getTxtBookName()));
+                //  bslgPlaceHolder(bslg.getTxtAuthorName());
+            } else if (e.getSource() == bslg.getTxtCategory()) {
+                bslg.setTxtCategory(bslgPlaceHolder(bslg.getTxtCategory()));
+                //  bslgPlaceHolder(bslg.getTxtAuthorName());
+            }
         }
+    }
+
+    public JTextField bslgPlaceHolder(JTextField jtxt) {
+        if (jtxt != bslg.getTxtBarcodeNo()) {
+            bslg.getTxtBarcodeNo().setFont(fontTxtPlaceHolder);
+            bslg.getTxtBarcodeNo().setForeground(bslgPlaceHolder);
+            bslg.getTxtBarcodeNo().setText("Barkod numarası giriniz");
+        }
+        if (jtxt != bslg.getTxtAuthorName()) {
+            bslg.getTxtAuthorName().setFont(fontTxtPlaceHolder);
+            bslg.getTxtAuthorName().setForeground(bslgPlaceHolder);
+            bslg.getTxtAuthorName().setText("Yazar ismi giriniz");
+        }
+        if (jtxt != bslg.getTxtBookName()) {
+            bslg.getTxtBookName().setFont(fontTxtPlaceHolder);
+            bslg.getTxtBookName().setForeground(bslgPlaceHolder);
+            bslg.getTxtBookName().setText("Kitap ismi giriniz");
+        }
+        if (jtxt != bslg.getTxtCategory()) {
+            bslg.getTxtCategory().setFont(fontTxtPlaceHolder);
+            bslg.getTxtCategory().setForeground(bslgPlaceHolder);
+            bslg.getTxtCategory().setText("Kategori ismi giriniz");
+        }
+        if (jtxt.getText().trim().equals("Barkod numarası giriniz")
+                || jtxt.getText().trim().equals("Yazar ismi giriniz")
+                || jtxt.getText().trim().equals("Kitap ismi giriniz")
+                || jtxt.getText().trim().equals("Kategori ismi giriniz")) {
+            jtxt.setText("");
+        }
+        jtxt.setFont(new Font("", Font.BOLD, 15));
+        jtxt.setForeground(Color.BLACK);
+        return jtxt;
     }
 
     @Override
@@ -406,7 +468,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     + "(yukarıdaki çözümlerden birisini deneyin)", "SQL HATASI", JOptionPane.ERROR_MESSAGE);
 
             bag.getTxtBookBarcodeNo().setForeground(new Color(255, 159, 26));
-            bag.getTxtBookBarcodeNo().setText(NumberError);
+            //  bag.getTxtBookBarcodeNo().setText(NumberError);
 
         } catch (Exception ex) {
             java.awt.Toolkit.getDefaultToolkit().beep();
@@ -438,7 +500,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 
     }
 
-    public void DBBookList(int sectorNumber) {
+    /*  public void DBBookList(int sectorNumber) {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
@@ -493,7 +555,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     break;
                 case DB_CATEGORYNAME:
                     break;
-                /* stmt = conn.createStatement();
+                 stmt = conn.createStatement();
             String SqlBookAdd = "INSERT INTO `book` "
                     + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
                     + "(NULL,"
@@ -501,7 +563,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     + "'" + bag.getTxtBookName().getText() + "',"
                     + "'" + bag.getTxtAuthorName().getText() + "',"
                     + "'" + bag.getTxtCategory().getText() + "')";
-            stmt.executeUpdate(SqlBookAdd);*/
+            stmt.executeUpdate(SqlBookAdd);
             }
         } catch (ClassNotFoundException ex) {
 
@@ -522,9 +584,9 @@ public class ActionsBook implements ActionListener, FocusListener {
                 if (rs != null) {
                     rs.close();
                 }
-                /*   if (preparedStmt != null) {
+                   if (preparedStmt != null) {
                     preparedStmt.close();
-                }*/
+                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
             }
@@ -539,9 +601,8 @@ public class ActionsBook implements ActionListener, FocusListener {
                 JOptionPane.showMessageDialog(null, "Kitap adı'na tıklandı Sql kaldı ");
             } else if (e.getSource() == bslg.getTxtAuthorName()) {
                 JOptionPane.showMessageDialog(null, "Yazar adına tıklandı Sql kaldı ");
-            } else if (e.getSource() == bslg.getTxtCategory()) {*/
-    }
-
+            } else if (e.getSource() == bslg.getTxtCategory()) {
+    }*/
     public void SuccessVoice() {
         try {
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
@@ -1091,10 +1152,15 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         String USER = "root";
         String PASS = "";
-
+        Double debt = 0.0;
+        Double Fine = 0.0;
+        final Double FineFee = 0.5;
+        int delay = 0;
+        Date borrowedDate = null;
+        boolean FineAdded = false;
         Connection conn = null;
         Statement stmt = null;
-
+        ResultSet rs = null;
 // öğrenci var mı
 // kitap var mı
 // ikiside uygun ise iade edilir
@@ -1103,39 +1169,64 @@ public class ActionsBook implements ActionListener, FocusListener {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
             stmt = conn.createStatement();
 
-            // String BookExistQuery = "SELECT * FROM book WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
-            //stmt = conn.createStatement();
-            /*   String AddFineQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "'"
-                    + " StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and  NOW() > BorrowedDate + INTERVAL 30 DAY";
-            ResultSet rs = stmt.executeQuery(AddFineQuery);
-            double AddDebt = 0.0;
-            Date date;
-            //java.util.Date today = Calendar.getInstance().getTime();
-           Calendar c = new GregorianCalendar();
-            c.add(Calendar.DATE, 30);
-            Date d = (Date) c.getTime();
-            Date overday;
-            overday = date - d;
-
-            if (rs.next()) {
-                date = rs.getDate("BorrowedDate");
-
-                if (rs.next()) {
-
-                }
-            }*/
             String DeliverBookToLibraryQuery = "UPDATE book SET StudentNo= NULL , BorrowedDate=NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
                     + "BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' ";
-            // stmt.executeUpdate(DeliverBookToLibraryQuery);
+
+            String addFine = "SELECT * FROM book INNER JOIN student ON book.studentNo=student.No where BarcodeNo LIKE'" + brg.getTxtBarcodeNo().getText().trim() + "' and "
+                    + "studentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
+            rs = stmt.executeQuery(addFine);
+            /*    LocalDate localdate = LocalDate.now();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy");*/
+            if (rs.next()) {
+                String dayQuery = "SELECT DATEDIFF ('" + rs.getDate("borrowedDate") + "',NOW())";
+                borrowedDate = rs.getDate("borrowedDate");
+                debt = rs.getDouble("Debt");
+                rs = stmt.executeQuery(dayQuery);
+                if (rs.next()) {
+
+                    LocalDate borrowedDateForComparison = borrowedDate.toLocalDate();
+                    LocalDate localdate = LocalDate.now();
+                    Period diff = Period.between(borrowedDateForComparison, localdate);
+                    if (diff.getYears() > 0) {
+                        delay += 365 * diff.getYears();
+                    }
+                    if (diff.getMonths() > 0) {
+                        delay += 30 * diff.getMonths();
+                    }
+                    if (diff.getDays() > 0) {
+                        delay += diff.getDays();
+                    }
+                    if (delay > 30) {
+                        delay = delay - 30;
+                        Fine = FineFee * delay + debt;
+                        FineAdded = true;
+
+                    } else {
+                        Fine = debt;
+                    }
+
+                }
+            }
 
             if (stmt.executeUpdate(DeliverBookToLibraryQuery) == 1) {
-
                 SuccessVoice();
-                brg.getTxtResult().setBackground(Color.green);
-                brg.getTxtResult().setText("KİTAP İADE BAŞARILI");
+                if (FineAdded == false) {
+
+                    brg.getTxtResult().setBackground(Color.green);
+                    brg.getTxtResult().setText("KİTAP İADE BAŞARILI");
+                } else {
+
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+
+                    brg.getTxtResult().setBackground(new Color(22, 160, 133));
+
+                    brg.getTxtResult().setText("KİTAP İADE BAŞARILI  / ANCAK 30 GÜNÜ GEÇİRDİĞİ İÇİN CEZA YAPTIRIMI UYGUNLANMIŞTIR");
+                }
+                String Query = "UPDATE student Set debt=" + Fine + " WHERE  No LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
+                stmt.executeUpdate(Query);
             } else {
                 DeliverBookToLibraryQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and StudentNo  IS NULL ";
-                ResultSet rs = stmt.executeQuery(DeliverBookToLibraryQuery);
+                rs = stmt.executeQuery(DeliverBookToLibraryQuery);
                 if (rs.next()) {
 
                     java.awt.Toolkit.getDefaultToolkit().beep();
@@ -1173,6 +1264,111 @@ public class ActionsBook implements ActionListener, FocusListener {
                 JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
             }
 
+        }
+
+    }
+
+    public void SearcBookList(int search) {
+
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+        //  StudentCanUpdate = true;
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        final int searchAuthor = 0;
+        final int searchBookName = 1;
+        final int searchBarcodeNo = 2;
+        final int searchCategory = 3;
+        final int searchAll = 5;
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        boolean noVoice = false;
+
+        String searchQuery = "";
+        switch (search) {
+            case searchAuthor:
+                searchQuery = "SELECT * FROM book WHERE AuthorName LIKE '%" + bslg.getTxtAuthorName().getText().trim() + "%'";
+                break;
+            case searchBookName:
+                searchQuery = "SELECT * FROM book WHERE Name LIKE '%" + bslg.getTxtBookName().getText().trim() + "%'";
+                break;
+            case searchBarcodeNo:
+                searchQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '%" + bslg.getTxtBarcodeNo().getText().trim() + "%'";
+                break;
+            case searchCategory:
+                searchQuery = "SELECT * FROM book WHERE CategoryName LIKE '%" + bslg.getTxtCategory().getText().trim() + "%'";
+                break;
+            case searchAll:
+                searchQuery = "SELECT * FROM book ";
+                noVoice = true;
+        }
+
+        try {
+
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(searchQuery);
+            int totalBookForQuery = 0;
+            while (rs.next()) {
+                totalBookForQuery++;
+            }
+
+            rs = stmt.executeQuery(searchQuery);
+
+            int counter = 0;
+            bslg.DataOfTable = new String[totalBookForQuery][6];
+
+            while (rs.next()) {
+
+                bslg.DataOfTable[counter][0] = Integer.toString(counter + 1);
+                bslg.DataOfTable[counter][1] = rs.getString("BarcodeNo");
+                bslg.DataOfTable[counter][2] = rs.getString("Name");
+                try {
+                    if (rs.getString("StudentNo").equals(null)) {
+
+                    }
+                    bslg.DataOfTable[counter][3] = "Öğrencide";
+                    //JOptionPane.showMessageDialog(null, "buraya girdi");
+
+                } catch (NullPointerException e) {
+                    bslg.DataOfTable[counter][3] = "Müsayit";
+                }
+
+                bslg.DataOfTable[counter][4] = rs.getString("CategoryName");
+                bslg.DataOfTable[counter][5] = rs.getString("AuthorName");
+
+                counter++;
+            }////"", "Barkod No", "Kitap Adı", "Kitap Durumu", "Kitap Kategori", "Yazar Adı"};
+
+            /*    String ClearQuery = "SELECT * FROM student";
+            rs = stmt.executeQuery(ClearQuery);
+            int deleteRows = counter;
+           while (rs.next() && deleteRows < rsg.DataOfTable.length) {
+                rsg.DataOfTable[deleteRows][0] = null;
+                rsg.DataOfTable[deleteRows][1] = null;
+                rsg.DataOfTable[deleteRows][2] = null;
+                rsg.DataOfTable[deleteRows][3] = null;
+                rsg.DataOfTable[deleteRows][4] = null;
+                rsg.DataOfTable[deleteRows][5] = null;
+
+            }*/
+            bslg.getJp().remove(bslg.getSp());
+            bslg.setSp(new JTable(bslg.DataOfTable, bslg.HeadersOfTable));
+            bslg.getJp().add(bslg.getSp());
+
+            if (noVoice == false) {
+                SuccessVoice();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

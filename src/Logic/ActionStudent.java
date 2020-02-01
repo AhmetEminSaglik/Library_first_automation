@@ -1059,8 +1059,6 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     String dayQuery = "SELECT DATEDIFF ('" + BorrowedDate1 + "',NOW())";
                     rs = stmt.executeQuery(dayQuery);
 
-                    Date d = new Date(System.currentTimeMillis());
-                    //d = (date) (d - BorrowedDate1);
                     LocalDate borrowedDate = BorrowedDate1.toLocalDate();
                     LocalDate now = LocalDate.now();
 
@@ -1076,7 +1074,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                         delay += diff.getDays();
                     }
 
-                    if (delay < 30) {
+                    if (delay <= 30) {
                         delay = 30 - delay;
                         delayString = "+" + Integer.toString(delay);
                         ssg.getLblLendingDayNumber1().setForeground(Color.green);
@@ -1287,7 +1285,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             rsg.getJp().remove(rsg.getSp());
             rsg.setSp(new JTable(rsg.DataOfTable, rsg.HeadersOfTable));
             rsg.getJp().add(rsg.getSp());
-
+            SuccessVoice();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
