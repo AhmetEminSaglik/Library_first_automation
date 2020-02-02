@@ -172,12 +172,12 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 rsg.getMg().getJp().setVisible(true);
                 clearAllTxtMainGui();
             } else if (e.getSource() == rsg.getTxtName()) {
-                SearchRegisteredStudent(0);
+                SearchRegisteredStudent(1);
 
             } else if (e.getSource() == rsg.getTxtSurname()) {
-                SearchRegisteredStudent(1);
-            } else if (e.getSource() == rsg.getTxtNo()) {
                 SearchRegisteredStudent(2);
+            } else if (e.getSource() == rsg.getTxtNo()) {
+                SearchRegisteredStudent(3);
 
             }
         }
@@ -558,6 +558,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 throw new Exception();
             }
             stmt = conn.createStatement();
+
             String SqlStudentAdd = "INSERT INTO `student` "
                     + "(`Id`,`No`,`Name`,`Surname`,`Email`,`Phone`,`Debt`) VALUES "
                     + "(NULL,"
@@ -568,6 +569,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     + "'" + sag.getTxtPhoneNo().getText() + "',"
                     + "'0.0' )";
             stmt.executeUpdate(SqlStudentAdd);
+
             sag.getTxtResult().setBackground(Color.GREEN);
             sag.getTxtResult().setText("Öğrenci Kayıt edilmiştir");
             SuccessVoice();
@@ -592,6 +594,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 /* if (rs != null) {
                     rs.close();
                 }
+                
                    if (preparedStmt != null) {
                     preparedStmt.close();
                 }*/
@@ -1218,11 +1221,11 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
         //  Database credentials
         String USER = "root";
         String PASS = "";
-
-        final int searchName = 0;
-        final int searchSurname = 1;
-        final int searchNo = 2;
-
+        final int bringAll = 0;
+        final int searchName = 1;
+        final int searchSurname = 2;
+        final int searchNo = 3;
+        boolean noVoice = false;
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -1238,6 +1241,9 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             case searchNo:
                 searchQuery = "SELECT * FROM student WHERE No LIKE '" + rsg.getTxtNo().getText().trim() + "%'";
                 break;
+            case bringAll:
+                searchQuery = "SELECT * FROM student ";
+                noVoice = true;
         }
 
         try {
@@ -1277,7 +1283,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 rsg.DataOfTable[deleteRows][0] = null;
                 rsg.DataOfTable[deleteRows][1] = null;
                 rsg.DataOfTable[deleteRows][2] = null;
-                rsg.DataOfTable[deleteRows][3] = null;
+                rsg.DataOfTable[deleteRows][3] = null;  
                 rsg.DataOfTable[deleteRows][4] = null;
                 rsg.DataOfTable[deleteRows][5] = null;
 
@@ -1285,16 +1291,37 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             rsg.getJp().remove(rsg.getSp());
             rsg.setSp(new JTable(rsg.DataOfTable, rsg.HeadersOfTable));
             rsg.getJp().add(rsg.getSp());
-            SuccessVoice();
+            if (noVoice == false) {
+                SuccessVoice();
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } finally {
 
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*    if (preparedStmt != null) {
+                    preparedStmt.close();
+                }*/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
+        }
     }
 
-    public void ShowRegisteredStudent() {
+    /*  public void ShowRegisteredStudent() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
         StudentCanUpdate = true;
@@ -1340,7 +1367,28 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*    if (preparedStmt != null) {
+                    preparedStmt.close();
+                } 
+}
+catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
-    }
+    }*/
 }

@@ -442,6 +442,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 throw new Exception();
             }
             stmt = conn.createStatement();
+
             String SqlBookAdd = "INSERT INTO `book` "
                     + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
                     + "(NULL,"

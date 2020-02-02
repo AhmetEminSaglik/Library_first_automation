@@ -648,6 +648,26 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+                /*   if (preparedStmt != null) {
+                    preparedStmt.close();
+                }  /**/
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
+            }
+
         }
 
     }

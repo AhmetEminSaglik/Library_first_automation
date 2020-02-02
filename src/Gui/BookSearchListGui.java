@@ -198,17 +198,18 @@ public class BookSearchListGui {
         table.setDefaultEditor(Object.class, null);
         table.setFont(font_txt);
         table.setCursor(new Cursor(12));
+        table.setRowHeight(20);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        table.setSelectionBackground(Color.GREEN);
+        table.setSelectionBackground(Color.green);
 
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+//table.setSelectionForeground(bslgPlaceHolder);
 
         return table;
 

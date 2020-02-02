@@ -47,7 +47,7 @@ public class RegisteredStudentGui {
     Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
 
     public RegisteredStudentGui(MainGui mg) {
-        action.ShowRegisteredStudent();
+        action.SearchRegisteredStudent(0);
         setMg(mg);
         setJf(mg.getJf());
         getJf().setTitle("KAYITLI ÖĞRENCİ SAYFASI");
@@ -181,6 +181,7 @@ public class RegisteredStudentGui {
         table.setDefaultEditor(Object.class, null);
         table.setFont(font_txt);
         table.setCursor(new Cursor(12));
+        table.setRowHeight(20);
         table.setFont(new Font("", Font.BOLD, 15));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

@@ -43,19 +43,8 @@ public class FineDebtPayment {
     final int LeftSpace = 30;
     final int pushRightSpace = txtWidth + 50;
     int pushRightCounter = 0;
-    public String DataForTable[][] = {
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},
-        {"385931", "5486461768456", "Matematik bilmem ne", "20-11-2019", "0.8 Tl"},};
-    public String HeaderOfTable[] = {"Öğrenci No", "Kitap Barko No", "Kitap Adı", "Kitabın Alındığı Tarih", "Borç (TL)"};
+    public String DataOfTable[][] = {};
+    public String HeaderOfTable[] = {"", "Öğrenci No", "Ad-Soyad", "Email", "Telefon Numarası", "Borç (TL)"};
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 15);
     ActionTimeFine action = new ActionTimeFine(this);
@@ -80,8 +69,14 @@ public class FineDebtPayment {
         getJp().add(getBtnPay());
         getJp().add(getBtnComeBack());
         getJp().add(getSp());
+        getTxtStudentNo().addActionListener(action);
         getBtnPay().addActionListener(action);
         getBtnComeBack().addActionListener(action);
+        action.BringStudentWhoHasDebt(0);
+        getTxtStudentNo().addFocusListener(action);
+        getTxtAmountOfPayment().addFocusListener(action);
+        getBtnPay().addFocusListener(action);
+        getTxtAmountOfPayment().addActionListener(action);
 
     }
 
@@ -179,8 +174,8 @@ public class FineDebtPayment {
         if (txtStudentNo == null) {
             txtStudentNo = new JTextField("Öğrenci No");
             txtStudentNo.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), txtTopSpace, lblWidth, lblHeight);
-            txtStudentNo.setForeground(Color.BLACK);
-            txtStudentNo.setFont(txtFont);
+            txtStudentNo.setForeground(Color.gray);
+            txtStudentNo.setFont(new Font("", Font.ITALIC, 14));
             pushRightCounter++;
 
         }
@@ -193,7 +188,7 @@ public class FineDebtPayment {
 
     public JTextField getTxtDebt() {
         if (txtDebt == null) {
-            txtDebt = new JTextField("Borç");
+            txtDebt = new JTextField("");
             txtDebt.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), txtTopSpace, lblWidth, lblHeight);
             txtDebt.setForeground(Color.BLACK);
             txtDebt.setFont(txtFont);
@@ -216,10 +211,12 @@ public class FineDebtPayment {
 
     public JTextField getTxtAmountOfPayment() {
         if (txtAmountOfPayment == null) {
-            txtAmountOfPayment = new JTextField("Ödeme miktarı");
+            txtAmountOfPayment = new JTextField("Ödeme Miktarı");
             txtAmountOfPayment.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), txtTopSpace + lblHeight + txtHeight + 15, lblWidth, lblHeight);
             txtAmountOfPayment.setForeground(Color.BLACK);
-            txtAmountOfPayment.setFont(txtFont);
+            txtAmountOfPayment.setForeground(Color.gray);
+            txtAmountOfPayment.setFont(new Font("", Font.ITALIC, 14));
+
             pushRightCounter++;
 
         }
@@ -233,7 +230,7 @@ public class FineDebtPayment {
 
     public JTextField getTxtResult() {
         if (txtResult == null) {
-            txtResult = new JTextField("Sonuç");
+            txtResult = new JTextField("");
             txtResult.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), txtTopSpace, lblWidth, lblHeight);
             txtResult.setForeground(Color.BLACK);
             txtResult.setFont(txtFont);
@@ -254,44 +251,68 @@ public class FineDebtPayment {
         this.txtResult = txtResult;
     }
 
+    public JTable OrganizeTable(JTable tbl) {
+        tbl = new JTable(DataOfTable, HeaderOfTable);
+
+        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbl.setRowHeight(15);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(100);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(220);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(220);
+        tbl.getColumnModel().getColumn(4).setPreferredWidth(120);
+        tbl.getColumnModel().getColumn(5).setPreferredWidth(70);
+//public String HeadersOfTable[] = {"", "Barkod No", "Kitap Adı", "Kitap Durumu", "Kitap Kategori", "Yazar Adı"};
+        tbl.setDefaultEditor(Object.class, null);
+        tbl.setFont(txtFont);
+        tbl.setCursor(new Cursor(12));
+        tbl.setRowHeight(20);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tbl.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tbl.setSelectionBackground(Color.green);
+
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tbl.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tbl.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        tbl.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        tbl.setRowHeight(20);
+//tbl.setSelectionForeground(bslgPlaceHolder);
+
+        return tbl;
+
+    }
+
     public JTable getTbl() {
         if (tbl == null) {
-            tbl = new JTable(DataForTable, HeaderOfTable);
-            tbl.setDefaultEditor(Object.class, null);
-            tbl.setCursor(new Cursor(12));
-            tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            // {"Öğrenci No", "Kitap Barko No", "Kitap Adı", "Kitabın Alındığı Tarih", "Borç (TL)"};
-            tbl.getColumnModel().getColumn(0).setPreferredWidth(100);
-            tbl.getColumnModel().getColumn(1).setPreferredWidth(250);
-            tbl.getColumnModel().getColumn(2).setPreferredWidth(450);
-            tbl.getColumnModel().getColumn(3).setPreferredWidth(250);
-            tbl.getColumnModel().getColumn(4).setPreferredWidth(200);
-            tbl.setFont(lblFont);
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-            tbl.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-            tbl.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-
+            tbl = new JTable(DataOfTable, HeaderOfTable);
         }
+        tbl = OrganizeTable(tbl);
+
         return tbl;
     }
 
     public void setTbl(JTable tbl) {
+        tbl = OrganizeTable(tbl);
         this.tbl = tbl;
     }
 
     public JScrollPane getSp() {
         if (sp == null) {
             sp = new JScrollPane(getTbl());
-            sp.setBounds(LeftSpace, txtTopSpace + txtHeight * 4, 750, 270);
+
             //sp.setHorizontalScrollBarPolicy(sp.HORIZONTAL_SCROLLBAR_ALWAYS);
             //sp.setVerticalScrollBarPolicy(sp.VERTICAL_SCROLLBAR_ALWAYS);
-
         }
+        sp.setBounds(LeftSpace, txtTopSpace + txtHeight * 4, 750, 270);
+
         return sp;
     }
 
-    public void setSp(JScrollPane sp) {
+    public void setSp(JTable tbl) {
+        tbl = tbl = OrganizeTable(tbl);
+        sp = new JScrollPane(tbl);
         this.sp = sp;
     }
 
