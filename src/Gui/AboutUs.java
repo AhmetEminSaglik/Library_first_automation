@@ -16,13 +16,18 @@ public class AboutUs {
     MainGui mg;
     JFrame jf;
     JPanel jp;
-    int firstColor = 150;
-    int secondColor = 0;
-    int thirdColor = 150;
+    int firstColor = new Random().nextInt(255);
+    int secondColor = new Random().nextInt(255);
+    int thirdColor = new Random().nextInt(255);
     JTextArea txtAreaAboutMe;
     JButton btnComeBack;
     ActionTimeFine action = new ActionTimeFine(this);
     public boolean stopChangeBackground = false;
+    boolean firstCountUp = true;
+    boolean SecondCountUp = true;
+    boolean ThirdCountUp = true;
+
+    int Counter = 30;
 
     public AboutUs(MainGui mg) {
         setMg(mg);
@@ -37,38 +42,63 @@ public class AboutUs {
 
     }
 
-    public void changePanelBackGround(int colorIndex, int whichColor) { // colorIndex determines whichcolor it is
-        if (stopChangeBackground) {
+    public void ChangeBackground(int colorIndex, int Color) {
+        try {
+            Thread.sleep(25);
+            if (colorIndex == 0) {
+                firstColor = Color;
+            } else if (colorIndex == 1) {
+                secondColor = Color;
+            } else {
+                thirdColor = Color;
+            }
+
+            getJp().setBackground(new Color(firstColor, secondColor, thirdColor));
+            getTxtAreaAboutMe().setBackground(new Color(firstColor, secondColor, thirdColor));
+
+            if (firstColor + secondColor + thirdColor < 350) {
+                getTxtAreaAboutMe().setForeground(new Color(255, 255, 255));
+            } else {
+                getTxtAreaAboutMe().setForeground(new Color(0, 0, 0));
+            }
+            //getJp().setForeground(new Color(255 - firstColor, 255 - secondColor, 255 - thirdColor));
+            //getTxtAreaAboutMe().setForeground(new Color(255 - firstColor, 255 - secondColor, 255 - thirdColor));
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AboutUs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void ChangeColor2(int colorIndex, int startPoint, boolean countUp) {
+        if (Counter > 0) {
+            if (startPoint == 255) {
+                countUp = false;
+
+            } else if (startPoint == 0) {
+                countUp = true;
+            }
+            if (colorIndex == 0) {
+                firstCountUp = countUp;
+            } else if (colorIndex == 1) {
+                SecondCountUp = countUp;
+            } else {
+                ThirdCountUp = countUp;
+            }
+            if (countUp == true) {
+
+                ChangeBackground(colorIndex, ++startPoint);
+
+            } else {
+                ChangeBackground(colorIndex, --startPoint);
+
+            }
+            Counter--;
+            ChangeColor2(colorIndex, startPoint, countUp);
+
+        } else {
+            Counter = new Random().nextInt(25) + 25;
+
             return;
         }
-        int maxNumber = whichColor + 30;
-
-        for (int i = whichColor; i < maxNumber; i++) {
-
-            if (i > 255) {
-                i = 0;
-
-                maxNumber = maxNumber - 255;
-
-            }
-            try {
-                Thread.sleep(25);
-                if (colorIndex == 0) {
-                    firstColor = i;
-                } else if (colorIndex == 1) {
-                    secondColor = i;
-                } else {
-                    thirdColor = i;
-                }
-
-                getJp().setBackground(new Color(firstColor, secondColor, thirdColor));
-                getTxtAreaAboutMe().setBackground(new Color(firstColor, secondColor, thirdColor));
-            } catch (InterruptedException ex) {
-                Logger.getLogger(AboutUs.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
     }
 
     public void changeBackgroundColorOfPanel() {
@@ -78,17 +108,17 @@ public class AboutUs {
                 try {
                     while (true) {
                         Thread.sleep(10);
-                        /* firstColor = random.nextInt(255);
-                        secondColor = random.nextInt(255);
-                        thirdColor = random.nextInt(255);*/
+
                         int randomNumber = random.nextInt(3);
                         if (randomNumber == 0) {
-                            changePanelBackGround(0, firstColor);
+
+                            ChangeColor2(0, firstColor, firstCountUp);
 
                         } else if (randomNumber == 1) {
-                            changePanelBackGround(1, secondColor);
+                            ChangeColor2(1, secondColor, SecondCountUp);   // changePanelBackGround(1, secondColor, SecondCountDown);
                         } else {
-                            changePanelBackGround(2, thirdColor);
+                            ChangeColor2(2, thirdColor, ThirdCountUp);   //  changePanelBackGround(2, thirdColor, ThirdCountDown);
+
                         }
 
                     }

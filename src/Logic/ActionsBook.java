@@ -55,6 +55,7 @@ public class ActionsBook implements ActionListener, FocusListener {
     boolean BookCanUpdate;
     Color bslgPlaceHolder = Color.GRAY;
     Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
+    int[] dizi = new int[2];
 
     //eğer bag hata alırsa diğer taraftan burayı setlerim
     public ActionsBook(BookReturnGui brg) {
@@ -442,15 +443,16 @@ public class ActionsBook implements ActionListener, FocusListener {
                 throw new Exception();
             }
             stmt = conn.createStatement();
-
-            String SqlBookAdd = "INSERT INTO `book` "
-                    + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
-                    + "(NULL,"
-                    + "'" + bag.getTxtBookBarcodeNo().getText().trim() + "',"
-                    + "'" + bag.getTxtBookName().getText() + "',"
-                    + "'" + bag.getTxtAuthorName().getText() + "',"
-                    + "'" + bag.getTxtCategory().getText() + "')";
-            stmt.executeUpdate(SqlBookAdd);
+            for (int i = 0; i < 100; i++) {
+                String SqlBookAdd = "INSERT INTO `book` "
+                        + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
+                        + "(NULL,"
+                        + "'" + (bag.getTxtBookBarcodeNo().getText().trim() + i) + "',"
+                        + "'" + bag.getTxtBookName().getText() + "',"
+                        + "'" + bag.getTxtAuthorName().getText() + "',"
+                        + "'" + bag.getTxtCategory().getText() + "')";
+                stmt.executeUpdate(SqlBookAdd);
+            }
 
             /* bag.getTxtAuthorName().setText("");
                     bag.getTxtCategory().setText("");
@@ -1147,6 +1149,24 @@ public class ActionsBook implements ActionListener, FocusListener {
         return true;
     }
 
+    public void sendEmail(String StudentEmail, double Debt) {
+        JavaMailUtil jmu = new JavaMailUtil();
+        Thread sendEmailThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                jmu.sendEmail(StudentEmail, Debt);
+
+            }
+
+        });
+        sendEmailThread.start();
+        try {
+            sendEmailThread.join();
+        } catch (InterruptedException ex) {
+            JOptionPane.showMessageDialog(null, "Beklenmeyen hata : \n" + ex, "THREAD SHUTDOWN ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void ReturnBookToLibrary() {
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
@@ -1155,6 +1175,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         String PASS = "";
         Double debt = 0.0;
         Double Fine = 0.0;
+
         final Double FineFee = 0.5;
         int delay = 0;
         Date borrowedDate = null;
@@ -1166,6 +1187,7 @@ public class ActionsBook implements ActionListener, FocusListener {
 // kitap var mı
 // ikiside uygun ise iade edilir
         try {
+
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
             stmt = conn.createStatement();
@@ -1182,7 +1204,9 @@ public class ActionsBook implements ActionListener, FocusListener {
                 String dayQuery = "SELECT DATEDIFF ('" + rs.getDate("borrowedDate") + "',NOW())";
                 borrowedDate = rs.getDate("borrowedDate");
                 debt = rs.getDouble("Debt");
+                String StudentEmail = rs.getString("student.Email");
                 rs = stmt.executeQuery(dayQuery);
+
                 if (rs.next()) {
 
                     LocalDate borrowedDateForComparison = borrowedDate.toLocalDate();
@@ -1201,7 +1225,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                         delay = delay - 30;
                         Fine = FineFee * delay + debt;
                         FineAdded = true;
-
+                        sendEmail(StudentEmail, Fine);
                     } else {
                         Fine = debt;
                     }
@@ -1222,9 +1246,11 @@ public class ActionsBook implements ActionListener, FocusListener {
                     brg.getTxtResult().setBackground(new Color(22, 160, 133));
 
                     brg.getTxtResult().setText("KİTAP İADE BAŞARILI  / ANCAK 30 GÜNÜ GEÇİRDİĞİ İÇİN CEZA YAPTIRIMI UYGUNLANMIŞTIR");
+
                 }
                 String Query = "UPDATE student Set debt=" + Fine + " WHERE  No LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
                 stmt.executeUpdate(Query);
+
             } else {
                 DeliverBookToLibraryQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and StudentNo  IS NULL ";
                 rs = stmt.executeQuery(DeliverBookToLibraryQuery);
@@ -1345,7 +1371,9 @@ public class ActionsBook implements ActionListener, FocusListener {
                 bslg.DataOfTable[counter][5] = rs.getString("AuthorName");
 
                 counter++;
-            }////"", "Barkod No", "Kitap Adı", "Kitap Durumu", "Kitap Kategori", "Yazar Adı"};
+            }
+
+////"", "Barkod No", "Kitap Adı", "Kitap Durumu", "Kitap Kategori", "Yazar Adı"};
 
             /*    String ClearQuery = "SELECT * FROM student";
             rs = stmt.executeQuery(ClearQuery);
@@ -1362,7 +1390,11 @@ public class ActionsBook implements ActionListener, FocusListener {
             bslg.getJp().remove(bslg.getSp());
             bslg.setSp(new JTable(bslg.DataOfTable, bslg.HeadersOfTable));
             bslg.getJp().add(bslg.getSp());
-
+            if (counter == 0) {
+                noVoice = true;
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Malesef Aradığınız kriterlere uygun veriler bulunamadı");
+            }
             if (noVoice == false) {
                 SuccessVoice();
             }

@@ -1,0 +1,12 @@
+her kitapta 1 yer açılır içine 1,2,3
+1-> son 7 gün
+2-> son 3 gün
+3-> ceza işlemi başlamıştır gibisinden  bir anlamı olacak
+cuma günü  olunca da  eğer haftasonu başlıyor ise 7 gün ya da 3 gün vs cuma gününden otomatik mail atılacak
+
+mail atıldıktan sonra sql de işlem yapılacaktır
+
+program her açıldığında  veri tabanı kontol edilecektir  ona göre de mail atılmaya başlanılacaktır  bu mailleri thread ile yaparsam on numara olur
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Program açıldığında arka planda  kitap süresi ile ilgili işlem yapacak

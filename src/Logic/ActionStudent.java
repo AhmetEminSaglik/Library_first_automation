@@ -558,17 +558,18 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 throw new Exception();
             }
             stmt = conn.createStatement();
-
-            String SqlStudentAdd = "INSERT INTO `student` "
-                    + "(`Id`,`No`,`Name`,`Surname`,`Email`,`Phone`,`Debt`) VALUES "
-                    + "(NULL,"
-                    + "'" + sag.getTxtNo().getText().trim() + "',"
-                    + "'" + sag.getTxtName().getText() + "',"
-                    + "'" + sag.getTxtSurname().getText() + "',"
-                    + "'" + sag.getTxtEmail().getText() + "',"
-                    + "'" + sag.getTxtPhoneNo().getText() + "',"
-                    + "'0.0' )";
-            stmt.executeUpdate(SqlStudentAdd);
+            for (int i = 0; i < 100; i++) {
+                String SqlStudentAdd = "INSERT INTO `student` "
+                        + "(`Id`,`No`,`Name`,`Surname`,`Email`,`Phone`,`Debt`) VALUES "
+                        + "(NULL,"
+                        + "'" + sag.getTxtNo().getText().trim() + i + "',"
+                        + "'" + sag.getTxtName().getText() + "',"
+                        + "'" + sag.getTxtSurname().getText() + "',"
+                        + "'" + sag.getTxtEmail().getText() + "',"
+                        + "'" + sag.getTxtPhoneNo().getText() + "',"
+                        + "'0.0' )";
+                stmt.executeUpdate(SqlStudentAdd);
+            }
 
             sag.getTxtResult().setBackground(Color.GREEN);
             sag.getTxtResult().setText("Öğrenci Kayıt edilmiştir");
@@ -1291,6 +1292,11 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             rsg.getJp().remove(rsg.getSp());
             rsg.setSp(new JTable(rsg.DataOfTable, rsg.HeadersOfTable));
             rsg.getJp().add(rsg.getSp());
+            if (counter == 0) {
+                noVoice = true;
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Malesef Aradığınız kriterlere uygun veriler bulunamadı");
+            }
             if (noVoice == false) {
                 SuccessVoice();
             }

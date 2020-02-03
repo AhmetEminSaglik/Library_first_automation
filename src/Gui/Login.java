@@ -1,6 +1,7 @@
 package Gui;
 
 import Logic.ActionsLogin;
+import Logic.JavaMailUtil;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -9,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,8 +54,20 @@ public class Login extends JPanel {
         CreateDatabase();
         CreateTable();
         getJf().setCursor(null);
-        //this.setVisible(false);
-        //MainGui mg = new MainGui(this);
+        JavaMailUtil jmu = new JavaMailUtil();
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                jmu.FindStudentAndMailThem(0);
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public JFrame getJf() {
@@ -266,7 +281,7 @@ public class Login extends JPanel {
                     + "`Debt` DOUBLE NOT NULL , "
                     + "PRIMARY KEY (`id`));";*/
             String sql1 = "CREATE TABLE `library`.`student` "
-                    + "( `Id` INT(0) NOT NULL AUTO_INCREMENT ,"
+                    + "( `Id` INT NOT NULL AUTO_INCREMENT ,"
                     + " `No`  VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
                     + "`Name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
                     + "`Surname` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
@@ -283,7 +298,7 @@ public class Login extends JPanel {
                     + "`Sifre` VARCHAR(255) NOT NULL "
                     + ", PRIMARY KEY (`id`)); ";*/
             String sql3 = "CREATE TABLE `library`.`book`"
-                    + " ( `Id` INT(10) NOT NULL AUTO_INCREMENT ,"
+                    + " ( `Id` INT NOT NULL AUTO_INCREMENT ,"
                     + " `BarcodeNo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
                     // CHARACTER SET utf32 COLLATE utf32_turkish_ci NOT NULL
                     + " `Name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
@@ -291,6 +306,7 @@ public class Login extends JPanel {
                     + " `CategoryName` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL ,"
                     + " `StudentNo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci  ,"
                     + " `BorrowedDate` DATETIME   ,"
+                    + " `Condition` INT NULL  ,"
                     + " PRIMARY KEY (`Id`));";
             /*String sql3 = "CREATE TABLE `library`.`book` "
                     + "( `id` INT(50) NOT NULL AUTO_INCREMENT , "
