@@ -33,15 +33,8 @@ public final class TimeControlExtraTimeGui extends JPanel {
     JTextField txtSearchBookBarcodeNo;
     JTable tbl;
     JScrollPane sp;
-    String HeaderOfTable[] = {"Öğrenci No", "Kitap Barkod No", "Kitap adı", "Kalan gün sayısı "};
-    String dataForTable[][] = {
-        {"385931", "45641531651", "Matematik", "10"},
-        {"385931", "45641531651", "Matematik", "10"},
-        {"385931", "45641531651", "Matematik", "10"},
-        {"385931", "45641531651", "Matematik", "10"},
-        {"385931", "45641531651", "Matematik", "10"},
-        {"385931", "45641531651", "Matematik", "10"}
-    };
+    public String HeaderOfTable[] = {"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kitap adı", "Kalan gün sayısı "};
+    public String DataForTable[][] = {};
 
     JButton btnExtendTime; //süreyi uzat
     JButton btnSearch;
@@ -61,8 +54,9 @@ public final class TimeControlExtraTimeGui extends JPanel {
     int pushUnderCounter = 0;
     Font font_lbl = new Font("", Font.BOLD, 18);
     Font font_txt = new Font("", Font.BOLD, 15);
+    Font fontPlaceHolder = new Font("", Font.ITALIC, 15);
     MainGui mg;
-    ActionTimeFine action = new ActionTimeFine(this);
+    public ActionTimeFine action = new ActionTimeFine(this);
 
     public TimeControlExtraTimeGui(MainGui mg) {
         setMg(mg);
@@ -96,12 +90,11 @@ public final class TimeControlExtraTimeGui extends JPanel {
         getTxtBookBarcodeNoToExtendTime().addActionListener(action);
         getTxtSearchStudentNo().addActionListener(action);
         getTxtSearchBookBarcodeNo().addActionListener(action);
+        getTxtSearchStudentNo().addFocusListener(action);
+        getTxtSearchBookBarcodeNo().addFocusListener(action);
+        getTxtBookBarcodeNoToExtendTime().addFocusListener(action);
 
         getJf().add(this);
-
-        JOptionPane.showMessageDialog(null, "kalan gün sayısı 5 ise sıkıntı yok ama 3 veya aşağısında ise mesaj yollama~whatsup \n"
-                + "ile haberleşme olmakla birlikte kırmızı renge boyanmalı 1 kere mesaj yollansa yeterli\n"
-                + " tekrar tekrar mesaj atılmasına gerek yoktur  bunu da bir yere yazıp ya da kaydedebiliriz!!!");
 
     }
 
@@ -200,10 +193,17 @@ public final class TimeControlExtraTimeGui extends JPanel {
 
     public JTextField getTxtBookBarcodeNoToExtendTime() {
         if (txtBookBarcodeNoToExtendTime == null) {
-            txtBookBarcodeNoToExtendTime = new JTextField("Kitap Barkod No");
+            txtBookBarcodeNoToExtendTime = new JTextField("");
             txtBookBarcodeNoToExtendTime.setBounds(leftSpace, txtTopSpace, txtWidth, txtHeight);
-            txtBookBarcodeNoToExtendTime.setForeground(new Color(9, 132, 227));
-            txtBookBarcodeNoToExtendTime.setFont(font_txt);
+            txtBookBarcodeNoToExtendTime.setForeground(Color.BLACK);
+            txtBookBarcodeNoToExtendTime.setFont(font_lbl);
+            txtBookBarcodeNoToExtendTime.setBackground(new Color(206, 214, 224));
+            txtBookBarcodeNoToExtendTime.setEditable(false);
+            txtBookBarcodeNoToExtendTime.setFocusable(false);
+            ToolTipManager ttm = ToolTipManager.sharedInstance();
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
+            txtBookBarcodeNoToExtendTime.setToolTipText("Buraya Erişemezsiniz");
 
         }
         return txtBookBarcodeNoToExtendTime;
@@ -215,7 +215,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
 
     public JTextField getTxtResult() {
         if (txtResult == null) {
-            txtResult = new JTextField("SONUÇ");
+            txtResult = new JTextField("");
             txtResult.setBounds(leftSpace + lblWidth * 2, txtTopSpace, txtWidth, txtHeight);
             txtResult.setBackground(new Color(206, 214, 224));
             txtResult.setFont(font_txt);
@@ -236,7 +236,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
 
     public JTextField getTxtBookNameToExtendTime() {
         if (txtBookNameToExtendTime == null) {
-            txtBookNameToExtendTime = new JTextField("Kitap Adı");
+            txtBookNameToExtendTime = new JTextField("");
             txtBookNameToExtendTime.setBounds(leftSpace, (lblPushUnder * pushUnderCounter) + txtTopSpace, txtWidth * 3, txtHeight);
             txtBookNameToExtendTime.setBackground(new Color(206, 214, 224));
             txtBookNameToExtendTime.setFont(font_lbl);
@@ -258,8 +258,8 @@ public final class TimeControlExtraTimeGui extends JPanel {
         if (txtSearchStudentNo == null) {
             txtSearchStudentNo = new JTextField("Öğrenci No");
             txtSearchStudentNo.setBounds(leftSpace, txtTopSpace + (pushUnderCounter * lblPushUnder), lblWidth, lblHeight);
-            txtSearchStudentNo.setForeground(new Color(9, 132, 227));
-            txtSearchStudentNo.setFont(font_lbl);
+            txtSearchStudentNo.setForeground(Color.GRAY);
+            txtSearchStudentNo.setFont(fontPlaceHolder);
         }
         return txtSearchStudentNo;
     }
@@ -270,10 +270,10 @@ public final class TimeControlExtraTimeGui extends JPanel {
 
     public JTextField getTxtSearchBookBarcodeNo() {
         if (txtSearchBookBarcodeNo == null) {
-            txtSearchBookBarcodeNo = new JTextField("Öğrenci No");
+            txtSearchBookBarcodeNo = new JTextField("Kitap Barkod No");
             txtSearchBookBarcodeNo.setBounds(leftSpace + lblWidth * 2, txtTopSpace + (pushUnderCounter * lblPushUnder), lblWidth, lblHeight);
-            txtSearchBookBarcodeNo.setForeground(new Color(9, 132, 227));
-            txtSearchBookBarcodeNo.setFont(font_lbl);
+            txtSearchBookBarcodeNo.setForeground(Color.GRAY);
+            txtSearchBookBarcodeNo.setFont(fontPlaceHolder);
         }
         return txtSearchBookBarcodeNo;
     }
@@ -282,39 +282,71 @@ public final class TimeControlExtraTimeGui extends JPanel {
         this.txtSearchBookBarcodeNo = txtSearchBookBarcodeNo;
     }
 
+    public JTable OrganizeTable(JTable table) {
+        table.setSelectionBackground(Color.GREEN);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setRowHeight(15);
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(130);
+        table.getColumnModel().getColumn(3).setPreferredWidth(150);
+        table.getColumnModel().getColumn(4).setPreferredWidth(400);
+        table.getColumnModel().getColumn(5).setPreferredWidth(100);
+        //{"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kitap adı", "Kalan gün sayısı "};
+
+        table.setDefaultEditor(Object.class, null);
+        table.setFont(font_txt);
+        table.setCursor(new Cursor(12));
+        table.setRowHeight(20);
+        table.setFont(new Font("", Font.BOLD, 15));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        return table;
+
+    }
+
     public JTable getTbl() {
         if (tbl == null) {
-            tbl = new JTable(dataForTable, HeaderOfTable);
-            tbl.setCursor(new Cursor(12));
-            tbl.setFont(new Font("", Font.BOLD, 15));
-            tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            tbl.getColumnModel().getColumn(0).setPreferredWidth(100);
-            tbl.getColumnModel().getColumn(1).setPreferredWidth(200);
-            tbl.getColumnModel().getColumn(2).setPreferredWidth(500);
-            tbl.getColumnModel().getColumn(3).setPreferredWidth(100);
-
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-            tbl.setDefaultRenderer(Object.class, centerRenderer);
-
+            tbl = new JTable(DataForTable, HeaderOfTable);
         }
+        tbl = OrganizeTable(tbl);
+        /*
+        tbl.setCursor(new Cursor(12));
+        tbl.setFont(new Font("", Font.BOLD, 15));
+        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(100);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(500);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(100);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tbl.setDefaultRenderer(Object.class, centerRenderer);*/
+
         return tbl;
     }
 
     public void setTbl(JTable tbl) {
+        //OrganizeTable(tbl)
         this.tbl = tbl;
     }
 
     public JScrollPane getSp() {
         if (sp == null) {
             sp = new JScrollPane(getTbl());
-            sp.setBounds(leftSpace, 270, 760, 180);
 
         }
+        sp.setBounds(leftSpace, 270, 760, 180);
         return sp;
     }
 
-    public void setSp(JScrollPane sp) {
+    public void setSp(JTable table) {
+        table = OrganizeTable(table);
+        sp = new JScrollPane(table);
         this.sp = sp;
     }
 

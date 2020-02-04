@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,7 +33,11 @@ public class ActionTimeFine implements ActionListener, FocusListener {
     TimeControlExtraTimeGui tcet;
     FineDebtPayment fdp;
     AboutUs au;
-    boolean noVoice = false;
+    public boolean noVoice = false;
+    String PlaceHolderStudent = "Öğrenci No";
+    String PlaceHolderBook = "Kitap Barkod No";
+    Font FocusFont = new Font("", Font.BOLD, 15);
+    Font LostFocusFont = new Font("", Font.ITALIC, 15);
 
     public ActionTimeFine(TimeControlExtraTimeGui tcet) {
         this.tcet = tcet;
@@ -88,18 +93,43 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 tcet.getMg().getJp().setVisible(true);
                 clearAllTxtMainGui();
             } else if (e.getSource() == tcet.getBtnExtendTime()) {
-                JOptionPane.showMessageDialog(null, "süre uzatma sql'e bağlanacak");
+                if (!tcet.getTxtBookBarcodeNoToExtendTime().getText().trim().equals("")) {
+                    ExtendTime();
+                } else {
+                    tcet.getTxtResult().setText("Kitap seçmelisiniz");
+                    tcet.getTxtResult().setBackground(new Color(231, 76, 60));
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(null, "Kitap seçilmeden süre uzatılamaz", "SÜRE UZATMA HATASI", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (e.getSource() == tcet.getTxtBookBarcodeNoToExtendTime()) {
                 JOptionPane.showMessageDialog(null, tcet.getTxtBookBarcodeNoToExtendTime().getText() + " barkod nolu  kitap bilgileri buraya getirilecek");
-            } else if (e.getSource() == tcet.getBtnSearch()
+            } else if (e.getSource() == tcet.getTxtSearchStudentNo()) {
+                noVoice = false;
+                SearchStudentBarkodNo(1);
+            } else if (e.getSource() == tcet.getTxtSearchBookBarcodeNo()) {
+                noVoice = false;
+                SearchStudentBarkodNo(2);
+            } else if (e.getSource() == tcet.getBtnSearch()) {
+                noVoice = false;
+                if (!tcet.getTxtSearchStudentNo().getText().trim().equals(PlaceHolderStudent)) {
+                    SearchStudentBarkodNo(1);
+                } else if (!tcet.getTxtBookBarcodeNoToExtendTime().getText().trim().equals(PlaceHolderBook)) {
+                    SearchStudentBarkodNo(2);
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "arama yapmak için alanlardan birisini doldurmanız gerekmektedir");
+                }
+            }
+            /*if (e.getSource() == tcet.getBtnSearch()
                     || e.getSource() == tcet.getTxtSearchBookBarcodeNo()
                     || e.getSource() == tcet.getTxtSearchStudentNo()) {
 
                 JOptionPane.showMessageDialog(null, "arama sql'e bağlanacak");
                 /*    getTxtSearchStudentNo().addActionListener(action);
-        getTxtSearchBookBarcodeNo().addActionListener(action);*/
-            }
-        } else if (fdp != null) {
+        getTxtSearchBookBarcodeNo().addActionListener(action);
+        }  */
+        } else if (fdp
+                != null) {
 
             if (e.getSource() == fdp.getBtnComeBack()) {
                 fdp.getJp().setVisible(false);
@@ -118,7 +148,8 @@ public class ActionTimeFine implements ActionListener, FocusListener {
 
             }
 
-        } else if (au != null) {
+        } else if (au
+                != null) {
             if (e.getSource() == au.getBtnComeBack()) {
                 au.stopChangeBackground = true;
                 au.getJp().setVisible(false);
@@ -128,6 +159,151 @@ public class ActionTimeFine implements ActionListener, FocusListener {
 
             }
         }
+    }
+
+    public void ExtendTime() {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String ExtendTimeQuery = "UPDATE book SET BorrowedDate= NOW() WHERE BarcodeNo LIKE '" + tcet.getTxtBookBarcodeNoToExtendTime().getText().trim() + "'";
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+            //SuccessVoice();
+            tcet.getTxtResult().setText(" Kitap Süresi Uzatıldı");
+            tcet.getTxtResult().setBackground(new Color(29, 209, 161));
+
+            SearchStudentBarkodNo(3);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void TimeOfBook() {
+    }
+
+    public void SearchStudentBarkodNo(int SearchNumber) {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        final int Student = 1;
+        final int BarcodeNo = 2;
+        final int bringAll = 0;
+        final int ExtendBookBarcode = 3;
+        boolean dontUpdateResult = false;
+        String SearchQuery = "";
+
+        switch (SearchNumber) {
+
+            case bringAll:
+                SearchQuery = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No  WHERE book.studentNo IS NOT NULL";
+
+                break;
+            case Student:
+                SearchQuery = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No  "
+                        + "WHERE book.studentNo IS NOT NULL AND book.studentNo LIKE "
+                        + "'%" + tcet.getTxtSearchStudentNo().getText().trim() + "%' ";
+                break;
+            case BarcodeNo:
+
+                if (!tcet.getTxtSearchBookBarcodeNo().getText().trim().equals("")) {
+                    SearchQuery = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No  "
+                            + "WHERE book.studentNo IS NOT NULL AND book.BarcodeNo LIKE "
+                            + "'" + tcet.getTxtSearchBookBarcodeNo().getText().trim() + "' ";
+                } else {
+                    SearchQuery = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No  "
+                            + "WHERE book.studentNo IS NOT NULL AND book.BarcodeNo LIKE "
+                            + "'%" + tcet.getTxtSearchBookBarcodeNo().getText().trim() + "%' ";
+                }
+                break;
+
+            case ExtendBookBarcode:
+
+                SearchQuery = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No  "
+                        + "WHERE book.BarcodeNo LIKE '"
+                        + tcet.getTxtBookBarcodeNoToExtendTime().getText().trim() + "' ";
+                dontUpdateResult = true;
+                break;
+
+        }
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+            String StudentQuery = "";
+            int counter = 0;
+            rs = stmt.executeQuery(SearchQuery);
+            while (rs.next()) {
+                counter++;
+            }
+
+            tcet.DataForTable = new String[counter][7];
+            counter = 0;
+            rs = stmt.executeQuery(SearchQuery);
+            while (rs.next()) {
+                tcet.DataForTable[counter][0] = Integer.toString(counter);
+                tcet.DataForTable[counter][1] = rs.getString("student.No");
+                tcet.DataForTable[counter][2] = rs.getString("student.Name") + rs.getString("student.Surname");
+                tcet.DataForTable[counter][3] = rs.getString("book.BarcodeNo");
+                tcet.DataForTable[counter][4] = rs.getString("book.Name");
+                TimeOfBook(); // public rs2 yapacam ve kapatacam sonrada 
+                tcet.DataForTable[counter][5] = "Şuan es geçiyorum";
+                counter++;
+            }
+
+            if (counter == 1 && rs.last()) {
+
+                tcet.getTxtBookBarcodeNoToExtendTime().setText(rs.getString("book.BarcodeNo"));
+                tcet.getTxtBookNameToExtendTime().setText(rs.getString("book.Name"));
+            }
+
+            //tcet.getSp();
+            tcet.remove(tcet.getSp());
+            tcet.setSp(new JTable(tcet.DataForTable, tcet.HeaderOfTable));
+            tcet.add(tcet.getSp());
+
+            if (noVoice == false) {
+                if (counter > 0) {
+                    SuccessVoice();
+                    if (dontUpdateResult == false) {
+                        tcet.getTxtResult().setText("Bilgiler Getirildi");
+                        tcet.getTxtResult().setBackground(Color.GREEN);
+                    }
+                } else {
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+                    tcet.getTxtResult().setText("Aradığınız Veriler Bulunamadı");
+                    tcet.getTxtResult().setBackground(Color.RED);
+                    tcet.getTxtBookBarcodeNoToExtendTime().setText("");
+                    tcet.getTxtBookNameToExtendTime().setText("");
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+
     }
 
     public void ResetAllTxt() {
@@ -203,8 +379,10 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 fillDebtAndResult(LastDebt);
             }
             SuccessVoice();
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActionTimeFine.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + " hatası ");
         } catch (NumberFormatException ex) {
@@ -280,11 +458,15 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             fdp.getJp().add(fdp.getSp());
             if (noVoice == false) {
                 SuccessVoice();
+
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActionTimeFine.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (SQLException ex) {
-            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActionTimeFine.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -296,11 +478,16 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             clip.start();
 
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(ActionsBook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActionsBook.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (IOException ex) {
-            Logger.getLogger(ActionsBook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActionsBook.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(ActionsBook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActionsBook.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -328,6 +515,51 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 fdp.getTxtAmountOfPayment().setFont(new Font("", Font.BOLD, 15));
 
             }
+        } else if (tcet != null) {
+            if (e.getSource() == tcet.getTxtSearchStudentNo() && tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderStudent)) {
+
+                //if (tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderStudent)) {
+                tcet.getTxtSearchStudentNo().setText("");
+                tcet.getTxtSearchStudentNo().setForeground(Color.BLACK);
+                tcet.getTxtSearchStudentNo().setFont(FocusFont);
+
+                tcet.getTxtSearchBookBarcodeNo().setText(PlaceHolderBook);
+                tcet.getTxtSearchBookBarcodeNo().setFont(LostFocusFont);
+                tcet.getTxtSearchBookBarcodeNo().setForeground(Color.gray);
+
+                /* tcet.getTxtBookBarcodeNoToExtendTime().setText(PlaceHolderBook);
+                tcet.getTxtBookBarcodeNoToExtendTime().setFont(LostFocusFont);
+                tcet.getTxtBookBarcodeNoToExtendTime().setForeground(Color.gray);*/
+                // }
+            } else if (e.getSource() == tcet.getTxtSearchBookBarcodeNo() && tcet.getTxtSearchBookBarcodeNo().getText().equals(PlaceHolderBook)) {
+
+                tcet.getTxtSearchBookBarcodeNo().setText("");
+                tcet.getTxtSearchBookBarcodeNo().setFont(FocusFont);
+                tcet.getTxtSearchBookBarcodeNo().setForeground(Color.BLACK);
+
+                tcet.getTxtSearchStudentNo().setText(PlaceHolderStudent);
+                tcet.getTxtSearchStudentNo().setForeground(Color.gray);
+                tcet.getTxtSearchStudentNo().setFont(LostFocusFont);
+
+                /*   tcet.getTxtBookBarcodeNoToExtendTime().setText(PlaceHolderBook);
+                tcet.getTxtBookBarcodeNoToExtendTime().setFont(LostFocusFont);
+                tcet.getTxtBookBarcodeNoToExtendTime().setForeground(Color.gray);*/
+            }
+            /*else if (e.getSource() == tcet.getTxtBookBarcodeNoToExtendTime() && tcet.getTxtBookBarcodeNoToExtendTime().getText().equals(PlaceHolderBook)) {
+                System.out.println("book  uzatma");
+                tcet.getTxtBookBarcodeNoToExtendTime().setText("");
+                tcet.getTxtBookBarcodeNoToExtendTime().setFont(FocusFont);
+                tcet.getTxtBookBarcodeNoToExtendTime().setForeground(Color.BLACK);
+
+                tcet.getTxtSearchBookBarcodeNo().setText(PlaceHolderBook);
+                tcet.getTxtSearchBookBarcodeNo().setFont(LostFocusFont);
+                tcet.getTxtSearchBookBarcodeNo().setForeground(Color.gray);
+
+                tcet.getTxtSearchStudentNo().setText(PlaceHolderStudent);
+                tcet.getTxtSearchStudentNo().setForeground(Color.gray);
+                tcet.getTxtSearchStudentNo().setFont(LostFocusFont);
+
+            }*/
         }
     }
 

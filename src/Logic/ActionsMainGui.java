@@ -130,7 +130,8 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().getTimeControlExtraTime()) {
             getMg().getJp().setVisible(false);
             TimeControlExtraTimeGui tc_etg = new TimeControlExtraTimeGui(getMg());
-
+            tc_etg.action.noVoice = true;
+            tc_etg.action.SearchStudentBarkodNo(0);
         }
         if (e.getSource() == getMg().getAboutUs()) {
             getMg().getJp().setVisible(false);
@@ -555,7 +556,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
             stmt = conn.createStatement();
             String SqlDeliverBookStudent = "UPDATE  book SET StudentNo = '" + getMg().gettxtStudentNo().getText()
-                    + "' , BorrowedDate = NOW() "
+                    + "' , BorrowedDate = NOW() - INTERVAL   28 DAY "
                     + " \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
             stmt.executeUpdate(SqlDeliverBookStudent);
 

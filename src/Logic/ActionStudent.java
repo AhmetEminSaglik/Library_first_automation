@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -79,7 +80,16 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                         && !sag.getTxtSurname().getText().trim().equals("") && !sag.getTxtSurname().getText().equals(emptyError)
                         && !sag.getTxtEmail().getText().trim().equals("") && !sag.getTxtEmail().getText().equals(emptyError)
                         && !sag.getTxtPhoneNo().getText().trim().equals("") && !sag.getTxtPhoneNo().getText().equals(emptyError)) {
-                    DbStudentAdd();
+                    if (Pattern.matches("^[a-zA-z0-9]+[@]{1}+[a-zA-z0-9]+[.]{1}[a-zA-z0-9]+$", sag.getTxtEmail().getText().trim())) {
+                        DbStudentAdd();
+
+                    } else {
+                        java.awt.Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(null, "lütfen geçerli bir email adresi girin", "GEÇERSİZ EMAİL", JOptionPane.ERROR_MESSAGE);
+                        sag.getTxtResult().setText("Geçersiz Eposta Adresi");
+                        sag.getTxtResult().setBackground(new Color(237, 76, 103));
+                        System.out.println(sag.getTxtEmail().getText().trim());
+                    }
                 } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
                     if (sag.getTxtNo().getText().trim().equals("")) {
@@ -558,18 +568,18 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 throw new Exception();
             }
             stmt = conn.createStatement();
-            for (int i = 0; i < 100; i++) {
-                String SqlStudentAdd = "INSERT INTO `student` "
-                        + "(`Id`,`No`,`Name`,`Surname`,`Email`,`Phone`,`Debt`) VALUES "
-                        + "(NULL,"
-                        + "'" + sag.getTxtNo().getText().trim() + i + "',"
-                        + "'" + sag.getTxtName().getText() + "',"
-                        + "'" + sag.getTxtSurname().getText() + "',"
-                        + "'" + sag.getTxtEmail().getText() + "',"
-                        + "'" + sag.getTxtPhoneNo().getText() + "',"
-                        + "'0.0' )";
-                stmt.executeUpdate(SqlStudentAdd);
-            }
+            //for (int i = 0; i < 100; i++) {
+            String SqlStudentAdd = "INSERT INTO `student` "
+                    + "(`Id`,`No`,`Name`,`Surname`,`Email`,`Phone`,`Debt`) VALUES "
+                    + "(NULL,"
+                    + "'" + sag.getTxtNo().getText().trim() + "',"
+                    + "'" + sag.getTxtName().getText() + "',"
+                    + "'" + sag.getTxtSurname().getText() + "',"
+                    + "'" + sag.getTxtEmail().getText() + "',"
+                    + "'" + sag.getTxtPhoneNo().getText() + "',"
+                    + "'0.0' )";
+            stmt.executeUpdate(SqlStudentAdd);
+            //   }
 
             sag.getTxtResult().setBackground(Color.GREEN);
             sag.getTxtResult().setText("Öğrenci Kayıt edilmiştir");
@@ -1078,15 +1088,20 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                         delay += diff.getDays();
                     }
 
-                    if (delay <= 30) {
+                    if (delay < 30) {
+                        //JOptionPane.showMessageDialog(null, "delay <= before   :" + delay);
                         delay = 30 - delay;
                         delayString = "+" + Integer.toString(delay);
                         ssg.getLblLendingDayNumber1().setForeground(Color.green);
+                        //JOptionPane.showMessageDialog(null, "delay  <=  after:" + delay);
 
                     } else {
+                        ///  JOptionPane.showMessageDialog(null, "delay  before   :" + delay);
                         delay -= 30;
+                        delay++;
                         delayString = "-" + Integer.toString(delay);
                         ssg.getLblLendingDayNumber1().setForeground(Color.red);
+                        // JOptionPane.showMessageDialog(null, "delay    after:" + delay);
                     }
 
                     ssg.getLblLendingDayNumber1().setText(delayString);

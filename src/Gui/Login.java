@@ -183,6 +183,7 @@ public class Login extends JPanel {
                 stmt.executeUpdate(sqlControl);
 
                 if (stmt.executeUpdate(sqlControl) == -1) {
+                    //stmt.execute("DROP DATABASE library");
                     return; //Veri tabanı zaten var
                 }
 

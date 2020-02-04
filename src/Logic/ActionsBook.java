@@ -443,16 +443,16 @@ public class ActionsBook implements ActionListener, FocusListener {
                 throw new Exception();
             }
             stmt = conn.createStatement();
-            for (int i = 0; i < 100; i++) {
-                String SqlBookAdd = "INSERT INTO `book` "
-                        + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
-                        + "(NULL,"
-                        + "'" + (bag.getTxtBookBarcodeNo().getText().trim() + i) + "',"
-                        + "'" + bag.getTxtBookName().getText() + "',"
-                        + "'" + bag.getTxtAuthorName().getText() + "',"
-                        + "'" + bag.getTxtCategory().getText() + "')";
-                stmt.executeUpdate(SqlBookAdd);
-            }
+            //    for (int i = 0; i < 100; i++) {
+            String SqlBookAdd = "INSERT INTO `book` "
+                    + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
+                    + "(NULL,"
+                    + "'" + (bag.getTxtBookBarcodeNo().getText().trim()) + "',"
+                    + "'" + bag.getTxtBookName().getText() + "',"
+                    + "'" + bag.getTxtAuthorName().getText() + "',"
+                    + "'" + bag.getTxtCategory().getText() + "')";
+            stmt.executeUpdate(SqlBookAdd);
+            // }
 
             /* bag.getTxtAuthorName().setText("");
                     bag.getTxtCategory().setText("");

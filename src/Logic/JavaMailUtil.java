@@ -53,7 +53,8 @@ public class JavaMailUtil {
                 JOptionPane.showMessageDialog(null, CounterOfMail + " Tane Mail atılmıştır\n"
                         + last7DayCounter + " tanesi son 7 güne girenler için\n"
                         + last3DayCounter + " tanesi son 3 güne girenler için\n"
-                        + over30DayCounter + " tanesi 30 günü aşanlar için ");
+                        + over30DayCounter + " tanesi 30 günü aşanlar için \n"
+                        + "MAİL ŞUAN İPTAL (KAPATTIM) ");
             }
             sqlConnection.CloseAllConnections();
             return;
@@ -174,8 +175,8 @@ public class JavaMailUtil {
 
         Message message = PrepareMessage(session, username, recepient, condition, BarcodeNo);
         saveConditionOnMysql = true;
-
-        try {// --> MAİL ATAR
+        CounterOfMail++;
+        /* try {// --> MAİL ATAR
             Transport.send(message);
 
             saveConditionOnMysql = true;
@@ -183,8 +184,7 @@ public class JavaMailUtil {
         } catch (MessagingException ex) {
             JOptionPane.showMessageDialog(null, "HATA : \n\n\n" + ex);
             Logger.getLogger(JavaMailUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        }*/
     }
 
     public static Message PrepareMessage(Session session, String username, String recepient, int condition, String BookBarcodeNo) {
