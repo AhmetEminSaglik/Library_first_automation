@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,7 +19,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Locale;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -27,8 +30,10 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class ActionTimeFine implements ActionListener, FocusListener {
+public class ActionTimeFine implements ActionListener, FocusListener/*, ListSelectionListener, MouseListener*/ {
 
     TimeControlExtraTimeGui tcet;
     FineDebtPayment fdp;
@@ -187,11 +192,62 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
 
-    public void TimeOfBook() {
+    public int TimeOfBook(String barcodeNo) {
+        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+
+        //  Database credentials
+        String USER = "root";
+        String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        int delay = 0;
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+            String TimeQuery = "SELECT * FROM book  WHERE barcodeNo LIKE '" + barcodeNo + "' ";
+            rs = stmt.executeQuery(TimeQuery);
+            if (rs.next()) {
+                LocalDate borrowedDate = rs.getDate("BorrowedDate").toLocalDate();
+                LocalDate localdate = LocalDate.now();
+                Period diff = Period.between(borrowedDate, localdate);
+
+                if (diff.getYears() > 0) {
+                    delay += 365 * diff.getYears();
+                }
+                if (diff.getMonths() > 0) {
+                    delay += 30 * diff.getMonths();
+                }
+                if (diff.getDays() > 0) {
+                    delay += diff.getDays();
+                }
+                if (delay < 30) {
+                    delay = 30 - delay;
+                } else {
+                    delay -= 30;
+                    delay++;
+                    delay = -delay;
+                }
+
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnections(conn, stmt, rs, null);
+        }
+        return delay;
+
     }
 
     public void SearchStudentBarkodNo(int SearchNumber) {
@@ -266,8 +322,8 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 tcet.DataForTable[counter][2] = rs.getString("student.Name") + rs.getString("student.Surname");
                 tcet.DataForTable[counter][3] = rs.getString("book.BarcodeNo");
                 tcet.DataForTable[counter][4] = rs.getString("book.Name");
-                TimeOfBook(); // public rs2 yapacam ve kapatacam sonrada 
-                tcet.DataForTable[counter][5] = "Şuan es geçiyorum";
+                tcet.DataForTable[counter][5] = Integer.toString(TimeOfBook(rs.getString("book.BarcodeNo"))); // public rs2 yapacam ve kapatacam sonrada 
+
                 counter++;
             }
 
@@ -280,6 +336,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             //tcet.getSp();
             tcet.remove(tcet.getSp());
             tcet.setSp(new JTable(tcet.DataForTable, tcet.HeaderOfTable));
+
             tcet.add(tcet.getSp());
 
             if (noVoice == false) {
@@ -302,6 +359,8 @@ public class ActionTimeFine implements ActionListener, FocusListener {
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
+        } finally {
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
@@ -387,6 +446,8 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             JOptionPane.showMessageDialog(null, ex + " hatası ");
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Lütfen Sadece Sayı İçeren Değerler Giriniz", "DEĞER HATASI", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
@@ -467,6 +528,8 @@ public class ActionTimeFine implements ActionListener, FocusListener {
         } catch (SQLException ex) {
             Logger.getLogger(ActionTimeFine.class
                     .getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnections(conn, stmt, rs, null);
         }
     }
 
@@ -516,6 +579,8 @@ public class ActionTimeFine implements ActionListener, FocusListener {
 
             }
         } else if (tcet != null) {
+
+            // System.out.println(String.valueOf(tcet.getTbl().getValueAt(tcet.getTbl().getSelectedRow(), tcet.getTbl().getSelectedColumn())));
             if (e.getSource() == tcet.getTxtSearchStudentNo() && tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderStudent)) {
 
                 //if (tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderStudent)) {
@@ -545,6 +610,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 tcet.getTxtBookBarcodeNoToExtendTime().setFont(LostFocusFont);
                 tcet.getTxtBookBarcodeNoToExtendTime().setForeground(Color.gray);*/
             }
+
             /*else if (e.getSource() == tcet.getTxtBookBarcodeNoToExtendTime() && tcet.getTxtBookBarcodeNoToExtendTime().getText().equals(PlaceHolderBook)) {
                 System.out.println("book  uzatma");
                 tcet.getTxtBookBarcodeNoToExtendTime().setText("");
@@ -560,6 +626,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 tcet.getTxtSearchStudentNo().setFont(LostFocusFont);
 
             }*/
+            //            System.out.println(String.valueOf(tcet.getTbl().getValueAt(tcet.getTbl().getSelectedRow(), tcet.getTbl().getSelectedColumn())));
         }
     }
 
@@ -568,4 +635,92 @@ public class ActionTimeFine implements ActionListener, FocusListener {
 
     }
 
+    /* @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("asda");
+        String selectedData = null;
+        int[] selectedRow = tcet.getTbl().getSelectedRows();
+        int[] selectedColumns = tcet.getTbl().getSelectedColumns();
+
+        for (int i = 0; i < selectedRow.length; i++) {
+            for (int j = 0; j < selectedColumns.length; j++) {
+                selectedData = (String) tcet.getTbl().getValueAt(selectedRow[i], selectedColumns[j]);
+                System.out.println("selectedColumns" + selectedColumns);
+                System.out.println("selectedData" + selectedData);
+
+            }
+        }
+        System.out.println(selectedData);
+    }*/
+
+ /*@Override
+    public void valueChanged(ListSelectionEvent e) {
+
+        int selectedRow = 0;
+        if (!tcet.model.isSelectionEmpty()) {
+            selectedRow = tcet.model.getMinSelectionIndex();
+            JOptionPane.showMessageDialog(null, "selectedraw" + selectedRow);
+        }
+
+        System.out.println(selectedRow);
+
+    }
+     */
+ /*   @Override
+    public void valueChanged(ListSelectionEvent e) {
+        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        int index = tcet.getTbl().getSelectedColumn();
+        if (tcet != null) {
+            for (int i = 0; i < tcet.HeaderOfTable.length; i++) {
+                if (tcet.getTbl().getSelectedColumn() == i) {
+                    System.out.println("A index " + index);
+                } else {
+                    System.out.println("B index " + index);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }*/
+    public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
+
+        try {
+            if (stmt != null) {
+
+                stmt.close();
+
+            }
+            if (conn != null) {
+
+                conn.close();
+
+            }
+            if (rs != null) {
+
+                rs.close();
+            }
+            if (preparedStmt != null) {
+                preparedStmt.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
+        }
+    }
 }

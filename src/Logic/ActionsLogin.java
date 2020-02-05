@@ -65,28 +65,35 @@ public class ActionsLogin implements ActionListener {
                 } catch (ClassNotFoundException ex) {
                     System.out.println("class bulunamadı");
                 } finally {
-
-                    try {
-                        if (stmt != null) {
-                            stmt.close();
-                        }
-                        if (conn != null) {
-                            conn.close();
-
-                        }
-                        /*  if (rs != null) {
-                    rs.close();
-                }
-                   /*    if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-                    }
-
+                    closeConnections(conn, stmt, null, null);
                 }
 
             }
+        }
+    }
+
+    public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
+
+        try {
+            if (stmt != null) {
+
+                stmt.close();
+
+            }
+            if (conn != null) {
+
+                conn.close();
+
+            }
+            if (rs != null) {
+
+                rs.close();
+            }
+            if (preparedStmt != null) {
+                preparedStmt.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
         }
     }
 

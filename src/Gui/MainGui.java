@@ -579,7 +579,7 @@ public class MainGui {//extends JPanel
         if (aboutUs == null) {
             aboutUs = build_JbuttonForNulls(aboutUs, FloorOf_Time_Exit_X, ThirdButtons_Y);
             aboutUs.setText("Hakkımızda & Yardım");
-            aboutUs.setBackground(Color.red);
+            // aboutUs.setBackground(Color.red);
         }
         return aboutUs;
     }

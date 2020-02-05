@@ -57,6 +57,7 @@ public class JavaMailUtil {
                         + "MAİL ŞUAN İPTAL (KAPATTIM) ");
             }
             sqlConnection.CloseAllConnections();
+
             return;
         }
 
@@ -99,7 +100,7 @@ public class JavaMailUtil {
 
                     //  sqlConnection.CloseAllConnections();
                 }
-
+                //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sqlConnection.CloseAllConnections();
             }
 
             //  }

@@ -46,7 +46,7 @@ public class StudentStateGui extends JPanel {
     final int topSpace = 130;
     final int topSpaceBook = topSpace + txtHeight + 5;
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
-    Font txtFont = new Font("", Font.BOLD, 15);
+    Font txtFont = new Font("", Font.BOLD, 17);
     MainGui mg;
     ActionStudent action = new ActionStudent(this);
     ToolTipManager ttm = ToolTipManager.sharedInstance();

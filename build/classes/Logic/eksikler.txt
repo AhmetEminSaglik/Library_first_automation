@@ -36,4 +36,3 @@ veriyi silebilir eğer borcu varsa silinmesi engellenmeli
 
 
 ----------------------------------------------------------------------------------
-HATA --> INTEGER DEGERİ TEKRAR ALMIYOR AMA  STRING DEGERİ TEKRAR AYNI İSE ALIYOR 

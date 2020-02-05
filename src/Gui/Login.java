@@ -7,9 +7,12 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -183,7 +186,7 @@ public class Login extends JPanel {
                 stmt.executeUpdate(sqlControl);
 
                 if (stmt.executeUpdate(sqlControl) == -1) {
-                    //stmt.execute("DROP DATABASE library");
+                    // stmt.execute("DROP DATABASE library");
                     return; //Veri tabanı zaten var
                 }
 
@@ -199,6 +202,8 @@ public class Login extends JPanel {
 
                 JOptionPane.showMessageDialog(null, "catch (mistake): ClassNotFoundException " + ex);
 
+            } finally {
+                closeConnections(conn, stmt, null, null);
             }
         }
     }
@@ -225,7 +230,33 @@ public class Login extends JPanel {
             String tableKitapControl = "SHOW TABLES LIKE 'book'";
             if (stmt.executeUpdate(tableControl) == -1 || stmt.executeUpdate(tableYoneticiControl) == -1 || stmt.executeUpdate(tableKitapControl) == -1) {
                 // conn.createStatement() dene bir de stmt yerine
+                /*   Date today = new Date();
+                //Calendar calendar=new Calendar;
+                System.out.println(today.getDay());
+                System.out.println();*/
+                LocalDate today = LocalDate.now();
+
+                /*  int day = Calendar.DAY_OF_WEEK;
+                ArrayList<Integer> daylist = new ArrayList<Integer>();
+                boolean DayFriday = false;
+                daylist.add(Calendar.MONDAY);
+                daylist.add(Calendar.TUESDAY);
+                daylist.add(Calendar.WEDNESDAY);
+                daylist.add(Calendar.THURSDAY);
+                daylist.add(Calendar.WEDNESDAY);
+
+                if (daylist.contains(day)) {
+                    DayFriday = true;
+                }*/
+                System.out.println(today.getDayOfWeek());
+                System.out.println(today.getDayOfWeek().getValue());
                 String ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() >  BorrowedDate + INTERVAL 30 DAY ";
+                int Friday = 5;
+                if (today.getDayOfWeek().getValue() == Friday) {
+                    ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() >  BorrowedDate + INTERVAL 28 DAY ";
+
+                }
+
                 //"SELECT * FROM book WHERE NOW()  >=BorrowedDate + INTERVAL 30 DAY"
                 //"SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY  "
                 int over30Days = 0;
@@ -250,28 +281,8 @@ public class Login extends JPanel {
 
                 }
 
-                if (stmt != null) {
+                closeConnections(conn, stmt, rs, null);
 
-                    stmt.close();
-
-                }
-                if (conn != null) {
-
-                    conn.close();
-
-                }
-                if (rs != null) {
-
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
                 return;
             }/*
             String sql = "CREATE TABLE `library`.`student`"
@@ -335,18 +346,7 @@ public class Login extends JPanel {
 
         } finally {
             //finally block used to close resources
-            try {
-                if (stmt != null) {
-
-                    stmt.close();
-
-                }
-                if (conn != null) {
-
-                    conn.close();
-                }
-            } catch (SQLException se) {
-            }// do nothing
+            closeConnections(conn, stmt, rs, null);
 
         }//end try
 
@@ -374,10 +374,10 @@ public class Login extends JPanel {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
 
-            String sql1 = "INSERT INTO `student` (`Id`, `No`, `Name`, `Surname`,`Email`, `Phone`,`Debt`) "
+            /*   String sql1 = "INSERT INTO `student` (`Id`, `No`, `Name`, `Surname`,`Email`, `Phone`,`Debt`) "
                     + "VALUES (NULL, '385931', 'Ahmet Emin', 'SAĞLIK','Ahmeteminsaglik@gmail.com','0538 065 31 46 ', 10.35)";
 
-            /*     + "( `Id` INT(50) NOT NULL AUTO_INCREMENT ,"
+              + "( `Id` INT(50) NOT NULL AUTO_INCREMENT ,"
                     + " `No` DOUBLE NOT NULL , "
                     + "`Name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
                     + "`Surname` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL , "
@@ -389,9 +389,8 @@ public class Login extends JPanel {
                     + " VALUES ( 'Mert Can Dudul', '3856161', 'Mertcan@windowslive.com', '538445679',"
                     + " '0', 'Suç ve ceza', 'Matematik', 'Ceza ve suç')"
                     + ", ('Ahmet Emin ', '385646', 'aes@hotmail.com', '25432864', '500000000',"
-                    + " 'Kaya ile ayşe', 'ali ata bak', 'Harun mMrte bak')";*/
-            stmt.executeUpdate(sql1);
-
+                    + " 'Kaya ile ayşe', 'ali ata bak', 'Harun mMrte bak')";
+            stmt.executeUpdate(sql1);*/
             String sql2 = "INSERT INTO `admin` (`Username`, `Password`) "
                     + "VALUES ('1', '1'),"
                     + "('','')";
@@ -409,22 +408,34 @@ public class Login extends JPanel {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             //finally block used to close resources
-            try {
-                if (stmt != null) {
-
-                    stmt.close();
-
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-            } catch (SQLException se) {
-                JOptionPane.showMessageDialog(null, se);
-            }//end finally try
+            closeConnections(conn, stmt, null, null);
         }//end try
 
         //end main
     }
 
+    public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
+
+        try {
+            if (stmt != null) {
+
+                stmt.close();
+
+            }
+            if (conn != null) {
+
+                conn.close();
+
+            }
+            if (rs != null) {
+
+                rs.close();
+            }
+            if (preparedStmt != null) {
+                preparedStmt.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
+        }
+    }
 }

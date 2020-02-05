@@ -13,8 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.ToolTipManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
 
 public final class TimeControlExtraTimeGui extends JPanel {
 
@@ -57,6 +61,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
     Font fontPlaceHolder = new Font("", Font.ITALIC, 15);
     MainGui mg;
     public ActionTimeFine action = new ActionTimeFine(this);
+    public TableModel model = null;
 
     public TimeControlExtraTimeGui(MainGui mg) {
         setMg(mg);
@@ -93,6 +98,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
         getTxtSearchStudentNo().addFocusListener(action);
         getTxtSearchBookBarcodeNo().addFocusListener(action);
         getTxtBookBarcodeNoToExtendTime().addFocusListener(action);
+        //model.addListSelectionListener(action);
 
         getJf().add(this);
 
@@ -305,6 +311,8 @@ public final class TimeControlExtraTimeGui extends JPanel {
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+
+        model = table.getModel();
         return table;
 
     }
@@ -338,6 +346,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
     public JScrollPane getSp() {
         if (sp == null) {
             sp = new JScrollPane(getTbl());
+//            model = getTbl().getSelectionModel();
 
         }
         sp.setBounds(leftSpace, 270, 760, 180);

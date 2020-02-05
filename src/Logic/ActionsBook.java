@@ -179,6 +179,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     || e.getSource() == burg.getTxtNewCategory()) {
                 DBBookUpdate();
             } else if (e.getSource() == burg.getBtnDelete()) {
+
                 DBBookDelete();
             } else if (e.getSource() == burg.getTxtBarcodeNo()) {
 
@@ -401,25 +402,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (Exception ex) {
             BookCanAdd = false;
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /*   if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
@@ -480,25 +463,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             bag.getTxtResult().setText("Bu Barkod Numarası Zaten Kayıtlı");
 
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                /*  if (rs != null) {
-                    rs.close();
-                }
-                 if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, null, null);
         }
 
     }
@@ -638,7 +603,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         boolean BookDeleted = true;
         boolean AlreadyCame = true;
         boolean StudentTookBook = false;
-
+        JOptionPane.showMessageDialog(null, "1");
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -647,31 +612,35 @@ public class ActionsBook implements ActionListener, FocusListener {
             String SqlBookControlQuery = "SELECT * FROM `book` WHERE  BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "'";
 
             rs = stmt.executeQuery(SqlBookControlQuery);
-
+            JOptionPane.showMessageDialog(null, "2");
             if (rs.next()) {
-
+                JOptionPane.showMessageDialog(null, "3");
                 if (!burg.getTxtNewBarcodeNo().getText().equals((rs.getString("BarcodeNo")))
                         || !burg.getTxtNewBookName().getText().equals(rs.getString("Name"))
                         || !burg.getTxtNewAuthorName().getText().equals(rs.getString("AuthorName"))
                         || !burg.getTxtNewCategory().getText().equals(rs.getString("CategoryName"))) {
 
                     AlreadyCame = false;
-
+                    JOptionPane.showMessageDialog(null, "4");
                     throw new Exception();
                 }
-                if (!rs.getString("StudentNo").equals(null)) {
-
+                JOptionPane.showMessageDialog(null, "3.2");
+                System.out.println(rs.getString("StudentNo"));
+                //if(rs.getString("StudentNo")==null){}
+                if (rs.getString("StudentNo") != null) {
+                    JOptionPane.showMessageDialog(null, "5");
                     StudentTookBook = true;
                     throw new Exception();
                 }
+                JOptionPane.showMessageDialog(null, "3.3");
             } else {
 
                 throw new Exception("Kayıtlı Kitap Bulunamadı");
             }
-
+            JOptionPane.showMessageDialog(null, "6");
             stmt = conn.createStatement();
 
-            String SqlBookdDeleteQuery = "DELETE FROM `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText() + "'";
+            String SqlBookdDeleteQuery = "DELETE FROM `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText().trim() + "'";
 
             //    stmt.executeQuery(SqlStudentdDeleteQuery);
             preparedStmt = conn.prepareStatement(SqlBookdDeleteQuery);
@@ -679,6 +648,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             int answer = JOptionPane.showConfirmDialog(null, "Kitabı Silmek istediğinizden Emin misiniz ? ", "SİLME UYARISI",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (answer == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(null, "7");
                 SuccessVoice();
 
                 burg.getTxtNewBarcodeNo().setText("");
@@ -689,11 +659,12 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getTxtResult().setBackground(new Color(255, 121, 63));
                 preparedStmt.execute();
             } else {
+                JOptionPane.showMessageDialog(null, "8");
                 burg.getTxtResult().setText("Kitap Silme İşlemi İptal Edildi");
                 burg.getTxtResult().setBackground(Color.PINK);
                 java.awt.Toolkit.getDefaultToolkit().beep();
             }
-
+            JOptionPane.showMessageDialog(null, "9");
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "ClASS NOT FOUND");
         } catch (SQLException ex) {
@@ -713,26 +684,9 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getTxtResult().setBackground(new Color(250, 177, 160));
 
             }
+            JOptionPane.showMessageDialog(null, ex + "1");
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                if (preparedStmt != null) {
-                    preparedStmt.close();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, preparedStmt);
         }
 
     }
@@ -808,25 +762,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 JOptionPane.showMessageDialog(null, "Aratılan Barkod Nolu Kitap  Zaten Getirildi", "ARAMA HATASI", JOptionPane.ERROR_MESSAGE);
             }
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /*   if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
@@ -893,26 +829,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getTxtResult().setBackground(new Color(225, 112, 85));//rgb(225, 112, 85)
             }
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                /*    if (rs != null) {
-                    rs.close();
-                }
-                if (preparedStmt != null) {
-                    prepSQLException ex) {
-                JOptionPane.shoaredStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, null, null);
         }
 
     }
@@ -939,7 +856,21 @@ public class ActionsBook implements ActionListener, FocusListener {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             stmt = conn.createStatement();
-            String SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText().trim() + "'";
+            String SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "'";
+            rs = null;
+            rs = stmt.executeQuery(SqlStudentControlQuery);
+            //      rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
+
+            while (rs.next()) {
+
+                oldBookNoFree = true;
+            }
+            if (oldBookNoFree == false) {
+
+                throw new Exception();
+
+            }
+            SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText().trim() + "'";
 
             rs = stmt.executeQuery(SqlStudentControlQuery);
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
@@ -963,20 +894,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     throw new Exception();
                 }
             }
-            SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "'";
-            rs = null;
-            rs = stmt.executeQuery(SqlStudentControlQuery);
-            //      rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
 
-            while (rs.next()) {
-
-                oldBookNoFree = true;
-            }
-            if (oldBookNoFree == false) {
-
-                throw new Exception();
-
-            }
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Class Bulunamadı", "CLASS BULUNAMADI", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
@@ -989,7 +907,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             } else if (newBookNoFree == false) {
                 JOptionPane.showMessageDialog(null, " YENİ Kitap Barkod Numarasında Başka Bir Kitap Kayıtlı", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
             } else if (oldBookNoFree == false) {
-                JOptionPane.showMessageDialog(null, " ESKİ Kitap BArkod Numarasında Kayıtlı Kitap Bulunmamaktadır\n"
+                JOptionPane.showMessageDialog(null, " ESKİ Kitap Barkod Numarasında Kayıtlı Kitap Bulunmamaktadır\n"
                         + "Güncelleme Başarısız", "GÜNCELLEME HATASI", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -997,25 +915,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             burg.getTxtResult().setBackground(new Color(255, 82, 82));
             burg.getTxtResult().setText("Güncelleme Başarısız");
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /*   if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
@@ -1048,25 +948,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "1 SQL HATASI");
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /*   if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, null);
         }
         java.awt.Toolkit.getDefaultToolkit().beep();
         brg.getTxtResult().setBackground(Color.red);
@@ -1125,25 +1007,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             brg.getTxtResult().setBackground(new Color(250, 130, 49));
             return false;
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /*   if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, null);
         }
 
         return true;
@@ -1272,25 +1136,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + " : 2 SQL HATASI");
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                /*   if (rs != null) {
-                    rs.close();
-                }
-                 if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
@@ -1402,7 +1248,35 @@ public class ActionsBook implements ActionListener, FocusListener {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnections(conn, stmt, rs, null);
+
         }
 
+    }
+
+    public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
+
+        try {
+            if (stmt != null) {
+
+                stmt.close();
+
+            }
+            if (conn != null) {
+
+                conn.close();
+
+            }
+            if (rs != null) {
+
+                rs.close();
+            }
+            if (preparedStmt != null) {
+                preparedStmt.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
+        }
     }
 }

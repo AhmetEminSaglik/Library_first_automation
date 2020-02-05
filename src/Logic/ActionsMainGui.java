@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -92,9 +93,15 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         }
         if (e.getSource() == getMg().getBookAdd()) {
-
-            getMg().getJp().setVisible(false);
-            BookAddGui bag = new BookAddGui(getMg());
+            System.out.println("getMg().getJp().isVisible() : " + getMg().getJp().isVisible());
+            while (getMg().getJp().isVisible()) {
+                System.out.println("buraya girdi");
+                getMg().getJp().setVisible(false);
+            }
+            if (!getMg().getJp().isVisible()) {
+                System.out.println(!getMg().getJp().isVisible());
+                BookAddGui bag = new BookAddGui(getMg());
+            }
 
         }
         if (e.getSource() == getMg().getBookReturn()) {
@@ -135,6 +142,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         }
         if (e.getSource() == getMg().getAboutUs()) {
             getMg().getJp().setVisible(false);
+
             AboutUs aug = new AboutUs(getMg());
         }
         if (e.getSource() == getMg().getFineDebtPayment()) {
@@ -398,25 +406,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setText("ÖĞRENCİ BULUNAMADI");
             }
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /*   if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
@@ -498,25 +488,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setBackground(Color.ORANGE);
             }
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /*   if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
-
+            closeConnections(conn, stmt, rs, null);
         }
 
     }
@@ -556,7 +528,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
             stmt = conn.createStatement();
             String SqlDeliverBookStudent = "UPDATE  book SET StudentNo = '" + getMg().gettxtStudentNo().getText()
-                    + "' , BorrowedDate = NOW() - INTERVAL   28 DAY "
+                    + "' , BorrowedDate = NOW()  "
                     + " \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
             stmt.executeUpdate(SqlDeliverBookStudent);
 
@@ -568,25 +540,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /* 
-                 if (preparedStmt != null) {
-                    preparedStmt.close();
-                }*/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
+            closeConnections(conn, stmt, rs, null);
 
         }
 
@@ -650,27 +604,34 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         } catch (SQLException ex) {
             Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                /*   if (preparedStmt != null) {
-                    preparedStmt.close();
-                }  /**/
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, " stmt , conn, rs, preparedStmt kapatılırken hata meydana geldi  (330/ActionStudent)");
-            }
+            closeConnections(conn, stmt, rs, null);
 
         }
 
     }
 
+    public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
+
+        try {
+            if (stmt != null) {
+
+                stmt.close();
+
+            }
+            if (conn != null) {
+
+                conn.close();
+
+            }
+            if (rs != null) {
+
+                rs.close();
+            }
+            if (preparedStmt != null) {
+                preparedStmt.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
+        }
+    }
 }
