@@ -1023,7 +1023,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             }
 
         });
-        sendEmailThread.start();
+        //sendEmailThread.start();
         try {
             sendEmailThread.join();
         } catch (InterruptedException ex) {
@@ -1056,7 +1056,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
             stmt = conn.createStatement();
 
-            String DeliverBookToLibraryQuery = "UPDATE book SET StudentNo= NULL , BorrowedDate=NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
+            String DeliverBookToLibraryQuery = "UPDATE book SET StudentNo = NULL , BorrowedDate = NULL , book.Condition = NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
                     + "BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' ";
 
             String addFine = "SELECT * FROM book INNER JOIN student ON book.studentNo=student.No where BarcodeNo LIKE'" + brg.getTxtBarcodeNo().getText().trim() + "' and "

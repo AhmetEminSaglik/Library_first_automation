@@ -37,7 +37,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
     JTextField txtSearchBookBarcodeNo;
     JTable tbl;
     JScrollPane sp;
-    public String HeaderOfTable[] = {"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kitap adı", "Kalan gün sayısı "};
+    public String HeaderOfTable[] = {"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kalan gün sayısı ", "Kitap adı"};
     public String DataForTable[][] = {};
 
     JButton btnExtendTime; //süreyi uzat
@@ -294,10 +294,10 @@ public final class TimeControlExtraTimeGui extends JPanel {
         table.setRowHeight(15);
         table.getColumnModel().getColumn(0).setPreferredWidth(50);
         table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        table.getColumnModel().getColumn(2).setPreferredWidth(130);
+        table.getColumnModel().getColumn(2).setPreferredWidth(200);
         table.getColumnModel().getColumn(3).setPreferredWidth(150);
-        table.getColumnModel().getColumn(4).setPreferredWidth(400);
-        table.getColumnModel().getColumn(5).setPreferredWidth(100);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table.getColumnModel().getColumn(5).setPreferredWidth(400);
         //{"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kitap adı", "Kalan gün sayısı "};
 
         table.setDefaultEditor(Object.class, null);
@@ -310,9 +310,10 @@ public final class TimeControlExtraTimeGui extends JPanel {
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
         model = table.getModel();
+        table.getSelectionModel().addListSelectionListener(action);
         return table;
 
     }

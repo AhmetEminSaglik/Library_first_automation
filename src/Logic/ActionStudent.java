@@ -173,6 +173,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 clearAllTxtMainGui();
             } else if (e.getSource() == ssg.getTxtStudentNo()) {
                 ResetStudentState();
+
                 BringStudentState();
             }
         } else if (rsg != null) {
@@ -708,7 +709,8 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 sag.getTxtPhoneNo().setText("");
 
             } else {
-                if (e.getSource() == sag.getTxtNo() && sag.getTxtNo().getText().equals(emptyError)) {
+                if (e.getSource() == sag.getTxtNo() && sag.getTxtNo().getText().equals(emptyError)
+                        ||e.getSource()==sag.getTxtNo()&&sag.getTxtNo().getForeground()==Color.red) {
                     sag.getTxtNo().setText("");
                     sag.getTxtNo().setForeground(Color.BLACK);
                 }
@@ -949,7 +951,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             SimpleDateFormat df2 = new SimpleDateFormat("EEE, dd MMM yyyy");
 
             if (rs.next()) {
-                ssg.getTxtDept().setText(rs.getString("Debt"));
+                paintSsgDebt(rs.getDouble("Debt"));
                 ssg.getTxtBookBarcodeNo1().setText(rs.getString("BarcodeNo"));
                 ssg.getTxtBookName1().setText(rs.getString("Book.Name"));
                 BorrowedDate1 = rs.getDate("borrowedDate");
@@ -992,14 +994,16 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                     if (delay < 30) {
                         //JOptionPane.showMessageDialog(null, "delay <= before   :" + delay);
                         delay = 30 - delay;
+
                         delayString = "+" + Integer.toString(delay);
                         ssg.getLblLendingDayNumber1().setForeground(Color.green);
                         //JOptionPane.showMessageDialog(null, "delay  <=  after:" + delay);
 
                     } else {
                         ///  JOptionPane.showMessageDialog(null, "delay  before   :" + delay);
-                        delay -= 30;
                         delay++;
+                        delay -= 30;
+
                         delayString = "-" + Integer.toString(delay);
                         ssg.getLblLendingDayNumber1().setForeground(Color.red);
                         // JOptionPane.showMessageDialog(null, "delay    after:" + delay);
@@ -1056,6 +1060,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                                 delayString = "+" + Integer.toString(delay);
                                 ssg.getLblLendingDayNumber3().setForeground(Color.green);
                             } else {
+                                delay++;
                                 delay -= 30;
                                 delayString = "-" + Integer.toString(delay);
                                 ssg.getLblLendingDayNumber3().setForeground(Color.red);
@@ -1084,19 +1089,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                 if (rs.next()) {
                     SuccessVoice();
 
-                    double debt = rs.getDouble("Debt");
-                    ssg.getTxtDept().setText(Double.toString(debt));
-                    if (debt > 0) {
-                        ssg.getTxtDept().setText(Double.toString(debt));
-                        ssg.getTxtDept().setBackground(new Color(255, 121, 121));
-                    } else if (debt < 0) {
-                        ssg.getTxtDept().setText(Double.toString(debt));
-                        ssg.getTxtDept().setBackground(Color.cyan);
-                    } else {
-                        ssg.getTxtDept().setText(Double.toString(debt));
-                        ssg.getTxtDept().setBackground(Color.ORANGE);
-
-                    }
+                    paintSsgDebt(rs.getDouble("Debt"));
                 } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(null, ssg.getTxtStudentNo().getText().trim() + "  Numaralı öğrenci Kayıtlı değildir", "ÖĞRENCİ BULUNAMADI", JOptionPane.ERROR_MESSAGE);
@@ -1111,6 +1104,23 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
 
         }
 
+    }
+
+    public void paintSsgDebt(double debt) {
+        if (debt > 0) {
+            ssg.getTxtDept().setText(Double.toString(debt));
+            System.out.println("debt >0  : " + debt);
+            ssg.getTxtDept().setBackground(new Color(255, 121, 121));
+        } else if (debt < 0) {
+            ssg.getTxtDept().setText(Double.toString(debt));
+            System.out.println("debt < 0  : " + debt);
+            ssg.getTxtDept().setBackground(Color.cyan);
+        } else {
+            System.out.println("debt = 0  : " + debt);
+            ssg.getTxtDept().setText(Double.toString(debt));
+            ssg.getTxtDept().setBackground(Color.ORANGE);
+
+        }
     }
 
     public void ResetStudentState() {

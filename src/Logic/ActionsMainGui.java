@@ -65,10 +65,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         this.mg = mg;
     }
 
-    /*boolean studentExist = true;
-        boolean bookExist = true;
-        boolean StudentCanTakeBook = true;
-        boolean BookDeliveredSomeone = false;*/
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == getMg().gettxtStudentNo() || e.getSource() == getMg().getTxtBookBarcode()) {
@@ -93,20 +89,18 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         }
         if (e.getSource() == getMg().getBookAdd()) {
-            System.out.println("getMg().getJp().isVisible() : " + getMg().getJp().isVisible());
-            while (getMg().getJp().isVisible()) {
-                System.out.println("buraya girdi");
-                getMg().getJp().setVisible(false);
-            }
-            if (!getMg().getJp().isVisible()) {
-                System.out.println(!getMg().getJp().isVisible());
-                BookAddGui bag = new BookAddGui(getMg());
-            }
+
+            getMg().getJp().setVisible(false);
+
+            System.out.println(!getMg().getJp().isVisible());
+            BookAddGui bag = new BookAddGui(getMg());
 
         }
         if (e.getSource() == getMg().getBookReturn()) {
+            System.out.println(getMg().getJp().isVisible());
             getMg().getJp().setVisible(false);
             BookReturnGui brg = new BookReturnGui(getMg());
+            System.out.println(getMg().getJp().isVisible());
         }
         if (e.getSource() == getMg().getBookSearchList()) {
             mg.getJp().setVisible(false);
@@ -284,6 +278,10 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().getExit()) {
             getMg().getExit().setBackground(background_color);
             getMg().getExit().setForeground(foreground_color);
+        }
+        if (e.getSource() == getMg().getFineDebtPayment()) {
+            getMg().getFineDebtPayment().setBackground(background_color);
+            getMg().getFineDebtPayment().setForeground(foreground_color);
         }
 
     }

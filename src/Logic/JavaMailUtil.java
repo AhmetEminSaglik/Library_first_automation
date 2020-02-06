@@ -1,8 +1,6 @@
 package Logic;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;

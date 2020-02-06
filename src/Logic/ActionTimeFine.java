@@ -33,7 +33,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class ActionTimeFine implements ActionListener, FocusListener/*, ListSelectionListener, MouseListener*/ {
+public class ActionTimeFine implements ActionListener, FocusListener, ListSelectionListener/*, ListSelectionListener, MouseListener*/ {
 
     TimeControlExtraTimeGui tcet;
     FineDebtPayment fdp;
@@ -118,23 +118,17 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 noVoice = false;
                 if (!tcet.getTxtSearchStudentNo().getText().trim().equals(PlaceHolderStudent)) {
                     SearchStudentBarkodNo(1);
-                } else if (!tcet.getTxtBookBarcodeNoToExtendTime().getText().trim().equals(PlaceHolderBook)) {
+                    System.out.println("11111111");
+                } else if (!tcet.getTxtSearchBookBarcodeNo().getText().trim().equals(PlaceHolderBook)) {
                     SearchStudentBarkodNo(2);
+                    System.out.println("2222222");
+
                 } else {
 
-                    JOptionPane.showMessageDialog(null, "arama yapmak için alanlardan birisini doldurmanız gerekmektedir");
+                    JOptionPane.showMessageDialog(null, "Arama Yapmak İçin Alanlardan Birisini Doldurmanız Gerekmektedir");
                 }
             }
-            /*if (e.getSource() == tcet.getBtnSearch()
-                    || e.getSource() == tcet.getTxtSearchBookBarcodeNo()
-                    || e.getSource() == tcet.getTxtSearchStudentNo()) {
-
-                JOptionPane.showMessageDialog(null, "arama sql'e bağlanacak");
-                /*    getTxtSearchStudentNo().addActionListener(action);
-        getTxtSearchBookBarcodeNo().addActionListener(action);
-        }  */
-        } else if (fdp
-                != null) {
+        } else if (fdp != null) {
 
             if (e.getSource() == fdp.getBtnComeBack()) {
                 fdp.getJp().setVisible(false);
@@ -147,14 +141,14 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
             } else if (e.getSource() == fdp.getTxtAmountOfPayment() || e.getSource() == fdp.getBtnPay()) {
                 if (!fdp.getTxtStudentNo().getText().trim().equals("") && !fdp.getTxtDebt().getText().equals("")) {
                     payDebt();
+                    BringStudentWhoHasDebt(1);
                 } else {
                     JOptionPane.showMessageDialog(null, "Ödemek için önce öğrencinin bilgilerini çağırmalısınız");
                 }
 
             }
 
-        } else if (au
-                != null) {
+        } else if (au != null) {
             if (e.getSource() == au.getBtnComeBack()) {
                 au.stopChangeBackground = true;
                 au.getJp().setVisible(false);
@@ -178,11 +172,14 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
         Statement stmt = null;
         ResultSet rs = null;
         String ExtendTimeQuery = "UPDATE book SET BorrowedDate= NOW() WHERE BarcodeNo LIKE '" + tcet.getTxtBookBarcodeNoToExtendTime().getText().trim() + "'";
+        //JOptionPane.showMessageDialog(null, tcet.getTxtBookBarcodeNoToExtendTime().getText().trim());
         try {
+
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
             //SuccessVoice();
+            stmt.executeUpdate(ExtendTimeQuery);
             tcet.getTxtResult().setText(" Kitap Süresi Uzatıldı");
             tcet.getTxtResult().setBackground(new Color(29, 209, 161));
 
@@ -317,12 +314,14 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
             counter = 0;
             rs = stmt.executeQuery(SearchQuery);
             while (rs.next()) {
-                tcet.DataForTable[counter][0] = Integer.toString(counter);
+                //{"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kalan gün sayısı ", "Kitap adı"};
+                tcet.DataForTable[counter][0] = Integer.toString(counter + 1);
                 tcet.DataForTable[counter][1] = rs.getString("student.No");
                 tcet.DataForTable[counter][2] = rs.getString("student.Name") + rs.getString("student.Surname");
                 tcet.DataForTable[counter][3] = rs.getString("book.BarcodeNo");
-                tcet.DataForTable[counter][4] = rs.getString("book.Name");
-                tcet.DataForTable[counter][5] = Integer.toString(TimeOfBook(rs.getString("book.BarcodeNo"))); // public rs2 yapacam ve kapatacam sonrada 
+                tcet.DataForTable[counter][4] = Integer.toString(TimeOfBook(rs.getString("book.BarcodeNo")));
+                tcet.DataForTable[counter][5] = rs.getString("book.Name");
+                // public rs2 yapacam ve kapatacam sonrada 
 
                 counter++;
             }
@@ -412,6 +411,7 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
         Statement stmt = null;
         ResultSet rs = null;
         try {
+
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
@@ -722,5 +722,19 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
         }
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        System.out.println("************************");
+        for (int i = 0; i < tcet.model.getRowCount() - 1; i++) {
+
+            for (int j = 0; j < tcet.model.getColumnCount() - 1; j++) {
+                tcet.model.getValueAt(i, j);
+            }
+
+        }
+        System.out.println("************************");
+
     }
 }
