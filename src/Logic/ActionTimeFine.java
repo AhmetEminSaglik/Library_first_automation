@@ -121,7 +121,6 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
                     System.out.println("11111111");
                 } else if (!tcet.getTxtSearchBookBarcodeNo().getText().trim().equals(PlaceHolderBook)) {
                     SearchStudentBarkodNo(2);
-                    System.out.println("2222222");
 
                 } else {
 
@@ -726,7 +725,7 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        System.out.println("************************");
+
         for (int i = 0; i < tcet.model.getRowCount() - 1; i++) {
 
             for (int j = 0; j < tcet.model.getColumnCount() - 1; j++) {
@@ -734,7 +733,6 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
             }
 
         }
-        System.out.println("************************");
 
     }
 }

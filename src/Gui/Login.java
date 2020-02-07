@@ -61,6 +61,7 @@ public class Login extends JPanel {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 jmu.FindStudentAndMailThem(0);
             }
         });
@@ -186,7 +187,7 @@ public class Login extends JPanel {
                 stmt.executeUpdate(sqlControl);
 
                 if (stmt.executeUpdate(sqlControl) == -1) {
-                   //stmt.execute("DROP DATABASE library");
+                    //stmt.execute("DROP DATABASE library");
                     return; //Veri tabanı zaten var
                 }
 
@@ -248,10 +249,9 @@ public class Login extends JPanel {
                 if (daylist.contains(day)) {
                     DayFriday = true;
                 }*/
-                System.out.println(today.getDayOfWeek());
-                System.out.println(today.getDayOfWeek().getValue());
                 String ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() >  BorrowedDate + INTERVAL 30 DAY ";
                 int Friday = 5;
+
                 if (today.getDayOfWeek().getValue() == Friday) {
                     ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() >  BorrowedDate + INTERVAL 28 DAY ";
 
@@ -266,6 +266,7 @@ public class Login extends JPanel {
                 while (rs.next()) {
 
                     over30Days++;
+
                 }
                 ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY ";
                 //SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY 
@@ -274,8 +275,11 @@ public class Login extends JPanel {
                 while (rs.next()) {
 
                     inLast3Days++;
+
                 }
+
                 if (over30Days > 0 || inLast3Days > 0) {
+
                     JOptionPane.showMessageDialog(null, "30 günü aşmış ödünç verilen kitapların sayısı : " + over30Days
                             + "\n\n Son üç gün  içinde iade edilmesi gereken kitap sayısı : " + inLast3Days);
 
