@@ -267,8 +267,7 @@ public class BookAddGui {
             btnBtnAddBook.setBounds(400, 400, 150, 50);
             btnBtnAddBook.setBackground(Color.white);
             btnBtnAddBook.setFont(font_txt);
-
-            btnComeBack.setCursor(new Cursor(12));
+            btnBtnAddBook.setCursor(new Cursor(12));
         }
         return btnBtnAddBook;
     }

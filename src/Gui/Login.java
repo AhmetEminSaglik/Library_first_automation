@@ -4,7 +4,9 @@ import Logic.ActionsLogin;
 import Logic.JavaMailUtil;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -54,9 +56,16 @@ public class Login extends JPanel {
         getJf().add(this);
         getJf().setVisible(true);
         getJf().setCursor(new Cursor(3));
+        getTxtusername().setCursor(new Cursor(3));
+        getjPass().setCursor(new Cursor(3));
+        getSignIn().setCursor(new Cursor(3));
         CreateDatabase();
         CreateTable();
         getJf().setCursor(null);
+        getTxtusername().setCursor(new Cursor(2));
+        getjPass().setCursor(new Cursor(2));
+        getSignIn().setCursor(new Cursor(12));
+
         JavaMailUtil jmu = new JavaMailUtil();
         Thread t1 = new Thread(new Runnable() {
             @Override

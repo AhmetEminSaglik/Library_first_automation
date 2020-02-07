@@ -12,13 +12,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.logging.Level;
@@ -39,7 +34,7 @@ public class ActionsBook implements ActionListener, FocusListener {
     BookReturnGui brg;
     BookSearchListGui bslg;
     BookUpdateRemoveGui burg;
-
+    boolean BeepVoice = true;
     //  MainGui mg;
     JButton clearBook_info_txt;
     JButton saveBook_info_txt;
@@ -72,6 +67,7 @@ public class ActionsBook implements ActionListener, FocusListener {
     public ActionsBook(BookSearchListGui bslg) {
 
         this.bslg = bslg;
+        BeepVoice = false;
         SearcBookList(5);
         //     mg = bslg.getMg();
     }
@@ -369,6 +365,8 @@ public class ActionsBook implements ActionListener, FocusListener {
     }
 
     public void DBbookControl() {
+        SqlConnection sqlConnection = new SqlConnection();
+        /*
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
@@ -378,19 +376,18 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         try {
-            Class.forName(JDBC_DRIVER);
+            // Class.forName(JDBC_DRIVER);
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();
+            // conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            // stmt = conn.createStatement();
             String SqlBookControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + bag.getTxtBookBarcodeNo().getText().trim() + "'";
-
-            rs = stmt.executeQuery(SqlBookControlQuery);
+            sqlConnection.setResultSet(SqlBookControlQuery);
+            // rs = stmt.executeQuery(SqlBookControlQuery);
 
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
-            while (rs.next()) {
+            while (sqlConnection.getResultSet().next()) {
 
                 throw new Exception("Önceden Bu Barkod Numarası Alınmış");
             }
@@ -402,30 +399,32 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (Exception ex) {
             BookCanAdd = false;
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //  closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public void DBbookAdd() {
+        SqlConnection sqlConnection = new SqlConnection();
         BookCanAdd = true;
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        /*String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         String USER = "root";
         String PASS = "";
 
         Connection conn = null;
-        Statement stmt = null;
+        Statement stmt = null;*/
         try {
-            Class.forName(JDBC_DRIVER);
+            // Class.forName(JDBC_DRIVER);
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //  conn = DriverManager.getConnection(DB_URL, USER, PASS);
             DBbookControl();
             if (!BookCanAdd) {
                 throw new Exception();
             }
-            stmt = conn.createStatement();
+            //  stmt = conn.createStatement();
             //    for (int i = 0; i < 100; i++) {
             String SqlBookAdd = "INSERT INTO `book` "
                     + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
@@ -434,7 +433,8 @@ public class ActionsBook implements ActionListener, FocusListener {
                     + "'" + bag.getTxtBookName().getText() + "',"
                     + "'" + bag.getTxtAuthorName().getText() + "',"
                     + "'" + bag.getTxtCategory().getText() + "')";
-            stmt.executeUpdate(SqlBookAdd);
+            //  stmt.executeUpdate(SqlBookAdd);
+            sqlConnection.Update(SqlBookAdd);
             // }
 
             /* bag.getTxtAuthorName().setText("");
@@ -463,7 +463,8 @@ public class ActionsBook implements ActionListener, FocusListener {
             bag.getTxtResult().setText("Bu Barkod Numarası Zaten Kayıtlı");
 
         } finally {
-            closeConnections(conn, stmt, null, null);
+            //closeConnections(conn, stmt, null, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
@@ -589,9 +590,11 @@ public class ActionsBook implements ActionListener, FocusListener {
     }
 
     public void DBBookDelete() {
+        SqlConnection sqlConnection = new SqlConnection();
+        /*
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-        BookCanUpdate = true;
+
         //  Database credentials
         String USER = "root";
         String PASS = "";
@@ -599,51 +602,53 @@ public class ActionsBook implements ActionListener, FocusListener {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-        PreparedStatement preparedStmt = null;
+        PreparedStatement preparedStmt = null;*/
+        BookCanUpdate = true;
         boolean BookDeleted = true;
         boolean AlreadyCame = true;
         boolean StudentTookBook = false;
-        JOptionPane.showMessageDialog(null, "1");
+        // JOptionPane.showMessageDialog(null, "1");
         try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            // Class.forName(JDBC_DRIVER);
+            // conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-            stmt = conn.createStatement();
+            // stmt = conn.createStatement();
             String SqlBookControlQuery = "SELECT * FROM `book` WHERE  BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "'";
 
-            rs = stmt.executeQuery(SqlBookControlQuery);
-            JOptionPane.showMessageDialog(null, "2");
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "3");
-                if (!burg.getTxtNewBarcodeNo().getText().equals((rs.getString("BarcodeNo")))
-                        || !burg.getTxtNewBookName().getText().equals(rs.getString("Name"))
-                        || !burg.getTxtNewAuthorName().getText().equals(rs.getString("AuthorName"))
-                        || !burg.getTxtNewCategory().getText().equals(rs.getString("CategoryName"))) {
+            // rs = stmt.executeQuery(SqlBookControlQuery);
+            sqlConnection.setResultSet(SqlBookControlQuery);
+            // JOptionPane.showMessageDialog(null, "2");
+            if (sqlConnection.getResultSet().next()) {
+
+                if (!burg.getTxtNewBarcodeNo().getText().equals((sqlConnection.getResultSet().getString("BarcodeNo")))
+                        || !burg.getTxtNewBookName().getText().equals(sqlConnection.getResultSet().getString("Name"))
+                        || !burg.getTxtNewAuthorName().getText().equals(sqlConnection.getResultSet().getString("AuthorName"))
+                        || !burg.getTxtNewCategory().getText().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
 
                     AlreadyCame = false;
-                    JOptionPane.showMessageDialog(null, "4");
+                    //  JOptionPane.showMessageDialog(null, "4");
                     throw new Exception();
                 }
-                JOptionPane.showMessageDialog(null, "3.2");
-                System.out.println(rs.getString("StudentNo"));
+                //JOptionPane.showMessageDialog(null, "3.2");
+//                System.out.println(rs.getString("StudentNo"));
                 //if(rs.getString("StudentNo")==null){}
-                if (rs.getString("StudentNo") != null) {
-                    JOptionPane.showMessageDialog(null, "5");
+                if (sqlConnection.getResultSet().getString("StudentNo") != null) {
+                    //    JOptionPane.showMessageDialog(null, "5");
                     StudentTookBook = true;
                     throw new Exception();
                 }
-                JOptionPane.showMessageDialog(null, "3.3");
+                //JOptionPane.showMessageDialog(null, "3.3");
             } else {
 
                 throw new Exception("Kayıtlı Kitap Bulunamadı");
             }
-            JOptionPane.showMessageDialog(null, "6");
-            stmt = conn.createStatement();
+            //JOptionPane.showMessageDialog(null, "6");
+            //stmt = conn.createStatement();
 
             String SqlBookdDeleteQuery = "DELETE FROM `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText().trim() + "'";
 
             //    stmt.executeQuery(SqlStudentdDeleteQuery);
-            preparedStmt = conn.prepareStatement(SqlBookdDeleteQuery);
+            sqlConnection.setPrepareStatement(SqlBookdDeleteQuery);// preparedStmt = conn.prepareStatement(SqlBookdDeleteQuery);
 
             int answer = JOptionPane.showConfirmDialog(null, "Kitabı Silmek istediğinizden Emin misiniz ? ", "SİLME UYARISI",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -657,7 +662,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getTxtNewCategory().setText("");
                 burg.getTxtResult().setText("Kitap Silindi");
                 burg.getTxtResult().setBackground(new Color(255, 121, 63));
-                preparedStmt.execute();
+                sqlConnection.PreparedStatementExecute();
             } else {
                 JOptionPane.showMessageDialog(null, "8");
                 burg.getTxtResult().setText("Kitap Silme İşlemi İptal Edildi");
@@ -686,14 +691,15 @@ public class ActionsBook implements ActionListener, FocusListener {
             }
             JOptionPane.showMessageDialog(null, ex + "1");
         } finally {
-            closeConnections(conn, stmt, rs, preparedStmt);
+            //closeConnections(conn, stmt, rs, preparedStmt);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public void DBBookBringData() {
-
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         //  Database credentials
@@ -702,36 +708,36 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         BookBringCame = false;
         Boolean AlreadyCame = false;
         boolean BarcodeNoEmpty = false;
 
         try {
-            Class.forName(JDBC_DRIVER);
+            //    Class.forName(JDBC_DRIVER);
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();
+            //conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //stmt = conn.createStatement();
             String SqlBookBrinQuery = "SELECT * FROM `book` WHERE  BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText().trim() + "'";
 
-            rs = stmt.executeQuery(SqlBookBrinQuery);
-            while (rs.next()) {
+            // rs = stmt.executeQuery(SqlBookBrinQuery);
+            sqlConnection.setResultSet(SqlBookBrinQuery);
+            while (sqlConnection.getResultSet().next()) {
 
                 BarcodeNoEmpty = true;
-                if (burg.getTxtNewBarcodeNo().getText().equals((rs.getString("BarcodeNo")))
-                        && burg.getTxtNewBookName().getText().equals(rs.getString("Name"))
-                        && burg.getTxtNewAuthorName().getText().equals(rs.getString("AuthorName"))
-                        && burg.getTxtNewCategory().getText().equals(rs.getString("CategoryName"))) {
+                if (burg.getTxtNewBarcodeNo().getText().equals((sqlConnection.getResultSet().getString("BarcodeNo")))
+                        && burg.getTxtNewBookName().getText().equals(sqlConnection.getResultSet().getString("Name"))
+                        && burg.getTxtNewAuthorName().getText().equals(sqlConnection.getResultSet().getString("AuthorName"))
+                        && burg.getTxtNewCategory().getText().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
                     AlreadyCame = true;
 
                     throw new Exception();
                 }
 
-                burg.getTxtNewBarcodeNo().setText(rs.getString("BarcodeNo"));
-                burg.getTxtNewBookName().setText(rs.getString("Name"));
-                burg.getTxtNewAuthorName().setText(rs.getString("AuthorName"));
-                burg.getTxtNewCategory().setText(rs.getString("CategoryName"));
+                burg.getTxtNewBarcodeNo().setText(sqlConnection.getResultSet().getString("BarcodeNo"));
+                burg.getTxtNewBookName().setText(sqlConnection.getResultSet().getString("Name"));
+                burg.getTxtNewAuthorName().setText(sqlConnection.getResultSet().getString("AuthorName"));
+                burg.getTxtNewCategory().setText(sqlConnection.getResultSet().getString("CategoryName"));
                 BookBringCame = true;
                 burg.getTxtResult().setBackground(new Color(24, 220, 255));
                 burg.getTxtResult().setText("Bilgiler Getirildi");
@@ -762,22 +768,25 @@ public class ActionsBook implements ActionListener, FocusListener {
                 JOptionPane.showMessageDialog(null, "Aratılan Barkod Nolu Kitap  Zaten Getirildi", "ARAMA HATASI", JOptionPane.ERROR_MESSAGE);
             }
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public void DBBookUpdate() {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-        BookCanUpdate = true;
-        boolean emptyArea = false;
+    
         //  Database credentials
         String USER = "root";
         String PASS = "";
 
         Connection conn = null;
-        Statement stmt = null;
+        Statement stmt = null;  */
+        BookCanUpdate = true;
+        boolean emptyArea = false;
         try {
             if (burg.getTxtNewBarcodeNo().getText().trim().equals("")
                     || burg.getTxtNewBookName().getText().equals("")
@@ -786,11 +795,10 @@ public class ActionsBook implements ActionListener, FocusListener {
                 emptyArea = true;
                 throw new Exception();
             }
-            Class.forName(JDBC_DRIVER);
+            // Class.forName(JDBC_DRIVER);
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();
+            //conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            // stmt = conn.createStatement();
             String SqlBookUpdateQuery = "UPDATE `book` SET \n"
                     + "BarcodeNo= '" + burg.getTxtNewBarcodeNo().getText().trim() + "' ,\n"
                     + "Name='" + burg.getTxtNewBookName().getText().trim() + "',\n"
@@ -810,7 +818,8 @@ public class ActionsBook implements ActionListener, FocusListener {
                 return;
             }
 
-            stmt.executeUpdate(SqlBookUpdateQuery);
+            // stmt.executeUpdate(SqlBookUpdateQuery);
+            sqlConnection.Update(SqlBookUpdateQuery);
 
             burg.getTxtResult().setBackground(Color.GREEN);
             burg.getTxtResult().setText("GÜNCELLENME BAŞARILI");
@@ -829,39 +838,42 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getTxtResult().setBackground(new Color(225, 112, 85));//rgb(225, 112, 85)
             }
         } finally {
-            closeConnections(conn, stmt, null, null);
+            //closeConnections(conn, stmt, null, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public void DBBookControlToUpdate() {
+        SqlConnection sqlConnection = new SqlConnection();
         //DBStudentUpdate
-        BookCanUpdate = true;
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-        boolean newBookNoFree = true;
-        boolean oldBookNoFree = false;
-        boolean allSame = false;
 
+        /*String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
+       
 //  Database credentials
         String USER = "root";
         String PASS = "";
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
+        boolean newBookNoFree = true;
+        boolean oldBookNoFree = false;
+        boolean allSame = false;
+        BookCanUpdate = true;
         try {
-            Class.forName(JDBC_DRIVER);
+            // Class.forName(JDBC_DRIVER);
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();
+            //  conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            // stmt = conn.createStatement();
             String SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtBarcodeNo().getText() + "'";
-            rs = null;
-            rs = stmt.executeQuery(SqlStudentControlQuery);
+            // rs = null;
+            //  rs = stmt.executeQuery(SqlStudentControlQuery);
+            sqlConnection.setResultSet(SqlStudentControlQuery);
             //      rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
 
-            while (rs.next()) {
+            while (sqlConnection.getResultSet().next()) {
 
                 oldBookNoFree = true;
             }
@@ -872,17 +884,18 @@ public class ActionsBook implements ActionListener, FocusListener {
             }
             SqlStudentControlQuery = "SELECT * FROM  `book` WHERE BarcodeNo LIKE '" + burg.getTxtNewBarcodeNo().getText().trim() + "'";
 
-            rs = stmt.executeQuery(SqlStudentControlQuery);
+            //rs = stmt.executeQuery(SqlStudentControlQuery);
+            sqlConnection.setResultSet(SqlStudentControlQuery);
             //rs.next(); // if I did not write this  I can't add new thing   but just 1 time I had to write or I will add as much as I write this
 
-            while (rs.next()) {
+            while (sqlConnection.getResultSet().next()) {
 
-                if (burg.getTxtBarcodeNo().getText().equals(rs.getString("BarcodeNo"))) {
+                if (burg.getTxtBarcodeNo().getText().equals(sqlConnection.getResultSet().getString("BarcodeNo"))) {
 
-                    if (burg.getTxtNewBarcodeNo().getText().equals(rs.getString("BarcodeNo"))
-                            && burg.getTxtNewBookName().getText().equals(rs.getString("Name"))
-                            && burg.getTxtNewAuthorName().getText().equals(rs.getString("AuthorName"))
-                            && burg.getTxtNewCategory().getText().equals(rs.getString("CategoryName"))) {
+                    if (burg.getTxtNewBarcodeNo().getText().equals(sqlConnection.getResultSet().getString("BarcodeNo"))
+                            && burg.getTxtNewBookName().getText().equals(sqlConnection.getResultSet().getString("Name"))
+                            && burg.getTxtNewAuthorName().getText().equals(sqlConnection.getResultSet().getString("AuthorName"))
+                            && burg.getTxtNewCategory().getText().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
                         allSame = true;
 
                         throw new Exception();
@@ -915,13 +928,15 @@ public class ActionsBook implements ActionListener, FocusListener {
             burg.getTxtResult().setBackground(new Color(255, 82, 82));
             burg.getTxtResult().setText("Güncelleme Başarısız");
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public boolean StudentExist() {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         String USER = "root";
@@ -929,26 +944,28 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
-            stmt = conn.createStatement();
+            //Class.forName(JDBC_DRIVER);
+            // conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            // stmt = conn.createStatement();
 
             String StudentExistQuery = "Select * FROM student WHERE No LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
             //stmt = conn.createStatement();
 
-            rs = stmt.executeQuery(StudentExistQuery);
-            if (rs.next()) {
-                brg.getTxtStudentName().setText(rs.getString("Name"));
+            // rs = stmt.executeQuery(StudentExistQuery);
+            sqlConnection.setResultSet(StudentExistQuery);
+            if (sqlConnection.getResultSet().next()) {
+                brg.getTxtStudentName().setText(sqlConnection.getResultSet().getString("Name"));
                 return true;
             }
-        } catch (ClassNotFoundException ex) {
+        } /*catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
-        } catch (SQLException ex) {
+        }*/ catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "1 SQL HATASI");
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
         java.awt.Toolkit.getDefaultToolkit().beep();
         brg.getTxtResult().setBackground(Color.red);
@@ -958,7 +975,8 @@ public class ActionsBook implements ActionListener, FocusListener {
     }
 
     public boolean BookExist() {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         String USER = "root";
@@ -966,23 +984,24 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
-            stmt = conn.createStatement();
+            // Class.forName(JDBC_DRIVER);
+            //  conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            //  stmt = conn.createStatement();
 
             String BookExistQuery = "Select * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "'";
 
-            rs = stmt.executeQuery(BookExistQuery);
-            if (!rs.next()) {
+            //  rs = stmt.executeQuery(BookExistQuery);
+            sqlConnection.setResultSet(BookExistQuery);
+            if (!sqlConnection.getResultSet().next()) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
                 brg.getTxtResult().setBackground(Color.red);
                 brg.getTxtResult().setText("Kayıtlı Kitap Bulunamadı");
                 return false;
             }
-            brg.getTxtBookName().setText(rs.getString("Name"));
-            brg.getTxtAuthorName().setText(rs.getString("AuthorName"));
+            brg.getTxtBookName().setText(sqlConnection.getResultSet().getString("Name"));
+            brg.getTxtAuthorName().setText(sqlConnection.getResultSet().getString("AuthorName"));
 
             /*     String BookFree = "Select * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and "
                     + "StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
@@ -999,15 +1018,16 @@ public class ActionsBook implements ActionListener, FocusListener {
                 }
                 return false;
             }*/
-        } catch (ClassNotFoundException ex) {
+        }/* catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
-        } catch (SQLException ex) {
+        }*/ catch (SQLException ex) {
             java.awt.Toolkit.getDefaultToolkit().beep();
             brg.getTxtResult().setText("EŞLEŞME BAŞARISIZ (Öğrenci Ödünç Alan kişi) / ( YADA ) / Kitap Şuan Kütüphanemizde bulunmaktadır");
             brg.getTxtResult().setBackground(new Color(250, 130, 49));
             return false;
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            // closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
         return true;
@@ -1032,11 +1052,15 @@ public class ActionsBook implements ActionListener, FocusListener {
     }
 
     public void ReturnBookToLibrary() {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /* String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         String USER = "root";
-        String PASS = "";
+        String PASS = "";  
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;*/
         Double debt = 0.0;
         Double Fine = 0.0;
 
@@ -1044,34 +1068,31 @@ public class ActionsBook implements ActionListener, FocusListener {
         int delay = 0;
         Date borrowedDate = null;
         boolean FineAdded = false;
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+
 // öğrenci var mı
 // kitap var mı
 // ikiside uygun ise iade edilir
         try {
 
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
-            stmt = conn.createStatement();
-
+            //   Class.forName(JDBC_DRIVER);
+            //  conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            // stmt = conn.createStatement();
             String DeliverBookToLibraryQuery = "UPDATE book SET StudentNo = NULL , BorrowedDate = NULL , book.Condition = NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
                     + "BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' ";
 
             String addFine = "SELECT * FROM book INNER JOIN student ON book.studentNo=student.No where BarcodeNo LIKE'" + brg.getTxtBarcodeNo().getText().trim() + "' and "
                     + "studentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
-            rs = stmt.executeQuery(addFine);
+            sqlConnection.setResultSet(addFine);// rs = stmt.executeQuery(addFine);
             /*    LocalDate localdate = LocalDate.now();
             SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy");*/
-            if (rs.next()) {
-                String dayQuery = "SELECT DATEDIFF ('" + rs.getDate("borrowedDate") + "',NOW())";
-                borrowedDate = rs.getDate("borrowedDate");
-                debt = rs.getDouble("Debt");
-                String StudentEmail = rs.getString("student.Email");
-                rs = stmt.executeQuery(dayQuery);
+            if (sqlConnection.getResultSet().next()) {
+                String dayQuery = "SELECT DATEDIFF ('" + sqlConnection.getResultSet().getDate("borrowedDate") + "',NOW())";
+                borrowedDate = sqlConnection.getResultSet().getDate("borrowedDate");
+                debt = sqlConnection.getResultSet().getDouble("Debt");
+                String StudentEmail = sqlConnection.getResultSet().getString("student.Email");
+                sqlConnection.setResultSet(dayQuery);
 
-                if (rs.next()) {
+                if (sqlConnection.getResultSet().next()) {
 
                     LocalDate borrowedDateForComparison = borrowedDate.toLocalDate();
                     LocalDate localdate = LocalDate.now();
@@ -1096,8 +1117,11 @@ public class ActionsBook implements ActionListener, FocusListener {
 
                 }
             }
+//stmt.executeUpdate(DeliverBookToLibraryQuery) == 1
+            //sqlConnection.Update(DeliverBookToLibraryQuery) 
+            //if (stmt.executeUpdate(DeliverBookToLibraryQuery) == 1)
 
-            if (stmt.executeUpdate(DeliverBookToLibraryQuery) == 1) {
+            if (sqlConnection.Update(DeliverBookToLibraryQuery) == 1) {
                 SuccessVoice();
                 if (FineAdded == false) {
 
@@ -1113,12 +1137,14 @@ public class ActionsBook implements ActionListener, FocusListener {
 
                 }
                 String Query = "UPDATE student Set debt=" + Fine + " WHERE  No LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
-                stmt.executeUpdate(Query);
+                //stmt.executeUpdate(Query);
+                sqlConnection.Update(Query);
 
             } else {
                 DeliverBookToLibraryQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and StudentNo  IS NULL ";
-                rs = stmt.executeQuery(DeliverBookToLibraryQuery);
-                if (rs.next()) {
+                //rs = stmt.executeQuery(DeliverBookToLibraryQuery);
+                sqlConnection.setResultSet(DeliverBookToLibraryQuery);
+                if (sqlConnection.getResultSet().next()) {
 
                     java.awt.Toolkit.getDefaultToolkit().beep();
                     brg.getTxtResult().setBackground(Color.ORANGE);
@@ -1131,33 +1157,34 @@ public class ActionsBook implements ActionListener, FocusListener {
                 }
             }
 
-        } catch (ClassNotFoundException ex) {
+        } /*catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND EXCEPTION");
-        } catch (SQLException ex) {
+        }*/ catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + " : 2 SQL HATASI");
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            // closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public void SearcBookList(int search) {
-
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /* String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
         //  StudentCanUpdate = true;
         //  Database credentials
         String USER = "root";
         String PASS = "";
-
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;*/
         final int searchAuthor = 0;
         final int searchBookName = 1;
         final int searchBarcodeNo = 2;
         final int searchCategory = 3;
         final int searchAll = 5;
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+
         boolean noVoice = false;
 
         String searchQuery = "";
@@ -1181,29 +1208,28 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         try {
 
-            Class.forName(JDBC_DRIVER);
-
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(searchQuery);
+            //Class.forName(JDBC_DRIVER);
+            //conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //stmt = conn.createStatement();
+            // rs = stmt.executeQuery(searchQuery);
+            sqlConnection.setResultSet(searchQuery);
             int totalBookForQuery = 0;
-            while (rs.next()) {
+            while (sqlConnection.getResultSet().next()) {
                 totalBookForQuery++;
             }
 
-            rs = stmt.executeQuery(searchQuery);
+            sqlConnection.setResultSet(searchQuery);
 
             int counter = 0;
             bslg.DataOfTable = new String[totalBookForQuery][6];
 
-            while (rs.next()) {
+            while (sqlConnection.getResultSet().next()) {
 
                 bslg.DataOfTable[counter][0] = Integer.toString(counter + 1);
-                bslg.DataOfTable[counter][1] = rs.getString("BarcodeNo");
-                bslg.DataOfTable[counter][2] = rs.getString("Name");
+                bslg.DataOfTable[counter][1] = sqlConnection.getResultSet().getString("BarcodeNo");
+                bslg.DataOfTable[counter][2] = sqlConnection.getResultSet().getString("Name");
                 try {
-                    if (rs.getString("StudentNo").equals(null)) {
+                    if (sqlConnection.getResultSet().getString("StudentNo").equals(null)) {
 
                     }
                     bslg.DataOfTable[counter][3] = "Öğrencide";
@@ -1213,8 +1239,8 @@ public class ActionsBook implements ActionListener, FocusListener {
                     bslg.DataOfTable[counter][3] = "Müsayit";
                 }
 
-                bslg.DataOfTable[counter][4] = rs.getString("CategoryName");
-                bslg.DataOfTable[counter][5] = rs.getString("AuthorName");
+                bslg.DataOfTable[counter][4] = sqlConnection.getResultSet().getString("CategoryName");
+                bslg.DataOfTable[counter][5] = sqlConnection.getResultSet().getString("AuthorName");
 
                 counter++;
             }
@@ -1233,29 +1259,37 @@ public class ActionsBook implements ActionListener, FocusListener {
                 rsg.DataOfTable[deleteRows][5] = null;
 
             }*/
+            if (counter == 0) {
+
+                if (BeepVoice == false) {
+
+                    BeepVoice = true;
+                } else {
+                    java.awt.Toolkit.getDefaultToolkit().beep();
+                }
+                noVoice = true;
+
+            }
+
             bslg.getJp().remove(bslg.getSp());
             bslg.setSp(new JTable(bslg.DataOfTable, bslg.HeadersOfTable));
             bslg.getJp().add(bslg.getSp());
-            if (counter == 0) {
-                noVoice = true;
-                java.awt.Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, "Malesef Aradığınız kriterlere uygun veriler bulunamadı");
-            }
             if (noVoice == false) {
                 SuccessVoice();
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } /*catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }*/ catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
 
         }
 
     }
 
-    public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
+    /*  public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
 
         try {
             if (stmt != null) {
@@ -1278,5 +1312,5 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
         }
-    }
+    }*/
 }

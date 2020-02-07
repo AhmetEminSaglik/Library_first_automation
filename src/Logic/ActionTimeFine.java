@@ -33,7 +33,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class ActionTimeFine implements ActionListener, FocusListener, ListSelectionListener/*, ListSelectionListener, MouseListener*/ {
+public class ActionTimeFine implements ActionListener, FocusListener/*, ListSelectionListener, MouseListener*/ {
 
     TimeControlExtraTimeGui tcet;
     FineDebtPayment fdp;
@@ -160,7 +160,8 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
     }
 
     public void ExtendTime() {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlconnection = new SqlConnection();
+        /* String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         //  Database credentials
@@ -169,33 +170,36 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         String ExtendTimeQuery = "UPDATE book SET BorrowedDate= NOW() WHERE BarcodeNo LIKE '" + tcet.getTxtBookBarcodeNoToExtendTime().getText().trim() + "'";
         //JOptionPane.showMessageDialog(null, tcet.getTxtBookBarcodeNoToExtendTime().getText().trim());
         try {
 
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
+            ////Class.forName(JDBC_DRIVER);
+            //conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            // stmt = conn.createStatement();
             //SuccessVoice();
-            stmt.executeUpdate(ExtendTimeQuery);
+            // stmt.executeUpdate(ExtendTimeQuery);
+            sqlconnection.Update(ExtendTimeQuery);
             tcet.getTxtResult().setText(" Kitap Süresi Uzatıldı");
             tcet.getTxtResult().setBackground(new Color(29, 209, 161));
 
             SearchStudentBarkodNo(3);
 
-        } catch (ClassNotFoundException ex) {
+        }/* catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            closeConnections(conn, stmt, rs, null);
+        }*/ finally {
+            //  closeConnections(conn, stmt, rs, null);
+            sqlconnection.CloseAllConnections();
         }
 
     }
 
     public int TimeOfBook(String barcodeNo) {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlconnection = new SqlConnection();
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         //  Database credentials
@@ -204,16 +208,17 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         int delay = 0;
         try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
+            //   Class.forName(JDBC_DRIVER);
+            //conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //stmt = conn.createStatement();
             String TimeQuery = "SELECT * FROM book  WHERE barcodeNo LIKE '" + barcodeNo + "' ";
-            rs = stmt.executeQuery(TimeQuery);
-            if (rs.next()) {
-                LocalDate borrowedDate = rs.getDate("BorrowedDate").toLocalDate();
+            // rs = stmt.executeQuery(TimeQuery);
+            sqlconnection.setResultSet(TimeQuery);
+            if (sqlconnection.getResultSet().next()) {
+                LocalDate borrowedDate = sqlconnection.getResultSet().getDate("BorrowedDate").toLocalDate();
                 LocalDate localdate = LocalDate.now();
                 Period diff = Period.between(borrowedDate, localdate);
 
@@ -235,29 +240,31 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
                 }
 
             }
-        } catch (ClassNotFoundException ex) {
+        } /*catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        }*/ catch (SQLException ex) {
             Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            // closeConnections(conn, stmt, rs, null);
+            sqlconnection.CloseAllConnections();
         }
         return delay;
 
     }
 
     public void SearchStudentBarkodNo(int SearchNumber) {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         //  Database credentials
         String USER = "root";
         String PASS = "";
-
-        Connection conn = null;
+         */
+        SqlConnection sqlConnection = new SqlConnection();
+        /* Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-
+         */
         final int Student = 1;
         final int BarcodeNo = 2;
         final int bringAll = 0;
@@ -299,36 +306,37 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
 
         }
         try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
+            //Class.forName(JDBC_DRIVER);
+            // conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            // stmt = conn.createStatement();
             String StudentQuery = "";
             int counter = 0;
-            rs = stmt.executeQuery(SearchQuery);
-            while (rs.next()) {
+            sqlConnection.setResultSet(SearchQuery);
+            //   rs = stmt.executeQuery(SearchQuery);
+            while (sqlConnection.getResultSet().next()) {
                 counter++;
             }
 
             tcet.DataForTable = new String[counter][7];
             counter = 0;
-            rs = stmt.executeQuery(SearchQuery);
-            while (rs.next()) {
+            sqlConnection.setResultSet(SearchQuery);
+            while (sqlConnection.getResultSet().next()) {
                 //{"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kalan gün sayısı ", "Kitap adı"};
                 tcet.DataForTable[counter][0] = Integer.toString(counter + 1);
-                tcet.DataForTable[counter][1] = rs.getString("student.No");
-                tcet.DataForTable[counter][2] = rs.getString("student.Name") + rs.getString("student.Surname");
-                tcet.DataForTable[counter][3] = rs.getString("book.BarcodeNo");
-                tcet.DataForTable[counter][4] = Integer.toString(TimeOfBook(rs.getString("book.BarcodeNo")));
-                tcet.DataForTable[counter][5] = rs.getString("book.Name");
+                tcet.DataForTable[counter][1] = sqlConnection.getResultSet().getString("student.No");
+                tcet.DataForTable[counter][2] = sqlConnection.getResultSet().getString("student.Name") + sqlConnection.getResultSet().getString("student.Surname");
+                tcet.DataForTable[counter][3] = sqlConnection.getResultSet().getString("book.BarcodeNo");
+                tcet.DataForTable[counter][4] = Integer.toString(TimeOfBook(sqlConnection.getResultSet().getString("book.BarcodeNo")));
+                tcet.DataForTable[counter][5] = sqlConnection.getResultSet().getString("book.Name");
                 // public rs2 yapacam ve kapatacam sonrada 
 
                 counter++;
             }
 
-            if (counter == 1 && rs.last()) {
+            if (counter == 1 && sqlConnection.getResultSet().last()) {
 
-                tcet.getTxtBookBarcodeNoToExtendTime().setText(rs.getString("book.BarcodeNo"));
-                tcet.getTxtBookNameToExtendTime().setText(rs.getString("book.Name"));
+                tcet.getTxtBookBarcodeNoToExtendTime().setText(sqlConnection.getResultSet().getString("book.BarcodeNo"));
+                tcet.getTxtBookNameToExtendTime().setText(sqlConnection.getResultSet().getString("book.Name"));
             }
 
             //tcet.getSp();
@@ -352,13 +360,14 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
                     tcet.getTxtBookNameToExtendTime().setText("");
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } /*catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex);
 
-        } catch (SQLException ex) {
+        } */ catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
@@ -402,58 +411,64 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
     }
 
     public void payDebt() {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/library";
         String USER = "root";
         String PASS = "";
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         try {
 
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
+            // Class.forName(JDBC_DRIVER);
+            //  conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            // stmt = conn.createStatement();
             String BringDebt = "SELECT * FROM Student WHERE No LIKE '" + fdp.getTxtStudentNo().getText().trim() + "'";
-            rs = stmt.executeQuery(BringDebt);
+            sqlConnection.setResultSet(BringDebt);
+// rs = stmt.executeQuery(BringDebt);
             double MoneyFromStudent = Double.parseDouble(fdp.getTxtAmountOfPayment().getText().trim());
             String UpdateDebt = "";
             Double LastDebt = 0.0;
-            if (rs.next() || (rs.getDouble("Debt") > 0)) {
-                UpdateDebt = "UPDATE Student SET Debt = " + (rs.getDouble("Debt") - MoneyFromStudent) + " WHERE No like'" + fdp.getTxtStudentNo().getText().trim() + "' ";
-                LastDebt = (rs.getDouble("Debt") - MoneyFromStudent);
+            if (sqlConnection.getResultSet().next() || (sqlConnection.getResultSet().getDouble("Debt") > 0)) {
+                UpdateDebt = "UPDATE Student SET Debt = " + (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent) + " WHERE No like'" + fdp.getTxtStudentNo().getText().trim() + "' ";
+                LastDebt = (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent);
             } else {
 
-                UpdateDebt = "UPDATE Student SET Debt = " + (rs.getDouble("Debt") + MoneyFromStudent) + " ";
-                LastDebt = (rs.getDouble("Debt") - MoneyFromStudent);
+                UpdateDebt = "UPDATE Student SET Debt = " + (sqlConnection.getResultSet().getDouble("Debt") + MoneyFromStudent) + " ";
+                LastDebt = (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent);
             }
 
-            stmt.executeUpdate(UpdateDebt);
+            //stmt.executeUpdate(UpdateDebt);
+            sqlConnection.Update(UpdateDebt);
 
             BringDebt = "SELECT * FROM Student WHERE No LIKE '" + fdp.getTxtStudentNo().getText().trim() + "'";
-            rs = stmt.executeQuery(BringDebt);
-            if (rs.next()) {
-                fdp.getTxtDebt().setText(rs.getString("Debt"));
+            //rs = stmt.executeQuery(BringDebt);
+            sqlConnection.setResultSet(BringDebt);
+            if (sqlConnection.getResultSet().next()) {
+                fdp.getTxtDebt().setText(sqlConnection.getResultSet().getString("Debt"));
                 fillDebtAndResult(LastDebt);
             }
             SuccessVoice();
 
-        } catch (ClassNotFoundException ex) {
+        } /*catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionTimeFine.class
                     .getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } */ catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + " hatası ");
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Lütfen Sadece Sayı İçeren Değerler Giriniz", "DEĞER HATASI", JOptionPane.ERROR_MESSAGE);
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public void BringStudentWhoHasDebt(int determiner) {
         ResetAllTxt();
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /* String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/library";
 
         String USER = "root";
@@ -461,7 +476,7 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         String bringStudent = "";
         boolean noVoice = false;
         try {
@@ -472,34 +487,35 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
                 bringStudent = "SELECT * FROM student  WHERE Debt != 0 and No LIKE '%" + fdp.getTxtStudentNo().getText().trim() + "%' ORDER BY Debt DESC";
             }
 
-            Class.forName(JDBC_DRIVER);
+            /*  Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();
-
-            rs = stmt.executeQuery(bringStudent);
+            stmt = conn.createStatement();*/
+            //rs = stmt.executeQuery(bringStudent);
+            sqlConnection.setResultSet(bringStudent);
             int StudentNumberWhoHasDebt = 0;
-            while (rs.next()) {
+            while (sqlConnection.getResultSet().next()) {
                 StudentNumberWhoHasDebt++;
             }
 
-            rs = stmt.executeQuery(bringStudent);
+            //rs = stmt.executeQuery(bringStudent);
+            sqlConnection.setResultSet(bringStudent);
             int counter = 0;
             fdp.DataOfTable = new String[StudentNumberWhoHasDebt][6];
-            while (rs.next()) {
+            while (sqlConnection.getResultSet().next()) {
                 fdp.DataOfTable[counter][0] = Integer.toString(counter + 1);
-                fdp.DataOfTable[counter][1] = rs.getString("No");
-                fdp.DataOfTable[counter][2] = rs.getString("Name") + " " + rs.getString("Surname");
-                fdp.DataOfTable[counter][3] = rs.getString("Email");
-                fdp.DataOfTable[counter][4] = rs.getString("Phone");
-                fdp.DataOfTable[counter][5] = rs.getString("Debt");
+                fdp.DataOfTable[counter][1] = sqlConnection.getResultSet().getString("No");
+                fdp.DataOfTable[counter][2] = sqlConnection.getResultSet().getString("Name") + " " + sqlConnection.getResultSet().getString("Surname");
+                fdp.DataOfTable[counter][3] = sqlConnection.getResultSet().getString("Email");
+                fdp.DataOfTable[counter][4] = sqlConnection.getResultSet().getString("Phone");
+                fdp.DataOfTable[counter][5] = sqlConnection.getResultSet().getString("Debt");
                 //"", "Öğrenci No", "Ad-Soyad", "Email", "Telefon Numarası", "Borç (TL)
                 counter++;
                 if (StudentNumberWhoHasDebt == 1) {
-                    fdp.getTxtDebt().setText(rs.getString("Debt"));
-                    fdp.getTxtStudentNo().setText(rs.getString("No"));
+                    fdp.getTxtDebt().setText(sqlConnection.getResultSet().getString("Debt"));
+                    fdp.getTxtStudentNo().setText(sqlConnection.getResultSet().getString("No"));
                     fdp.getTxtResult().setText("Bilgiler getirildi");
                     fdp.getTxtResult().setBackground(Color.GREEN);
-                    if (rs.getDouble("Debt") > 0) {
+                    if (sqlConnection.getResultSet().getDouble("Debt") > 0) {
                         fdp.getTxtDebt().setBackground(Color.orange);
                     } else {
                         fdp.getTxtDebt().setBackground(new Color(116, 185, 255));
@@ -520,15 +536,16 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
                 SuccessVoice();
 
             }
-        } catch (ClassNotFoundException ex) {
+        }/* catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionTimeFine.class
                     .getName()).log(Level.SEVERE, null, ex);
 
-        } catch (SQLException ex) {
+        } */ catch (SQLException ex) {
             Logger.getLogger(ActionTimeFine.class
                     .getName()).log(Level.SEVERE, null, ex);
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
     }
 
@@ -698,7 +715,7 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
     public void mouseExited(MouseEvent e) {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }*/
-    public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
+ /* public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
 
         try {
             if (stmt != null) {
@@ -721,9 +738,8 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
         }
-    }
-
-    @Override
+    }*/
+ /*@Override
     public void valueChanged(ListSelectionEvent e) {
 
         for (int i = 0; i < tcet.model.getRowCount() - 1; i++) {
@@ -734,5 +750,5 @@ public class ActionTimeFine implements ActionListener, FocusListener, ListSelect
 
         }
 
-    }
+    }*/
 }

@@ -87,7 +87,7 @@ public class MainGui {//extends JPanel
         getJp().setVisible(true);
         addAllThingsONPanel();
 
-        getJp().setBackground(Color.BLACK);
+        getJp().setBackground(Color.black);
 
     }
 
@@ -177,7 +177,7 @@ public class MainGui {//extends JPanel
         if (jp == null) {
             jp = new JPanel();
             jp.setBounds(getJf().getBounds());
-            getJp().setLayout(null);
+            jp.setLayout(null);
         }
         return jp;
     }

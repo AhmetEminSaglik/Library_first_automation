@@ -42,6 +42,16 @@ public class SqlConnection {
         return rs;
     }
 
+    public void setPrepareStatement(String Query) {
+
+        try {
+            getConnection();
+            preparedStmt = conn.prepareStatement(Query);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
     public void setResultSet(String Query) {
 
         try {
@@ -53,14 +63,30 @@ public class SqlConnection {
 
     }
 
-    public void Update(String Query) {
+    public PreparedStatement getPreparedStatement() {
+        return preparedStmt;
+    }
+
+    public void PreparedStatementExecute() {
         getConnection();
         try {
-            stmt.executeUpdate(Query);
+            preparedStmt.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + "");
-            Logger.getLogger(SqlConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }
+
+    public int Update(String Query) {
+        getConnection();
+        try {
+            return stmt.executeUpdate(Query);
+
+            //return stmt;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex + "");
+
+            return 0;
         }
     }
 

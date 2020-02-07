@@ -346,7 +346,8 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
     }
 
     public void StudentCanTakeBook() {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         //  Database credentials
@@ -355,19 +356,17 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
 
         try {
-            Class.forName(JDBC_DRIVER);
+            //Class.forName(JDBC_DRIVER);
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();
-
+            // conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //stmt = conn.createStatement();
             String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
-            rs = stmt.executeQuery(StudentExistQuery);
+            sqlConnection.setResultSet(StudentExistQuery);// rs = stmt.executeQuery(StudentExistQuery);
 
-            if (!rs.next()) {
+            if (!sqlConnection.getResultSet().next()) {
 
                 StudentCanTakeBook = false;
                 throw new Exception();
@@ -380,9 +379,9 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             String CanStudentTakeBookQuery = "SELECT * FROM book  RIGHT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo LIKE'"
                     + getMg().gettxtStudentNo().getText() + "'";
 
-            rs = stmt.executeQuery(CanStudentTakeBookQuery);
+            sqlConnection.setResultSet(CanStudentTakeBookQuery);
             int TookBookCounter = 0;
-            while (rs.next()) {
+            while (sqlConnection.getResultSet().next()) {
                 TookBookCounter++;
             }
             if (TookBookCounter == 3) {
@@ -404,12 +403,14 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setText("ÖĞRENCİ BULUNAMADI");
             }
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();  //closeConnections(conn, stmt, rs, null);
         }
 
     }
 
     public void BookCanBeTake() {
+        SqlConnection sqlConnection = new SqlConnection();
+        /*
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
@@ -418,22 +419,22 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
 
         try {
-            Class.forName(JDBC_DRIVER);
+            //  Class.forName(JDBC_DRIVER);
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
-            stmt = conn.createStatement();
-
+            //conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
+            //stmt = conn.createStatement();
             String BookExistQuery = "Select * FROM book WHERE BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText().trim() + "'";
-            stmt = conn.createStatement();
+            //  stmt = conn.createStatement();
 
             /*String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
             ResultSet rs = stmt.executeQuery(StudentExistQuery);*/
-            rs = stmt.executeQuery(BookExistQuery);
+            sqlConnection.setResultSet(BookExistQuery);
+// rs = stmt.executeQuery(BookExistQuery);
 
-            if (!rs.next()) //    ResultSet rs = stmt.executeQuery(CanStudentTakeBookQuery);
+            if (!sqlConnection.getResultSet().next()) //    ResultSet sqlConnection.getResultSet() = stmt.executeQuery(CanStudentTakeBookQuery);
             {
 
                 bookExist = false;
@@ -442,9 +443,9 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             }
             String TakeBookName = "SELECT * FROM book WHERE BarcodeNo like '" + getMg().getTxtBookBarcode().getText().trim() + "'";
 
-            rs = stmt.executeQuery(TakeBookName);
-            if (rs.next()) {
-                getMg().getTxtBookName().setText(rs.getString("Name"));
+            sqlConnection.setResultSet(TakeBookName);
+            if (sqlConnection.getResultSet().next()) {
+                getMg().getTxtBookName().setText(sqlConnection.getResultSet().getString("Name"));
             }
             /*else {
                 if (getMg().gettxtResultScreen().getText().equals("Kitap Bulunamadı")
@@ -459,8 +460,8 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
             String BookCanBeDelivered = "SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  "
                     + "WHERE  book.BarcodeNo LIKE  '" + getMg().getTxtBookBarcode().getText() + "' and book.StudentNo is null";
-            rs = stmt.executeQuery(BookCanBeDelivered);
-            if (!rs.next()) {
+            sqlConnection.setResultSet(BookCanBeDelivered);// rs = stmt.executeQuery(BookCanBeDelivered);
+            if (!sqlConnection.getResultSet().next()) {
 
                 BookDeliveredSomeone = true;
                 throw new Exception();
@@ -486,14 +487,15 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setBackground(Color.ORANGE);
             }
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //  closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public void DeliverBookToStudent() {
-
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         String USER = "root";
@@ -501,7 +503,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         StudentCanTakeBook = true;
         BookDeliveredSomeone = false;
         bookFree = true;
@@ -520,25 +522,25 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 return;
             }
 
-            Class.forName(JDBC_DRIVER);
+            /*  Class.forName(JDBC_DRIVER);
 
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-            stmt = conn.createStatement();
+            stmt = conn.createStatement();*/
             String SqlDeliverBookStudent = "UPDATE  book SET StudentNo = '" + getMg().gettxtStudentNo().getText()
                     + "' , BorrowedDate = NOW()  "
                     + " \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
-            stmt.executeUpdate(SqlDeliverBookStudent);
+            sqlConnection.Update(SqlDeliverBookStudent);//  stmt.executeUpdate(SqlDeliverBookStudent);
 
             getMg().gettxtResultScreen().setBackground(Color.GREEN);
             getMg().gettxtResultScreen().setText("EŞLEŞME BAŞARILI");
             SuccessVoice();
-        } catch (ClassNotFoundException ex) {
+        } /*catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            closeConnections(conn, stmt, rs, null);
+        } */ finally {
+            sqlConnection.CloseAllConnections();//closeConnections(conn, stmt, rs, null);
 
         }
 
@@ -562,7 +564,8 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
     }
 
     public void NumbersOfBooks() {
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        SqlConnection sqlConnection = new SqlConnection();
+        /*   String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
         //  Database credentials
@@ -571,44 +574,45 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null;*/
         int bookNumber = 0;
 
         try {
-            Class.forName(JDBC_DRIVER);
+            /*  Class.forName(JDBC_DRIVER);
 
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             stmt = conn.createStatement();
-
+             */
             String bookTotalNumberQuery = "SELECT COUNT(*) FROM book ";
-            rs = stmt.executeQuery(bookTotalNumberQuery);
-            if (rs.next()) {
-                getMg().getTxtTotalBook().setText(Integer.toString(rs.getInt("COUNT(*)")));
+            sqlConnection.setResultSet(bookTotalNumberQuery); //sqlConnection.getResultSet() = stmt.executeQuery(bookTotalNumberQuery);
+            if (sqlConnection.getResultSet().next()) {
+                getMg().getTxtTotalBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
 
             }
             String bookRemainNumberQuery = "SELECT COUNT(*) FROM book WHERE StudentNo IS NULL";
-            rs = stmt.executeQuery(bookRemainNumberQuery);
-            if (rs.next()) {
-                getMg().getTxtRemainBook().setText(Integer.toString(rs.getInt("COUNT(*)")));
+            sqlConnection.setResultSet(bookTotalNumberQuery);// rs = stmt.executeQuery(bookRemainNumberQuery);
+            if (sqlConnection.getResultSet().next()) {
+                getMg().getTxtRemainBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
             }
             String bookGivenNumberQuery = "SELECT COUNT(*) FROM book  WHERE StudentNo IS NOT NULL";
-            rs = stmt.executeQuery(bookGivenNumberQuery);
-            if (rs.next()) {
-                getMg().getTxtGivenBook().setText(Integer.toString(rs.getInt("COUNT(*)")));
+            sqlConnection.setResultSet(bookTotalNumberQuery);  //rs = stmt.executeQuery(bookGivenNumberQuery);
+            if (sqlConnection.getResultSet().next()) {
+                getMg().getTxtGivenBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
             }
-        } catch (ClassNotFoundException ex) {
+        }/* catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        }*/ catch (SQLException ex) {
             Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            closeConnections(conn, stmt, rs, null);
+            //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
 
         }
 
     }
 
-    public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
+    /* public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
 
         try {
             if (stmt != null) {
@@ -631,5 +635,5 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
         }
-    }
+    }*/
 }
