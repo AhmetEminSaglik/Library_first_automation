@@ -1,0 +1,25 @@
+WIDTH  
+(int)(screenSizeWidth)
+
+20 -->(int)(screenSizeWidth/68.3)
+450 -->(int)(screenSizeWidth/3.0355555555555553)
+400-->(int)(screenSizeWidth/3.415)
+515 -->(int)(screenSizeWidth/2.652427184466019)
+300 --> (int) (screenSizeWidth/4.553333333333334)
+680 --> (int)(screenSizeWidth/2.0088235294117647)
+50 --> (int)(screenSizeWidth/27.32)
+150-->(int)(screenSizeWidth/9.106666666666667)
+
+
+
+HEIGHT
+(int)(screenSizeHeight)
+ 
+50-->(int) (screenSizeHeight / 15.36)
+100-->(int) (screenSizeHeight /7.68)
+200-->(int) (screenSizeHeight /3.84)
+40-->(int) (screenSizeHeight /19.2)
+150 --> (int)(screenSizeHeight/5.12)	
+250 --> (int)(screenSizeHeight/3.072)
+400 --> (int)(screenSizeHeight/1.92)
+ 

@@ -3,7 +3,9 @@ package Gui;
 import Logic.ActionsBook;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +29,10 @@ public class BookAddGui {
     JTextField txtAuthorName;
     JTextField txtCategory;
     JTextField txtResult;
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
 
     ActionsBook bookaction = new ActionsBook(this);
     JButton btnComeBack;
@@ -102,7 +108,9 @@ public class BookAddGui {
     public JLabel getLblBookBarcodeNo() {
         if (lblBookBarcodeNo == null) {
             lblBookBarcodeNo = new JLabel("Kitap Barkod Numarası ");
-            lblBookBarcodeNo.setBounds(20, 0, 450, 50);
+            lblBookBarcodeNo.setBounds((int) (screenSizeWidth / 68.3), 0, (int) (screenSizeWidth / 3.0355555555555553),
+                    (int) (screenSizeHeight / 15.36));
+
             lblBookBarcodeNo.setFont(font_lbl);
 
         }
@@ -117,7 +125,9 @@ public class BookAddGui {
     public JLabel getLblBookName() {
         if (lblBookName == null) {
             lblBookName = new JLabel("Kitap Adı");
-            lblBookName.setBounds(20, 100, 450, 50);
+            lblBookName.setBounds((int) (screenSizeWidth / 68.3), (int) (screenSizeHeight / 7.68),
+                    (int) (screenSizeWidth / 3.0355555555555553), (int) (screenSizeHeight / 15.36));
+
             lblBookName.setFont(font_lbl);
 
         }
@@ -131,7 +141,8 @@ public class BookAddGui {
     public JLabel getLblAuthorName() {
         if (lblAuthorName == null) {
             lblAuthorName = new JLabel("Yazar Adı");
-            lblAuthorName.setBounds(20, 200, 450, 50);
+            lblAuthorName.setBounds((int) (screenSizeWidth / 68.3), (int) (screenSizeHeight / 3.84), (int) (screenSizeWidth / 3.0355555555555553), (int) (screenSizeHeight / 15.36));
+
             lblAuthorName.setFont(font_lbl);
         }
         return lblAuthorName;
@@ -144,7 +155,8 @@ public class BookAddGui {
     public JLabel getLblCategory() {
         if (lblCategory == null) {
             lblCategory = new JLabel("Kategori Adı");
-            lblCategory.setBounds(400, 200, 450, 50);
+            lblCategory.setBounds((int) (screenSizeWidth / 3.415), (int) (screenSizeHeight / 3.84), (int) (screenSizeWidth / 3.0355555555555553), (int) (screenSizeHeight / 15.36));
+
             lblCategory.setFont(font_lbl);
         }
         return lblCategory;
@@ -157,7 +169,8 @@ public class BookAddGui {
     public JLabel getLblResult() {
         if (lblResult == null) {
             lblResult = new JLabel("SONUC");
-            lblResult.setBounds(515, 0, 450, 50);
+            lblResult.setBounds((int) (screenSizeWidth / 2.652427184466019), 0, (int) (screenSizeWidth / 3.0355555555555553), (int) (screenSizeHeight / 15.36));
+
             lblResult.setFont(font_lbl);
 
         }
@@ -171,7 +184,9 @@ public class BookAddGui {
     public JTextField getTxtBookBarcodeNo() {
         if (txtBookBarcodeNo == null) {
             txtBookBarcodeNo = new JTextField("");
-            txtBookBarcodeNo.setBounds(20, 50, 300, 40);
+            txtBookBarcodeNo.setBounds((int) (screenSizeWidth / 68.3), (int) (screenSizeHeight / 15.36), (int) (screenSizeWidth
+                    / 4.553333333333334), (int) (screenSizeHeight / 19.2));
+
             txtBookBarcodeNo.setFont(font_txt);
 
         }
@@ -185,7 +200,8 @@ public class BookAddGui {
     public JTextField getTxtBookName() {
         if (txtBookName == null) {
             txtBookName = new JTextField("");
-            txtBookName.setBounds(20, 150, 680, 40);
+            txtBookName.setBounds((int) (screenSizeWidth / 68.3), (int) (screenSizeHeight / 5.12), (int) (screenSizeWidth / 2.0088235294117647), (int) (screenSizeHeight / 19.2));
+
             txtBookName.setFont(font_txt);
         }
         return txtBookName;
@@ -198,7 +214,8 @@ public class BookAddGui {
     public JTextField getTxtAuthorName() {
         if (txtAuthorName == null) {
             txtAuthorName = new JTextField("");
-            txtAuthorName.setBounds(20, 250, 300, 40);
+            txtAuthorName.setBounds((int) (screenSizeWidth / 68.3), (int) (screenSizeHeight / 3.072), (int) (screenSizeWidth / 4.553333333333334), (int) (screenSizeHeight / 19.2));
+
             txtAuthorName.setFont(font_txt);
         }
         return txtAuthorName;
@@ -212,7 +229,8 @@ public class BookAddGui {
 
         if (txtCategory == null) {
             txtCategory = new JTextField("");
-            txtCategory.setBounds(400, 250, 300, 40);
+            txtCategory.setBounds((int) (screenSizeWidth / 3.415), (int) (screenSizeHeight / 3.072), (int) (screenSizeWidth / 4.553333333333334), (int) (screenSizeHeight / 19.2));
+
             txtCategory.setFont(font_txt);
         }
         return txtCategory;
@@ -225,7 +243,8 @@ public class BookAddGui {
     public JTextField getTxtResult() {
         if (txtResult == null) {
             txtResult = new JTextField("");
-            txtResult.setBounds(400, 50, 300, 40);
+            txtResult.setBounds((int) (screenSizeWidth / 3.415), (int) (screenSizeHeight / 15.36), (int) (screenSizeWidth / 4.553333333333334), (int) (screenSizeHeight / 19.2));
+
             //txtBookBarcodeNo.setBounds(20, 50, 300, 40);
             txtResult.setFont(new Font("monospaced", Font.BOLD, 17));
 
@@ -248,7 +267,8 @@ public class BookAddGui {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
-            btnComeBack.setBounds(50, 400, 150, 50);
+            btnComeBack.setBounds((int) (screenSizeWidth / 27.32), (int) (screenSizeHeight / 1.92), (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 15.36));
+
             btnComeBack.setBackground(Color.white);
             btnComeBack.setFont(font_txt);
 
@@ -264,7 +284,8 @@ public class BookAddGui {
     public JButton getBtnAddBook() {
         if (btnBtnAddBook == null) {
             btnBtnAddBook = new JButton("Kitabı Ekle");
-            btnBtnAddBook.setBounds(400, 400, 150, 50);
+            btnBtnAddBook.setBounds((int) (screenSizeWidth / 3.415), (int) (screenSizeHeight / 1.92), (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 15.36));
+          
             btnBtnAddBook.setBackground(Color.white);
             btnBtnAddBook.setFont(font_txt);
             btnBtnAddBook.setCursor(new Cursor(12));
@@ -286,5 +307,5 @@ public class BookAddGui {
     public void setMg(MainGui mg) {
         this.mg = mg;
     }
-
+ 
 }
