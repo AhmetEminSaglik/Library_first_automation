@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -29,10 +28,16 @@ public class Login extends JPanel {
 //Apoya Ait  sanki başarılı bir şekilde giriş yapılmış gibi devam ediyorum
 
     JFrame jf = null;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
     final int jframeX = 250;
     final int jframeY = 100;
-    final int jframeWidth = 850;
-    final int jframeHeight = 550;
+    final double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
+    final double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
+    final int scaleWidth = (int) (screenSize.getWidth() / 1.6070588235294119);
+    final int scaleHeight = (int) (screenSize.getHeight() / 1.3963636363636365);
+    final int screenSizeWidth = (int) screenSize.getWidth();
+    final int screenSizeHeight = (int) screenSize.getHeight();
     JLabel lblusername;
     JLabel lblPass;
     JTextField txtusername;
@@ -45,6 +50,10 @@ public class Login extends JPanel {
     ActionsLogin action = new ActionsLogin(this);
 
     public Login() {
+        /*  System.out.println("hesaplamalı ekran genişliği:" + screenSize.getWidth() / 1.6070588235294119);
+        System.out.println("hesaplamalı ekran yüksekliği" + screenSize.getHeight() / 1.3963636363636365);
+        System.out.println(" jframeHeight " + 850);
+        System.out.println(" jframeWidth " + 550);*/
 
         this.setLayout(null);
         this.setBackground(new Color(255, 234, 167));
@@ -56,16 +65,9 @@ public class Login extends JPanel {
         getJf().add(this);
         getJf().setVisible(true);
         getJf().setCursor(new Cursor(3));
-        getTxtusername().setCursor(new Cursor(3));
-        getjPass().setCursor(new Cursor(3));
-        getSignIn().setCursor(new Cursor(3));
         CreateDatabase();
         CreateTable();
         getJf().setCursor(null);
-        getTxtusername().setCursor(new Cursor(2));
-        getjPass().setCursor(new Cursor(2));
-        getSignIn().setCursor(new Cursor(12));
-
         JavaMailUtil jmu = new JavaMailUtil();
         Thread t1 = new Thread(new Runnable() {
             @Override
@@ -86,7 +88,10 @@ public class Login extends JPanel {
     public JFrame getJf() {
         if (jf == null) {
             jf = new JFrame("GİRİŞ SAYFASI");
-            jf.setBounds(jframeX, jframeY, jframeWidth, jframeHeight);
+
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+            jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
             //jf.setLayout(null);
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             jf.setResizable(false);
@@ -101,8 +106,9 @@ public class Login extends JPanel {
 
     public JLabel getLblusername() {
         if (lblusername == null) {
-            lblusername = new JLabel("Kullanıcı adı   : ");
-            lblusername.setBounds(130, 150, 200, 40);
+            lblusername = new JLabel("Kullanıcı adı  : ");
+            lblusername.setBounds(screenSizeWidth / 10, screenSizeHeight / 5, screenSizeWidth / 6, screenSizeHeight / 19);
+
             lblusername.setFont(lblFont);
 
         }
@@ -115,8 +121,9 @@ public class Login extends JPanel {
 
     public JLabel getLblPass() {
         if (lblPass == null) {
-            lblPass = new JLabel("Parola          : ");
-            lblPass.setBounds(130, 210, 200, 40);
+            lblPass = new JLabel("Parola         : ");
+            lblPass.setBounds(screenSizeWidth / 10, (screenSizeHeight / 4) + screenSizeHeight / 38, screenSizeWidth / 6, screenSizeHeight / 19);
+
             lblPass.setFont(lblFont);
 
         }
@@ -130,7 +137,13 @@ public class Login extends JPanel {
     public JTextField getTxtusername() {
         if (txtusername == null) {
             txtusername = new JTextField("");
-            txtusername.setBounds(380, 150, 300, 40);
+
+            txtusername.setBounds((screenSizeWidth * 3 / 12), (screenSizeHeight / 5), ((screenSizeWidth / 5)), (screenSizeHeight / 19));
+
+            //    txtusername.setBounds(380, 150, 300, 40);
+            //System.out.println(screenSizeWidth / 40);
+            //lblPass.setBounds((int) ((int) 130 * scaleWidth), (int) ((int) 210 * scaleHeight), 
+            //(int) ((int) 200 * scaleWidth), (int) ((int) 40 * scaleHeight));
             txtusername.setFont(txtFont);
 
         }
@@ -144,7 +157,7 @@ public class Login extends JPanel {
     public JPasswordField getjPass() {
         if (jPass == null) {
             jPass = new JPasswordField("");
-            jPass.setBounds(380, 210, 300, 40);
+            jPass.setBounds((screenSizeWidth * 3 / 12), (screenSizeHeight / 4) + (screenSizeHeight / 38), (screenSizeWidth / 5), (screenSizeHeight / 19));
             jPass.setFont(txtFont);
 
         }
@@ -158,7 +171,8 @@ public class Login extends JPanel {
     public JButton getSignIn() {
         if (signIn == null) {
             signIn = new JButton("Oturum aç");
-            signIn.setBounds(530, 270, 150, 40);
+            signIn.setBounds((screenSizeWidth / 3) - (screenSizeWidth / 70), screenSizeHeight * 3 / 8, screenSizeWidth / 9 + (screenSizeWidth / 50), screenSizeHeight / 19);
+
             signIn.setFont(txtFont);
             signIn.addActionListener(action);
             signIn.setCursor(new Cursor(12));

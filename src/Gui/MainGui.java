@@ -3,7 +3,9 @@ package Gui;
 import Logic.ActionsMainGui;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,25 +49,30 @@ public class MainGui {//extends JPanel
     JButton FineDebtPayment;
     JButton aboutUs;
     JButton exit;
-    final int holding_area_scale = 270;
-    final int push_scale = 8;
-    final int txt_height = 40;
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
+    final int holding_area_scale = (int) (screenSizeWidth / 5.059259259259259);
+    final int push_scale = (int) (screenSizeWidth / 170.75);
+    final int txt_height = (int) (screenSizeHeight / 19.2);
     int push_right_lbl_counter = 0;
     int push_right_txt_counter = 0;
 
-    final int push_total_remain_given_books = 30;
-    int total_remain_given_books_x = 15;
-    int total_remain_given_books_y = 80;
+    //  final int push_total_remain_given_books = 30;
+    int total_remain_given_books_x = (int) (screenSizeWidth / 91.06666666666666);
+    int total_remain_given_books_y = (int) (screenSizeHeight / 9.6);
     int total_remain_given_books_counter = 0;
 
-    final int button_width = 220;
-    final int button_height = 50;
-    final int passing_floor_X = button_width + 40;
-    final int FloorOfBook_X = 45;
+    final int button_width = (int) (screenSizeWidth / 6.209090909090909);
+    final int button_height = (int) (screenSizeHeight / 15.36);
+    final int passing_floor_X = button_width + (int) (screenSizeWidth / 34.15);
+    final int FloorOfBook_X = (int) (screenSizeWidth / 30.355555555555554);
     final int FloorOfStudent_X = FloorOfBook_X + passing_floor_X;
     final int FloorOf_Time_Exit_X = FloorOfStudent_X + passing_floor_X;
-    final int passing_floor_Y = 60;
-    final int FirstButtons_Y = 260;
+    final int passing_floor_Y = (int) (screenSizeHeight / 12.8);
+    final int FirstButtons_Y = (int) (screenSizeHeight / 2.953846153846154);
     final int SecondButtons_Y = FirstButtons_Y + passing_floor_Y;
     final int ThirdButtons_Y = SecondButtons_Y + passing_floor_Y;
     final int FourthButtons_Y = ThirdButtons_Y + passing_floor_Y;
@@ -125,7 +132,9 @@ public class MainGui {//extends JPanel
 
     public JLabel build_JlabelForNulls(JLabel jlabel) {
         jlabel = new JLabel("BURAYA YAZI YAZILACAK");
-        jlabel.setBounds(10 + (holding_area_scale + push_scale) * push_right_lbl_counter, 10, holding_area_scale, 30);
+        jlabel.setBounds((int) (screenSizeWidth / 136.6) + (holding_area_scale + push_scale) * push_right_lbl_counter,
+                (int) (screenSizeWidth / 136.6), holding_area_scale, (int) (screenSizeWidth / 45.53333333333333));
+
         jlabel.setFont(new Font("monospaced", Font.BOLD, 25));
         jlabel.setForeground(Color.white);
         push_right_lbl_counter++;
@@ -140,7 +149,9 @@ public class MainGui {//extends JPanel
     public JTextField build_JTextfiledForNulls(JTextField jtxt) {
         jtxt = new JTextField("");
         jtxt.setBackground(Color.WHITE);
-        jtxt.setBounds(3 + (holding_area_scale + push_scale) * push_right_txt_counter, 50, holding_area_scale, txt_height);
+        jtxt.setBounds((int) (screenSizeWidth / 455.3333333333333) + (holding_area_scale + push_scale) * push_right_txt_counter,
+                (int) (screenSizeHeight / 15.36), holding_area_scale, txt_height);
+
         jtxt.setFont(new Font("monospaced", Font.BOLD, 17));
         push_right_txt_counter++;
         jtxt.setLayout(null);
@@ -231,7 +242,8 @@ public class MainGui {//extends JPanel
     public JLabel getLblBookName() {
         if (lblBookName == null) {
             lblBookName = new JLabel("Kitap  Adı");
-            lblBookName.setBounds(10, 135, 300, 70);
+            lblBookName.setBounds((int) (screenSizeWidth / 136.6), (int) (screenSizeHeight / 5.688888888888889),
+                    (int) (screenSizeWidth / 4.553333333333334), (int) (screenSizeHeight / 10.971428571428572));
             lblBookName.setForeground(Color.WHITE);
             lblBookName.setFont(new Font("monospaced", Font.BOLD, 25));
         }
@@ -247,7 +259,7 @@ public class MainGui {//extends JPanel
             lblTotalBook = new JLabel("Toplam Kitap Sayısı");
             lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,
-                    50);
+                    (int) (screenSizeHeight / 15.36));
             lblTotalBook.setFont(new Font("monospaced", Font.BOLD, 22));
             lblTotalBook.setForeground(new Color(116, 185, 255));
             total_remain_given_books_counter = 0;
@@ -265,8 +277,9 @@ public class MainGui {//extends JPanel
     public JLabel getLblRemainBook() {
         if (lblRemainBook == null) {
             lblRemainBook = new JLabel("Verilen Kitap Sayısı");
-            lblRemainBook.setBounds(10 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y, holding_area_scale, 50);
+            lblRemainBook.setBounds((int) (screenSizeWidth / 136.6) + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+                    total_remain_given_books_y, holding_area_scale,
+                    (int) (screenSizeHeight / 15.36));
             lblRemainBook.setFont(new Font("monospaced", Font.BOLD, 22));
             lblRemainBook.setForeground(Color.red);
             total_remain_given_books_counter++;
@@ -281,8 +294,9 @@ public class MainGui {//extends JPanel
     public JLabel getLblGivenBook() {
         if (lblGivenBook == null) {
             lblGivenBook = new JLabel("Kalan Kitap Sayısı");
-            lblGivenBook.setBounds(15 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    1 + total_remain_given_books_y, holding_area_scale, 50);
+            lblGivenBook.setBounds((int) (screenSizeWidth / 91.06666666666666) + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+                    1 + total_remain_given_books_y, holding_area_scale,
+                    (int) (screenSizeHeight / 15.36));
             lblGivenBook.setFont(new Font("monospaced", Font.BOLD, 22));
             lblGivenBook.setForeground(Color.GREEN);
             total_remain_given_books_counter++;
@@ -350,7 +364,8 @@ public class MainGui {//extends JPanel
     public JTextField getTxtBookName() {
         if (txtBookName == null) {
             txtBookName = new JTextField("");
-            txtBookName.setBounds(3, 190, getJf().getWidth() - 24, 55);
+            txtBookName.setBounds((int) (screenSizeWidth / 455.3333333333333), (int) (screenSizeHeight / 4.042105263157895),
+                    (int) (screenSizeWidth / 1.6557575757575758), (int) (screenSizeHeight / 13.963636363636363));
             txtBookName.setFont(new Font("monospaced", Font.BOLD, 19));
             txtBookName.setEditable(false);
             txtBookName.setFocusable(false);
@@ -372,8 +387,9 @@ public class MainGui {//extends JPanel
     public JTextField getTxtTotalBook() {
         if (txtTotalBook == null) {
             txtTotalBook = new JTextField("0");
-            txtTotalBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y + 45, 150, 30);
+            txtTotalBook.setBounds((int) (screenSizeWidth / 27.32) + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+                    total_remain_given_books_y + (int) (screenSizeHeight / 17.066666666666666), (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
+
             txtTotalBook.setFont(new Font("", Font.BOLD, 22));
             txtTotalBook.setEditable(false);
             txtTotalBook.setFocusable(false);
@@ -399,8 +415,9 @@ public class MainGui {//extends JPanel
     public JTextField getTxtGivenBook() {
         if (txtGivenBook == null) {
             txtGivenBook = new JTextField("0");
-            txtGivenBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y + 45, 150, 30);
+            txtGivenBook.setBounds((int) (screenSizeWidth / 27.32) + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+                    total_remain_given_books_y + (int) (screenSizeHeight / 17.066666666666666), (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
+
             txtGivenBook.setFont(new Font("", Font.BOLD, 22));
             txtGivenBook.setEditable(false);
             txtGivenBook.setFocusable(false);
@@ -426,8 +443,8 @@ public class MainGui {//extends JPanel
     public JTextField getTxtRemainBook() {
         if (txtRemainBook == null) {
             txtRemainBook = new JTextField("0");
-            txtRemainBook.setBounds(50 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y + 45, 150, 30);
+            txtRemainBook.setBounds((int) (screenSizeWidth / 27.32) + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
+                    total_remain_given_books_y + (int) (screenSizeHeight / 17.066666666666666), (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
             txtRemainBook.setBackground(Color.GREEN);
             txtRemainBook.setForeground(Color.BLACK);
             txtRemainBook.setFont(new Font("", Font.BOLD, 22));
