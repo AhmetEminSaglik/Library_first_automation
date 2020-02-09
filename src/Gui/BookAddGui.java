@@ -285,7 +285,7 @@ public class BookAddGui {
         if (btnBtnAddBook == null) {
             btnBtnAddBook = new JButton("Kitabı Ekle");
             btnBtnAddBook.setBounds((int) (screenSizeWidth / 3.415), (int) (screenSizeHeight / 1.92), (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 15.36));
-          
+
             btnBtnAddBook.setBackground(Color.white);
             btnBtnAddBook.setFont(font_txt);
             btnBtnAddBook.setCursor(new Cursor(12));
@@ -307,5 +307,5 @@ public class BookAddGui {
     public void setMg(MainGui mg) {
         this.mg = mg;
     }
- 
+
 }

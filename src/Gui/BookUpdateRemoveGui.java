@@ -2,8 +2,10 @@ package Gui;
 
 import Logic.ActionsBook;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,30 +35,39 @@ public class BookUpdateRemoveGui extends JPanel {
     JButton btnComeBack;
     JButton btnUpdate;
     JButton btnDelete;
-    final int leftSpace = 50;
-    final int lblWidth = 500;
-    final int lblHeight = 20;
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
+    final int leftSpace = (int) (screenSizeWidth / 27.32);
+    final int lblWidth = (int) (screenSizeWidth / 2.732);
+    final int lblHeight = (int) (screenSizeHeight / 38.4);
 
     int lblPushUnderCounter = 0;
-    final int heightpaintY = 125;
+    final int heightpaintY = (int) (screenSizeHeight / 6.144);
 
-    final int lblTopSpace = heightpaintY + 30;
-    final int txtTopSpace = heightpaintY + lblHeight + 40;
-    final int txtLeftSpace = 50;
-    final int txtWidth = 350;
-    final int txtHeight = 40;
+    final int lblTopSpace = heightpaintY + (int) (screenSizeHeight / 25.6);
+    final int txtTopSpace = heightpaintY + lblHeight + (int) (screenSizeHeight / 19.2);
+    final int txtLeftSpace = (int) (screenSizeWidth / 27.32);
+    final int txtWidth = (int) (screenSizeWidth / 3.902857142857143);
+    final int txtHeight = (int) (screenSizeHeight / 19.2);
 
     int txtPushUnderCounter = 0;
 
-    final int lblPushSpaceRight = lblWidth + 100;
-    final int lblPushSpaceUnder = lblHeight + 50;
-    final int txtPushSpaceUnder = txtHeight + lblHeight + 30;
+    final int lblPushSpaceRight = lblWidth + (int) (screenSizeWidth / 13.66);
+    final int lblPushSpaceUnder = lblHeight + (int) (screenSizeHeight / 15.36);
+    final int txtPushSpaceUnder = txtHeight + lblHeight + (int) (screenSizeHeight / 25.6);
 
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 15);
     ActionsBook action = new ActionsBook(this);
 
     public BookUpdateRemoveGui(MainGui mg) {
+        System.out.println(screenSizeWidth / 500);
+        System.out.println(screenSizeHeight / 125);
+        System.out.println(screenSizeWidth / 350);
+        System.out.println();
         setMg(mg);
         this.setBounds(getJf().getBounds());
         this.setBackground(new Color(50, 150, 150));
@@ -129,7 +140,7 @@ public class BookUpdateRemoveGui extends JPanel {
     public JLabel getLblToBeChangedBarcodeNo() {
         if (lblToBeChangedBarcodeNo == null) {
             lblToBeChangedBarcodeNo = new JLabel("Güncellenecek kitap Barkod Numarası");
-            lblToBeChangedBarcodeNo.setBounds(leftSpace, 15, lblWidth, lblHeight);
+            lblToBeChangedBarcodeNo.setBounds(leftSpace, (int) (screenSizeHeight / 51.2), lblWidth, lblHeight);
             lblToBeChangedBarcodeNo.setForeground(Color.white);
             lblToBeChangedBarcodeNo.setFont(lblFont);
 
@@ -161,7 +172,7 @@ public class BookUpdateRemoveGui extends JPanel {
     public JLabel getLblNewCategory() {
         if (lblNewCategory == null) {
             lblNewCategory = new JLabel("Yeni Kategori Adı");
-            lblNewCategory.setBounds(leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight) * lblPushUnderCounter, lblWidth, lblHeight);
+            lblNewCategory.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 27.32), lblTopSpace + (lblHeight + txtHeight) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewCategory.setForeground(Color.WHITE);
             lblNewCategory.setFont(lblFont);
             lblPushUnderCounter++;
@@ -177,7 +188,7 @@ public class BookUpdateRemoveGui extends JPanel {
 
         if (lblNewBookName == null) {
             lblNewBookName = new JLabel("Yeni Kitap İsmi ");
-            lblNewBookName.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
+            lblNewBookName.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + (int) (screenSizeHeight / 25.6)) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewBookName.setForeground(Color.WHITE);
             lblNewBookName.setFont(lblFont);
             lblPushUnderCounter++;
@@ -193,7 +204,7 @@ public class BookUpdateRemoveGui extends JPanel {
     public JLabel getLblNewAuthorName() {
         if (lblNewAuthorName == null) {
             lblNewAuthorName = new JLabel("Yeni Yazar İsmi");
-            lblNewAuthorName.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
+            lblNewAuthorName.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + (int) (screenSizeHeight / 25.6)) * lblPushUnderCounter, lblWidth, lblHeight);
             lblNewAuthorName.setForeground(Color.WHITE);
             lblNewAuthorName.setFont(lblFont);
             lblPushUnderCounter++;
@@ -209,7 +220,7 @@ public class BookUpdateRemoveGui extends JPanel {
         if (lblResult == null) {
             lblResult = new JLabel("SONUÇ");
             //lblResult.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
-            lblResult.setBounds(leftSpace + lblWidth + 42, 15, lblWidth, lblHeight);
+            lblResult.setBounds(leftSpace + lblWidth + (int) (screenSizeWidth / 32.523809523809526), (int) (screenSizeHeight / 51.2), lblWidth, lblHeight);
             lblResult.setForeground(Color.WHITE);
             lblResult.setFont(lblFont);
 
@@ -225,7 +236,7 @@ public class BookUpdateRemoveGui extends JPanel {
     public JTextField getTxtBarcodeNo() {
         if (txtBarcodeNo == null) {
             txtBarcodeNo = new JTextField();
-            txtBarcodeNo.setBounds(leftSpace, 50, txtWidth, txtHeight);
+            txtBarcodeNo.setBounds(leftSpace, (int) (screenSizeHeight / 15.36), txtWidth, txtHeight);
             txtBarcodeNo.setFont(txtFont);
 
         }
@@ -255,7 +266,7 @@ public class BookUpdateRemoveGui extends JPanel {
         //lblNewCategory.setBounds(leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight) * lblPushUnderCounter, lblWidth, lblHeight);
         if (txtNewCategory == null) {
             txtNewCategory = new JTextField("");
-            txtNewCategory.setBounds(leftSpace + txtWidth + 50, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
+            txtNewCategory.setBounds(leftSpace + txtWidth + (int) (screenSizeHeight / 15.36), txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
             txtNewCategory.setFont(txtFont);
             txtPushUnderCounter++;
         }
@@ -269,7 +280,7 @@ public class BookUpdateRemoveGui extends JPanel {
     public JTextField getTxtNewBookName() {
         if (txtNewBookName == null) {
             txtNewBookName = new JTextField();
-            txtNewBookName.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth * 2 + 50, txtHeight);
+            txtNewBookName.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth * 2 + (int) (screenSizeWidth / 27.32), txtHeight);
             txtNewBookName.setFont(txtFont);
             txtPushUnderCounter++;
         }
@@ -298,7 +309,8 @@ public class BookUpdateRemoveGui extends JPanel {
         if (txtResult == null) {
             txtResult = new JTextField();
             //txtResult.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
-            txtResult.setBounds(txtWidth + leftSpace + 50, 50, txtWidth, txtHeight);
+            txtResult.setBounds(txtWidth + leftSpace + (int) (screenSizeWidth / 27.32),
+                    (int) (screenSizeHeight / 15.36), txtWidth, txtHeight);
             txtResult.setFont(txtFont);
             txtResult.setEditable(false);
             txtResult.setBackground(new Color(206, 214, 224));
@@ -332,7 +344,10 @@ public class BookUpdateRemoveGui extends JPanel {
     public JButton getBtnUpdate() {
         if (btnUpdate == null) {
             btnUpdate = new JButton("Güncelle");
-            btnUpdate.setBounds(leftSpace + txtWidth + 50, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter) - 90, txtWidth, txtHeight);
+            btnUpdate.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 27.32),
+                    txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter) - (int) (screenSizeHeight / 8.533333333333333),
+                    txtWidth, txtHeight);
+
             //txtNewAuthorName.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
             txtPushUnderCounter++;
         }
@@ -347,7 +362,9 @@ public class BookUpdateRemoveGui extends JPanel {
         if (btnDelete == null) {
             btnDelete = new JButton();
             btnDelete = new JButton("Sil");
-            btnDelete.setBounds(leftSpace + txtWidth + 50, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter) - 90, txtWidth, txtHeight);
+            btnDelete.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 27.32),
+                    txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter) - (int) (screenSizeHeight / 8.533333333333333),
+                    txtWidth, txtHeight);
 
         }
         return btnDelete;

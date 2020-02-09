@@ -3,7 +3,9 @@ package Gui;
 import Logic.ActionsBook;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,14 +36,18 @@ public class BookSearchListGui {
     public String DataOfTable[][] = {};
     public String HeadersOfTable[] = {"", "Barkod No", "Kitap Adı", "Kitap Durumu", "Kitap Kategori", "Yazar Adı"};
 
-    final int lblTopSpace = 10;
-    final int leftSpace = 50;
-    final int txtWidth = 275;
-    final int txtHeight = 40;
-    final int lblWidth = 150;
-    final int lblHeight = 20;
-    final int pushRightSpace = txtWidth + 137;
-    final int txtTopSpace = lblTopSpace + lblHeight + 10;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
+    final int lblTopSpace = (int) (screenSizeHeight / 76.8);
+    final int leftSpace = (int) (screenSizeWidth / 27.32);
+    final int txtWidth = (int) (screenSizeWidth / 4.967272727272727);
+    final int txtHeight = (int) (screenSizeHeight / 19.2);
+    final int lblWidth = (int) (screenSizeWidth / 9.106666666666667);
+    final int lblHeight = (int) (screenSizeHeight / 38.4);
+    final int pushRightSpace = txtWidth + (int) (screenSizeWidth / 9.97080291970803);
+    final int txtTopSpace = lblTopSpace + lblHeight + (int) (screenSizeHeight / 76.8);
     int pushRightCounter = 0;
     Color bslgPlaceHolder = Color.GRAY;
     Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
@@ -50,6 +56,11 @@ public class BookSearchListGui {
     ActionsBook action = new ActionsBook(this);
 
     public BookSearchListGui(MainGui mg) {
+        /* System.out.println(" ssssssssss \n " + screenSizeWidth / 275);
+        System.out.println(screenSizeWidth / 150);
+        System.out.println(screenSizeHeight / 20);
+        System.out.println(screenSizeWidth / 137);*/
+
         setMg(mg);
         setJf(mg.getJf());
         getJf().setTitle("KİTAP LİSTESİ & SORGULAMA ");
@@ -140,7 +151,9 @@ public class BookSearchListGui {
         if (lblCategory == null) {
             pushRightCounter = 1;
             lblCategory = new JLabel("Kitap Kategori");
-            lblCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter), lblTopSpace + lblHeight + txtHeight + 15, lblWidth, lblHeight);
+            lblCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter),
+                    lblTopSpace + lblHeight + txtHeight + (int) (screenSizeHeight / 51.2),
+                    lblWidth, lblHeight);
 
             lblCategory.setFont(font_lbl);
             lblCategory.setForeground(Color.WHITE);
@@ -188,17 +201,17 @@ public class BookSearchListGui {
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setRowHeight(15);
-        table.getColumnModel().getColumn(0).setPreferredWidth(70);
-        table.getColumnModel().getColumn(1).setPreferredWidth(150);
-        table.getColumnModel().getColumn(2).setPreferredWidth(450);
-        table.getColumnModel().getColumn(3).setPreferredWidth(100);
-        table.getColumnModel().getColumn(4).setPreferredWidth(120);
-        table.getColumnModel().getColumn(5).setPreferredWidth(150);
+        table.getColumnModel().getColumn(0).setPreferredWidth((int) (screenSizeWidth / 19.514285714285716));
+        table.getColumnModel().getColumn(1).setPreferredWidth((int) (screenSizeWidth / 9.106666666666667));
+        table.getColumnModel().getColumn(2).setPreferredWidth((int) (screenSizeWidth / 3.0355555555555553));
+        table.getColumnModel().getColumn(3).setPreferredWidth((int) (screenSizeWidth / 13.66));
+        table.getColumnModel().getColumn(4).setPreferredWidth((int) (screenSizeWidth / 11.383333333333333));
+        table.getColumnModel().getColumn(5).setPreferredWidth((int) (screenSizeWidth / 9.106666666666667));
 //public String HeadersOfTable[] = {"", "Barkod No", "Kitap Adı", "Kitap Durumu", "Kitap Kategori", "Yazar Adı"};
         table.setDefaultEditor(Object.class, null);
         table.setFont(font_txt);
         table.setCursor(new Cursor(12));
-        table.setRowHeight(20);
+        table.setRowHeight((int) (screenSizeHeight / 38.4));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -234,7 +247,7 @@ public class BookSearchListGui {
             sp = new JScrollPane(getTable());
         }
 
-        sp.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight * 3, 700, 250);
+        sp.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight * 3, (int) (screenSizeWidth / 1.9514285714285715), (int) (screenSizeHeight / 3.072));
 
         return sp;
     }
@@ -267,7 +280,7 @@ public class BookSearchListGui {
         if (txtBookName == null) {
             pushRightCounter = 0;
             txtBookName = new JTextField("");
-            txtBookName.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight + 15, txtWidth, txtHeight);
+            txtBookName.setBounds(leftSpace, txtTopSpace + lblHeight + txtHeight + (int) (screenSizeHeight / 51.2), txtWidth, txtHeight);
             txtBookName.setFont(fontTxtPlaceHolder);
             txtBookName.setForeground(bslgPlaceHolder);
             txtBookName.setText("Kitap ismi giriniz");
@@ -285,7 +298,7 @@ public class BookSearchListGui {
         if (txtCategory == null) {
             pushRightCounter = 1;
             txtCategory = new JTextField("");
-            txtCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace + lblHeight + txtHeight + 15, txtWidth, txtHeight);
+            txtCategory.setBounds(leftSpace + (pushRightSpace * pushRightCounter), txtTopSpace + lblHeight + txtHeight + (int) (screenSizeHeight / 51.2), txtWidth, txtHeight);
             txtCategory.setFont(fontTxtPlaceHolder);
             txtCategory.setForeground(bslgPlaceHolder);
             txtCategory.setText("Kategori ismi giriniz");
@@ -321,7 +334,8 @@ public class BookSearchListGui {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
-            btnComeBack.setBounds(leftSpace, 450, 150, 30);
+            btnComeBack.setBounds(leftSpace, (int) (screenSizeHeight / 1.7066666666666668),
+                    (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
 
         }
 

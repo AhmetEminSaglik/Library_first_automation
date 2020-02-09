@@ -2,7 +2,9 @@ package Gui;
 
 import Logic.ActionStudent;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,15 +34,19 @@ public class StudentAddGui {
     JButton btnAdd;
     JButton btnClear;
 
-    final int lblWidth = 300;
-    final int lblheight = 40;
-    final int txtWidth = 300;
-    final int txtheight = 30;
-    final int topSpace = 30;
-    final int leftSpace = 50;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
+    final int lblWidth = (int) (screenSizeWidth / 4.553333333333334);
+    final int lblheight = (int) (screenSizeHeight / 19.2);
+    final int txtWidth = (int) (screenSizeWidth / 4.553333333333334);
+    final int txtheight = (int) (screenSizeHeight / 25.6);
+    final int topSpace = (int) (screenSizeHeight / 25.6);
+    final int leftSpace = (int) (screenSizeWidth / 27.32);
     int lblPushCounter = 0;
     int txtPushCounter = 0;
-    int lblpushUnder = lblheight + txtheight + 30;
+    int lblpushUnder = lblheight + txtheight + (int) (screenSizeHeight / 25.6);
 
     Font lblFont = new Font("", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 15);
@@ -130,7 +136,9 @@ public class StudentAddGui {
     public JLabel getLblResult() {
         if (lblResult == null) {
             lblResult = new JLabel("Sonuç ");
-            lblResult.setBounds(leftSpace + txtWidth + 80, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
+            lblResult.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
+                    topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
+
             lblResult.setForeground(Color.white);
             lblResult.setFont(lblFont);
             lblPushCounter++;
@@ -162,7 +170,8 @@ public class StudentAddGui {
         if (lblSurname == null) {
 
             lblSurname = new JLabel("Öğrenci Soyadı");
-            lblSurname.setBounds(leftSpace + txtWidth + 80, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
+            lblSurname.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
+                    topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
             lblSurname.setForeground(Color.white);
             lblSurname.setFont(lblFont);
             lblPushCounter++;
@@ -195,7 +204,8 @@ public class StudentAddGui {
 
         lblPhoneNo = new JLabel("Öğrenci Telefon No");
         //lblPhoneNo.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
-        lblPhoneNo.setBounds(leftSpace + txtWidth + 80, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
+        lblPhoneNo.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
+                topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
         lblPhoneNo.setForeground(Color.white);
         lblPhoneNo.setFont(lblFont);
         lblPushCounter++;
@@ -224,7 +234,8 @@ public class StudentAddGui {
     public JTextField getTxtResult() {
         if (txtResult == null) {
             txtResult = new JTextField("");
-            txtResult.setBounds(leftSpace + txtWidth + 80, topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
+            txtResult.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
+                    topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
             txtResult.setEditable(false);
             txtResult.setFocusable(false);
             txtResult.setFont(new Font("", Font.BOLD, 17));
@@ -258,7 +269,8 @@ public class StudentAddGui {
     public JTextField getTxtSurname() {
         if (txtSurname == null) {
             txtSurname = new JTextField();
-            txtSurname.setBounds(leftSpace + txtWidth + 80, topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
+            txtSurname.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
+                    topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
             txtSurname.setFont(txtFont);
             lblPushCounter++;
         }
@@ -285,7 +297,8 @@ public class StudentAddGui {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri Dön");
-            btnComeBack.setBounds(leftSpace, 450, 150, 30);
+            btnComeBack.setBounds(leftSpace, (int) (screenSizeHeight / 1.7066666666666668),
+                    (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
         }
         return btnComeBack;
     }
@@ -297,8 +310,11 @@ public class StudentAddGui {
     public JButton getBtnAdd() {
         if (btnAdd == null) {
             btnAdd = new JButton("Ekle ");
-            btnAdd.setBounds(leftSpace, 350, 125, 30);
-
+            btnAdd.setBounds(leftSpace,
+                    (int) (screenSizeHeight / 2.1942857142857144),
+                    (int) (screenSizeWidth / 10.928),
+                    (int) (screenSizeHeight / 25.6));
+            
         }
         return btnAdd;
     }
@@ -310,7 +326,11 @@ public class StudentAddGui {
     public JButton getBtnClear() {
         if (btnClear == null) {
             btnClear = new JButton(" Temizle ");
-            btnClear.setBounds(leftSpace + 175, 350, 125, 30);
+            btnClear.setBounds(leftSpace + (int) (screenSizeWidth / 7.805714285714286),
+                    (int) (screenSizeHeight / 2.1942857142857144),
+                    (int) (screenSizeWidth / 10.928),
+                    (int) (screenSizeHeight / 25.6));
+            System.out.println(screenSizeWidth / 125);
 
         }
         return btnClear;
@@ -331,7 +351,8 @@ public class StudentAddGui {
     public JTextField getTxtPhoneNo() {
         if (txtPhoneNo == null) {
             txtPhoneNo = new JTextField();
-            txtPhoneNo.setBounds(leftSpace + txtWidth + 80, topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
+            txtPhoneNo.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
+                    topSpace + lblheight + (lblpushUnder * lblPushCounter), txtWidth, txtheight);
             txtPhoneNo.setFont(txtFont);
             lblPushCounter++;
         }

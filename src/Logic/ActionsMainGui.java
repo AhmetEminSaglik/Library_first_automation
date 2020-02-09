@@ -12,6 +12,7 @@ import Gui.StudentAddGui;
 import Gui.StudentStateGui;
 import Gui.StudentUpdateGui;
 import Gui.TimeControlExtraTimeGui;
+import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -588,17 +589,19 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             sqlConnection.setResultSet(bookTotalNumberQuery); //sqlConnection.getResultSet() = stmt.executeQuery(bookTotalNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtTotalBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
-
+                System.out.println(sqlConnection.getResultSet().getInt("COUNT(*)"));
             }
             String bookRemainNumberQuery = "SELECT COUNT(*) FROM book WHERE StudentNo IS NULL";
-            sqlConnection.setResultSet(bookTotalNumberQuery);// rs = stmt.executeQuery(bookRemainNumberQuery);
+            sqlConnection.setResultSet(bookRemainNumberQuery);// rs = stmt.executeQuery(bookRemainNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtRemainBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
+                System.out.println(sqlConnection.getResultSet().getInt("COUNT(*)"));
             }
             String bookGivenNumberQuery = "SELECT COUNT(*) FROM book  WHERE StudentNo IS NOT NULL";
-            sqlConnection.setResultSet(bookTotalNumberQuery);  //rs = stmt.executeQuery(bookGivenNumberQuery);
+            sqlConnection.setResultSet(bookGivenNumberQuery);  //rs = stmt.executeQuery(bookGivenNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtGivenBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
+                System.out.println(sqlConnection.getResultSet().getInt("COUNT(*)"));
             }
         }/* catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);

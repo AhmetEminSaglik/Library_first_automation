@@ -3,7 +3,9 @@ package Gui;
 import Logic.ActionsBook;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,24 +32,29 @@ public class BookReturnGui {
     JTextField txtStudentName;
     JTextField txtResult;
     JButton btnComeBack;
-    final int lblTopSpace = 10;
-    final int lblLeftSpace = 50;
-    final int lblWidth = 250;
-    final int lblHeight = 60;
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
+    final int lblTopSpace = (int) (screenSizeHeight / 76.8);
+    final int lblLeftSpace = (int) (screenSizeWidth / 27.32);
+    final int lblWidth = (int) (screenSizeWidth / 5.464);
+    final int lblHeight = (int) (screenSizeHeight / 12.8);
     int lblPushRightCounter = 0;
     int lblPushUnderCounter = 0;
 
-    final int txtTopSpace = lblTopSpace + lblHeight - 10;
-    final int txtLeftSpace = 50;
-    final int txtWidth = 300;
-    final int txtHeight = 40;
+    final int txtTopSpace = lblTopSpace + lblHeight - (int) (screenSizeHeight / 76.8);
+    final int txtLeftSpace = (int) (screenSizeWidth / 27.32);
+    final int txtWidth = (int) (screenSizeWidth / 4.553333333333334);
+    final int txtHeight = (int) (screenSizeHeight / 19.2);
     int txtPushRightCounter = 0;
     int txtPushUnderCounter = 0;
 
-    final int lblPushSpaceRight = lblLeftSpace + lblWidth + 100;
-    final int lblPushSpaceUnder = lblHeight + 50;
-    final int txtPushSpaceUnder = txtHeight + lblHeight + 10;
-    final int txtPushSpaceRight = txtLeftSpace + txtWidth + 50;
+    final int lblPushSpaceRight = lblLeftSpace + lblWidth + (int) (screenSizeWidth / 13.66);
+    final int lblPushSpaceUnder = lblHeight + (int) (screenSizeHeight / 15.36);
+    final int txtPushSpaceUnder = txtHeight + lblHeight + (int) (screenSizeHeight / 76.8);
+    final int txtPushSpaceRight = txtLeftSpace + txtWidth + (int) (screenSizeWidth / 27.32);
 
     ActionsBook action = new ActionsBook(this);
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
@@ -55,6 +62,7 @@ public class BookReturnGui {
 
     //BookActions action = new ActionsBook(this);
     public BookReturnGui(MainGui mg) {
+
         setMg(mg);
         setJf(mg.getJf());
         getMg().getJf().setTitle("KİTAP İADE ");
@@ -235,7 +243,7 @@ public class BookReturnGui {
 
         if (txtBarcodeNo == null) {
             txtBarcodeNo = new JTextField();
-            txtBarcodeNo.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
+            txtBarcodeNo.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + (txtPushUnderCounter * txtPushSpaceUnder), txtWidth, txtHeight);
             txtBarcodeNo.setForeground(Color.BLACK);
             txtBarcodeNo.setFont(txtFont);
 
@@ -362,6 +370,7 @@ public class BookReturnGui {
 
             txtResult = new JTextField();
             txtResult.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth * 5 / 2, txtHeight);
+
             txtResult.setForeground(Color.BLACK);
             txtResult.setFont(txtFont);
             txtResult.setEditable(false); // --> change a little bit background color
@@ -390,7 +399,9 @@ public class BookReturnGui {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
-            btnComeBack.setBounds(50, 450, 150, 50);
+            btnComeBack.setBounds((int) (screenSizeWidth / 27.32), (int) (screenSizeHeight / 1.7066666666666668),
+                    (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 15.36));
+
             btnComeBack.setBackground(Color.white);
             btnComeBack.setFont(txtFont);
             btnComeBack.setCursor(new Cursor(12));
