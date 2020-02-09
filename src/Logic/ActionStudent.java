@@ -88,7 +88,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                         JOptionPane.showMessageDialog(null, "lütfen geçerli bir email adresi girin", "GEÇERSİZ EMAİL", JOptionPane.ERROR_MESSAGE);
                         sag.getTxtResult().setText("Geçersiz Eposta Adresi");
                         sag.getTxtResult().setBackground(new Color(237, 76, 103));
-                        System.out.println(sag.getTxtEmail().getText().trim());
+
                     }
                 } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
@@ -862,7 +862,8 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
 
     public void SuccessVoice() {
         try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            //AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
             clip.start();
@@ -1060,7 +1061,6 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
                             delay = 0;
                             borrowedDate = BorrowedDate3.toLocalDate();
                             diff = Period.between(borrowedDate, now);
-                            System.out.println("dif : " + diff.getMonths());
 
                             if (diff.getYears() > 0) {
                                 delay += 365 * diff.getYears();
@@ -1131,14 +1131,14 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
     public void paintSsgDebt(double debt) {
         if (debt > 0) {
             ssg.getTxtDept().setText(Double.toString(debt));
-            System.out.println("debt >0  : " + debt);
+
             ssg.getTxtDept().setBackground(new Color(255, 121, 121));
         } else if (debt < 0) {
             ssg.getTxtDept().setText(Double.toString(debt));
-            System.out.println("debt < 0  : " + debt);
+
             ssg.getTxtDept().setBackground(Color.cyan);
         } else {
-            System.out.println("debt = 0  : " + debt);
+
             ssg.getTxtDept().setText(Double.toString(debt));
             ssg.getTxtDept().setBackground(Color.ORANGE);
 
@@ -1245,7 +1245,7 @@ public class ActionStudent implements ActionListener, MouseListener, FocusListen
             if (counter == 0) {
                 noVoice = true;
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, "Malesef Aradığınız kriterlere uygun veriler bulunamadı");
+                //  JOptionPane.showMessageDialog(null, "Malesef Aradığınız kriterlere uygun veriler bulunamadı");
             }
             if (noVoice == false) {
                 SuccessVoice();

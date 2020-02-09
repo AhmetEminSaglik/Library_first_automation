@@ -574,7 +574,8 @@ public class ActionsBook implements ActionListener, FocusListener {
     }*/
     public void SuccessVoice() {
         try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            // AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
             clip.start();

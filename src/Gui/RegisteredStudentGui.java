@@ -3,7 +3,9 @@ package Gui;
 import Logic.ActionStudent;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,15 +31,19 @@ public class RegisteredStudentGui {
     public String DataOfTable[][] = {};
     public String HeadersOfTable[] = {"", "Öğrenci No", "Öğrenci Adı", "Öğrenci Soyadı", "Email", "Telefon"};
 
-    final int lblTopSpace = 10;
-    final int leftSpace = 30;
-    final int txtWidth = 220;
-    final int txtHeight = 40;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
+    final int lblTopSpace = (int) (screenSizeHeight / 76.8);
+    final int leftSpace = (int) (screenSizeWidth / 45.53333333333333);
+    final int txtWidth = (int) (screenSizeWidth / 6.209090909090909);
+    final int txtHeight = (int) (screenSizeHeight / 19.2);
     final int lblWidth = txtWidth;
-    final int lblHeight = 25;
-    final int pushRightSpace = 50;
-    final int txtTopSpace = lblTopSpace + lblHeight + 10;
-    final int topSpace = 15;
+    final int lblHeight = (int) (screenSizeHeight / 30.72);
+    final int pushRightSpace = (int) (screenSizeWidth / 27.32);
+    final int txtTopSpace = lblTopSpace + lblHeight + (int) (screenSizeHeight / 76.8);
+    final int topSpace = (int) (screenSizeHeight / 51.2);
     int pushRightCounter = 0;
     MainGui mg;
     public ActionStudent action = new ActionStudent(this);
@@ -47,6 +53,7 @@ public class RegisteredStudentGui {
     Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
 
     public RegisteredStudentGui(MainGui mg) {
+
         action.SearchRegisteredStudent(0);
         setMg(mg);
         setJf(mg.getJf());
@@ -171,17 +178,17 @@ public class RegisteredStudentGui {
         table.setSelectionBackground(Color.GREEN);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setRowHeight(15);
-        table.getColumnModel().getColumn(0).setPreferredWidth(50);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        table.getColumnModel().getColumn(2).setPreferredWidth(130);
-        table.getColumnModel().getColumn(3).setPreferredWidth(130);
-        table.getColumnModel().getColumn(4).setPreferredWidth(250);
-        table.getColumnModel().getColumn(5).setPreferredWidth(150);
+        table.getColumnModel().getColumn(0).setPreferredWidth((int) (screenSizeWidth / 27.32));
+        table.getColumnModel().getColumn(1).setPreferredWidth((int) (screenSizeWidth / 13.66));
+        table.getColumnModel().getColumn(2).setPreferredWidth((int) (screenSizeWidth / 10.507692307692308));
+        table.getColumnModel().getColumn(3).setPreferredWidth((int) (screenSizeWidth / 10.507692307692308));
+        table.getColumnModel().getColumn(4).setPreferredWidth((int) (screenSizeWidth / 5.464));
+        table.getColumnModel().getColumn(5).setPreferredWidth((int) (screenSizeWidth / 9.106666666666667));
 
         table.setDefaultEditor(Object.class, null);
         table.setFont(font_txt);
         table.setCursor(new Cursor(12));
-        table.setRowHeight(20);
+        table.setRowHeight((int) (screenSizeHeight / 38.4));
         table.setFont(new Font("", Font.BOLD, 15));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -203,7 +210,8 @@ public class RegisteredStudentGui {
             sp = new JScrollPane(getTable());
 
         }
-        sp.setBounds(leftSpace, 125, (pushRightCounter * (lblWidth + pushRightSpace)) + txtWidth, 300);
+        sp.setBounds(leftSpace, (int) (screenSizeHeight / 6.144), (pushRightCounter * (lblWidth + pushRightSpace)) + txtWidth, (int) (screenSizeHeight / 2.56));
+
         return sp;
     }
 
@@ -217,7 +225,7 @@ public class RegisteredStudentGui {
         if (txtName == null) {
             pushRightCounter = 0;
             txtName = new JTextField("İsim Giriniz");
-            txtName.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + 10, txtWidth, txtHeight);
+            txtName.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + (int) (screenSizeHeight / 76.8), txtWidth, txtHeight);
             txtName.setForeground(Color.GRAY);
             txtName.setFont(fontTxtPlaceHolder);
             pushRightCounter++;
@@ -233,7 +241,7 @@ public class RegisteredStudentGui {
     public JTextField getTxtSurname() {
         if (txtSurname == null) {
             txtSurname = new JTextField("Soyisim Giriniz");
-            txtSurname.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + 10, txtWidth, txtHeight);
+            txtSurname.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + (int) (screenSizeHeight / 76.8), txtWidth, txtHeight);
             txtSurname.setForeground(Color.GRAY);
             txtSurname.setFont(fontTxtPlaceHolder);
 
@@ -250,7 +258,7 @@ public class RegisteredStudentGui {
     public JTextField getTxtNo() {
         if (txtNo == null) {
             txtNo = new JTextField("Numara Giriniz");
-            txtNo.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + 10, txtWidth, txtHeight);
+            txtNo.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + (int) (screenSizeHeight / 76.8), txtWidth, txtHeight);
             txtNo.setForeground(Color.GRAY);
             txtNo.setFont(fontTxtPlaceHolder);
 
@@ -265,7 +273,7 @@ public class RegisteredStudentGui {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
-            btnComeBack.setBounds(leftSpace, 450, 150, 30);
+            btnComeBack.setBounds(leftSpace, (int) (screenSizeHeight / 1.7066666666666668), (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
             //btnComeBack.setBackground(Color.BLACK);   btnComeBack.setForeground(Color.WHITE);
         }
 

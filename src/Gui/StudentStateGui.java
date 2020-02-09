@@ -2,8 +2,10 @@ package Gui;
 
 import Logic.ActionStudent;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,21 +32,25 @@ public class StudentStateGui extends JPanel {
     JTextField txtBookName3;
     JButton btnComeBack;
 
-    final int lblWidth = 150;
-    final int lblHeight = 30;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
 
-    final int txtBarcodeWidth = 250;
-    final int txtBookNameWidth = 700;
-    final int txtHeight = 40;
+    final int lblWidth = (int) (screenSizeWidth / 9.106666666666667);
+    final int lblHeight = (int) (screenSizeHeight / 25.6);
 
-    final int txtPushUnder = txtHeight + 10;
+    final int txtBarcodeWidth = (int) (screenSizeWidth / 5.464);
+    final int txtBookNameWidth = (int) (screenSizeWidth / 1.9514285714285715);
+    final int txtHeight = (int) (screenSizeHeight / 19.2);
 
-    final int lblPushUnder = txtHeight + 10;
-    final int LeftSpace = 50;
+    final int txtPushUnder = txtHeight + (int) (screenSizeHeight / 76.8);
+
+    final int lblPushUnder = txtHeight + (int) (screenSizeHeight / 76.8);
+    final int LeftSpace = (int) (screenSizeWidth / 27.32);
     int pushUnderlblCounter = 0;
     int pushUndertxtCounter = 0;
-    final int topSpace = 130;
-    final int topSpaceBook = topSpace + txtHeight + 5;
+    final int topSpace = (int) (screenSizeHeight / 5.907692307692308);
+    final int topSpaceBook = topSpace + txtHeight + (int) (screenSizeHeight / 153.6);
     Font lblFont = new Font("monospaced", Font.BOLD, 17);
     Font txtFont = new Font("", Font.BOLD, 17);
     MainGui mg;
@@ -52,6 +58,7 @@ public class StudentStateGui extends JPanel {
     ToolTipManager ttm = ToolTipManager.sharedInstance();
 
     public StudentStateGui(MainGui mg) {
+
         setMg(mg);
         getMg().getJf().setTitle("ÖĞRENCİ DURUMU");
         this.setBounds(getJf().getBounds());
@@ -83,8 +90,10 @@ public class StudentStateGui extends JPanel {
     public void paint(Graphics g) {
         super.paint(g); //To change body of generated methods, choose Tools | Templates.
         g.setColor(Color.red);
-        g.fillRect(0, topSpace - 30, 900, 10);
+        g.fillRect(0, topSpace - (int) (screenSizeHeight / 25.6),
+                (int) (screenSizeHeight / 0.8533333333333334), (int) (screenSizeHeight / 76.8));
         //belirli aralıklarla yapılması gerektiği için şuan es geçiyorum
+
     }
 
     public JFrame getJf() {
@@ -101,7 +110,7 @@ public class StudentStateGui extends JPanel {
     public JLabel getLblStudentNo() {
         if (lblStudentNo == null) {
             lblStudentNo = new JLabel("Öğrenci No");
-            lblStudentNo.setBounds(LeftSpace, 10, lblWidth, lblHeight);
+            lblStudentNo.setBounds(LeftSpace, (int) (screenSizeHeight / 76.8), lblWidth, lblHeight);
             lblStudentNo.setForeground(Color.red);
             lblStudentNo.setFont(lblFont);
         }
@@ -115,7 +124,7 @@ public class StudentStateGui extends JPanel {
     public JLabel getLblDept() {
         if (lblDept == null) {
             lblDept = new JLabel("Borç Durumu");
-            lblDept.setBounds(LeftSpace + 400, 10, lblWidth, lblHeight);
+            lblDept.setBounds(LeftSpace + (int) (screenSizeWidth / 3.415), (int) (screenSizeHeight / 76.8), lblWidth, lblHeight);
             lblDept.setForeground(Color.red);
             lblDept.setFont(lblFont);
         }
@@ -129,7 +138,9 @@ public class StudentStateGui extends JPanel {
     public JLabel getLblLendingDayNumber1() {
         if (lblLendingDayNumber1 == null) {
             lblLendingDayNumber1 = new JLabel("---");
-            lblLendingDayNumber1.setBounds(LeftSpace + txtBarcodeWidth + 40, topSpace + (txtHeight + 70) * pushUnderlblCounter, lblWidth, lblHeight);
+            lblLendingDayNumber1.setBounds(LeftSpace + txtBarcodeWidth + (int) (screenSizeWidth / 34.15),
+                    topSpace + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUnderlblCounter, lblWidth, lblHeight);
+
             lblLendingDayNumber1.setForeground(Color.MAGENTA);
             lblLendingDayNumber1.setFont(lblFont);
             pushUnderlblCounter++;
@@ -144,7 +155,8 @@ public class StudentStateGui extends JPanel {
     public JLabel getLblLendingDayNumber2() {
         if (lblLendingDayNumber2 == null) {
             lblLendingDayNumber2 = new JLabel("---");
-            lblLendingDayNumber2.setBounds(LeftSpace + txtBarcodeWidth + 40, topSpace + (txtHeight + 70) * pushUnderlblCounter, lblWidth, lblHeight);
+            lblLendingDayNumber2.setBounds(LeftSpace + txtBarcodeWidth + (int) (screenSizeWidth / 34.15),
+                    topSpace + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUnderlblCounter, lblWidth, lblHeight);
             lblLendingDayNumber2.setForeground(Color.MAGENTA);
             lblLendingDayNumber2.setFont(lblFont);
             pushUnderlblCounter++;
@@ -159,7 +171,8 @@ public class StudentStateGui extends JPanel {
     public JLabel getLblLendingDayNumber3() {
         if (lblLendingDayNumber3 == null) {
             lblLendingDayNumber3 = new JLabel("---");
-            lblLendingDayNumber3.setBounds(LeftSpace + txtBarcodeWidth + 40, topSpace + (txtHeight + 70) * pushUnderlblCounter, lblWidth, lblHeight);
+            lblLendingDayNumber3.setBounds(LeftSpace + txtBarcodeWidth + (int) (screenSizeWidth / 34.15),
+                    topSpace + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUnderlblCounter, lblWidth, lblHeight);
             lblLendingDayNumber3.setForeground(Color.MAGENTA);
             lblLendingDayNumber3.setFont(lblFont);
             pushUnderlblCounter++;
@@ -174,7 +187,7 @@ public class StudentStateGui extends JPanel {
     public JTextField getTxtStudentNo() {
         if (txtStudentNo == null) {
             txtStudentNo = new JTextField("");
-            txtStudentNo.setBounds(LeftSpace, lblHeight + 10, txtBarcodeWidth, txtHeight);
+            txtStudentNo.setBounds(LeftSpace, lblHeight + (int) (screenSizeHeight / 76.8), txtBarcodeWidth, txtHeight);
             txtStudentNo.setFont(txtFont);
         }
         return txtStudentNo;
@@ -187,7 +200,7 @@ public class StudentStateGui extends JPanel {
     public JTextField getTxtDept() {
         if (txtDept == null) {
             txtDept = new JTextField("");
-            txtDept.setBounds(LeftSpace + 400, lblHeight + 10, txtBarcodeWidth, txtHeight);
+            txtDept.setBounds(LeftSpace + (int) (screenSizeWidth / 3.415), lblHeight + (int) (screenSizeHeight / 76.8), txtBarcodeWidth, txtHeight);
             txtDept.setFont(txtFont);
             txtDept.setEditable(false);
             txtDept.setFocusable(false);
@@ -206,7 +219,7 @@ public class StudentStateGui extends JPanel {
     public JTextField getTxtBookBarcodeNo1() {
         if (txtBookBarcodeNo1 == null) {
             txtBookBarcodeNo1 = new JTextField("KİTAP YOK");
-            txtBookBarcodeNo1.setBounds(LeftSpace, topSpace + (txtHeight + 70) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
+            txtBookBarcodeNo1.setBounds(LeftSpace, topSpace + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
             txtBookBarcodeNo1.setFont(txtFont);
             txtBookBarcodeNo1.setEditable(false);
             txtBookBarcodeNo1.setFocusable(false);
@@ -227,7 +240,7 @@ public class StudentStateGui extends JPanel {
     public JTextField getTxtBookBarcodeNo2() {
         if (txtBookBarcodeNo2 == null) {
             txtBookBarcodeNo2 = new JTextField("KİTAP YOK");
-            txtBookBarcodeNo2.setBounds(LeftSpace, topSpace + (txtHeight + 70) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
+            txtBookBarcodeNo2.setBounds(LeftSpace, topSpace + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
             txtBookBarcodeNo2.setFont(txtFont);
             txtBookBarcodeNo2.setEditable(false);
             txtBookBarcodeNo2.setFocusable(false);
@@ -254,7 +267,7 @@ public class StudentStateGui extends JPanel {
     public JTextField getTxtBookBarcodeNo3() {
         if (txtBookBarcodeNo3 == null) {
             txtBookBarcodeNo3 = new JTextField("KİTAP YOK");
-            txtBookBarcodeNo3.setBounds(LeftSpace, topSpace + (txtHeight + 70) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
+            txtBookBarcodeNo3.setBounds(LeftSpace, topSpace + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
             txtBookBarcodeNo3.setFont(txtFont);
             txtBookBarcodeNo3.setEditable(false);
             txtBookBarcodeNo3.setFocusable(false);
@@ -276,7 +289,7 @@ public class StudentStateGui extends JPanel {
             pushUndertxtCounter = 0;
             txtBookName1 = new JTextField("KİTAP YOK"
                     + "");
-            txtBookName1.setBounds(LeftSpace, topSpaceBook + (txtHeight + 70) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
+            txtBookName1.setBounds(LeftSpace, topSpaceBook + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
             txtBookName1.setFont(txtFont);
             txtBookName1.setEditable(false);
             txtBookName1.setFocusable(false);
@@ -297,7 +310,7 @@ public class StudentStateGui extends JPanel {
     public JTextField getTxtBookName2() {
         if (txtBookName2 == null) {
             txtBookName2 = new JTextField("KİTAP YOK");
-            txtBookName2.setBounds(LeftSpace, topSpaceBook + (txtHeight + 70) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
+            txtBookName2.setBounds(LeftSpace, topSpaceBook + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
             txtBookName2.setFont(txtFont);
             txtBookName2.setEditable(false);
             txtBookName2.setFocusable(false);
@@ -317,7 +330,7 @@ public class StudentStateGui extends JPanel {
     public JTextField getTxtBookName3() {
         if (txtBookName3 == null) {
             txtBookName3 = new JTextField("KİTAP YOK");
-            txtBookName3.setBounds(LeftSpace, topSpaceBook + (txtHeight + 70) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
+            txtBookName3.setBounds(LeftSpace, topSpaceBook + (txtHeight + (int) (screenSizeHeight / 10.971428571428572)) * pushUndertxtCounter, txtBookNameWidth, txtHeight);
             txtBookName3.setFont(txtFont);
             txtBookName3.setEditable(false);
             txtBookName3.setFocusable(false);
@@ -337,8 +350,10 @@ public class StudentStateGui extends JPanel {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
-            btnComeBack.setBounds(LeftSpace, 450, 150, 50);
+            btnComeBack.setBounds(LeftSpace, (int) (screenSizeHeight / 1.7066666666666668),
+                    (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 21.942857142857143));
             btnComeBack.setFont(txtFont);
+
         }
         return btnComeBack;
     }

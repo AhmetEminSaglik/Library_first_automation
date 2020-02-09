@@ -63,7 +63,7 @@ public class ActionsLogin implements ActionListener {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } catch (ClassNotFoundException ex) {
-                    System.out.println("class bulunamadı");
+                    JOptionPane.showMessageDialog(null, ex);
                 } finally {
                     closeConnections(conn, stmt, null, null);
                 }

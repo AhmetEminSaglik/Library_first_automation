@@ -314,7 +314,7 @@ public class StudentAddGui {
                     (int) (screenSizeHeight / 2.1942857142857144),
                     (int) (screenSizeWidth / 10.928),
                     (int) (screenSizeHeight / 25.6));
-            
+
         }
         return btnAdd;
     }
@@ -330,7 +330,6 @@ public class StudentAddGui {
                     (int) (screenSizeHeight / 2.1942857142857144),
                     (int) (screenSizeWidth / 10.928),
                     (int) (screenSizeHeight / 25.6));
-            System.out.println(screenSizeWidth / 125);
 
         }
         return btnClear;

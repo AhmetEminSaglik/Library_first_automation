@@ -64,10 +64,7 @@ public class BookUpdateRemoveGui extends JPanel {
     ActionsBook action = new ActionsBook(this);
 
     public BookUpdateRemoveGui(MainGui mg) {
-        System.out.println(screenSizeWidth / 500);
-        System.out.println(screenSizeHeight / 125);
-        System.out.println(screenSizeWidth / 350);
-        System.out.println();
+
         setMg(mg);
         this.setBounds(getJf().getBounds());
         this.setBackground(new Color(50, 150, 150));

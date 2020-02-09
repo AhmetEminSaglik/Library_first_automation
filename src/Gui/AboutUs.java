@@ -2,12 +2,15 @@ package Gui;
 
 import Logic.ActionTimeFine;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -16,6 +19,11 @@ public class AboutUs {
     MainGui mg;
     JFrame jf;
     JPanel jp;
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
     int firstColor = new Random().nextInt(255);
     int secondColor = new Random().nextInt(255);
     int thirdColor = new Random().nextInt(255);
@@ -124,7 +132,8 @@ public class AboutUs {
                     }
 
                 } catch (InterruptedException ex) {
-                    System.out.println("hata kodu  : " + ex);
+
+                    JOptionPane.showMessageDialog(null, ex);
                 }
             }
         };
@@ -162,7 +171,8 @@ public class AboutUs {
             txtAreaAboutMe.setFocusable(false);
             //txtAreaAboutMe.setBackground(new Color(firstColor, secondColor, thirdColor));
             txtAreaAboutMe.setFont(new Font("", Font.BOLD, 18));
-            txtAreaAboutMe.setBounds(100, 50, 650, 300);
+            txtAreaAboutMe.setBounds((int) (screenSizeWidth / 13.66), (int) (screenSizeHeight / 15.36),
+                    (int) (screenSizeWidth / 2.1015384615384614), (int) (screenSizeHeight / 2.56));
 
             txtAreaAboutMe.setText("1daogfjaodıfoıagfaoıfasdfoıasfıosadf q");
 
@@ -177,7 +187,8 @@ public class AboutUs {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri Dön");
-            btnComeBack.setBounds(50, 450, 150, 35);
+            btnComeBack.setBounds((int) (screenSizeWidth / 27.32), (int) (screenSizeHeight / 1.7066666666666668),
+                    (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 21.942857142857143));
 
         }
         return btnComeBack;

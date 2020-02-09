@@ -425,7 +425,7 @@ public class MainGui {//extends JPanel
             txtGivenBook.setForeground(Color.BLACK);
             total_remain_given_books_counter++;
             txtGivenBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
-            txtGivenBook.setBorder(BorderFactory.createCompoundBorder(txtGivenBook.getBorder(), BorderFactory.createEmptyBorder(0, 50, 0, 0)));
+            txtGivenBook.setBorder(BorderFactory.createCompoundBorder(txtGivenBook.getBorder(), BorderFactory.createEmptyBorder(0, (int) (screenSizeWidth / 27.32), 0, 0)));
 
             /*  lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,

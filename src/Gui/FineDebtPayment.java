@@ -3,7 +3,9 @@ package Gui;
 import Logic.ActionTimeFine;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,14 +36,19 @@ public class FineDebtPayment {
     JScrollPane sp;
     JButton btnPay;
     JButton btnComeBack;
-    final int lblWidth = 200;
-    final int lblHeight = 30;
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
+    final int lblWidth = (int) (screenSizeWidth / 6.83);
+    final int lblHeight = (int) (screenSizeHeight / 25.6);
     final int txtWidth = lblWidth;
     final int txtHeight = lblHeight;
-    final int lblTopSpace = 10;
+    final int lblTopSpace = (int) (screenSizeHeight / 76.8);
     final int txtTopSpace = lblTopSpace + lblHeight;
-    final int LeftSpace = 30;
-    final int pushRightSpace = txtWidth + 50;
+    final int LeftSpace = (int) (screenSizeWidth / 45.53333333333333);
+    final int pushRightSpace = txtWidth + (int) (screenSizeWidth / 27.32);
     int pushRightCounter = 0;
     public String DataOfTable[][] = {};
     public String HeaderOfTable[] = {"", "Öğrenci No", "Ad-Soyad", "Email", "Telefon Numarası", "Borç (TL)"};
@@ -142,7 +149,7 @@ public class FineDebtPayment {
     public JLabel getLblAmountOfPayment() {
         if (lblAmountOfPayment == null) {
             lblAmountOfPayment = new JLabel("Ödeme Miktarı");
-            lblAmountOfPayment.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), lblTopSpace + lblHeight + txtHeight + 10, lblWidth, lblHeight);
+            lblAmountOfPayment.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), lblTopSpace + lblHeight + txtHeight + (int) (screenSizeHeight / 76.8), lblWidth, lblHeight);
             lblAmountOfPayment.setForeground(Color.BLACK);
             lblAmountOfPayment.setFont(lblFont);
 
@@ -256,12 +263,12 @@ public class FineDebtPayment {
 
         tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tbl.setRowHeight(15);
-        tbl.getColumnModel().getColumn(0).setPreferredWidth(50);
-        tbl.getColumnModel().getColumn(1).setPreferredWidth(100);
-        tbl.getColumnModel().getColumn(2).setPreferredWidth(220);
-        tbl.getColumnModel().getColumn(3).setPreferredWidth(220);
-        tbl.getColumnModel().getColumn(4).setPreferredWidth(120);
-        tbl.getColumnModel().getColumn(5).setPreferredWidth(70);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth((int) (screenSizeWidth / 27.32));
+        tbl.getColumnModel().getColumn(1).setPreferredWidth((int) (screenSizeWidth / 13.66));
+        tbl.getColumnModel().getColumn(2).setPreferredWidth((int) (screenSizeWidth / 6.209090909090909));
+        tbl.getColumnModel().getColumn(3).setPreferredWidth((int) (screenSizeWidth / 6.209090909090909));
+        tbl.getColumnModel().getColumn(4).setPreferredWidth((int) (screenSizeWidth / 11.383333333333333));
+        tbl.getColumnModel().getColumn(5).setPreferredWidth((int) (screenSizeWidth / 19.514285714285716));
 //public String HeadersOfTable[] = {"", "Barkod No", "Kitap Adı", "Kitap Durumu", "Kitap Kategori", "Yazar Adı"};
         tbl.setDefaultEditor(Object.class, null);
         tbl.setFont(txtFont);
@@ -277,7 +284,7 @@ public class FineDebtPayment {
         tbl.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tbl.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tbl.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-        tbl.setRowHeight(20);
+        tbl.setRowHeight((int) (screenSizeHeight / 38.4));
 //tbl.setSelectionForeground(bslgPlaceHolder);
 
         return tbl;
@@ -305,7 +312,7 @@ public class FineDebtPayment {
             //sp.setHorizontalScrollBarPolicy(sp.HORIZONTAL_SCROLLBAR_ALWAYS);
             //sp.setVerticalScrollBarPolicy(sp.VERTICAL_SCROLLBAR_ALWAYS);
         }
-        sp.setBounds(LeftSpace, txtTopSpace + txtHeight * 4, 750, 270);
+        sp.setBounds(LeftSpace, txtTopSpace + txtHeight * 4, (int) (screenSizeWidth / 1.8213333333333332), (int) (screenSizeHeight / 2.8444444444444446));
 
         return sp;
     }
@@ -319,7 +326,7 @@ public class FineDebtPayment {
     public JButton getBtnPay() {
         if (btnPay == null) {
             btnPay = new JButton("Öde");
-            btnPay.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), txtTopSpace + lblHeight + txtHeight + 15, lblWidth, 30);
+            btnPay.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), txtTopSpace + lblHeight + txtHeight + (int) (screenSizeHeight / 51.2), lblWidth, (int) (screenSizeHeight / 25.6));
             btnPay.setFont(lblFont);
 
         }
@@ -333,7 +340,8 @@ public class FineDebtPayment {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri Dön");
-            btnComeBack.setBounds(LeftSpace, 450, 150, 30);
+            btnComeBack.setBounds(LeftSpace, (int) (screenSizeHeight / 1.7066666666666668),
+                    (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
 
         }
         return btnComeBack;

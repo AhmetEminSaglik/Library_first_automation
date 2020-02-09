@@ -12,7 +12,6 @@ import Gui.StudentAddGui;
 import Gui.StudentStateGui;
 import Gui.StudentUpdateGui;
 import Gui.TimeControlExtraTimeGui;
-import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,12 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -93,15 +87,14 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
             getMg().getJp().setVisible(false);
 
-            System.out.println(!getMg().getJp().isVisible());
             BookAddGui bag = new BookAddGui(getMg());
 
         }
         if (e.getSource() == getMg().getBookReturn()) {
-            System.out.println(getMg().getJp().isVisible());
+
             getMg().getJp().setVisible(false);
             BookReturnGui brg = new BookReturnGui(getMg());
-            System.out.println(getMg().getJp().isVisible());
+
         }
         if (e.getSource() == getMg().getBookSearchList()) {
             mg.getJp().setVisible(false);
@@ -549,7 +542,8 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
     public void SuccessVoice() {
         try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            //AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
             clip.start();
@@ -589,19 +583,19 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             sqlConnection.setResultSet(bookTotalNumberQuery); //sqlConnection.getResultSet() = stmt.executeQuery(bookTotalNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtTotalBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
-                System.out.println(sqlConnection.getResultSet().getInt("COUNT(*)"));
+
             }
             String bookRemainNumberQuery = "SELECT COUNT(*) FROM book WHERE StudentNo IS NULL";
             sqlConnection.setResultSet(bookRemainNumberQuery);// rs = stmt.executeQuery(bookRemainNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtRemainBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
-                System.out.println(sqlConnection.getResultSet().getInt("COUNT(*)"));
+
             }
             String bookGivenNumberQuery = "SELECT COUNT(*) FROM book  WHERE StudentNo IS NOT NULL";
             sqlConnection.setResultSet(bookGivenNumberQuery);  //rs = stmt.executeQuery(bookGivenNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtGivenBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
-                System.out.println(sqlConnection.getResultSet().getInt("COUNT(*)"));
+
             }
         }/* catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);

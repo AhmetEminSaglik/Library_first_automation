@@ -3,8 +3,10 @@ package Gui;
 import Logic.ActionTimeFine;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,6 +39,11 @@ public final class TimeControlExtraTimeGui extends JPanel {
     JTextField txtSearchBookBarcodeNo;
     JTable tbl;
     JScrollPane sp;
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
     public String HeaderOfTable[] = {"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kalan gün sayısı ", "Kitap adı"};
     public String DataForTable[][] = {};
 
@@ -44,17 +51,17 @@ public final class TimeControlExtraTimeGui extends JPanel {
     JButton btnSearch;
     JButton btnComeBack;
 
-    final int lblHeight = 30;
-    final int lblWidth = 250;
+    final int lblHeight = (int) (screenSizeHeight / 25.6);
+    final int lblWidth = (int) (screenSizeWidth / 5.464);
     final int txtHeight = lblHeight;
     final int txtWidth = lblWidth;
-    final int lblTopSpace = 10;
-    final int txtTopSpace = lblTopSpace + lblHeight + 5;
-    final int lblPushRight = txtWidth + 50;
-    final int lblPushUnder = lblHeight + txtHeight + 30;
-    final int txtPushRight = txtWidth + 50;
+    final int lblTopSpace = (int) (screenSizeHeight / 76.8);
+    final int txtTopSpace = lblTopSpace + lblHeight + (int) (screenSizeHeight / 153.6);
+    final int lblPushRight = txtWidth + (int) (screenSizeWidth / 27.32);
+    final int lblPushUnder = lblHeight + txtHeight + (int) (screenSizeHeight / 25.6);
+    final int txtPushRight = txtWidth + (int) (screenSizeWidth / 27.32);
     //final int txtPushUnder =0;
-    final int leftSpace = 30;
+    final int leftSpace = (int) (screenSizeWidth / 45.53333333333333);
     int pushUnderCounter = 0;
     Font font_lbl = new Font("", Font.BOLD, 18);
     Font font_txt = new Font("", Font.BOLD, 15);
@@ -108,7 +115,9 @@ public final class TimeControlExtraTimeGui extends JPanel {
     public void paint(Graphics g) {
         super.paint(g); //To change body of generated methods, choose Tools | Templates.
         g.setColor(new Color(255, 255, 0));//rgb(235, 47, 6)
-        g.fillRect(0, 180, 850, 10);
+        g.fillRect(0, (int) (screenSizeHeight / 4.266666666666667),
+                (int) (screenSizeWidth / 1.6070588235294119), (int) (screenSizeHeight / 76.8));
+
     }
 
     public JFrame getJf() {
@@ -292,12 +301,12 @@ public final class TimeControlExtraTimeGui extends JPanel {
         table.setSelectionBackground(Color.GREEN);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setRowHeight(15);
-        table.getColumnModel().getColumn(0).setPreferredWidth(50);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        table.getColumnModel().getColumn(2).setPreferredWidth(200);
-        table.getColumnModel().getColumn(3).setPreferredWidth(150);
-        table.getColumnModel().getColumn(4).setPreferredWidth(100);
-        table.getColumnModel().getColumn(5).setPreferredWidth(400);
+        table.getColumnModel().getColumn(0).setPreferredWidth((int) (screenSizeWidth / 27.32));
+        table.getColumnModel().getColumn(1).setPreferredWidth((int) (screenSizeWidth / 13.66));
+        table.getColumnModel().getColumn(2).setPreferredWidth((int) (screenSizeWidth / 6.83));
+        table.getColumnModel().getColumn(3).setPreferredWidth((int) (screenSizeWidth / 9.106666666666667));
+        table.getColumnModel().getColumn(4).setPreferredWidth((int) (screenSizeWidth / 13.66));
+        table.getColumnModel().getColumn(5).setPreferredWidth((int) (screenSizeWidth / 3.415));
         //{"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kitap adı", "Kalan gün sayısı "};
 
         table.setDefaultEditor(Object.class, null);
@@ -313,7 +322,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
         table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
         model = table.getModel();
-       // table.getSelectionModel().addListSelectionListener(action);
+        // table.getSelectionModel().addListSelectionListener(action);
         return table;
 
     }
@@ -350,7 +359,9 @@ public final class TimeControlExtraTimeGui extends JPanel {
 //            model = getTbl().getSelectionModel();
 
         }
-        sp.setBounds(leftSpace, 270, 760, 180);
+        sp.setBounds(leftSpace, (int) (screenSizeHeight / 2.8444444444444446),
+                (int) (screenSizeWidth / 1.7973684210526315), (int) (screenSizeHeight / 4.266666666666667));
+
         return sp;
     }
 
@@ -376,7 +387,8 @@ public final class TimeControlExtraTimeGui extends JPanel {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri Dön");
-            btnComeBack.setBounds(leftSpace, 470, 100, 30);
+            btnComeBack.setBounds(leftSpace, (int) (screenSizeHeight / 1.6340425531914893),
+                    (int) (screenSizeWidth / 13.66), (int) (screenSizeHeight / 25.6));
 
         }
         return btnComeBack;

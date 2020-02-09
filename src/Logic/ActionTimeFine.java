@@ -118,7 +118,7 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 noVoice = false;
                 if (!tcet.getTxtSearchStudentNo().getText().trim().equals(PlaceHolderStudent)) {
                     SearchStudentBarkodNo(1);
-                    System.out.println("11111111");
+
                 } else if (!tcet.getTxtSearchBookBarcodeNo().getText().trim().equals(PlaceHolderBook)) {
                     SearchStudentBarkodNo(2);
 
@@ -551,7 +551,8 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
 
     public void SuccessVoice() {
         try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            //AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            AudioInputStream stream = AudioSystem.getAudioInputStream(new File("tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
             clip.start();
