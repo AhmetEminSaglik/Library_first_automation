@@ -246,7 +246,7 @@ public class BookAddGui {
             txtResult.setBounds((int) (screenSizeWidth / 3.415), (int) (screenSizeHeight / 15.36), (int) (screenSizeWidth / 4.553333333333334), (int) (screenSizeHeight / 19.2));
 
             //txtBookBarcodeNo.setBounds(20, 50, 300, 40);
-            txtResult.setFont(new Font("monospaced", Font.BOLD, 17));
+            txtResult.setFont(new Font("", Font.BOLD, 15));
 
             txtResult.setEditable(false);
             txtResult.setBackground(Color.WHITE);

@@ -9,16 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.logging.Level;
@@ -30,10 +23,10 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
-public class ActionTimeFine implements ActionListener, FocusListener/*, ListSelectionListener, MouseListener*/ {
+public class ActionTimeFine implements ActionListener, FocusListener, TableModelListener/*, ListSelectionListener, MouseListener*/ {
 
     TimeControlExtraTimeGui tcet;
     FineDebtPayment fdp;
@@ -551,7 +544,7 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
 
     public void SuccessVoice() {
         try {
-            //AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            //   AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File("tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
@@ -752,4 +745,9 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
         }
 
     }*/
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        System.out.println(e.getSource());
+    }
+
 }

@@ -72,8 +72,9 @@ public class Login extends JPanel {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-
+                
                 jmu.FindStudentAndMailThem(0);
+
             }
         });
         t1.start();

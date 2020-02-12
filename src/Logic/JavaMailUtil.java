@@ -32,6 +32,7 @@ public class JavaMailUtil {
     public void FindStudentAndMailThem(int Degree) {
 
         String Query = "";
+
         if (Degree == 0) {
 
             Query = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No "
@@ -162,16 +163,19 @@ public class JavaMailUtil {
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
+
                 return new PasswordAuthentication(username, password);
             }
         });
 
         Message message = PrepareMessage(session, username, recepient, condition, BarcodeNo);
+
         saveConditionOnMysql = true;
 
         try {
+           // JOptionPane.showMessageDialog(null, " Transporta geldik : ");
             Transport.send(message);
-
+            CounterOfMail++;
             saveConditionOnMysql = true;
 
         } catch (MessagingException ex) {
@@ -182,8 +186,11 @@ public class JavaMailUtil {
 
     public static Message PrepareMessage(Session session, String username, String recepient, int condition, String BookBarcodeNo) {
         try {
-
+          //  JOptionPane.showMessageDialog(null, " PrepareMessage içinde");
+          //  JOptionPane.showMessageDialog(null, " MimeMessage girecek");
             Message message = new MimeMessage(session);
+           // JOptionPane.showMessageDialog(null, " MimeMessage çıktı");
+
             message.setFrom(new InternetAddress(username));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
             //7,3 (gün) kala ve birde borçlanmaya başlayınca email göndermeye başlayacaz + kitap iade sonrası borçlanmayı bildirmek için haber edicez
@@ -191,8 +198,11 @@ public class JavaMailUtil {
             SqlConnection sqlConnection2 = new SqlConnection();
             sqlConnection2.setResultSet(query);
             sqlConnection2.getResultSet();
+
             if (sqlConnection2.getResultSet().next()) {
+
             }
+
             switch (condition) {
 //kitap bilgisi,
                 //________   yazara ait olan  ________    barkod nolu ________    adlı kitabınız için borçlanmaya başladınız

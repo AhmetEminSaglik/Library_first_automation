@@ -549,11 +549,11 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             clip.start();
 
         } catch (UnsupportedAudioFileException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+           // JOptionPane.showMessageDialog(null, ex);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+           // JOptionPane.showMessageDialog(null, ex);
         } catch (LineUnavailableException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+           // JOptionPane.showMessageDialog(null, ex);
         }
 
     }

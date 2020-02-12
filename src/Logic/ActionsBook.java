@@ -38,7 +38,7 @@ public class ActionsBook implements ActionListener, FocusListener {
     //  MainGui mg;
     JButton clearBook_info_txt;
     JButton saveBook_info_txt;
-    String emptyError = "BOŞ GEÇİLEMEZ";
+    // String emptyError = "BOŞ GEÇİLEMEZ";
     //  String NumberError = "SADECE SAYI GİRİN";
     public final int DB_BARKODNO = 0;
     public final int DB_BOOKNAME = 1;
@@ -92,17 +92,20 @@ public class ActionsBook implements ActionListener, FocusListener {
                     || e.getSource() == bag.getTxtBookName()
                     || e.getSource() == bag.getTxtCategory()
                     || e.getSource() == bag.getTxtAuthorName()) {
-                if (!bag.getTxtBookBarcodeNo().getText().trim().equals("") && !bag.getTxtBookBarcodeNo().getText().trim().equals(emptyError)
-                        && !bag.getTxtBookName().getText().trim().equals("") && !bag.getTxtBookName().getText().trim().equals(emptyError)
-                        && !bag.getTxtCategory().getText().trim().equals("") && !bag.getTxtCategory().getText().trim().equals(emptyError)
-                        && !bag.getTxtAuthorName().getText().trim().equals("") && !bag.getTxtAuthorName().getText().trim().equals(emptyError)) {
+                if (!bag.getTxtBookBarcodeNo().getText().trim().equals("") /*&& !bag.getTxtBookBarcodeNo().getText().trim().equals(emptyError)*/
+                        && !bag.getTxtBookName().getText().trim().equals("")/* && !bag.getTxtBookName().getText().trim().equals(emptyError)*/
+                        && !bag.getTxtCategory().getText().trim().equals("")/* && !bag.getTxtCategory().getText().trim().equals(emptyError)*/
+                        && !bag.getTxtAuthorName().getText().trim().equals("")/* && !bag.getTxtAuthorName().getText().trim().equals(emptyError)*/) {
 
                     DBbookAdd();
 
                 } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
+                    bag.getTxtResult().setText("Lütfen Hepsini Eksiksiz doldurun");
+                    bag.getTxtResult().setForeground(Color.red);
+                    bag.getTxtResult().setBackground(Color.BLACK);
 
-                    if (bag.getTxtBookBarcodeNo().getText().trim().equals("")) {
+                    /* if (bag.getTxtBookBarcodeNo().getText().trim().equals("")) {
                         bag.getTxtBookBarcodeNo().setForeground(Color.red);
                         bag.getTxtBookBarcodeNo().setText(emptyError);
                     }
@@ -118,7 +121,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     if (bag.getTxtAuthorName().getText().trim().equals("")) {
                         bag.getTxtAuthorName().setForeground(Color.red);
                         bag.getTxtAuthorName().setText(emptyError);
-                    }
+                    }*/
                 }
 
             }
@@ -265,26 +268,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 bag.getTxtBookName().setText("");
                 bag.getTxtBookBarcodeNo().setText("");
             }
-            if (e.getSource() == bag.getTxtBookBarcodeNo() && bag.getTxtBookBarcodeNo().getText().trim().equals(emptyError)) {//  || e.getSource() == bag.getTxtBookBarcodeNo() && bag.getTxtBookBarcodeNo().getText().trim().equals(NumberError)
 
-                bag.getTxtBookBarcodeNo().setText("");
-                bag.getTxtBookBarcodeNo().setForeground(Color.black);
-            }
-            if (e.getSource() == bag.getTxtBookName() && bag.getTxtBookName().getText().trim().equals(emptyError)) {
-
-                bag.getTxtBookName().setText("");
-                bag.getTxtBookName().setForeground(Color.black);
-            }
-            if (e.getSource() == bag.getTxtCategory() && bag.getTxtCategory().getText().trim().equals(emptyError)) {
-
-                bag.getTxtCategory().setText("");
-                bag.getTxtCategory().setForeground(Color.black);
-            }
-            if (e.getSource() == bag.getTxtAuthorName() && bag.getTxtAuthorName().getText().trim().equals(emptyError)) {
-
-                bag.getTxtAuthorName().setText("");
-                bag.getTxtAuthorName().setForeground(Color.black);
-            }
         } else if (bslg != null) {
             /*
     Color bslgPlaceHolder = Color.GRAY;
@@ -340,11 +324,11 @@ public class ActionsBook implements ActionListener, FocusListener {
     }
 
     @Override
-    public void focusLost(FocusEvent e) {
+    public void focusLost(FocusEvent e) {/*
         if (bag != null) {
             if (e.getSource() == bag.getTxtBookBarcodeNo() && bag.getTxtBookBarcodeNo().getText().trim().equals("")) {
                 bag.getTxtBookBarcodeNo().setForeground(Color.red);
-                bag.getTxtBookBarcodeNo().setText(emptyError);
+                bag.getTxtBookBarcodeNo().setText(emptyError/;
 
             }
             if (e.getSource() == bag.getTxtBookName() && bag.getTxtBookName().getText().trim().equals("")) {
@@ -361,7 +345,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 bag.getTxtAuthorName().setText(emptyError);
             }
         }
-
+         */
     }
 
     public void DBbookControl() {
@@ -420,8 +404,10 @@ public class ActionsBook implements ActionListener, FocusListener {
             // Class.forName(JDBC_DRIVER);
 
             //  conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            bag.getTxtResult().setForeground(Color.BLACK);
             DBbookControl();
             if (!BookCanAdd) {
+
                 throw new Exception();
             }
             //  stmt = conn.createStatement();
@@ -443,6 +429,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     bag.getTxtBookBarcodeNo().setText("");*/
             bag.getTxtResult().setBackground(Color.GREEN);
             bag.getTxtResult().setText("Kitap Kayıt Başarılı");
+
             SuccessVoice();
 
         } catch (ClassNotFoundException ex) {
@@ -574,7 +561,7 @@ public class ActionsBook implements ActionListener, FocusListener {
     }*/
     public void SuccessVoice() {
         try {
-            // AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
+            //  AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File("tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
@@ -619,6 +606,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             // rs = stmt.executeQuery(SqlBookControlQuery);
             sqlConnection.setResultSet(SqlBookControlQuery);
             // JOptionPane.showMessageDialog(null, "2");
+
             if (sqlConnection.getResultSet().next()) {
 
                 if (!burg.getTxtNewBarcodeNo().getText().equals((sqlConnection.getResultSet().getString("BarcodeNo")))
@@ -630,6 +618,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     //  JOptionPane.showMessageDialog(null, "4");
                     throw new Exception();
                 }
+
                 //JOptionPane.showMessageDialog(null, "3.2");
 //                System.out.println(rs.getString("StudentNo"));
                 //if(rs.getString("StudentNo")==null){}
@@ -654,7 +643,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             int answer = JOptionPane.showConfirmDialog(null, "Kitabı Silmek istediğinizden Emin misiniz ? ", "SİLME UYARISI",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (answer == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(null, "7");
+
                 SuccessVoice();
 
                 burg.getTxtNewBarcodeNo().setText("");
@@ -665,12 +654,12 @@ public class ActionsBook implements ActionListener, FocusListener {
                 burg.getTxtResult().setBackground(new Color(255, 121, 63));
                 sqlConnection.PreparedStatementExecute();
             } else {
-                JOptionPane.showMessageDialog(null, "8");
+
                 burg.getTxtResult().setText("Kitap Silme İşlemi İptal Edildi");
                 burg.getTxtResult().setBackground(Color.PINK);
                 java.awt.Toolkit.getDefaultToolkit().beep();
             }
-            JOptionPane.showMessageDialog(null, "9");
+
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "ClASS NOT FOUND");
         } catch (SQLException ex) {
@@ -684,13 +673,14 @@ public class ActionsBook implements ActionListener, FocusListener {
                 if (answer == JOptionPane.YES_OPTION) {
                     DBBookBringData();
                 }
-            }
-            if (StudentTookBook == true) {
+            } else if (StudentTookBook == true) {
                 burg.getTxtResult().setText("Kitap Öğrenci Üzerine Kayıtlı, Silme Başarısız");
                 burg.getTxtResult().setBackground(new Color(250, 177, 160));
 
+            } else {
+                JOptionPane.showMessageDialog(null, ex);
             }
-            JOptionPane.showMessageDialog(null, ex + "1");
+
         } finally {
             //closeConnections(conn, stmt, rs, preparedStmt);
             sqlConnection.CloseAllConnections();
@@ -1039,12 +1029,12 @@ public class ActionsBook implements ActionListener, FocusListener {
         Thread sendEmailThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                jmu.sendEmail(StudentEmail, Debt);
+               // jmu.sendEmail(StudentEmail, Debt);
 
             }
 
         });
-        //sendEmailThread.start();
+        sendEmailThread.start();
         try {
             sendEmailThread.join();
         } catch (InterruptedException ex) {

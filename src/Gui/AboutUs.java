@@ -174,7 +174,7 @@ public class AboutUs {
             txtAreaAboutMe.setBounds((int) (screenSizeWidth / 13.66), (int) (screenSizeHeight / 15.36),
                     (int) (screenSizeWidth / 2.1015384615384614), (int) (screenSizeHeight / 2.56));
 
-            txtAreaAboutMe.setText("1daogfjaodıfoıagfaoıfasdfoıasfıosadf q");
+            txtAreaAboutMe.setText("Burası doldurulacak...");
 
         }
         return txtAreaAboutMe;

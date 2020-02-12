@@ -70,7 +70,6 @@ public class RegisteredStudentGui {
         getTxtName().addActionListener(action);
         getTxtSurname().addActionListener(action);
         getBtnComeBack().addActionListener(action);
-        getTable().addMouseListener(action);
 
         getTxtNo().addFocusListener(action);
         getTxtName().addFocusListener(action);
@@ -196,6 +195,8 @@ public class RegisteredStudentGui {
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        // table.getModel().addTableModelListener(action);
+
         return table;
 
     }

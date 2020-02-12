@@ -1,13 +1,10 @@
 package Logic;
 
-import Business.Main;
 import Gui.Login;
 import Gui.MainGui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ActionsLogin implements ActionListener {
