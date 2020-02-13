@@ -57,10 +57,9 @@ public class BookReturnGui {
     final int txtPushSpaceRight = txtLeftSpace + txtWidth + (int) (screenSizeWidth / 27.32);
 
     ActionsBook action = new ActionsBook(this);
-    Font lblFont = new Font("monospaced", Font.BOLD, 17);
-    Font txtFont = new Font("", Font.BOLD, 15);
+    Font lblFont = new Font("monospaced", Font.BOLD, (int) screenSizeWidth / 80);
+    Font txtFont = new Font("", Font.BOLD, (int) screenSizeWidth / 91);
 
-    //BookActions action = new ActionsBook(this);
     public BookReturnGui(MainGui mg) {
 
         setMg(mg);
@@ -90,6 +89,11 @@ public class BookReturnGui {
         if (jf == null) {
             jf = new JFrame();
         }
+        double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
+        double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
+        int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);
+        int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
+        jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
         return jf;
     }
 
@@ -152,16 +156,12 @@ public class BookReturnGui {
         if (lblBookName == null) {
 
             lblBookName = new JLabel("Kitap Adı");
-            lblBookName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblBookName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter),
+                    lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
             lblBookName.setForeground(Color.white);
             lblBookName.setFont(lblFont);
 
             lblPushUnderCounter++;
-            /*  if (lblPushRightCounter == 1) {
-                lblPushRightCounter = 0;
-            } else {
-                lblPushRightCounter++;
-            }*/
 
         }
         return lblBookName;
@@ -175,7 +175,8 @@ public class BookReturnGui {
         if (lblAuthorName == null) {
 
             lblAuthorName = new JLabel("Kitap Yazarı");
-            lblAuthorName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblAuthorName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter),
+                    lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
             lblAuthorName.setForeground(Color.white);
             lblAuthorName.setFont(lblFont);
 
@@ -197,7 +198,8 @@ public class BookReturnGui {
         if (lblStudentName == null) {
 
             lblStudentName = new JLabel("Öğrenci Adı");
-            lblStudentName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblStudentName.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter),
+                    lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
             lblStudentName.setForeground(Color.white);
             lblStudentName.setFont(lblFont);
             lblPushUnderCounter++;
@@ -220,16 +222,12 @@ public class BookReturnGui {
         if (lblResult == null) {
 
             lblResult = new JLabel("Sonuç ");
-            lblResult.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblResult.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter),
+                    lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
             lblResult.setForeground(Color.white);
             lblResult.setFont(lblFont);
 
             lblPushUnderCounter++;
-            /*  if (lblPushRightCounter == 1) {
-                lblPushRightCounter = 0;
-            } else {
-                lblPushRightCounter++;
-            }*/
 
         }
         return lblResult;
@@ -243,7 +241,8 @@ public class BookReturnGui {
 
         if (txtBarcodeNo == null) {
             txtBarcodeNo = new JTextField();
-            txtBarcodeNo.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + (txtPushUnderCounter * txtPushSpaceUnder), txtWidth, txtHeight);
+            txtBarcodeNo.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter),
+                    txtTopSpace + (txtPushUnderCounter * txtPushSpaceUnder), txtWidth, txtHeight);
             txtBarcodeNo.setForeground(Color.BLACK);
             txtBarcodeNo.setFont(txtFont);
 
@@ -266,7 +265,8 @@ public class BookReturnGui {
         if (txtStudentNo == null) {
 
             txtStudentNo = new JTextField();
-            txtStudentNo.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
+            txtStudentNo.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter),
+                    txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
             txtStudentNo.setForeground(Color.BLACK);
             txtStudentNo.setFont(txtFont);
             txtPushUnderCounter++;
@@ -288,11 +288,11 @@ public class BookReturnGui {
         if (txtBookName == null) {
 
             txtBookName = new JTextField();
-            txtBookName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth * 5 / 2, txtHeight);
+            txtBookName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter),
+                    txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth * 5 / 2, txtHeight);
             txtBookName.setForeground(Color.BLACK);
             txtBookName.setFont(txtFont);
-            txtBookName.setEditable(false); // --> change a little bit background color
-            // txtBookName.setFocusable(false);  // do not change background
+            txtBookName.setEditable(false);
             txtBookName.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
@@ -312,11 +312,11 @@ public class BookReturnGui {
         if (txtAuthorName == null) {
 
             txtAuthorName = new JTextField();
-            txtAuthorName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
+            txtAuthorName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter),
+                    txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
             txtAuthorName.setForeground(Color.BLACK);
             txtAuthorName.setFont(txtFont);
-            txtAuthorName.setEditable(false); // --> change a little bit background color
-            // txtAuthorName.setFocusable(false);  // do not change background
+            txtAuthorName.setEditable(false);
             txtAuthorName.setBackground(new Color(206, 214, 224));
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
@@ -340,11 +340,11 @@ public class BookReturnGui {
         if (txtStudentName == null) {
 
             txtStudentName = new JTextField();
-            txtStudentName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
+            txtStudentName.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter),
+                    txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth, txtHeight);
             txtStudentName.setForeground(Color.BLACK);
             txtStudentName.setFont(txtFont);
-            txtStudentName.setEditable(false); // --> change a little bit background color
-            // txtStudentName.setFocusable(false);  // do not change background
+            txtStudentName.setEditable(false);
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);
@@ -369,12 +369,12 @@ public class BookReturnGui {
         if (txtResult == null) {
 
             txtResult = new JTextField();
-            txtResult.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter), txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth * 5 / 2, txtHeight);
+            txtResult.setBounds(txtLeftSpace + (txtPushSpaceRight * txtPushRightCounter),
+                    txtTopSpace + txtPushUnderCounter * txtPushSpaceUnder, txtWidth * 5 / 2, txtHeight);
 
             txtResult.setForeground(Color.BLACK);
             txtResult.setFont(txtFont);
-            txtResult.setEditable(false); // --> change a little bit background color
-            // txtResult.setFocusable(false);  // do not change background
+            txtResult.setEditable(false);
             ToolTipManager ttm = ToolTipManager.sharedInstance();
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);

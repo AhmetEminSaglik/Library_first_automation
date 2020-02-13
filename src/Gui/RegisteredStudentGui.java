@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class RegisteredStudentGui {
-
+    
     JFrame jf;
     JPanel jp;
     JLabel lblName;
@@ -30,11 +30,11 @@ public class RegisteredStudentGui {
     JButton btnComeBack;
     public String DataOfTable[][] = {};
     public String HeadersOfTable[] = {"", "Öğrenci No", "Öğrenci Adı", "Öğrenci Soyadı", "Email", "Telefon"};
-
+    
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final double screenSizeWidth = screenSize.getWidth();
     final double screenSizeHeight = screenSize.getHeight();
-
+    
     final int lblTopSpace = (int) (screenSizeHeight / 76.8);
     final int leftSpace = (int) (screenSizeWidth / 45.53333333333333);
     final int txtWidth = (int) (screenSizeWidth / 6.209090909090909);
@@ -47,13 +47,13 @@ public class RegisteredStudentGui {
     int pushRightCounter = 0;
     MainGui mg;
     public ActionStudent action = new ActionStudent(this);
-
-    Font font_lbl = new Font("", Font.BOLD, 17);
-    Font font_txt = new Font("", Font.BOLD, 13);
-    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
-
+    
+    Font font_lbl = new Font("", Font.BOLD, (int) screenSizeWidth / 80);
+    Font font_txt = new Font("", Font.BOLD, (int) (screenSizeWidth / 105.07));
+    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, (int) screenSizeWidth / 91);
+    
     public RegisteredStudentGui(MainGui mg) {
-
+        
         action.SearchRegisteredStudent(0);
         setMg(mg);
         setJf(mg.getJf());
@@ -70,26 +70,31 @@ public class RegisteredStudentGui {
         getTxtName().addActionListener(action);
         getTxtSurname().addActionListener(action);
         getBtnComeBack().addActionListener(action);
-
+        
         getTxtNo().addFocusListener(action);
         getTxtName().addFocusListener(action);
         getTxtSurname().addFocusListener(action);
-
+        
         getJf().add(getJp());
-
+        
     }
-
+    
     public JFrame getJf() {
         if (jf == null) {
             jf = new JFrame();
         }
+        double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
+        double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
+        int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);        
+        int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
+        jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
         return jf;
     }
-
+    
     public void setJf(JFrame jf) {
         this.jf = jf;
     }
-
+    
     public JPanel getJp() {
         if (jp == null) {
             jp = new JPanel();
@@ -99,56 +104,45 @@ public class RegisteredStudentGui {
         }
         return jp;
     }
-
+    
     public void setJp(JPanel jp) {
         this.jp = jp;
     }
-
-    /*
-    final int lblTopSpace = 10;
-    final int leftSpace = 30;
-    final int txtWidth = 300;
-    final int txtHeight = 40;
-    final int lblWidth = 150;
-    final int lblHeight = 15;
-    final int pushRightSpace = txtWidth + 100;
-    final int txtTopSpace = lblTopSpace + lblHeight + 10;
-    int pushRightCounter = 0;
-     */
+    
     public JLabel getLblName() {
         if (lblName == null) {
             lblName = new JLabel("Öğrenci Adı");
             lblName.setBounds(leftSpace, topSpace, lblWidth + (pushRightCounter * (lblWidth + pushRightSpace)), lblHeight);
             lblName.setForeground(Color.WHITE);
             lblName.setFont(font_lbl);
-
+            
             pushRightCounter++;
-
+            
         }
         return lblName;
     }
-
+    
     public void setLblName(JLabel lblName) {
         this.lblName = lblName;
     }
-
+    
     public JLabel getLblSurname() {
         if (lblSurname == null) {
             lblSurname = new JLabel("Öğrenci Soyadı");
             lblSurname.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace, lblWidth, lblHeight);
             lblSurname.setForeground(Color.WHITE);
             lblSurname.setFont(font_lbl);
-
+            
             pushRightCounter++;
-
+            
         }
         return lblSurname;
     }
-
+    
     public void setLblSurname(JLabel lblSurname) {
         this.lblSurname = lblSurname;
     }
-
+    
     public JLabel getLblNo() {
         if (lblNo == null) {
             lblNo = new JLabel("Öğrenci NO");
@@ -159,20 +153,20 @@ public class RegisteredStudentGui {
         }
         return lblNo;
     }
-
+    
     public void setLblNo(JLabel lblNo) {
         this.lblNo = lblNo;
     }
-
+    
     public JTable getTable() {
         if (table == null) {
             table = new JTable(DataOfTable, HeadersOfTable);
             table = OrganizeTable(table);
         }
-
+        
         return table;
     }
-
+    
     public JTable OrganizeTable(JTable table) {
         table.setSelectionBackground(Color.GREEN);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -183,45 +177,43 @@ public class RegisteredStudentGui {
         table.getColumnModel().getColumn(3).setPreferredWidth((int) (screenSizeWidth / 10.507692307692308));
         table.getColumnModel().getColumn(4).setPreferredWidth((int) (screenSizeWidth / 5.464));
         table.getColumnModel().getColumn(5).setPreferredWidth((int) (screenSizeWidth / 9.106666666666667));
-
+        
         table.setDefaultEditor(Object.class, null);
         table.setFont(font_txt);
         table.setCursor(new Cursor(12));
         table.setRowHeight((int) (screenSizeHeight / 38.4));
-        table.setFont(new Font("", Font.BOLD, 15));
+        table.setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 91));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-        // table.getModel().addTableModelListener(action);
-
         return table;
-
+        
     }
-
+    
     public void setTable(JTable table) {
         table = OrganizeTable(table);
         this.table = table;
     }
-
+    
     public JScrollPane getSp() {
         if (sp == null) {
             sp = new JScrollPane(getTable());
-
+            
         }
         sp.setBounds(leftSpace, (int) (screenSizeHeight / 6.144), (pushRightCounter * (lblWidth + pushRightSpace)) + txtWidth, (int) (screenSizeHeight / 2.56));
-
+        
         return sp;
     }
-
+    
     public void setSp(JTable table) {
         table = OrganizeTable(table);
         sp = new JScrollPane(table);
         this.sp = sp;
     }
-
+    
     public JTextField getTxtName() {
         if (txtName == null) {
             pushRightCounter = 0;
@@ -230,70 +222,70 @@ public class RegisteredStudentGui {
             txtName.setForeground(Color.GRAY);
             txtName.setFont(fontTxtPlaceHolder);
             pushRightCounter++;
-
+            
         }
         return txtName;
     }
-
+    
     public void setTxtName(JTextField txtName) {
         this.txtName = txtName;
     }
-
+    
     public JTextField getTxtSurname() {
         if (txtSurname == null) {
             txtSurname = new JTextField("Soyisim Giriniz");
             txtSurname.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + (int) (screenSizeHeight / 76.8), txtWidth, txtHeight);
             txtSurname.setForeground(Color.GRAY);
             txtSurname.setFont(fontTxtPlaceHolder);
-
+            
             pushRightCounter++;
-
+            
         }
         return txtSurname;
     }
-
+    
     public void setTxtSurname(JTextField txtSurname) {
         this.txtSurname = txtSurname;
     }
-
+    
     public JTextField getTxtNo() {
         if (txtNo == null) {
             txtNo = new JTextField("Numara Giriniz");
             txtNo.setBounds(leftSpace + (pushRightCounter * (lblWidth + pushRightSpace)), topSpace + lblHeight + (int) (screenSizeHeight / 76.8), txtWidth, txtHeight);
             txtNo.setForeground(Color.GRAY);
             txtNo.setFont(fontTxtPlaceHolder);
-
+            
         }
         return txtNo;
     }
-
+    
     public void setTxtNo(JTextField txtNo) {
         this.txtNo = txtNo;
     }
-
+    
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri dön");
+            btnComeBack.setFont(font_lbl);
             btnComeBack.setBounds(leftSpace, (int) (screenSizeHeight / 1.7066666666666668), (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
-            //btnComeBack.setBackground(Color.BLACK);   btnComeBack.setForeground(Color.WHITE);
         }
-
+        
         return btnComeBack;
     }
-
+    
     public void setBtnComeBack(JButton btnComeBack) {
         this.btnComeBack = btnComeBack;
     }
-
+    
     public MainGui getMg() {
         if (mg == null) {
             mg = new MainGui();
         }
         return mg;
     }
-
+    
     public void setMg(MainGui mg) {
         this.mg = mg;
     }
-
+    
 }

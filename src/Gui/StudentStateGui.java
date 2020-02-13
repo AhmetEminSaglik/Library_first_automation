@@ -18,13 +18,13 @@ public class StudentStateGui extends JPanel {
     JFrame jf;
     JLabel lblStudentNo;
     JLabel lblDept;
-    JLabel lblLendingDayNumber1; //ödünç verilen gün sayısı
+    JLabel lblLendingDayNumber1;
     JLabel lblLendingDayNumber2;
     JLabel lblLendingDayNumber3;
 
     JTextField txtStudentNo;
     JTextField txtDept;
-    JTextField txtBookBarcodeNo1; //ödünç verilen gün sayısı
+    JTextField txtBookBarcodeNo1;
     JTextField txtBookBarcodeNo2;
     JTextField txtBookBarcodeNo3;
     JTextField txtBookName1;
@@ -51,8 +51,8 @@ public class StudentStateGui extends JPanel {
     int pushUndertxtCounter = 0;
     final int topSpace = (int) (screenSizeHeight / 5.907692307692308);
     final int topSpaceBook = topSpace + txtHeight + (int) (screenSizeHeight / 153.6);
-    Font lblFont = new Font("monospaced", Font.BOLD, 17);
-    Font txtFont = new Font("", Font.BOLD, 17);
+    Font lblFont = new Font("monospaced", Font.BOLD, (int) screenSizeWidth / 80);
+    Font txtFont = new Font("", Font.BOLD, (int) screenSizeWidth / 80);
     MainGui mg;
     ActionStudent action = new ActionStudent(this);
     ToolTipManager ttm = ToolTipManager.sharedInstance();
@@ -88,11 +88,10 @@ public class StudentStateGui extends JPanel {
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g); //To change body of generated methods, choose Tools | Templates.
+        super.paint(g);
         g.setColor(Color.red);
         g.fillRect(0, topSpace - (int) (screenSizeHeight / 25.6),
                 (int) (screenSizeHeight / 0.8533333333333334), (int) (screenSizeHeight / 76.8));
-        //belirli aralıklarla yapılması gerektiği için şuan es geçiyorum
 
     }
 
@@ -100,6 +99,11 @@ public class StudentStateGui extends JPanel {
         if (jf == null) {
             jf = new JFrame();
         }
+        double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
+        double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
+        int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);
+        int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
+        jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
         return jf;
     }
 
@@ -249,14 +253,7 @@ public class StudentStateGui extends JPanel {
             ttm.setDismissDelay(1000);
             txtBookBarcodeNo2.setToolTipText("Buraya Erişemezsiniz");
             pushUndertxtCounter++;
-        }/* if (txtBookBarcodeNo1 == null) {
-            
-            txtBookBarcodeNo1 = new JTextField("barcode 1");
-            txtBookBarcodeNo1.setBounds(LeftSpace, topSpace + (txtHeight + 70) * pushUndertxtCounter, txtBarcodeWidth, txtHeight);
-
-            txtBookBarcodeNo1.setFont(txtFont);
-            pushUndertxtCounter++;
-        }*/
+        }
         return txtBookBarcodeNo2;
     }
 

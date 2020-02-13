@@ -582,7 +582,11 @@ public class ActionTimeFine implements ActionListener, FocusListener, TableModel
 
             } else if (e.getSource() == fdp.getTxtAmountOfPayment()) {
                 if (fdp.getTxtAmountOfPayment().getText().trim().equals("Ödeme Miktarı")) {
-                    fdp.getTxtAmountOfPayment().setText("");
+                    if (Double.parseDouble(fdp.getTxtDebt().getText()) < 0.0) {
+                        fdp.getTxtAmountOfPayment().setText("-");
+                    } else {
+                     fdp.getTxtAmountOfPayment().setText("");   
+                    }
                 }
                 fdp.getTxtAmountOfPayment().setForeground(Color.BLACK);
                 fdp.getTxtAmountOfPayment().setFont(new Font("", Font.BOLD, 15));

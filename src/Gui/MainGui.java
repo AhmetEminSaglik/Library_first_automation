@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ToolTipManager;
 
-public class MainGui {//extends JPanel
+public class MainGui {
 
     JFrame jf = null;
     JPanel jp = null;
@@ -24,7 +24,7 @@ public class MainGui {//extends JPanel
     JLabel lblResultScreen;
     JLabel lblBookName;
 
-    JLabel lblTotalBook;// lblTotalBook,lblRemainBook,lblGivenBook are different label not like aboves
+    JLabel lblTotalBook;
     JLabel lblRemainBook;
     JLabel lblGivenBook;
 
@@ -34,8 +34,8 @@ public class MainGui {//extends JPanel
     JTextField txtBookName;
 
     JTextField txtTotalBook;
-    JTextField txtGivenBook;//txtGivenBook
-    JTextField txtRemainBook;//txtRemainBook
+    JTextField txtGivenBook;
+    JTextField txtRemainBook;
 
     JButton bookAdd;
     JButton bookReturn;
@@ -85,7 +85,6 @@ public class MainGui {//extends JPanel
     }
 
     public MainGui(Login login) {
-
         //getJp(). = login.getJf();
         setJf(login.getJf());
         getJf().setTitle("ANA SAYFA");
@@ -135,15 +134,12 @@ public class MainGui {//extends JPanel
         jlabel.setBounds((int) (screenSizeWidth / 136.6) + (holding_area_scale + push_scale) * push_right_lbl_counter,
                 (int) (screenSizeWidth / 136.6), holding_area_scale, (int) (screenSizeWidth / 45.53333333333333));
 
-        jlabel.setFont(new Font("monospaced", Font.BOLD, 25));
+        jlabel.setFont(new Font("monospaced", Font.BOLD, (int) ((int) screenSizeWidth / 54.64)));
         jlabel.setForeground(Color.white);
         push_right_lbl_counter++;
 
         return jlabel;
-        /* final int holding_area_scale = 270;
-    final int push_scale = 20;
-   int push_right_lbl_counter = 0;
-   int push_right_txt_counter = 0;*/
+
     }
 
     public JTextField build_JTextfiledForNulls(JTextField jtxt) {
@@ -152,21 +148,18 @@ public class MainGui {//extends JPanel
         jtxt.setBounds((int) (screenSizeWidth / 455.3333333333333) + (holding_area_scale + push_scale) * push_right_txt_counter,
                 (int) (screenSizeHeight / 15.36), holding_area_scale, txt_height);
 
-        jtxt.setFont(new Font("monospaced", Font.BOLD, 17));
+        jtxt.setFont(new Font("monospaced", Font.BOLD, (int) screenSizeWidth / 80));
         push_right_txt_counter++;
         jtxt.setLayout(null);
-        //jtxt.getDocument().addDocumentListener(action);
-        // jtxt.getDocument().putProperty("Student_name", 2); // first one is key , the other one is value
 
         return jtxt;
     }
 
     public JButton build_JbuttonForNulls(JButton jbtn, int whichFloor_X, int sectorButtons_Y) {
-        //studentUpdate = build_JbuttonForNulls(studentUpdate, FloorOfStudent_X, SecondButtons_Y);
         jbtn = new JButton();
         jbtn.setCursor(new Cursor(12));
         jbtn.setBounds(whichFloor_X, sectorButtons_Y, button_width, button_height);
-        jbtn.setFont(new Font("", Font.BOLD, 17));
+        jbtn.setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 80));
         jbtn.setForeground(Color.BLACK);
 
         jbtn.setBackground(Color.WHITE);
@@ -179,8 +172,20 @@ public class MainGui {//extends JPanel
     public JFrame getJf() {
         if (jf == null) {
             jf = new JFrame();
+            double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
+            double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
+            int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);// (int) (screenSize.getWidth() / 5.464);
+            int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
+
+            jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
 
         }
+
+        double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
+        double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
+        int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);
+        int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
+        jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
         return jf;
     }
 
@@ -245,7 +250,7 @@ public class MainGui {//extends JPanel
             lblBookName.setBounds((int) (screenSizeWidth / 136.6), (int) (screenSizeHeight / 5.688888888888889),
                     (int) (screenSizeWidth / 4.553333333333334), (int) (screenSizeHeight / 10.971428571428572));
             lblBookName.setForeground(Color.WHITE);
-            lblBookName.setFont(new Font("monospaced", Font.BOLD, 25));
+            lblBookName.setFont(new Font("monospaced", Font.BOLD, (int) ((int) screenSizeWidth / 54.64)));
         }
         return lblBookName;
     }
@@ -260,13 +265,11 @@ public class MainGui {//extends JPanel
             lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,
                     (int) (screenSizeHeight / 15.36));
-            lblTotalBook.setFont(new Font("monospaced", Font.BOLD, 22));
+            lblTotalBook.setFont(new Font("monospaced", Font.BOLD, (int) ((int) screenSizeWidth / 62.09)));
             lblTotalBook.setForeground(new Color(116, 185, 255));
             total_remain_given_books_counter = 0;
         }
-        /*    final int push_total_remain_given_books = 30;
-              int total_remain_given_books_x = 30;
-         */
+
         return lblTotalBook;
     }
 
@@ -280,7 +283,7 @@ public class MainGui {//extends JPanel
             lblRemainBook.setBounds((int) (screenSizeWidth / 136.6) + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     total_remain_given_books_y, holding_area_scale,
                     (int) (screenSizeHeight / 15.36));
-            lblRemainBook.setFont(new Font("monospaced", Font.BOLD, 22));
+            lblRemainBook.setFont(new Font("monospaced", Font.BOLD, (int) ((int) screenSizeWidth / 62.09)));
             lblRemainBook.setForeground(Color.red);
             total_remain_given_books_counter++;
         }
@@ -297,7 +300,7 @@ public class MainGui {//extends JPanel
             lblGivenBook.setBounds((int) (screenSizeWidth / 91.06666666666666) + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
                     1 + total_remain_given_books_y, holding_area_scale,
                     (int) (screenSizeHeight / 15.36));
-            lblGivenBook.setFont(new Font("monospaced", Font.BOLD, 22));
+            lblGivenBook.setFont(new Font("monospaced", Font.BOLD, (int) ((int) screenSizeWidth / 62.09)));
             lblGivenBook.setForeground(Color.GREEN);
             total_remain_given_books_counter++;
         }
@@ -318,7 +321,6 @@ public class MainGui {//extends JPanel
             txtStudentNo.setForeground(Color.GRAY);
             txtStudentNo.setText("Öğrenci No Girin");
 
-//txtStudentNo.set
         }
         return txtStudentNo;
     }
@@ -330,8 +332,6 @@ public class MainGui {//extends JPanel
     public JTextField getTxtBookBarcode() {
         if (txtBookBarcode == null) {
             txtBookBarcode = build_JTextfiledForNulls(txtBookBarcode);
-            //  txtBookBarcode.getDocument().addDocumentListener(action);
-            //txtBookBarcode.getDocument().putProperty("StudentNoBookBarcodetxt", 2); // first one is key , the other one is value
             txtBookBarcode.addActionListener(action);
             txtBookBarcode.addFocusListener(action);
             txtBookBarcode.setForeground(Color.GRAY);
@@ -350,8 +350,8 @@ public class MainGui {//extends JPanel
             txtResultScreen = build_JTextfiledForNulls(txtResultScreen);
             txtResultScreen.setEditable(false);
             txtResultScreen.setToolTipText("Buraya Erişemezsiniz");
-            ttm.setInitialDelay(100); // when entered  wait time
-            ttm.setDismissDelay(1000);// seeing time tooltips
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
             txtResultScreen.setBackground(new Color(206, 214, 224));
         }
         return txtResultScreen;
@@ -366,14 +366,14 @@ public class MainGui {//extends JPanel
             txtBookName = new JTextField("");
             txtBookName.setBounds((int) (screenSizeWidth / 455.3333333333333), (int) (screenSizeHeight / 4.042105263157895),
                     (int) (screenSizeWidth / 1.6557575757575758), (int) (screenSizeHeight / 13.963636363636363));
-            txtBookName.setFont(new Font("monospaced", Font.BOLD, 19));
+            txtBookName.setFont(new Font("monospaced", Font.BOLD, (int) ((int) screenSizeWidth / 71)));
             txtBookName.setEditable(false);
             txtBookName.setFocusable(false);
-            // txtBookName.setEnabled(false);
+
             txtBookName.setBackground(new Color(206, 214, 224));
 
-            ttm.setInitialDelay(100); // when entered  wait time
-            ttm.setDismissDelay(1000);// seeing time tooltips
+            ttm.setInitialDelay(100);
+            ttm.setDismissDelay(1000);
             txtBookName.setToolTipText("Buraya Erişemezsiniz");
 
         }
@@ -400,10 +400,6 @@ public class MainGui {//extends JPanel
             txtTotalBook.addActionListener(action);
             total_remain_given_books_counter++;
 
-
-            /*  lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y, holding_area_scale,
-                    50);*/
         }
         return txtTotalBook;
     }
@@ -427,9 +423,6 @@ public class MainGui {//extends JPanel
             txtGivenBook.setBorder(BorderFactory.createLineBorder(Color.WHITE, 0));
             txtGivenBook.setBorder(BorderFactory.createCompoundBorder(txtGivenBook.getBorder(), BorderFactory.createEmptyBorder(0, (int) (screenSizeWidth / 27.32), 0, 0)));
 
-            /*  lblTotalBook.setBounds((total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y, holding_area_scale,
-                    50);*/
             txtGivenBook.addActionListener(action);
         }
         return txtGivenBook;
@@ -454,9 +447,6 @@ public class MainGui {//extends JPanel
             txtRemainBook.setBorder(BorderFactory.createCompoundBorder(txtGivenBook.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
             txtRemainBook.addActionListener(action);
             total_remain_given_books_counter++;
-            /*   lblRemainBook.setBounds(10 + (total_remain_given_books_x + holding_area_scale) * total_remain_given_books_counter,
-                    total_remain_given_books_y, holding_area_scale, 50);*/
-
         }
         return txtRemainBook;
     }
@@ -595,8 +585,8 @@ public class MainGui {//extends JPanel
     public JButton getAboutUs() {
         if (aboutUs == null) {
             aboutUs = build_JbuttonForNulls(aboutUs, FloorOf_Time_Exit_X, ThirdButtons_Y);
-            aboutUs.setText("Hakkımızda & Yardım");
-            // aboutUs.setBackground(Color.red);
+            aboutUs.setText("Hakkımızda");
+
         }
         return aboutUs;
     }
@@ -608,7 +598,7 @@ public class MainGui {//extends JPanel
     public JButton getExit() {
         if (exit == null) {
             exit = build_JbuttonForNulls(exit, FloorOf_Time_Exit_X, FourthButtons_Y);
-            exit.setText("Çıkış");
+            exit.setText("Çıkış / Giriş Sayfası");
         }
         return exit;
     }

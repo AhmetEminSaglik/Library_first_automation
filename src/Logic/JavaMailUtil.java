@@ -23,7 +23,6 @@ public class JavaMailUtil {
     static int last7DayCounter = 0;
     static int last3DayCounter = 0;
     static int over30DayCounter = 0;
-    // final static int YOURDEBT = 3;// bence gerek yok bu emaili kitap iade ettikten sonra zaten atacağız
     static SqlConnection sqlConnection = new SqlConnection();
     static int CounterOfMail = 0;
     static boolean saveConditionOnMysql = true;
@@ -89,12 +88,10 @@ public class JavaMailUtil {
 
                     sqlConnection.Update(updateQuery);
 
-                    //  sqlConnection.CloseAllConnections();
                 }
-                //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sqlConnection.CloseAllConnections();
+
             }
 
-            //  }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "HATA : \n\n\n" + ex);
         }
@@ -118,7 +115,7 @@ public class JavaMailUtil {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication(username, password); //To change body of generated methods, choose Tools | Templates.
+                return new PasswordAuthentication(username, password);
             }
 
         });
@@ -173,7 +170,6 @@ public class JavaMailUtil {
         saveConditionOnMysql = true;
 
         try {
-           // JOptionPane.showMessageDialog(null, " Transporta geldik : ");
             Transport.send(message);
             CounterOfMail++;
             saveConditionOnMysql = true;
@@ -186,14 +182,10 @@ public class JavaMailUtil {
 
     public static Message PrepareMessage(Session session, String username, String recepient, int condition, String BookBarcodeNo) {
         try {
-          //  JOptionPane.showMessageDialog(null, " PrepareMessage içinde");
-          //  JOptionPane.showMessageDialog(null, " MimeMessage girecek");
             Message message = new MimeMessage(session);
-           // JOptionPane.showMessageDialog(null, " MimeMessage çıktı");
 
             message.setFrom(new InternetAddress(username));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
-            //7,3 (gün) kala ve birde borçlanmaya başlayınca email göndermeye başlayacaz + kitap iade sonrası borçlanmayı bildirmek için haber edicez
             String query = "SELECT * FROM student RIGHT JOIN book ON book.StudentNo= student.No  WHERE book.BarcodeNo LIKE'" + BookBarcodeNo + "'";
             SqlConnection sqlConnection2 = new SqlConnection();
             sqlConnection2.setResultSet(query);
@@ -204,11 +196,6 @@ public class JavaMailUtil {
             }
 
             switch (condition) {
-//kitap bilgisi,
-                //________   yazara ait olan  ________    barkod nolu ________    adlı kitabınız için borçlanmaya başladınız
-                // ________   yazara ait olan  ________   barkod nolu ________   adlı kitabınızın son  ********* günü kalmıştır
-                //________   yazara ait olan  ________    barkod nolu ________    adlı kitabınızın geç iade etmeniz sebebiyle ________ kütüphanemize ________ tl cezanız bulunmaktadır
-
                 case LAST7DAYS:
 
                     message.setSubject("Of Teknoloji Fakültesi Kütüphanesi SON 7 GÜN Uyarısı ( BİLDİRİM )");

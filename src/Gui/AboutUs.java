@@ -36,17 +36,24 @@ public class AboutUs {
     boolean ThirdCountUp = true;
 
     int Counter = 30;
+    Font lblFont = new Font("monospaced", Font.BOLD, (int) screenSizeWidth / 80);
+
+    public String FillTextArea() {
+        return "";
+    }
 
     public AboutUs(MainGui mg) {
         setMg(mg);
         setJf(mg.getJf());
         getJf().add(getJp());
-        getJf().setTitle("HAKKIMIZDA & YARDIM");
+        getJf().setTitle("HAKKIMIZDA");
         getTxtAreaAboutMe().setBackground(new Color(firstColor, secondColor, thirdColor));
         getJp().add(getTxtAreaAboutMe());
         getJp().add(getBtnComeBack());
         getBtnComeBack().addActionListener(action);
         changeBackgroundColorOfPanel();
+
+        getTxtAreaAboutMe().setText(FillTextArea());
 
     }
 
@@ -69,8 +76,6 @@ public class AboutUs {
             } else {
                 getTxtAreaAboutMe().setForeground(new Color(0, 0, 0));
             }
-            //getJp().setForeground(new Color(255 - firstColor, 255 - secondColor, 255 - thirdColor));
-            //getTxtAreaAboutMe().setForeground(new Color(255 - firstColor, 255 - secondColor, 255 - thirdColor));
         } catch (InterruptedException ex) {
             Logger.getLogger(AboutUs.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -144,10 +149,17 @@ public class AboutUs {
         if (jf == null) {
             jf = new JFrame();
         }
+        double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
+        double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
+        int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);
+        int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
+        jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
+
         return jf;
     }
 
     public void setJf(JFrame jf) {
+
         this.jf = jf;
     }
 
@@ -169,13 +181,9 @@ public class AboutUs {
         if (txtAreaAboutMe == null) {
             txtAreaAboutMe = new JTextArea();
             txtAreaAboutMe.setFocusable(false);
-            //txtAreaAboutMe.setBackground(new Color(firstColor, secondColor, thirdColor));
-            txtAreaAboutMe.setFont(new Font("", Font.BOLD, 18));
+            txtAreaAboutMe.setFont(new Font("", Font.BOLD, (int) (screenSizeWidth / 75.88)));
             txtAreaAboutMe.setBounds((int) (screenSizeWidth / 13.66), (int) (screenSizeHeight / 15.36),
                     (int) (screenSizeWidth / 2.1015384615384614), (int) (screenSizeHeight / 2.56));
-
-            txtAreaAboutMe.setText("Burası doldurulacak...");
-
         }
         return txtAreaAboutMe;
     }
@@ -187,6 +195,7 @@ public class AboutUs {
     public JButton getBtnComeBack() {
         if (btnComeBack == null) {
             btnComeBack = new JButton("Geri Dön");
+            btnComeBack.setFont(lblFont);
             btnComeBack.setBounds((int) (screenSizeWidth / 27.32), (int) (screenSizeHeight / 1.7066666666666668),
                     (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 21.942857142857143));
 

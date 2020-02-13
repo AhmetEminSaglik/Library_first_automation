@@ -15,7 +15,7 @@ public class SqlConnection {
     String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
-    //  Database credentials
+ 
     String USER = "root";
     String PASS = "";
 

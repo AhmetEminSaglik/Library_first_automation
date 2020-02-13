@@ -6,6 +6,7 @@ import Gui.BookReturnGui;
 import Gui.BookSearchListGui;
 import Gui.BookUpdateRemoveGui;
 import Gui.FineDebtPayment;
+import Gui.Login;
 import Gui.MainGui;
 import Gui.RegisteredStudentGui;
 import Gui.StudentAddGui;
@@ -138,19 +139,21 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             FineDebtPayment fdp = new FineDebtPayment(getMg());
         }
         if (e.getSource() == getMg().getExit()) {
-
-            int answer = JOptionPane.showConfirmDialog(null, "Çıkmak İstediğinize Emin Misiniz?", "ÇIKIŞ UYARISI", 2, 3);
+            Object[] options = {"Çıkış", "Giriş Sayfası ", "İptal"};
+            int answer = JOptionPane.showOptionDialog(null, "Lütfen birisini seçiniz", "ÇIKIŞ UYARISI", JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, options, null);
 
             if (answer == 0) {
-                System.exit(answer);
+                System.exit(0);
+            } else if (answer == 1) {
+                getMg().getJf().dispose();
+                Login login = new Login();
             }
         }
 
     }
 
-    //@Override
-    public void insertUpdate(DocumentEvent e) {     // Buraya eklenir hızlı işlem yapma 2 txt ten ikisi de dolduğu anda işlem yapılır
-
+    public void insertUpdate(DocumentEvent e) {
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)
                 || e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) {
 
@@ -160,7 +163,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
             } catch (NumberFormatException nfe) {
 
-                //  JOptionPane.showMessageDialog(null, "Karakter giremezsiniz. Sayı girmelisiniz");
                 int txtLength = getMg().gettxtStudentNo().getText().length();
 
                 int i = getMg().gettxtStudentNo().getText().length();
@@ -169,7 +171,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                     try {
 
                         if (getMg().gettxtStudentNo().getText().charAt(i) <= 9 || getMg().gettxtStudentNo().getText().charAt(i) >= 0) {
-//sayi değeri 0-9 arası değil ise ki catch e girecek o zaman o char'ı silip yazdıracam ekrana 
                         }
                     } catch (NumberFormatException nfe2) {
                         String StudentText = "";
@@ -179,19 +180,17 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                         }
                         getMg().gettxtStudentNo().setText(StudentText);
                     }
-                }//Integer.valueOf(getMg().gettxtStudentNo().getText().replaceAll("[^\\d.]", ""));
-                //getMg().gettxtStudentNo().setText(getMg().gettxtStudentNo().getText().charAt()[length() - 1]);
-                //getMg().gettxtStudentNo().getText()[getMg().gettxtStudentNo().getText().length() - 1];
+                }
                 {
 
                 }
             }
         }
-        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) {// first for student no
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) {
 
         }
 
-        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) { // second for bookBarcode
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) {
 
         }
 
@@ -199,10 +198,10 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
     //  @Override
     public void removeUpdate(DocumentEvent e) {
-        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) { // second for bookBarcode
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)) {
 
         }
-        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) { // second for bookBarcode
+        if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(2)) {
 
         }
         if (e.getDocument().getProperty("StudentNoBookBarcodetxt").equals(1)
@@ -214,7 +213,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 Integer.parseInt(getMg().gettxtStudentNo().getText());
 
             } catch (NumberFormatException nfe) {
-                //JOptionPane.showMessageDialog(null, "Karakter giremezsiniz. Sayı girmelisiniz (aciton 163 satır şuana kadar çalışmadı)");
 
             }
 
@@ -222,12 +220,11 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
     }
 
-    // @Override
     public void changedUpdate(DocumentEvent e) {
 
     }
 
-    public void findButtonsSourceWithUsingMouse(MouseEvent e, Color background_color, Color foreground_color) { // to clear make which button you on 
+    public void findButtonsSourceWithUsingMouse(MouseEvent e, Color background_color, Color foreground_color) {
         if (e.getSource() == getMg().getBookAdd()) {
             getMg().getBookAdd().setBackground(background_color);
             getMg().getBookAdd().setForeground(foreground_color);
@@ -303,7 +300,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
     @Override
     public void mouseExited(MouseEvent e) {
-        findButtonsSourceWithUsingMouse(e, Color.WHITE, Color.BLACK);// this make buttons as before
+        findButtonsSourceWithUsingMouse(e, Color.WHITE, Color.BLACK);
     }
 
     @Override
@@ -341,25 +338,11 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
     public void StudentCanTakeBook() {
         SqlConnection sqlConnection = new SqlConnection();
-        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-
-        //  Database credentials
-        String USER = "root";
-        String PASS = "";
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;*/
 
         try {
-            //Class.forName(JDBC_DRIVER);
 
-            // conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            //stmt = conn.createStatement();
             String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
-            sqlConnection.setResultSet(StudentExistQuery);// rs = stmt.executeQuery(StudentExistQuery);
-
+            sqlConnection.setResultSet(StudentExistQuery);
             if (!sqlConnection.getResultSet().next()) {
 
                 StudentCanTakeBook = false;
@@ -367,9 +350,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             } else {
 
             }
-            /*
-            getMg().gettxtResultScreen().setBackground(Color.CYAN);
-            getMg().gettxtResultScreen().setText("Öğrenci Kayıtlı");*/
             String CanStudentTakeBookQuery = "SELECT * FROM book  RIGHT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo LIKE'"
                     + getMg().gettxtStudentNo().getText() + "'";
 
@@ -388,7 +368,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "CLASS NOT FOUND");
         } catch (SQLException ex) {
-            //  JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             if (StudentCanTakeBook == false) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
@@ -397,39 +376,19 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setText("ÖĞRENCİ BULUNAMADI");
             }
         } finally {
-            sqlConnection.CloseAllConnections();  //closeConnections(conn, stmt, rs, null);
+            sqlConnection.CloseAllConnections();
         }
 
     }
 
     public void BookCanBeTake() {
         SqlConnection sqlConnection = new SqlConnection();
-        /*
-        String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
-
-        String USER = "root";
-        String PASS = "";
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;*/
 
         try {
-            //  Class.forName(JDBC_DRIVER);
 
-            //conn = DriverManager.getConnection(DB_URL, USER, PASS);    //SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  WHERE book.StudentNo is not null
-            //stmt = conn.createStatement();
             String BookExistQuery = "Select * FROM book WHERE BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText().trim() + "'";
-            //  stmt = conn.createStatement();
-
-            /*String StudentExistQuery = "SELECT * FROM student WHERE NO LIKE '" + getMg().gettxtStudentNo().getText().trim() + "'";
-            ResultSet rs = stmt.executeQuery(StudentExistQuery);*/
             sqlConnection.setResultSet(BookExistQuery);
-// rs = stmt.executeQuery(BookExistQuery);
-
-            if (!sqlConnection.getResultSet().next()) //    ResultSet sqlConnection.getResultSet() = stmt.executeQuery(CanStudentTakeBookQuery);
-            {
+            if (!sqlConnection.getResultSet().next()) {
 
                 bookExist = false;
 
@@ -441,16 +400,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtBookName().setText(sqlConnection.getResultSet().getString("Name"));
             }
-            /*else {
-                if (getMg().gettxtResultScreen().getText().equals("Kitap Bulunamadı")
-                        && getMg().gettxtResultScreen().getBackground() == Color.red) {
-                  getMg().gettxtResultScreen().setText("Kitap bulundu");
-                getMg().gettxtResultScreen().setBackground(new Color(206, 214, 224));  }
-            
-            }*/
- /*
-            getMg().gettxtResultScreen().setBackground(Color.CYAN);
-            getMg().gettxtResultScreen().setText("Kitap Kayıtlı");*/
 
             String BookCanBeDelivered = "SELECT * FROM book  LEFT JOIN student ON  book.StudentNo =student.No  "
                     + "WHERE  book.BarcodeNo LIKE  '" + getMg().getTxtBookBarcode().getText() + "' and book.StudentNo is null";
@@ -469,8 +418,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             bookFree = false;
             if (bookExist == false) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                /*JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası Kayıtlı değil",
-                        "KİTAP BARKOD NUMARASI HATASI", JOptionPane.ERROR_MESSAGE);*/
                 getMg().gettxtResultScreen().setText("Kitap Bulunamadı");
                 getMg().gettxtResultScreen().setBackground(new Color(235, 59, 90));
             } else if (BookDeliveredSomeone == true) {
@@ -481,7 +428,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 getMg().gettxtResultScreen().setBackground(Color.ORANGE);
             }
         } finally {
-            //  closeConnections(conn, stmt, rs, null);
             sqlConnection.CloseAllConnections();
         }
 
@@ -489,15 +435,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
     public void DeliverBookToStudent() {
         SqlConnection sqlConnection = new SqlConnection();
-        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
-        String USER = "root";
-        String PASS = "";
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;*/
         StudentCanTakeBook = true;
         BookDeliveredSomeone = false;
         bookFree = true;
@@ -516,11 +454,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 return;
             }
 
-            /*  Class.forName(JDBC_DRIVER);
-
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();*/
             String SqlDeliverBookStudent = "UPDATE  book SET StudentNo = '" + getMg().gettxtStudentNo().getText()
                     + "' , BorrowedDate = NOW()  "
                     + " \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
@@ -529,12 +462,8 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
             getMg().gettxtResultScreen().setBackground(Color.GREEN);
             getMg().gettxtResultScreen().setText("EŞLEŞME BAŞARILI");
             SuccessVoice();
-        } /*catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex, "SQL HATASI", JOptionPane.ERROR_MESSAGE);
-        } */ finally {
-            sqlConnection.CloseAllConnections();//closeConnections(conn, stmt, rs, null);
+        } finally {
+            sqlConnection.CloseAllConnections();
 
         }
 
@@ -542,95 +471,50 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
     public void SuccessVoice() {
         try {
-            //AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File("tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
             clip.start();
 
         } catch (UnsupportedAudioFileException ex) {
-           // JOptionPane.showMessageDialog(null, ex);
         } catch (IOException ex) {
-           // JOptionPane.showMessageDialog(null, ex);
         } catch (LineUnavailableException ex) {
-           // JOptionPane.showMessageDialog(null, ex);
         }
 
     }
 
     public void NumbersOfBooks() {
         SqlConnection sqlConnection = new SqlConnection();
-        /*   String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
-        //  Database credentials
-        String USER = "root";
-        String PASS = "";
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;*/
         int bookNumber = 0;
 
         try {
-            /*  Class.forName(JDBC_DRIVER);
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            stmt = conn.createStatement();
-             */
             String bookTotalNumberQuery = "SELECT COUNT(*) FROM book ";
-            sqlConnection.setResultSet(bookTotalNumberQuery); //sqlConnection.getResultSet() = stmt.executeQuery(bookTotalNumberQuery);
+            sqlConnection.setResultSet(bookTotalNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtTotalBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
 
             }
             String bookRemainNumberQuery = "SELECT COUNT(*) FROM book WHERE StudentNo IS NULL";
-            sqlConnection.setResultSet(bookRemainNumberQuery);// rs = stmt.executeQuery(bookRemainNumberQuery);
+            sqlConnection.setResultSet(bookRemainNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtRemainBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
 
             }
             String bookGivenNumberQuery = "SELECT COUNT(*) FROM book  WHERE StudentNo IS NOT NULL";
-            sqlConnection.setResultSet(bookGivenNumberQuery);  //rs = stmt.executeQuery(bookGivenNumberQuery);
+            sqlConnection.setResultSet(bookGivenNumberQuery);
             if (sqlConnection.getResultSet().next()) {
                 getMg().getTxtGivenBook().setText(Integer.toString(sqlConnection.getResultSet().getInt("COUNT(*)")));
 
             }
-        }/* catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
-        }*/ catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            //closeConnections(conn, stmt, rs, null);
             sqlConnection.CloseAllConnections();
 
         }
 
     }
 
-    /* public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
-
-        try {
-            if (stmt != null) {
-
-                stmt.close();
-
-            }
-            if (conn != null) {
-
-                conn.close();
-
-            }
-            if (rs != null) {
-
-                rs.close();
-            }
-            if (preparedStmt != null) {
-                preparedStmt.close();
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
-        }
-    }*/
 }

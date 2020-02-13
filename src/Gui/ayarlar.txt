@@ -64,3 +64,15 @@ HEIGHT
 450 --> (int)(screenSizeHeight/1.7066666666666668)
 470 --> (int)(screenSizeHeight/ 1.6340425531914893)
 900 --> (int)(screenSizeHeight/0.8533333333333334)
+
+
+FONT 
+13-->(int) screenSizeWidth / 105.07 
+14 --> (int) screenSizeWidth / 97
+15--> (int)screenSizeWidth / 91
+17 --> (int) screenSizeWidth / 80
+18 --> (int) screenSizeWidth / 75.88
+19 --> (int) ((int) screenSizeWidth /71)
+20 -->(int) ((int) screenSizeWidth / 68.3)
+22 --> (int) screenSizeWidth / 62.09
+25 --> (int) screenSizeWidth / 54.64

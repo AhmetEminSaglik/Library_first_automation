@@ -23,8 +23,7 @@ public class ActionsLogin implements ActionListener {
                 String JDBC_DRIVER = "com.mysql.jdbc.Driver";
                 String DB_URL = "jdbc:mysql://localhost/library";
 
-                //  Database credentials
-                String USER = "root";
+                    String USER = "root";
                 String PASS = "";
 
                 Connection conn = null;
