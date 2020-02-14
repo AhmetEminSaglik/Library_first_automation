@@ -6,8 +6,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,8 +16,6 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -83,8 +79,6 @@ public class Login extends JPanel {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-   
 
     public JFrame getJf() {
         if (jf == null) {
@@ -244,6 +238,8 @@ public class Login extends JPanel {
             String tableYoneticiControl = "SHOW TABLES LIKE 'admin' ";
             String tableKitapControl = "SHOW TABLES LIKE 'book'";
             if (stmt.executeUpdate(tableControl) == -1 || stmt.executeUpdate(tableYoneticiControl) == -1 || stmt.executeUpdate(tableKitapControl) == -1) {
+
+                // yukarıda || yerine && yapacam
                 LocalDate today = LocalDate.now();
                 String ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() >  BorrowedDate + INTERVAL 30 DAY ";
                 int Friday = 5;

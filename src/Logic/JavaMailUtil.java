@@ -24,7 +24,7 @@ public class JavaMailUtil {
     static int last3DayCounter = 0;
     static int over30DayCounter = 0;
     static SqlConnection sqlConnection = new SqlConnection();
-    static int CounterOfMail = 0;
+    public static int CounterOfMail = 0;
     static boolean saveConditionOnMysql = true;
     static Message message;
 

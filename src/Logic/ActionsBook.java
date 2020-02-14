@@ -698,20 +698,18 @@ public class ActionsBook implements ActionListener, FocusListener {
 
     public void sendEmail(String StudentEmail, double Debt) {
         JavaMailUtil jmu = new JavaMailUtil();
+
         Thread sendEmailThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // jmu.sendEmail(StudentEmail, Debt);
-
+                jmu.sendEmail(StudentEmail, Debt);
+                JOptionPane.showMessageDialog(null, jmu.CounterOfMail + " tane mail atıldı");
             }
 
         });
+
         sendEmailThread.start();
-        try {
-            sendEmailThread.join();
-        } catch (InterruptedException ex) {
-            JOptionPane.showMessageDialog(null, "Beklenmeyen hata : \n" + ex, "THREAD SHUTDOWN ERROR", JOptionPane.ERROR_MESSAGE);
-        }
+
     }
 
     public void ReturnBookToLibrary() {

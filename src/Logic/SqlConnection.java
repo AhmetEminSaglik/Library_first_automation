@@ -15,7 +15,6 @@ public class SqlConnection {
     String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
- 
     String USER = "root";
     String PASS = "";
 
@@ -80,6 +79,7 @@ public class SqlConnection {
     public int Update(String Query) {
         getConnection();
         try {
+
             return stmt.executeUpdate(Query);
 
             //return stmt;

@@ -36,6 +36,8 @@ public class ActionTimeFine implements ActionListener, FocusListener, TableModel
     String PlaceHolderBook = "Kitap Barkod No";
     Font FocusFont = new Font("", Font.BOLD, 15);
     Font LostFocusFont = new Font("", Font.ITALIC, 15);
+    boolean visibleOfTxt = false;
+    boolean firstEnrty = true;
 
     public ActionTimeFine(TimeControlExtraTimeGui tcet) {
         this.tcet = tcet;
@@ -148,8 +150,280 @@ public class ActionTimeFine implements ActionListener, FocusListener, TableModel
                 au.getMg().getJf().setTitle("ANA SAYFA");
                 clearAllTxtMainGui();
 
+            } else if (e.getSource() == au.getBtnChangePassword()) {
+                if (firstEnrty == true) {
+                    JOptionPane.showMessageDialog(null, "     ---KULLANICI ADI DEĞİŞTİRME ---\nŞuanki kullanıcı adınızı ve yeni kullanıcı adınızı girmeniz gerekmektedir.\n\n"
+                            + "      --- ŞİFRE DEĞİŞTİRME ---\nŞuanki kullanıcı adınızı, şifrenizi ve yeni şifre ile şifre tekrarını doldurmanız gerekmektedir.\n\n"
+                            + "      --- HEM KULLANICI ADI HEM ŞİFRE DEĞİŞTİRME--- \nBütün bilgileri doldurmanız gerekmektedir.");
+                }
+                firstEnrty = false;
+
+                if (visibleOfTxt == true) {
+                    if (au.getTxtOldUsername().getText().trim().equals("")
+                            && au.getTxtNewUsername().getText().trim().equals("")
+                            && au.getTxtOldPassword().getText().trim().equals("")
+                            && au.getTxtNewPassword1().getText().trim().equals("")
+                            && au.getTxtNewPassword2().getText().trim().equals("")) {
+
+                        visibleOfTxt = false;
+                        setVisible(visibleOfTxt);
+                    } else if ((!au.getTxtNewUsername().getText().trim().equals("")
+                            && (!au.getTxtOldPassword().getPassword().equals("")
+                            || !au.getTxtNewPassword1().getPassword().equals("")
+                            || !au.getTxtNewPassword2().getPassword().equals("")))) {
+
+                        if (au.getTxtOldUsername().getText().trim().equals("")
+                                && !au.getTxtNewUsername().getText().trim().equals("")
+                                && !au.getTxtOldPassword().getPassword().equals("")
+                                && !au.getTxtNewPassword1().getPassword().equals("")
+                                && !au.getTxtNewPassword2().getPassword().equals("")) {
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Hem kullanıcı adınızı hem şifrenizi değiştirmek için lüfen tüm bilgileri doldurunuz ");
+                            // önce şifreyi sonra kullanıcı ismini güncellemeliyim
+                        }
+                    } else if (!au.getTxtOldPassword().getPassword().equals("")
+                            || !au.getTxtNewPassword1().getPassword().equals("")
+                            || !au.getTxtNewPassword2().getPassword().equals("")) {
+                        if (!au.getTxtOldUsername().getText().trim().equals("")
+                                && !au.getTxtOldPassword().getPassword().equals("")
+                                && !au.getTxtNewPassword1().getPassword().equals("")
+                                && !au.getTxtNewPassword2().getPassword().equals("")) {
+                            if (String.valueOf(au.getTxtNewPassword1().getPassword()).equals(String.valueOf(au.getTxtNewPassword2().getPassword()))) {
+
+                                UpdatePassword();
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Yeni Parolanız ile Parola tekrarı uyuyuşmamaktadır");
+                                au.getTxtNewPassword1().setText("");
+                                au.getTxtNewPassword2().setText("");
+                            }
+
+                            // şifreyi değiştirmeliyim
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Şifrenizi değiştirmek için lütfen \nşuanki şifrenizi, yeni şifreniz ve şifre tekrarını eksiksiz doldurun ");
+                        }
+                    } else if (!au.getTxtNewUsername().getText().trim().equals("")) {
+                        if (!au.getTxtOldUsername().getText().trim().equals("") && !au.getTxtNewUsername().getText().trim().equals("")) {
+                            JOptionPane.showMessageDialog(null, "Kullanıcı Adınızı Değiştirmek İstediğinize Emin Misiniz ?");
+                            // kullanıcı adını değiştirmeliyim
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Kullanıcı adını değiştirmek için lütfen \nşuanki kullanıcı adını ve yeni kullanıcı adı bölümünü dolduurn"
+                                    + "");
+                        }
+                    }
+                    /*if (EnteredTxt() == true) {
+                        operationsOnTextfield();
+
+                        if (!au.getTxtOldUsername().getText().trim().equals(noVoice)) {
+
+                        } else {
+                            java.awt.Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(null, "Yeni kullanıcı adınız eskii kullanıcı adınızdan farklı olmalı");
+                        }// kullanıcı adı eskisi her türlü de
+                        /*
+                        kullanıcı adı şifre şifre şifre
+                        kullanıcı adı yei kullanıcı adı  */ /*  if ((!au.getTxtOldUsername().getText().trim().equals("") && au.getTxtOldUsername().getText().trim().equals(oldUsername))
+                                && (!au.getTxtNewUsername().getText().trim().equals("") && au.getTxtNewUsername().getText().trim().equals(newUser))) {
+                            if (au.getTxtOldUsername().getText().trim().equals(au.getTxtNewUsername().getText().trim())) {
+                                JOptionPane.showMessageDialog(null, "Eski ve yeni kullanıcı adınız farklı olmalıdır");
+                            } else {
+                                UpdateUser();
+                            }
+                        }
+                        if (au.getTxtOldPassword().getText().trim().equals(au.getTxtNewUsername().getText().trim())) {
+                            java.awt.Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(null, "Eski ve yeni kullanıcı adınız farklı olmalıdır");
+
+                        }
+
+                        if (au.getTxtOldPassword().getText().trim().equals(au.getTxtNewPassword1().getText().trim())) {
+                            if (!au.getTxtNewPassword1().getText().trim().equals(au.getTxtNewPassword2().getText().trim())) {
+                                JOptionPane.showMessageDialog(null, "Yeni şifreler birbiriyle uyumsuz");
+                            }
+                            java.awt.Toolkit.getDefaultToolkit().beep();
+                            JOptionPane.showMessageDialog(null, "Yeni şifreniz eski şifreniz ile aynı ");
+                        }
+                   
+                    } else {
+                        visibleOfTxt = false;
+                        au.getTxtResult().setForeground(Color.GRAY);
+                        au.getTxtResult().setBackground(new Color(238, 238, 238));
+                        setVisible(visibleOfTxt);
+                    }*/
+
+                } else {
+                    visibleOfTxt = true;
+                    setVisible(visibleOfTxt);
+                }
+
             }
+
         }
+    }
+
+    public boolean SearchInDatabase(String Query) {
+        SqlConnection sqlConnection = new SqlConnection();
+        sqlConnection.setResultSet(Query);
+        try {
+            if (sqlConnection.getResultSet().next()) {
+
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public void FailedUpdate() {
+        au.getTxtResult().setText("İşlem Başarısız");
+        au.getTxtResult().setBackground(Color.red);
+        au.getTxtResult().setForeground(Color.BLACK);
+    }
+
+    public void UpdatePassword() {
+        SqlConnection sqlConnection = new SqlConnection();
+        String ControlOldUsernameQuery = "SELECT * FROM  admin WHERE Username LIKE '" + au.getTxtOldUsername().getText().trim() + "'";
+        if (SearchInDatabase(ControlOldUsernameQuery) == true) {
+
+            String UpdatePasswordQuery = "UPDATE  admin SET  Password ='" + String.valueOf(au.getTxtNewPassword1().getPassword()) + "' "
+                    + "WHERE Username  LIKE '" + au.getTxtOldUsername().getText().trim() + "' "
+                    + "AND Password LIKE '" + String.valueOf(au.getTxtOldPassword().getPassword()) + "' ";
+            int answer = JOptionPane.showConfirmDialog(null, "Şifrenizi Değiştirmek İstediğinize Emin Misiniz ?");
+            if (answer == JOptionPane.YES_OPTION) {
+                if (sqlConnection.Update(UpdatePasswordQuery) == 1) {
+                    SuccessVoice();
+                    au.getTxtResult().setText("Parola Değiştirildi");
+                    au.getTxtResult().setBackground(Color.GREEN);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Lütfen şuanki şifrenizi doğru bir şekilde girin");
+                    au.getTxtResult().setText("Hatalı Şifre");
+                    au.getTxtResult().setBackground(Color.RED);
+                }
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Şuanki kullanıcı adı bulunamadı");
+        }
+
+    }
+
+    public void UpdateUser() {
+        SqlConnection sqlConnection = new SqlConnection();
+
+        String UpdateUser = "UPDATE  admin SET Username='" + au.getTxtNewUsername().getText().trim()
+                + "'  WHERE Username LIKE '" + au.getTxtOldUsername().getText().trim() + "'";
+        String oldUserExit = "SELECT * FROM admin WHERE Username LIKE '" + au.getTxtOldUsername().getText().trim() + "'";
+        String newUserExit = "SELECT * FROM admin WHERE Username LIKE '" + au.getTxtNewUsername().getText().trim() + "'";
+        if (SearchInDatabase(oldUserExit)) {
+            if (SearchInDatabase(newUserExit)) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
+                JOptionPane.showMessageDialog(null, "Yeni kullanıcı adı zaten kayıtlı  Lütfen başka bir kullanıcı adı giriniz");
+                FailedUpdate();
+            } else {
+                sqlConnection.Update(UpdateUser);
+                SuccessVoice();
+                au.getTxtResult().setText("İşlem Başarılı");
+                au.getTxtResult().setBackground(Color.GREEN);
+                au.getTxtResult().setForeground(Color.BLACK);
+            }
+        } else {
+            java.awt.Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı");
+            FailedUpdate();
+        }
+    }
+
+    /*public void operationsOnTextfield() {
+        if ((ControlUser() == Color.RED && ControlPassword() == Color.GREEN)
+                || (ControlUser() == Color.GREEN && ControlPassword() == Color.RED)) {
+            //  paintBtnChangePassword(Color.ORANGE);
+        } else if (ControlUser() == Color.RED || ControlPassword() == Color.RED) {
+            //     paintBtnChangePassword(Color.RED);
+        } else if (ControlUser() == Color.GREEN || ControlPassword() == Color.GREEN) {
+            //  paintBtnChangePassword(Color.GREEN);
+        } else {
+            //   paintBtnChangePassword(new Color(238, 238, 238));
+        }
+
+    }*/
+//    public void paintBtnChangePassword(Color color) { au.getBtnChangePassword().setBackground(color);}
+    public Color ControlUser() {
+        int totalWritedTxt = 0;
+        if (!au.getTxtOldUsername().getText().equals("")) {
+            totalWritedTxt++;
+        }
+        if (!au.getTxtNewUsername().getText().equals("")) {
+            totalWritedTxt++;
+        }
+        if (totalWritedTxt == 1) {
+            return Color.RED;
+
+        } else if (totalWritedTxt == 2) {
+            return Color.GREEN;
+        }
+        return new Color(238, 238, 238);
+    }
+
+    public Color ControlPassword() {
+        int totalWritedTxt = 0;
+        if (!au.getTxtOldPassword().getText().equals("")) {
+            totalWritedTxt++;
+        }
+        if (!au.getTxtNewPassword1().getText().equals("")) {
+            totalWritedTxt++;
+        }
+        if (!au.getTxtNewPassword2().getText().equals("")) {
+            totalWritedTxt++;
+        }
+        if (totalWritedTxt == 3) {
+            return Color.GREEN;
+        } else if (totalWritedTxt == 1 || totalWritedTxt == 2) {
+            return Color.RED;
+
+        }
+        return new Color(238, 238, 238);
+    }
+
+    /*public boolean EnteredTxt() {
+
+        if (!au.getTxtOldUsername().getText().equals( )
+                || !au.getTxtNewUsername().getText().equals( )
+                || !au.getTxtOldPassword().getText().equals( )
+                || !au.getTxtNewPassword1().getText().equals( )
+                || !au.getTxtNewPassword2().getText().equals( )) {
+
+            return true;
+        }
+
+        return false;
+    }*/
+    public void setVisible(boolean visible) {
+        au.getTxtOldUsername().setVisible(visible);
+        au.getTxtNewUsername().setVisible(visible);
+        au.getTxtResult().setVisible(visible);
+        au.getTxtOldPassword().setVisible(visible);
+        au.getTxtNewPassword1().setVisible(visible);
+        au.getTxtNewPassword2().setVisible(visible);
+        au.getLblOldUsername().setVisible(visible);
+        au.getLblNewUsername().setVisible(visible);
+        au.getLblResult().setVisible(visible);
+        au.getLblOldPassword().setVisible(visible);
+        au.getLblNewPassword1().setVisible(visible);
+        au.getLblNewPassword2().setVisible(visible);
+    }
+
+    public boolean ColorControl() {
+        if (au.getTxtOldUsername().getForeground() != Color.GRAY
+                || au.getTxtNewUsername().getForeground() != Color.GRAY
+                || au.getTxtOldPassword().getForeground() != Color.GRAY
+                || au.getTxtNewPassword1().getForeground() != Color.GRAY
+                || au.getTxtNewPassword2().getForeground() != Color.GRAY) {
+            return true;
+        }
+        return false;
+
     }
 
     public void ExtendTime() {
@@ -230,13 +504,15 @@ public class ActionTimeFine implements ActionListener, FocusListener, TableModel
                     delay -= 30;
                     delay++;
                     delay = -delay;
+
                 }
 
             }
         } /*catch (ClassNotFoundException ex) {
             Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
         }*/ catch (SQLException ex) {
-            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ActionTimeFine.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } finally {
             // closeConnections(conn, stmt, rs, null);
             sqlconnection.CloseAllConnections();
@@ -585,7 +861,7 @@ public class ActionTimeFine implements ActionListener, FocusListener, TableModel
                     if (Double.parseDouble(fdp.getTxtDebt().getText()) < 0.0) {
                         fdp.getTxtAmountOfPayment().setText("-");
                     } else {
-                     fdp.getTxtAmountOfPayment().setText("");   
+                        fdp.getTxtAmountOfPayment().setText("");
                     }
                 }
                 fdp.getTxtAmountOfPayment().setForeground(Color.BLACK);
@@ -642,11 +918,52 @@ public class ActionTimeFine implements ActionListener, FocusListener, TableModel
             }*/
             //            System.out.println(String.valueOf(tcet.getTbl().getValueAt(tcet.getTbl().getSelectedRow(), tcet.getTbl().getSelectedColumn())));
         }
+        /*else if (au != null) {
+            operationsOnTextfield();
+//üstüne gelince boş bırakacak eğer doldurmadan geçerse kişi otomatak doldurma yapacak
+            if (e.getSource() == au.getTxtOldUsername()) {
+                au.getTxtOldUsername().setText("");
+                au.getTxtOldUsername().setForeground(Color.BLACK);
+            } else if (e.getSource() == au.getTxtNewUsername()) {
+                au.getTxtNewUsername().setText("");
+                au.getTxtNewUsername().setForeground(Color.BLACK);
+            } else if (e.getSource() == au.getTxtOldPassword()) {
+                au.getTxtOldPassword().setText("");
+                au.getTxtOldPassword().setForeground(Color.BLACK);
+            } else if (e.getSource() == au.getTxtNewPassword1()) {
+                au.getTxtNewPassword1().setText("");
+                au.getTxtNewPassword1().setForeground(Color.BLACK);
+            } else if (e.getSource() == au.getTxtNewPassword2()) {
+                au.getTxtNewPassword2().setText("");
+                au.getTxtNewPassword2().setForeground(Color.BLACK);
+            } else {
+
+            }
+        }*/
     }
 
     @Override
     public void focusLost(FocusEvent e) {
+        /* if (au != null) {
+//üstüne gelince boş bırakacak eğer doldurmadan geçerse kişi otomatak doldurma yapacak
+            if (e.getSource() == au.getTxtOldUsername() && au.getTxtOldUsername().getText().trim().equals("")) {
+                au.getTxtOldUsername().setText(oldUsername);
+                au.getTxtOldUsername().setForeground(Color.GRAY);
+            } else if (e.getSource() == au.getTxtNewUsername() && au.getTxtNewUsername().getText().trim().equals("")) {
+                au.getTxtNewUsername().setText(newUser);
+                au.getTxtNewUsername().setForeground(Color.GRAY);
+            } else if (e.getSource() == au.getTxtOldPassword() && au.getTxtOldPassword().getText().trim().equals("")) {
+                au.getTxtOldPassword().setText(oldPassword);
+                au.getTxtOldPassword().setForeground(Color.GRAY);
+            } else if (e.getSource() == au.getTxtNewPassword1() && au.getTxtNewPassword1().getText().trim().equals("")) {
+                au.getTxtNewPassword1().setText(newPassword);
+                au.getTxtNewPassword1().setForeground(Color.GRAY);
+            } else if (e.getSource() == au.getTxtNewPassword2() && au.getTxtNewPassword2().getText().trim().equals("")) {
+                au.getTxtNewPassword2().setText(newPassword);
+                au.getTxtNewPassword2().setForeground(Color.GRAY);
+            }
 
+        }*/
     }
 
     /* @Override
