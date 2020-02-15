@@ -38,6 +38,7 @@ public class ActionStudent implements ActionListener, FocusListener {
     boolean StudentCanAdd;
     boolean StudentBringCame;
     boolean StudentCanUpdate;
+    //  boolean firstEntry = true;
     Color rsgPlaceHolder = Color.GRAY;
     Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
 
@@ -131,17 +132,16 @@ public class ActionStudent implements ActionListener, FocusListener {
                     || e.getSource() == sug.getTxtNewEmail()
                     || e.getSource() == sug.getTxtPhoneNo()) {
 
-                if (Pattern.matches("^[a-zA-z0-9]+[@]{1}+[a-zA-z0-9]+[.]{1}[a-zA-z0-9]+$", sug.getTxtNewEmail().getText().trim())) {
-                    DBStudentUpdate();
-
-                } else {
+                DBStudentUpdate();
+                /* if (Pattern.matches("^[a-zA-z0-9]+[@]{1}+[a-zA-z0-9]+[.]{1}[a-zA-z0-9]+$", sug.getTxtNewEmail().getText().trim())) {
+                                   } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(null, "lütfen geçerli bir email adresi girin", "GEÇERSİZ EMAİL", JOptionPane.ERROR_MESSAGE);
                     sug.getTxtResult().setText("Geçersiz Eposta Adresi");
                     sug.getTxtResult().setForeground(Color.BLACK);
                     sug.getTxtResult().setBackground(new Color(237, 76, 103));
 
-                }
+                }*/
 
             } else if (e.getSource() == sug.getBtnDelete()) {
                 if (ControlBeforeRemoveStudent() == true) {
@@ -936,7 +936,11 @@ public class ActionStudent implements ActionListener, FocusListener {
             if (counter == 0) {
                 noVoice = true;
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                //  JOptionPane.showMessageDialog(null, "Malesef Aradığınız kriterlere uygun veriler bulunamadı");
+                /*    if (firstEntry == false) {
+
+                } else {
+                    firstEntry = false;
+                }*///  JOptionPane.showMessageDialog(null, "Malesef Aradığınız kriterlere uygun veriler bulunamadı");
             }
             if (noVoice == false) {
                 SuccessVoice();

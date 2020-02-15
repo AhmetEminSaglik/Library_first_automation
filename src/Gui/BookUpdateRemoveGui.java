@@ -2,6 +2,7 @@ package Gui;
 
 import Logic.ActionsBook;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -345,6 +346,7 @@ public class BookUpdateRemoveGui extends JPanel {
             btnComeBack.setFont(lblFont);
             btnComeBack.setBounds(leftSpace,
                     txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
+            btnComeBack.setCursor(new Cursor(12));
         }
         return btnComeBack;
     }
@@ -362,7 +364,9 @@ public class BookUpdateRemoveGui extends JPanel {
                     txtWidth, txtHeight);
 
             txtPushUnderCounter++;
+            btnUpdate.setCursor(new Cursor(12));
         }
+
         return btnUpdate;
     }
 
@@ -378,7 +382,7 @@ public class BookUpdateRemoveGui extends JPanel {
             btnDelete.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 27.32),
                     txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter) - (int) (screenSizeHeight / 8.533333333333333),
                     txtWidth, txtHeight);
-
+            btnDelete.setCursor(new Cursor(12));
         }
         return btnDelete;
     }

@@ -291,7 +291,6 @@ public class FineDebtPayment {
         tbl.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tbl.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         tbl.setRowHeight((int) (screenSizeHeight / 38.4));
-        tbl.getModel().addTableModelListener(action);
 
         return tbl;
 
@@ -335,6 +334,7 @@ public class FineDebtPayment {
             btnPay = new JButton("Öde");
             btnPay.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), txtTopSpace + lblHeight + txtHeight + (int) (screenSizeHeight / 51.2), lblWidth, (int) (screenSizeHeight / 25.6));
             btnPay.setFont(lblFont);
+            btnPay.setCursor(new Cursor(12));
 
         }
         return btnPay;
@@ -350,7 +350,7 @@ public class FineDebtPayment {
             btnComeBack.setFont(lblFont);
             btnComeBack.setBounds(LeftSpace, (int) (screenSizeHeight / 1.7066666666666668),
                     (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
-
+            btnComeBack.setCursor(new Cursor(12));
         }
         return btnComeBack;
     }

@@ -344,7 +344,7 @@ public class Login extends JPanel {
 
             String sql2 = "INSERT INTO `admin` (`Username`, `Password`) "
                     + "VALUES ('1', '1'),"
-                    + "('','')";
+                    + "('2','2')";
 
             stmt.executeUpdate(sql2);
         } catch (SQLException se) {

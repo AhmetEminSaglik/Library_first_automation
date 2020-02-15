@@ -2,6 +2,7 @@ package Gui;
 
 import Logic.ActionStudent;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -350,6 +351,7 @@ public class StudentStateGui extends JPanel {
             btnComeBack.setBounds(LeftSpace, (int) (screenSizeHeight / 1.7066666666666668),
                     (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 21.942857142857143));
             btnComeBack.setFont(txtFont);
+            btnComeBack.setCursor(new Cursor(12));
 
         }
         return btnComeBack;

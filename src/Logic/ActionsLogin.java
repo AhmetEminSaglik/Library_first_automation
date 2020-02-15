@@ -23,7 +23,7 @@ public class ActionsLogin implements ActionListener {
                 String JDBC_DRIVER = "com.mysql.jdbc.Driver";
                 String DB_URL = "jdbc:mysql://localhost/library";
 
-                    String USER = "root";
+                String USER = "root";
                 String PASS = "";
 
                 Connection conn = null;
@@ -51,7 +51,8 @@ public class ActionsLogin implements ActionListener {
 
                     }
                     if (!girisDogru) {
-                        JOptionPane.showMessageDialog(null, "HATALI KULLANICI  ADI/ ŞİFRE");
+                        java.awt.Toolkit.getDefaultToolkit().beep();
+                        JOptionPane.showMessageDialog(null, "KULLANICI ADI VEYA PAROLA HATALI");
                         login.getTxtusername().setText("");
                         login.getjPass().setText("");
                     }

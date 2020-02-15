@@ -1,0 +1,21 @@
+eski yeni kullanıcı  eski parola --> kullanıcı adı değiştirir 
+eski kullanıcıparola yeni parolalar şifre değiştirir
+
+
+eski yeni kullanıcı  np
+
+eski kullanıcı parola yeni parola parola   np 
+
+yeni kullanıcı  (ve şifrelerden sadece 1 tanesi yeterli )  
+
+            {yeni kullanıcı dolu
+            parolalardan bir tanesi dolu  
+
+            eski kullanıcı da dolu ise      -->  komple değişir
+                              boş ise       --> eski kullanıcı doldurma bildirimi çıkar
+
+            }
+                
+            { eski kullanıcı ve sadece parolarlar --> parola değişir}
+            
+            {}

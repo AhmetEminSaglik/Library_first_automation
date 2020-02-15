@@ -2,6 +2,7 @@ package Gui;
 
 import Logic.ActionTimeFine;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -59,10 +60,7 @@ public class AboutUs {
     final int lblHeight = 20;
     final int lblWidth = txtWidth;
     final int lblTopSpace = 350;
-    /*txt --> 25 
-    lbl 10 --> 10   = 30
-     
-     */
+
     int txtpushRight = 0;
     int txtpushUnder = 0;
     int lblpushRight = 0;
@@ -76,15 +74,27 @@ public class AboutUs {
     Font lblFont = new Font("", 0, (int) (screenSizeWidth / 75.88));
 
     public String FillTextArea() {
-        return "    2. Sınıf öğrencisiyken gönüllü  olarak , \n"
+        String txt1 = "    Yazılım mühendisliği 2. Sınıf öğrencisiyken \n"
+                + "gönüllü  olarak, Öncelikle kütüphanemizdeki çalışan \n"
+                + "arkadaşlarımıza ve kitap kontrolü için dekanımıza  \n"
+                + "sonrasında da diğer tüm arkadaşların işlerini \n"
+                + "kolaylaştırmak için bu otomasyonu 13.02.2020 tarihinde \n"
+                + "Karadeniz Teknoloji Üniversitesi, Of Teknoloji  \n"
+                + "Fakültesindeki kütüphanemize hediye ediyorum.\n"
+                + "Daha huzurlu olmanız dileğiyle ...\n\n"
+                + "                    Ahmet Emin SAĞLIK 385931 \n"
+                + "                           13.02.2020";
+        String txt2 = "    2. Sınıf öğrencisiyken gönüllü  olarak , \n"
                 + "Öncelikle kütüphanemizdeki çalışan arkadaşlara ve \n"
                 + "kitap kontrolü için dekanımıza  sonrasında da \n"
                 + "diğer tüm arkadaşların işlerini kolaylaştırmak için   \n"
                 + "bu  otomasyonu    13.02. 2020    tarihinde   \n"
+                + "Karadeniz Teknoloji Üniversitesi \n"
                 + "Of Teknoloji Fakültesindeki kütüphanemize \n"
                 + "hediye ediyorum.   \n"
                 + "                    Ahmet Emin SAĞLIK 385931 \n"
                 + "                        13.02.2020";
+        return txt1;
     }
 
     public AboutUs(MainGui mg) {
@@ -121,11 +131,17 @@ public class AboutUs {
         getTxtOldPassword().addActionListener(action);
         getTxtNewPassword1().addActionListener(action);
         getTxtNewPassword2().addActionListener(action);
-        getTxtOldUsername().addFocusListener(action);
-        getTxtNewUsername().addFocusListener(action);
-        getTxtOldPassword().addFocusListener(action);
-        getTxtNewPassword1().addFocusListener(action);
-        getTxtNewPassword2().addFocusListener(action);
+
+    }
+
+    public void ChangeForegroundColor(Color color) {
+        getTxtAreaAboutMe().setForeground(color);
+        getLblOldUsername().setForeground(color);
+        getLblNewUsername().setForeground(color);
+        getLblResult().setForeground(color);
+        getLblOldPassword().setForeground(color);
+        getLblNewPassword1().setForeground(color);
+        getLblNewPassword2().setForeground(color);
 
     }
 
@@ -144,9 +160,9 @@ public class AboutUs {
             getTxtAreaAboutMe().setBackground(new Color(firstColor, secondColor, thirdColor));
 
             if (firstColor + secondColor + thirdColor < 100) {
-                getTxtAreaAboutMe().setForeground(new Color(255, 255, 255));
+                ChangeForegroundColor(new Color(255, 255, 255));
             } else {
-                getTxtAreaAboutMe().setForeground(new Color(0, 0, 0));
+                ChangeForegroundColor(new Color(0, 0, 0));
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(AboutUs.class.getName()).log(Level.SEVERE, null, ex);
@@ -254,8 +270,8 @@ public class AboutUs {
             txtAreaAboutMe = new JTextArea();
             txtAreaAboutMe.setFocusable(false);
             txtAreaAboutMe.setFont(new Font("", Font.BOLD, (int) (screenSizeWidth / 75.88)));
-            txtAreaAboutMe.setBounds((int) (screenSizeWidth / 13.66), (int) (screenSizeHeight / 15.36),
-                    (int) (screenSizeWidth / 1.9514285714285715), (int) (screenSizeHeight / 2.56));
+            txtAreaAboutMe.setBounds((int) (screenSizeWidth / 17.075), (int) (screenSizeHeight / 30.72),
+                    (int) (screenSizeWidth / 1.9514285714285715), (int) (screenSizeHeight / 2.35));
         }
         return txtAreaAboutMe;
     }
@@ -270,7 +286,7 @@ public class AboutUs {
             btnComeBack.setFont(btnFont);
             btnComeBack.setBounds((int) (screenSizeWidth / 27.32), (int) (screenSizeHeight / 1.7066666666666668),
                     (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 21.942857142857143));
-
+            btnComeBack.setCursor(new Cursor(12));
         }
         return btnComeBack;
     }
@@ -365,7 +381,7 @@ public class AboutUs {
             txtOldPassword.setFont(lblFont);
             txtOldPassword.setVisible(false);
             txtpushRight++;
-            System.out.println(txtOldUsername.getBounds());
+            // System.out.println(txtOldUsername.getBounds());
         }
         return txtOldPassword;
     }
@@ -422,8 +438,9 @@ public class AboutUs {
                     (txtWidth * 5 / 2) - 45, (int) (screenSizeHeight / 21.942857142857143));
             btnChangePassword.setBackground(new Color(238, 238, 238));
             btnChangePassword.setFont(btnFont);
+            btnChangePassword.setCursor(new Cursor(12));
 
-            System.out.println(txtWidth * 5 / 2);
+            // System.out.println(txtWidth * 5 / 2);
             txtpushRight++;
         }
         return btnChangePassword;
@@ -436,14 +453,14 @@ public class AboutUs {
     public JLabel getLblOldUsername() {
 
         if (lblOldUsername == null) {
-            lblOldUsername = new JLabel("Şuanki Kullanıcı Adı");
+            lblOldUsername = new JLabel("Kullanıcı Adı");
             lblOldUsername.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
                     lblTopSpace + (lblpushUnder * (lblHeight + 5)),
                     lblWidth, lblHeight);
             lblOldUsername.setForeground(Color.BLACK);
             lblOldUsername.setFont(lblFont);
             lblOldUsername.setVisible(false);
-            System.out.println(lblOldUsername.getBounds());
+            //  System.out.println(lblOldUsername.getBounds());
 
             lblpushRight++;
         }
@@ -494,7 +511,7 @@ public class AboutUs {
 
     public JLabel getLblOldPassword() {
         if (lblOldPassword == null) {
-            lblOldPassword = new JLabel("Şuanki Parolanız");
+            lblOldPassword = new JLabel(" Parolanız");
             lblOldPassword.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
                     lblTopSpace + (lblpushUnder * (lblHeight + 5 + txtHeight)),
                     lblWidth, lblHeight);
@@ -513,7 +530,7 @@ public class AboutUs {
 
     public JLabel getLblNewPassword1() {
         if (lblNewPassword1 == null) {
-            lblNewPassword1 = new JLabel("Yeni  Şifre");
+            lblNewPassword1 = new JLabel("Yeni  Parola");
             lblNewPassword1.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
                     lblTopSpace + (lblpushUnder * (lblHeight + 5 + txtHeight)),
                     lblWidth, lblHeight);
@@ -532,7 +549,7 @@ public class AboutUs {
 
     public JLabel getLblNewPassword2() {
         if (lblNewPassword2 == null) {
-            lblNewPassword2 = new JLabel("Şifre Tekrarı");
+            lblNewPassword2 = new JLabel("Parola Tekrarı");
             lblNewPassword2.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
                     lblTopSpace + (lblpushUnder * (lblHeight + 5 + txtHeight)),
                     lblWidth, lblHeight);

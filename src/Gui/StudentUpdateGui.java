@@ -2,6 +2,7 @@ package Gui;
 
 import Logic.ActionStudent;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -351,6 +352,7 @@ public class StudentUpdateGui extends JPanel {
             btnComeBack = new JButton("Geri dön");
             btnComeBack.setFont(lblFont);
             btnComeBack.setBounds(leftSpace, (int) (screenSizeHeight / 1.7066666666666668), (int) (screenSizeWidth / 6.83), (int) (screenSizeHeight / 25.6));
+            btnComeBack.setCursor(new Cursor(12));
 
         }
         return btnComeBack;
@@ -366,7 +368,7 @@ public class StudentUpdateGui extends JPanel {
             btnUpdate.setFont(lblFont);
             btnUpdate.setBounds(leftSpace + (int) (screenSizeWidth / 2.4836363636363634),
                     (int) (screenSizeHeight / 1.7066666666666668), (int) (screenSizeWidth / 6.83), (int) (screenSizeHeight / 25.6));
-
+            btnUpdate.setCursor(new Cursor(12));
         }
         return btnUpdate;
     }
@@ -381,6 +383,8 @@ public class StudentUpdateGui extends JPanel {
             btnDelete.setFont(lblFont);
             btnDelete.setBounds(leftSpace + (int) (screenSizeWidth / 4.967272727272727), (int) (screenSizeHeight / 1.7066666666666668),
                     (int) (screenSizeWidth / 6.83), (int) (screenSizeHeight / 25.6));
+
+            btnDelete.setCursor(new Cursor(12));
         }
         return btnDelete;
     }

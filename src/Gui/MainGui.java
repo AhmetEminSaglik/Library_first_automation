@@ -585,7 +585,8 @@ public class MainGui {
     public JButton getAboutUs() {
         if (aboutUs == null) {
             aboutUs = build_JbuttonForNulls(aboutUs, FloorOf_Time_Exit_X, ThirdButtons_Y);
-            aboutUs.setText("Hakkımızda");
+            aboutUs.setText("Hakkımızda / Parola");
+            //aboutUs.setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 80));
 
         }
         return aboutUs;

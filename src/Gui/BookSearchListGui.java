@@ -342,6 +342,7 @@ public class BookSearchListGui {
             btnComeBack.setFont(font_lbl);
             btnComeBack.setBounds(leftSpace, (int) (screenSizeHeight / 1.7066666666666668),
                     (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
+            btnComeBack.setCursor(new Cursor(12));
             
         }
         

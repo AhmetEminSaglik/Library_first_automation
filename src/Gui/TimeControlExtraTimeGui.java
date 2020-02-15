@@ -67,7 +67,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
     public TableModel model = null;
 
     public TimeControlExtraTimeGui(MainGui mg) {
-        System.out.println(screenSizeWidth / 18);
+
         setMg(mg);
         setJf(mg.getJf());
         getJf().setTitle("SÜRE KONTROL & UZATMA ");
@@ -363,7 +363,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
             btnExtendTime = new JButton("Süreyi uzat");
             btnExtendTime.setFont(font_txt);
             btnExtendTime.setBounds(leftSpace + txtWidth * 5 / 4, txtTopSpace, lblWidth / 2, txtHeight);
-
+            btnExtendTime.setCursor(new Cursor(12));
         }
         return btnExtendTime;
     }
@@ -378,7 +378,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
             btnComeBack.setFont(font_txt);
             btnComeBack.setBounds(leftSpace, (int) (screenSizeHeight / 1.6340425531914893),
                     (int) (screenSizeWidth / 9.106666666666667), (int) (screenSizeHeight / 25.6));
-
+            btnComeBack.setCursor(new Cursor(12));
         }
         return btnComeBack;
     }
@@ -392,6 +392,7 @@ public final class TimeControlExtraTimeGui extends JPanel {
             btnSearch = new JButton("Ara");
             btnSearch.setFont(font_txt);
             btnSearch.setBounds(leftSpace + txtWidth * 5 / 4, txtTopSpace + (lblPushUnder * pushUnderCounter), lblWidth / 2, txtHeight);
+            btnSearch.setCursor(new Cursor(12));
         }
         return btnSearch;
     }
