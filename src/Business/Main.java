@@ -1,11 +1,13 @@
 package Business;
 
 import Gui.Login;
+import javax.swing.JOptionPane;
 
 public class Main {
 
     public static void main(String[] args) {
-        Login login = new Login();
+        new Login();
 
+        JOptionPane.showMessageDialog(null, "");
     }
 }

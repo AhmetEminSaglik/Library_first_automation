@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,19 +17,20 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class Login extends JPanel {
+public class Login extends JLayeredPane {
 
     JFrame jf = null;
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
     final double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
     final int scaleWidth = (int) (screenSize.getWidth() / 1.6070588235294119);
@@ -37,8 +39,11 @@ public class Login extends JPanel {
     final int screenSizeHeight = (int) screenSize.getHeight();
     final int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);
     final int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
+    JLabel lblImageKtu;
+    JLabel lblImageBook;
     JLabel lblusername;
     JLabel lblPass;
+
     JTextField txtusername;
     JPasswordField jPass;
 
@@ -51,16 +56,21 @@ public class Login extends JPanel {
 
         this.setLayout(null);
         this.setBackground(new Color(255, 234, 167));
-        this.add(getLblusername());
-        this.add(getLblPass());
-        this.add(getTxtusername());
-        this.add(getjPass());
-        this.add(getSignIn());
+        this.add(getLblImageKtu(), new Integer(0));
+        this.add(getLblImageBook(), new Integer(0));
+        this.add(getLblusername(), new Integer(1));
+        this.add(getLblPass(), new Integer(1));
+        this.add(getTxtusername(), new Integer(1));
+        this.add(getjPass(), new Integer(1));
+        this.add(getSignIn(), new Integer(1));
+
         getJf().add(this);
         getJf().setVisible(true);
         getJf().setCursor(new Cursor(3));
+
         CreateDatabase();
         CreateTable();
+
         getJf().setCursor(null);
         JavaMailUtil jmu = new JavaMailUtil();
         Thread t1 = new Thread(new Runnable() {
@@ -101,7 +111,7 @@ public class Login extends JPanel {
     public JLabel getLblusername() {
         if (lblusername == null) {
             lblusername = new JLabel("Kullanıcı adı  : ");
-            lblusername.setBounds(screenSizeWidth / 10, screenSizeHeight / 5, screenSizeWidth / 6, screenSizeHeight / 19);
+            lblusername.setBounds(screenSizeWidth / 10, (int) (screenSizeHeight / 3.2), screenSizeWidth / 6, screenSizeHeight / 19);
 
             lblusername.setFont(lblFont);
 
@@ -116,7 +126,7 @@ public class Login extends JPanel {
     public JLabel getLblPass() {
         if (lblPass == null) {
             lblPass = new JLabel("Parola         : ");
-            lblPass.setBounds(screenSizeWidth / 10, (screenSizeHeight / 4) + screenSizeHeight / 38, screenSizeWidth / 6, screenSizeHeight / 19);
+            lblPass.setBounds(screenSizeWidth / 10, (int) (screenSizeHeight / 2.7), screenSizeWidth / 6, screenSizeHeight / 19);
 
             lblPass.setFont(lblFont);
 
@@ -132,7 +142,7 @@ public class Login extends JPanel {
         if (txtusername == null) {
             txtusername = new JTextField("");
 
-            txtusername.setBounds((screenSizeWidth * 3 / 12), (screenSizeHeight / 5), ((screenSizeWidth / 5)), (screenSizeHeight / 19));
+            txtusername.setBounds((screenSizeWidth * 3 / 12), (int) (screenSizeHeight / 3.2), ((screenSizeWidth / 5)), (screenSizeHeight / 19));
             txtusername.setFont(txtFont);
 
         }
@@ -146,7 +156,7 @@ public class Login extends JPanel {
     public JPasswordField getjPass() {
         if (jPass == null) {
             jPass = new JPasswordField("");
-            jPass.setBounds((screenSizeWidth * 3 / 12), (screenSizeHeight / 4) + (screenSizeHeight / 38), (screenSizeWidth / 5), (screenSizeHeight / 19));
+            jPass.setBounds((screenSizeWidth * 3 / 12), (int) (screenSizeHeight / 2.7), (screenSizeWidth / 5), (screenSizeHeight / 19));
             jPass.setFont(txtFont);
 
         }
@@ -160,7 +170,7 @@ public class Login extends JPanel {
     public JButton getSignIn() {
         if (signIn == null) {
             signIn = new JButton("Oturum aç");
-            signIn.setBounds((screenSizeWidth / 3) - (screenSizeWidth / 70), screenSizeHeight * 3 / 8, screenSizeWidth / 9 + (screenSizeWidth / 50), screenSizeHeight / 19);
+            signIn.setBounds((screenSizeWidth / 3) - (screenSizeWidth / 70), (int) (screenSizeHeight / 2.2), screenSizeWidth / 9 + (screenSizeWidth / 50), screenSizeHeight / 19);
 
             signIn.setFont(txtFont);
             signIn.addActionListener(action);
@@ -171,6 +181,43 @@ public class Login extends JPanel {
 
     public void setSignIn(JButton signIn) {
         this.signIn = signIn;
+    }
+
+    public JLabel getLblImageKtu() {
+        if (lblImageKtu == null) {
+            lblImageKtu = new JLabel();
+            lblImageKtu.setBounds(640, 5, 200, 200);
+            ImageIcon imageIconKtu = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("ktuLogo.png")));
+            Image imageKtu = imageIconKtu.getImage();
+            Image imageKtu2 = imageKtu.getScaledInstance(lblImageKtu.getWidth(), lblImageKtu.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon i = new ImageIcon(imageKtu2);
+            lblImageKtu.setIcon(i);
+
+        }
+
+        return lblImageKtu;
+    }
+
+    public void setLblImageKtu(JLabel lblImageKtu) {
+        this.lblImageKtu = lblImageKtu;
+    }
+
+    public JLabel getLblImageBook() {
+        if (lblImageBook == null) {
+            lblImageBook = new JLabel();
+            lblImageBook.setBounds(10, 10, 250, 200);
+            ImageIcon imageIconbook = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("5.gif")));
+            Image imageBook = imageIconbook.getImage();
+            Image imageBook2 = imageBook.getScaledInstance(lblImageKtu.getWidth(), lblImageKtu.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon i = new ImageIcon(imageBook2);
+            lblImageBook.setIcon(i);
+
+        }
+        return lblImageBook;
+    }
+
+    public void setLblImageBook(JLabel lblImageBook) {
+        this.lblImageBook = lblImageBook;
     }
 
     public void CreateDatabase() {
