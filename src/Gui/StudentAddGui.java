@@ -99,7 +99,7 @@ public class StudentAddGui {
         }
         double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
         double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
-        int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);// (int) (screenSize.getWidth() / 5.464);
+        int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);
         int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
         jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
 
@@ -210,7 +210,7 @@ public class StudentAddGui {
     public JLabel getLblPhoneNo() {
 
         lblPhoneNo = new JLabel("Öğrenci Telefon No");
-        //lblPhoneNo.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
+
         lblPhoneNo.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
                 topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
         lblPhoneNo.setForeground(Color.white);

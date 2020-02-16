@@ -24,18 +24,21 @@ public class JavaMailUtil {
     static int last3DayCounter = 0;
     static int over30DayCounter = 0;
     static SqlConnection sqlConnection = new SqlConnection();
-    public static int CounterOfMail = 0;
+    static int CounterOfMail = 0;
     static boolean saveConditionOnMysql = true;
     static Message message;
 
-    public void FindStudentAndMailThem(int Degree) {
+    static final String usernameEmail = "EmailExample@gmail.com";
+    static final String passwordEmail = "Password_From___GoogleAccount_InSecurity_For_Application_Passwords";
+
+    public void FindStudentAndMailThem(int Degree, boolean MessageWillSend) {
 
         String Query = "";
 
         if (Degree == 0) {
 
             Query = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No "
-                    + "WHERE NOW() >  BorrowedDate + INTERVAL  23 DAY  AND book.Condition IS NULL"; // son 7 gün
+                    + "WHERE NOW() >  BorrowedDate + INTERVAL  23 DAY  AND book.Condition IS NULL";
         } else if (Degree == 1) {
 
             Query = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No"
@@ -47,15 +50,30 @@ public class JavaMailUtil {
                     + " WHERE NOW() >  BorrowedDate + INTERVAL  30 DAY  AND book.Condition < "
                     + STARTEDFINE /*+ " or book.Condition IS  NULL )"*/;
         } else {
-
             if (CounterOfMail > 0) {
-                JOptionPane.showMessageDialog(null, CounterOfMail + " Tane Mail atılmıştır\n"
-                        + last7DayCounter + " tanesi son 7 güne girenler için\n"
-                        + last3DayCounter + " tanesi son 3 güne girenler için\n"
-                        + over30DayCounter + " tanesi 30 günü aşanlar için \n");
-            }
-            sqlConnection.CloseAllConnections();
+                if (MessageWillSend == true) {
 
+                    JOptionPane.showMessageDialog(null, CounterOfMail + " Tane Mail atılmıştır\n"
+                            + last7DayCounter + " tanesi son 7 güne girenler için\n"
+                            + last3DayCounter + " tanesi son 3 güne girenler için\n"
+                            + over30DayCounter + " tanesi 30 günü aşanlar için \n\n"
+                            + "Artık programı kapatabilirsiniz");
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Toplamda " + CounterOfMail + " Tane Mail Atılacaktır\n"
+                            + "Lütfen atılan maillerin ayrıntısını  görmeden programı kapatmayınız");
+
+                    CounterOfMail = 0;
+                    last7DayCounter = 0;
+                    last3DayCounter = 0;
+                    over30DayCounter = 0;
+
+                    FindStudentAndMailThem(0, true);
+
+                }
+                sqlConnection.CloseAllConnections();
+            }
             return;
         }
 
@@ -76,18 +94,22 @@ public class JavaMailUtil {
 
                 }
 
-                saveConditionOnMysql = false;
+                if (MessageWillSend == true) {
+                    saveConditionOnMysql = false;
 
-                sendEmail(sqlConnection.getResultSet().getString("Student.Email"),
-                        Degree, sqlConnection.getResultSet().getString("book.BarcodeNo"));
+                    sendEmail(sqlConnection.getResultSet().getString("Student.Email"),
+                            Degree, sqlConnection.getResultSet().getString("book.BarcodeNo"));
 
-                if (saveConditionOnMysql == true) {
+                    if (saveConditionOnMysql == true) {
 
-                    String updateQuery = "UPDATE book set book.Condition = " + Degree
-                            + " WHERE  BarcodeNo LIKE '" + sqlConnection.getResultSet().getString("BarcodeNo") + "'";
+                        String updateQuery = "UPDATE book set book.Condition = " + Degree
+                                + " WHERE  BarcodeNo LIKE '" + sqlConnection.getResultSet().getString("BarcodeNo") + "'";
 
-                    sqlConnection.Update(updateQuery);
+                        sqlConnection.Update(updateQuery);
 
+                    }
+                } else {
+                    CounterOfMail++;
                 }
 
             }
@@ -97,34 +119,32 @@ public class JavaMailUtil {
         }
         sqlConnection.CloseAllConnections();
 
-        FindStudentAndMailThem(++Degree);
+        FindStudentAndMailThem(++Degree, MessageWillSend);
     }
 
     public static void sendEmail(String recepient, Double Debt) {
         saveConditionOnMysql = true;
 
-        final String username = "Ahmeteminsaglik@gmail.com";
-        final String password = "o n z j l q i q z e v s k w l k";
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.starttls.enable", true);
         properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");//587
+        properties.put("mail.smtp.port", "587");
 
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(usernameEmail, passwordEmail);
             }
 
         });
-        prepareMessage(session, username, recepient, Debt);
+        prepareMessage(session, usernameEmail, recepient, Debt);
 
         try {
 
             Transport.send(message);
-            CounterOfMail++;
+
         } catch (MessagingException ex) {
             JOptionPane.showMessageDialog(null, ex + "", "BEKLENMEYEN HATA", JOptionPane.ERROR_MESSAGE);
         }
@@ -140,17 +160,14 @@ public class JavaMailUtil {
             message.setText("az önce iade ettiğiniz kitabı geciktirdiğiniz için  kütüphaneye " + Debt + " Tl "
                     + "borcunuz vardır. Lütfen Birdakine geciktirmemeye özen gösteriniz. İyi günler dileriz");
 
-            //return message;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex + "", "BEKLENMEYEN HATA", JOptionPane.ERROR_MESSAGE);
         }
-        //   return null;
+
     }
 
     public static void sendEmail(String recepient, int condition, String BarcodeNo) {
 
-        final String username = "ahmeteminsaglik@gmail.com";
-        final String password = "o n z j l q i q z e v s k w l k";
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.starttls.enable", true);
@@ -161,11 +178,11 @@ public class JavaMailUtil {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(usernameEmail, passwordEmail);
             }
         });
 
-        Message message = PrepareMessage(session, username, recepient, condition, BarcodeNo);
+        Message message = PrepareMessage(session, usernameEmail, recepient, condition, BarcodeNo);
 
         saveConditionOnMysql = true;
 
@@ -228,7 +245,8 @@ public class JavaMailUtil {
                     break;
 
             }
-
+            sqlConnection.CloseAllConnections();
+            sqlConnection2.CloseAllConnections();
             return message;
 
         } catch (Exception ex) {

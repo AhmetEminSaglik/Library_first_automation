@@ -336,14 +336,13 @@ public final class TimeControlExtraTimeGui extends JPanel {
     }
 
     public void setTbl(JTable tbl) {
-        //OrganizeTable(tbl)
+
         this.tbl = tbl;
     }
 
     public JScrollPane getSp() {
         if (sp == null) {
             sp = new JScrollPane(getTbl());
-//            model = getTbl().getSelectionModel();
 
         }
         sp.setBounds(leftSpace, (int) (screenSizeHeight / 2.8444444444444446),

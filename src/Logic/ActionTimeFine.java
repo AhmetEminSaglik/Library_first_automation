@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 
-public class ActionTimeFine implements ActionListener, FocusListener/*, ListSelectionListener, MouseListener*/ {
+public class ActionTimeFine implements ActionListener, FocusListener {
 
     TimeControlExtraTimeGui tcet;
     FineDebtPayment fdp;
@@ -198,14 +198,12 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                                 if (!au.getTxtOldUsername().getText().equals(au.getTxtNewUsername().getText())) {
 
                                     passwordWillChange = true;
-                                    //if(answer == JOptionPane.YES_OPTION ) int answer = JOptionPane.showConfirmDialog(null, "Şifrenizi Değiştirmek İstediğinize Emin Misiniz ?");
                                     Object[] options = {"Onayla", "İptal"};
                                     String message = "Kullanıcı Adınızı ve Şifrenizi Değiştirmek İstediğinize Emin Misiniz ?";
                                     int answer = JOptionPane.showOptionDialog(null, message, "GÜNCELLEME ONAYI", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, "Onayla");
 
                                     if (answer == JOptionPane.YES_OPTION) {
-//   String ControlOldUsernameAndPasswordQuery = UserExit(username, String.valueOf(au.getTxtOldPassword().getPassword()));
-//SearchInDatabase(UserExit(au.getTxtOldUsername().getText().trim(), String.valueOf(au.getTxtOldPassword().getPassword())))
+
                                         if (!SearchInDatabase(UserExit(au.getTxtOldUsername().getText().trim(),
                                                 String.valueOf(au.getTxtOldPassword().getPassword())))) {
                                             JOptionPane.showMessageDialog(null, "Kullanıcı Adı ya da Parola Hatalı");
@@ -218,15 +216,12 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                                             if (ArePasswordsSame(au.getTxtOldPassword(), au.getTxtNewPassword1()) == false) {
                                                 UpdateUser();
                                                 UpdatePassword();
-                                                // SuccessVoice();
                                             } else {
                                                 FailedOrCanceledUpdate(FAILED);
                                                 JOptionPane.showMessageDialog(null, "Yeni Parolanız eski Parolanız ile aynı olamaz");
                                                 ResetPasswords();
                                             }
                                         }
-
-                                        // Yeni kullanıcı adında  sql hata alıyorum 
                                     } else {
                                         FailedOrCanceledUpdate(CANCELED);
                                         java.awt.Toolkit.getDefaultToolkit().beep();
@@ -260,7 +255,6 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                             JOptionPane.showMessageDialog(null, "Kullanıcı adınızı değiştirmek için  Kullanıcı Adını ve  Parolanızı doldurmanız gerekmektedir");
                         } else {
                             JOptionPane.showMessageDialog(null, "Hem kullanıcı adınızı hem şifrenizi değiştirmek için lüfen tüm bilgileri doldurunuz ");
-                            // önce şifreyi sonra kullanıcı ismini güncellemeliyim
                         }
                     } else if (au.getTxtOldPassword().getPassword().length > 0
                             || au.getTxtNewPassword1().getPassword().length > 0
@@ -277,59 +271,17 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                             } else {
                                 PasswordsAreDifferent();
                             }
-
-                            // şifreyi değiştirmeliyim
                         } else {
                             JOptionPane.showMessageDialog(null, "Şifrenizi değiştirmek için lütfen \n şifrenizi, yeni şifreniz ve şifre tekrarını eksiksiz doldurun ");
                         }
                     } else if (!au.getTxtNewUsername().getText().trim().equals("")) {
                         if (!au.getTxtOldUsername().getText().trim().equals("") && !au.getTxtNewUsername().getText().trim().equals("")) {
                             JOptionPane.showMessageDialog(null, "Kullanıcı Adınızı Değiştirmek İstediğinize Emin Misiniz ?");
-                            // kullanıcı adını değiştirmeliyim
                         } else {
                             JOptionPane.showMessageDialog(null, "Kullanıcı adını değiştirmek için lütfen \n kullanıcı adını ve yeni kullanıcı adı bölümünü dolduurn"
                                     + "");
                         }
                     }
-                    /*if (EnteredTxt() == true) {
-                        operationsOnTextfield();
-
-                        if (!au.getTxtOldUsername().getText().trim().equals(noVoice)) {
-
-                        } else {
-                            java.awt.Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(null, "Yeni kullanıcı adınız eskii kullanıcı adınızdan farklı olmalı");
-                        }// kullanıcı adı eskisi her türlü de
-                        /*
-                        kullanıcı adı şifre şifre şifre
-                        kullanıcı adı yei kullanıcı adı  */ /*  if ((!au.getTxtOldUsername().getText().trim().equals("") && au.getTxtOldUsername().getText().trim().equals(oldUsername))
-                                && (!au.getTxtNewUsername().getText().trim().equals("") && au.getTxtNewUsername().getText().trim().equals(newUser))) {
-                            if (au.getTxtOldUsername().getText().trim().equals(au.getTxtNewUsername().getText().trim())) {
-                                JOptionPane.showMessageDialog(null, "Eski ve yeni kullanıcı adınız farklı olmalıdır");
-                            } else {
-                                UpdateUser();
-                            }
-                        }
-                        if (au.getTxtOldPassword().getText().trim().equals(au.getTxtNewUsername().getText().trim())) {
-                            java.awt.Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(null, "Eski ve yeni kullanıcı adınız farklı olmalıdır");
-
-                        }
-
-                        if (au.getTxtOldPassword().getText().trim().equals(au.getTxtNewPassword1().getText().trim())) {
-                            if (!au.getTxtNewPassword1().getText().trim().equals(au.getTxtNewPassword2().getText().trim())) {
-                                JOptionPane.showMessageDialog(null, "Yeni şifreler birbiriyle uyumsuz");
-                            }
-                            java.awt.Toolkit.getDefaultToolkit().beep();
-                            JOptionPane.showMessageDialog(null, "Yeni şifreniz eski şifreniz ile aynı ");
-                        }
-                   
-                    } else {
-                        visibleOfTxt = false;
-                        au.getTxtResult().setForeground(Color.GRAY);
-                        au.getTxtResult().setBackground(new Color(238, 238, 238));
-                        setVisible(visibleOfTxt);
-                    }*/
 
                 } else {
 
@@ -441,20 +393,15 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                     }
                     GoToLoginAfterChangeUsernameOrPassword();
                 }
-                /*else {
-                    au.getTxtResult().setText("İşlem iptal edildi");
-                    au.getTxtResult().setBackground(Color.ORANGE);
-                    ResetPasswords();
-                }*/
 
             } else {
                 JOptionPane.showMessageDialog(null, "Kullanıcı adınız ya da parolanız yanlış");
                 ResetPasswords();
             }
+            sqlConnection.CloseAllConnections();
         }
 
     }
-// kullanıcı adı şifre doğru mu 
 
     public String UserExit(String User, String Password) {
         String oldUserExit = "";
@@ -476,9 +423,6 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
 
         String UpdateUser = "UPDATE  admin SET Username='" + au.getTxtNewUsername().getText().trim()
                 + "'  WHERE Username LIKE '" + au.getTxtOldUsername().getText().trim() + "'";
-        /*  String oldUserExit = "SELECT * FROM admin WHERE Username LIKE '" + au.getTxtOldUsername().getText().trim() + "' AND "
-                + "Password LIKE '" + String.valueOf(au.getTxtOldPassword().getPassword()) + "' ";
-        String newUserExit = "SELECT * FROM admin WHERE Username LIKE '" + au.getTxtNewUsername().getText().trim() + "'";*/
         if (SearchInDatabase(UserExit(au.getTxtOldUsername().getText().trim(), String.valueOf(au.getTxtOldPassword().getPassword())))) {
             if (SearchInDatabase(UserExit(au.getTxtNewUsername().getText().trim(), ""))) {
 
@@ -492,7 +436,7 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 au.getTxtResult().setText("Kullanıcı adı Değişti");
                 au.getTxtResult().setBackground(Color.GREEN);
                 au.getTxtResult().setForeground(Color.BLACK);
-//                JOptionPane.showMessageDialog(null, "Kullanıcı adı değişti.");
+
                 usernameChanged = true;
                 if (passwordWillChange == false) {
                     SuccessVoice();
@@ -507,72 +451,9 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
             ResetPasswords();
             FailedOrCanceledUpdate(FAILED);
         }
+        sqlConnection.CloseAllConnections();
     }
 
-    /*public void operationsOnTextfield() {
-        if ((ControlUser() == Color.RED && ControlPassword() == Color.GREEN)
-                || (ControlUser() == Color.GREEN && ControlPassword() == Color.RED)) {
-            //  paintBtnChangePassword(Color.ORANGE);
-        } else if (ControlUser() == Color.RED || ControlPassword() == Color.RED) {
-            //     paintBtnChangePassword(Color.RED);
-        } else if (ControlUser() == Color.GREEN || ControlPassword() == Color.GREEN) {
-            //  paintBtnChangePassword(Color.GREEN);
-        } else {
-            //   paintBtnChangePassword(new Color(238, 238, 238));
-        }
-
-    }*/
-//    public void paintBtnChangePassword(Color color) { au.getBtnChangePassword().setBackground(color);}
-    public Color ControlUser() {
-        int totalWritedTxt = 0;
-        if (!au.getTxtOldUsername().getText().equals("")) {
-            totalWritedTxt++;
-        }
-        if (!au.getTxtNewUsername().getText().equals("")) {
-            totalWritedTxt++;
-        }
-        if (totalWritedTxt == 1) {
-            return Color.RED;
-
-        } else if (totalWritedTxt == 2) {
-            return Color.GREEN;
-        }
-        return new Color(238, 238, 238);
-    }
-
-    public Color ControlPassword() {
-        int totalWritedTxt = 0;
-        if (!au.getTxtOldPassword().getPassword().equals("")) {
-            totalWritedTxt++;
-        }
-        if (!au.getTxtNewPassword1().getPassword().equals("")) {
-            totalWritedTxt++;
-        }
-        if (!au.getTxtNewPassword2().getPassword().equals("")) {
-            totalWritedTxt++;
-        }
-        if (totalWritedTxt == 3) {
-            return Color.GREEN;
-        } else if (totalWritedTxt == 1 || totalWritedTxt == 2) {
-            return Color.RED;
-
-        }
-        return new Color(238, 238, 238);
-    }
-
-    /*public boolean EnteredTxt() {
-
-        if (!au.getTxtOldUsername().getText().equals( )
-                || !au.getTxtNewUsername().getText().equals( )
-                || !au.getTxtOldPassword().getText().equals( )
-                || !au.getTxtNewPassword1().getText().equals( )
-                || !au.getTxtNewPassword2().getText().equals( )) {
-
-            return true;
-        }
-
-        return false;
-    }*/
     public void setVisible(boolean visible) {
         au.getTxtOldUsername().setVisible(visible);
         au.getTxtNewUsername().setVisible(visible);
@@ -588,51 +469,18 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
         au.getLblNewPassword2().setVisible(visible);
     }
 
-    public boolean ColorControl() {
-        if (au.getTxtOldUsername().getForeground() != Color.GRAY
-                || au.getTxtNewUsername().getForeground() != Color.GRAY
-                || au.getTxtOldPassword().getForeground() != Color.GRAY
-                || au.getTxtNewPassword1().getForeground() != Color.GRAY
-                || au.getTxtNewPassword2().getForeground() != Color.GRAY) {
-            return true;
-        }
-        return false;
-
-    }
-
     public void ExtendTime() {
         SqlConnection sqlconnection = new SqlConnection();
-        /* String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
-        //  Database credentials
-        String USER = "root";
-        String PASS = "";
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;*/
         String ExtendTimeQuery = "UPDATE book SET BorrowedDate= NOW() WHERE BarcodeNo LIKE '" + tcet.getTxtBookBarcodeNoToExtendTime().getText().trim() + "'";
-        //JOptionPane.showMessageDialog(null, tcet.getTxtBookBarcodeNoToExtendTime().getText().trim());
         try {
-
-            ////Class.forName(JDBC_DRIVER);
-            //conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            // stmt = conn.createStatement();
-            //SuccessVoice();
-            // stmt.executeUpdate(ExtendTimeQuery);
             sqlconnection.Update(ExtendTimeQuery);
             tcet.getTxtResult().setText(" Kitap Süresi Uzatıldı");
             tcet.getTxtResult().setBackground(new Color(29, 209, 161));
 
             SearchStudentBarkodNo(3);
 
-        }/* catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
-        }*/ finally {
-            //  closeConnections(conn, stmt, rs, null);
+        } finally {
             sqlconnection.CloseAllConnections();
         }
 
@@ -640,23 +488,10 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
 
     public int TimeOfBook(String barcodeNo) {
         SqlConnection sqlconnection = new SqlConnection();
-        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
-        //  Database credentials
-        String USER = "root";
-        String PASS = "";
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;*/
         int delay = 0;
         try {
-            //   Class.forName(JDBC_DRIVER);
-            //conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            //stmt = conn.createStatement();
             String TimeQuery = "SELECT * FROM book  WHERE barcodeNo LIKE '" + barcodeNo + "' ";
-            // rs = stmt.executeQuery(TimeQuery);
             sqlconnection.setResultSet(TimeQuery);
             if (sqlconnection.getResultSet().next()) {
                 LocalDate borrowedDate = sqlconnection.getResultSet().getDate("BorrowedDate").toLocalDate();
@@ -682,13 +517,10 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 }
 
             }
-        } /*catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
-        }*/ catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ActionTimeFine.class
                     .getName()).log(Level.SEVERE, null, ex);
         } finally {
-            // closeConnections(conn, stmt, rs, null);
             sqlconnection.CloseAllConnections();
         }
         return delay;
@@ -696,18 +528,9 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
     }
 
     public void SearchStudentBarkodNo(int SearchNumber) {
-        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/LIBRARY?useUnicode=true&characterEncoding=utf8";
 
-        //  Database credentials
-        String USER = "root";
-        String PASS = "";
-         */
         SqlConnection sqlConnection = new SqlConnection();
-        /* Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-         */
+
         final int Student = 1;
         final int BarcodeNo = 2;
         final int bringAll = 0;
@@ -749,13 +572,9 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
 
         }
         try {
-            //Class.forName(JDBC_DRIVER);
-            // conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            // stmt = conn.createStatement();
-            String StudentQuery = "";
+
             int counter = 0;
             sqlConnection.setResultSet(SearchQuery);
-            //   rs = stmt.executeQuery(SearchQuery);
             while (sqlConnection.getResultSet().next()) {
                 counter++;
             }
@@ -771,7 +590,6 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 tcet.DataForTable[counter][3] = sqlConnection.getResultSet().getString("book.BarcodeNo");
                 tcet.DataForTable[counter][4] = Integer.toString(TimeOfBook(sqlConnection.getResultSet().getString("book.BarcodeNo")));
                 tcet.DataForTable[counter][5] = sqlConnection.getResultSet().getString("book.Name");
-                // public rs2 yapacam ve kapatacam sonrada 
 
                 counter++;
             }
@@ -782,7 +600,6 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 tcet.getTxtBookNameToExtendTime().setText(sqlConnection.getResultSet().getString("book.Name"));
             }
 
-            //tcet.getSp();
             tcet.remove(tcet.getSp());
             tcet.setSp(new JTable(tcet.DataForTable, tcet.HeaderOfTable));
 
@@ -803,13 +620,9 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                     tcet.getTxtBookNameToExtendTime().setText("");
                 }
             }
-        } /*catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-
-        } */ catch (SQLException ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         } finally {
-            //closeConnections(conn, stmt, rs, null);
             sqlConnection.CloseAllConnections();
         }
 
@@ -829,14 +642,6 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
             fdp.getTxtDebt().setBackground(Color.red);
 
             fdp.getTxtDebt().setBackground(Color.orange);
-            /*    if (rs.getDouble("Debt") > 0) {
-                        fdp.getTxtDebt().setBackground(Color.orange);
-                    } else {
-                        fdp.getTxtDebt().setBackground(new Color(116, 185, 255));
-                        fdp.getTxtAmountOfPayment().setText("-");
-                        /*  JOptionPane.showMessageDialog(null, "Kütüphaneden Öğrenciye para verilmesi gerektiği için öğrenciye verilecek para miktarını,\n "
-                                + "'' Ödeme Miktarı '' kısmına yazıp ÖDE '  ye tıklayınız.");
-                    }*/
 
         } else if (Debt < 0) {
 
@@ -855,21 +660,10 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
 
     public void payDebt() {
         SqlConnection sqlConnection = new SqlConnection();
-        /*  String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/library";
-        String USER = "root";
-        String PASS = "";
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;*/
-        try {
 
-            // Class.forName(JDBC_DRIVER);
-            //  conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            // stmt = conn.createStatement();
+        try {
             String BringDebt = "SELECT * FROM Student WHERE No LIKE '" + fdp.getTxtStudentNo().getText().trim() + "'";
             sqlConnection.setResultSet(BringDebt);
-// rs = stmt.executeQuery(BringDebt);
             double MoneyFromStudent = Double.parseDouble(fdp.getTxtAmountOfPayment().getText().trim());
             String UpdateDebt = "";
             Double LastDebt = 0.0;
@@ -881,12 +675,9 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 UpdateDebt = "UPDATE Student SET Debt = " + (sqlConnection.getResultSet().getDouble("Debt") + MoneyFromStudent) + " ";
                 LastDebt = (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent);
             }
-
-            //stmt.executeUpdate(UpdateDebt);
             sqlConnection.Update(UpdateDebt);
 
             BringDebt = "SELECT * FROM Student WHERE No LIKE '" + fdp.getTxtStudentNo().getText().trim() + "'";
-            //rs = stmt.executeQuery(BringDebt);
             sqlConnection.setResultSet(BringDebt);
             if (sqlConnection.getResultSet().next()) {
                 fdp.getTxtDebt().setText(sqlConnection.getResultSet().getString("Debt"));
@@ -894,15 +685,11 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
             }
             SuccessVoice();
 
-        } /*catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionTimeFine.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        } */ catch (SQLException ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + " hatası ");
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Lütfen Sadece Sayı İçeren Değerler Giriniz", "DEĞER HATASI", JOptionPane.ERROR_MESSAGE);
         } finally {
-            //closeConnections(conn, stmt, rs, null);
             sqlConnection.CloseAllConnections();
         }
 
@@ -911,15 +698,7 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
     public void BringStudentWhoHasDebt(int determiner) {
         ResetAllTxt();
         SqlConnection sqlConnection = new SqlConnection();
-        /* String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        String DB_URL = "jdbc:mysql://localhost/library";
 
-        String USER = "root";
-        String PASS = "";
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;*/
         String bringStudent = "";
         boolean noVoice = false;
         try {
@@ -930,17 +709,12 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 bringStudent = "SELECT * FROM student  WHERE Debt != 0 and No LIKE '%" + fdp.getTxtStudentNo().getText().trim() + "%' ORDER BY Debt DESC";
             }
 
-            /*  Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            stmt = conn.createStatement();*/
-            //rs = stmt.executeQuery(bringStudent);
             sqlConnection.setResultSet(bringStudent);
             int StudentNumberWhoHasDebt = 0;
             while (sqlConnection.getResultSet().next()) {
                 StudentNumberWhoHasDebt++;
             }
 
-            //rs = stmt.executeQuery(bringStudent);
             sqlConnection.setResultSet(bringStudent);
             int counter = 0;
             fdp.DataOfTable = new String[StudentNumberWhoHasDebt][6];
@@ -951,20 +725,20 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 fdp.DataOfTable[counter][3] = sqlConnection.getResultSet().getString("Email");
                 fdp.DataOfTable[counter][4] = sqlConnection.getResultSet().getString("Phone");
                 fdp.DataOfTable[counter][5] = sqlConnection.getResultSet().getString("Debt");
-                //"", "Öğrenci No", "Ad-Soyad", "Email", "Telefon Numarası", "Borç (TL)
                 counter++;
                 if (StudentNumberWhoHasDebt == 1) {
                     fdp.getTxtDebt().setText(sqlConnection.getResultSet().getString("Debt"));
                     fdp.getTxtStudentNo().setText(sqlConnection.getResultSet().getString("No"));
                     fdp.getTxtResult().setText("Bilgiler getirildi");
                     fdp.getTxtResult().setBackground(Color.GREEN);
+                    fdp.getTxtAmountOfPayment().setEditable(true);
+                    fdp.getTxtAmountOfPayment().setFocusable(true);
+                    fdp.getTxtAmountOfPayment().setBackground(new Color(255, 255, 255));
                     if (sqlConnection.getResultSet().getDouble("Debt") > 0) {
                         fdp.getTxtDebt().setBackground(Color.orange);
                     } else {
                         fdp.getTxtDebt().setBackground(new Color(116, 185, 255));
                         fdp.getTxtAmountOfPayment().setText("-");
-                        /*  JOptionPane.showMessageDialog(null, "Kütüphaneden Öğrenciye para verilmesi gerektiği için öğrenciye verilecek para miktarını,\n "
-                                + "'' Ödeme Miktarı '' kısmına yazıp ÖDE '  ye tıklayınız.");*/
                     }
                 }
             }
@@ -979,22 +753,16 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 SuccessVoice();
 
             }
-        }/* catch (ClassNotFoundException ex) {
-            Logger.getLogger(ActionTimeFine.class
-                    .getName()).log(Level.SEVERE, null, ex);
-
-        } */ catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ActionTimeFine.class
                     .getName()).log(Level.SEVERE, null, ex);
         } finally {
-            //closeConnections(conn, stmt, rs, null);
             sqlConnection.CloseAllConnections();
         }
     }
 
     public void SuccessVoice() {
         try {
-            //   AudioInputStream stream = AudioSystem.getAudioInputStream(new File("src/Gui/tik.wav"));
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File("tik.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(stream);
@@ -1020,9 +788,13 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
         if (fdp != null) {
 
             if (e.getSource() == fdp.getTxtStudentNo()) {
+                fdp.getTxtAmountOfPayment().setEditable(false);
+                fdp.getTxtAmountOfPayment().setFocusable(false);
+                fdp.getTxtAmountOfPayment().setBackground(Color.DARK_GRAY);
 
                 if (fdp.getTxtStudentNo().getText().trim().equals("Öğrenci No")) {
                     fdp.getTxtStudentNo().setText("");
+
                 }
                 fdp.getTxtStudentNo().setForeground(Color.BLACK);
                 fdp.getTxtStudentNo().setFont(new Font("", Font.BOLD, 15));
@@ -1044,10 +816,8 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
             }
         } else if (tcet != null) {
 
-            // System.out.println(String.valueOf(tcet.getTbl().getValueAt(tcet.getTbl().getSelectedRow(), tcet.getTbl().getSelectedColumn())));
             if (e.getSource() == tcet.getTxtSearchStudentNo() && tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderStudent)) {
 
-                //if (tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderStudent)) {
                 tcet.getTxtSearchStudentNo().setText("");
                 tcet.getTxtSearchStudentNo().setForeground(Color.BLACK);
                 tcet.getTxtSearchStudentNo().setFont(FocusFont);
@@ -1055,11 +825,6 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 tcet.getTxtSearchBookBarcodeNo().setText(PlaceHolderBook);
                 tcet.getTxtSearchBookBarcodeNo().setFont(LostFocusFont);
                 tcet.getTxtSearchBookBarcodeNo().setForeground(Color.gray);
-
-                /* tcet.getTxtBookBarcodeNoToExtendTime().setText(PlaceHolderBook);
-                tcet.getTxtBookBarcodeNoToExtendTime().setFont(LostFocusFont);
-                tcet.getTxtBookBarcodeNoToExtendTime().setForeground(Color.gray);*/
-                // }
             } else if (e.getSource() == tcet.getTxtSearchBookBarcodeNo() && tcet.getTxtSearchBookBarcodeNo().getText().equals(PlaceHolderBook)) {
 
                 tcet.getTxtSearchBookBarcodeNo().setText("");
@@ -1070,174 +835,12 @@ public class ActionTimeFine implements ActionListener, FocusListener/*, ListSele
                 tcet.getTxtSearchStudentNo().setForeground(Color.gray);
                 tcet.getTxtSearchStudentNo().setFont(LostFocusFont);
 
-                /*   tcet.getTxtBookBarcodeNoToExtendTime().setText(PlaceHolderBook);
-                tcet.getTxtBookBarcodeNoToExtendTime().setFont(LostFocusFont);
-                tcet.getTxtBookBarcodeNoToExtendTime().setForeground(Color.gray);*/
             }
 
-            /*else if (e.getSource() == tcet.getTxtBookBarcodeNoToExtendTime() && tcet.getTxtBookBarcodeNoToExtendTime().getText().equals(PlaceHolderBook)) {
-                System.out.println("book  uzatma");
-                tcet.getTxtBookBarcodeNoToExtendTime().setText("");
-                tcet.getTxtBookBarcodeNoToExtendTime().setFont(FocusFont);
-                tcet.getTxtBookBarcodeNoToExtendTime().setForeground(Color.BLACK);
-
-                tcet.getTxtSearchBookBarcodeNo().setText(PlaceHolderBook);
-                tcet.getTxtSearchBookBarcodeNo().setFont(LostFocusFont);
-                tcet.getTxtSearchBookBarcodeNo().setForeground(Color.gray);
-
-                tcet.getTxtSearchStudentNo().setText(PlaceHolderStudent);
-                tcet.getTxtSearchStudentNo().setForeground(Color.gray);
-                tcet.getTxtSearchStudentNo().setFont(LostFocusFont);
-
-            }*/
-            //            System.out.println(String.valueOf(tcet.getTbl().getValueAt(tcet.getTbl().getSelectedRow(), tcet.getTbl().getSelectedColumn())));
         }
-        /*else if (au != null) {
-            operationsOnTextfield();
-//üstüne gelince boş bırakacak eğer doldurmadan geçerse kişi otomatak doldurma yapacak
-            if (e.getSource() == au.getTxtOldUsername()) {
-                au.getTxtOldUsername().setText("");
-                au.getTxtOldUsername().setForeground(Color.BLACK);
-            } else if (e.getSource() == au.getTxtNewUsername()) {
-                au.getTxtNewUsername().setText("");
-                au.getTxtNewUsername().setForeground(Color.BLACK);
-            } else if (e.getSource() == au.getTxtOldPassword()) {
-                au.getTxtOldPassword().setText("");
-                au.getTxtOldPassword().setForeground(Color.BLACK);
-            } else if (e.getSource() == au.getTxtNewPassword1()) {
-                au.getTxtNewPassword1().setText("");
-                au.getTxtNewPassword1().setForeground(Color.BLACK);
-            } else if (e.getSource() == au.getTxtNewPassword2()) {
-                au.getTxtNewPassword2().setText("");
-                au.getTxtNewPassword2().setForeground(Color.BLACK);
-            } else {
-
-            }
-        }*/
     }
 
     @Override
     public void focusLost(FocusEvent e) {
-        /* if (au != null) {
-//üstüne gelince boş bırakacak eğer doldurmadan geçerse kişi otomatak doldurma yapacak
-            if (e.getSource() == au.getTxtOldUsername() && au.getTxtOldUsername().getText().trim().equals("")) {
-                au.getTxtOldUsername().setText(oldUsername);
-                au.getTxtOldUsername().setForeground(Color.GRAY);
-            } else if (e.getSource() == au.getTxtNewUsername() && au.getTxtNewUsername().getText().trim().equals("")) {
-                au.getTxtNewUsername().setText(newUser);
-                au.getTxtNewUsername().setForeground(Color.GRAY);
-            } else if (e.getSource() == au.getTxtOldPassword() && au.getTxtOldPassword().getText().trim().equals("")) {
-                au.getTxtOldPassword().setText(oldPassword);
-                au.getTxtOldPassword().setForeground(Color.GRAY);
-            } else if (e.getSource() == au.getTxtNewPassword1() && au.getTxtNewPassword1().getText().trim().equals("")) {
-                au.getTxtNewPassword1().setText(newPassword);
-                au.getTxtNewPassword1().setForeground(Color.GRAY);
-            } else if (e.getSource() == au.getTxtNewPassword2() && au.getTxtNewPassword2().getText().trim().equals("")) {
-                au.getTxtNewPassword2().setText(newPassword);
-                au.getTxtNewPassword2().setForeground(Color.GRAY);
-            }
-
-        }*/
     }
-
-    /* @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("asda");
-        String selectedData = null;
-        int[] selectedRow = tcet.getTbl().getSelectedRows();
-        int[] selectedColumns = tcet.getTbl().getSelectedColumns();
-
-        for (int i = 0; i < selectedRow.length; i++) {
-            for (int j = 0; j < selectedColumns.length; j++) {
-                selectedData = (String) tcet.getTbl().getValueAt(selectedRow[i], selectedColumns[j]);
-                System.out.println("selectedColumns" + selectedColumns);
-                System.out.println("selectedData" + selectedData);
-
-            }
-        }
-        System.out.println(selectedData);
-    }*/
-
- /*@Override
-    public void valueChanged(ListSelectionEvent e) {
-
-        int selectedRow = 0;
-        if (!tcet.model.isSelectionEmpty()) {
-            selectedRow = tcet.model.getMinSelectionIndex();
-            JOptionPane.showMessageDialog(null, "selectedraw" + selectedRow);
-        }
-
-        System.out.println(selectedRow);
-
-    }
-     */
- /*   @Override
-    public void valueChanged(ListSelectionEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        int index = tcet.getTbl().getSelectedColumn();
-        if (tcet != null) {
-            for (int i = 0; i < tcet.HeaderOfTable.length; i++) {
-                if (tcet.getTbl().getSelectedColumn() == i) {
-                    System.out.println("A index " + index);
-                } else {
-                    System.out.println("B index " + index);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
- /* public void closeConnections(Connection conn, Statement stmt, ResultSet rs, PreparedStatement preparedStmt) {
-
-        try {
-            if (stmt != null) {
-
-                stmt.close();
-
-            }
-            if (conn != null) {
-
-                conn.close();
-
-            }
-            if (rs != null) {
-
-                rs.close();
-            }
-            if (preparedStmt != null) {
-                preparedStmt.close();
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Sql bağlantısı kapatılırken hata meydana geldi");
-        }
-    }*/
- /*@Override
-    public void valueChanged(ListSelectionEvent e) {
-
-        for (int i = 0; i < tcet.model.getRowCount() - 1; i++) {
-
-            for (int j = 0; j < tcet.model.getColumnCount() - 1; j++) {
-                tcet.model.getValueAt(i, j);
-            }
-
-        }
-
-    }*/
 }

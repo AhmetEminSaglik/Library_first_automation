@@ -38,7 +38,7 @@ public class ActionStudent implements ActionListener, FocusListener {
     boolean StudentCanAdd;
     boolean StudentBringCame;
     boolean StudentCanUpdate;
-    //  boolean firstEntry = true;
+
     Color rsgPlaceHolder = Color.GRAY;
     Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
 
@@ -133,15 +133,6 @@ public class ActionStudent implements ActionListener, FocusListener {
                     || e.getSource() == sug.getTxtPhoneNo()) {
 
                 DBStudentUpdate();
-                /* if (Pattern.matches("^[a-zA-z0-9]+[@]{1}+[a-zA-z0-9]+[.]{1}[a-zA-z0-9]+$", sug.getTxtNewEmail().getText().trim())) {
-                                   } else {
-                    java.awt.Toolkit.getDefaultToolkit().beep();
-                    JOptionPane.showMessageDialog(null, "lütfen geçerli bir email adresi girin", "GEÇERSİZ EMAİL", JOptionPane.ERROR_MESSAGE);
-                    sug.getTxtResult().setText("Geçersiz Eposta Adresi");
-                    sug.getTxtResult().setForeground(Color.BLACK);
-                    sug.getTxtResult().setBackground(new Color(237, 76, 103));
-
-                }*/
 
             } else if (e.getSource() == sug.getBtnDelete()) {
                 if (ControlBeforeRemoveStudent() == true) {
@@ -225,7 +216,6 @@ public class ActionStudent implements ActionListener, FocusListener {
                 sug.getTxtNewEmail().setText("");
                 sug.getTxtResult().setText("Öğrenci Silindi");
                 sug.getTxtResult().setBackground(new Color(255, 121, 63));
-                //preparedStmt.execute();
                 SqlConnection.getPreparedStatement().execute();
             } else {
                 sug.getTxtResult().setText("Öğrenci Silme İşlemi İptal Edildi");
@@ -822,7 +812,6 @@ public class ActionStudent implements ActionListener, FocusListener {
                 SuccessVoice();
             } else {
                 StudentQuery = "SELECT * FROM Student  WHERE No LIKE '" + ssg.getTxtStudentNo().getText().trim() + "' ";
-                //rs = stmt.executeQuery(StudentQuery);
                 sqlconnection.setResultSet(StudentQuery);
                 if (sqlconnection.getResultSet().next()) {
                     SuccessVoice();
@@ -838,7 +827,7 @@ public class ActionStudent implements ActionListener, FocusListener {
             Logger.getLogger(ActionStudent.class
                     .getName()).log(Level.SEVERE, null, ex);
         } finally {
-            sqlconnection.CloseAllConnections();// closeConnections(conn, stmt, rs, null);
+            sqlconnection.CloseAllConnections();
 
         }
 
@@ -936,11 +925,6 @@ public class ActionStudent implements ActionListener, FocusListener {
             if (counter == 0) {
                 noVoice = true;
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                /*    if (firstEntry == false) {
-
-                } else {
-                    firstEntry = false;
-                }*///  JOptionPane.showMessageDialog(null, "Malesef Aradığınız kriterlere uygun veriler bulunamadı");
             }
             if (noVoice == false) {
                 SuccessVoice();

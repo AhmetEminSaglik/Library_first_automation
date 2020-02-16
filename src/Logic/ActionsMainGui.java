@@ -121,7 +121,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().getRegisteredStudent()) {
             getMg().getJp().setVisible(false);
             RegisteredStudentGui rsg = new RegisteredStudentGui(getMg());
-            
 
         }
         if (e.getSource() == getMg().getTimeControlExtraTime()) {
@@ -440,7 +439,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         StudentCanTakeBook = true;
         BookDeliveredSomeone = false;
         bookFree = true;
-        boolean studentExist = true;
+        studentExist = true;
         bookExist = true;
 
         try {
@@ -486,8 +485,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
     public void NumbersOfBooks() {
         SqlConnection sqlConnection = new SqlConnection();
-
-        int bookNumber = 0;
 
         try {
 

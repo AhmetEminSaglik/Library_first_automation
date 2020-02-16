@@ -66,8 +66,8 @@ public class Login extends JPanel {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-
-                jmu.FindStudentAndMailThem(0);
+                boolean DontSendMail = false;
+                jmu.FindStudentAndMailThem(0, DontSendMail);
 
             }
         });
@@ -249,8 +249,6 @@ public class Login extends JPanel {
 
                 }
 
-                //"SELECT * FROM book WHERE NOW()  >=BorrowedDate + INTERVAL 30 DAY"
-                //"SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY  "
                 int over30Days = 0;
 
                 rs = stmt.executeQuery(ControlQueryOver30Days0rOver27);
@@ -261,7 +259,7 @@ public class Login extends JPanel {
 
                 }
                 ControlQueryOver30Days0rOver27 = "SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY ";
-                //SELECT * FROM book WHERE NOW() BETWEEN BorrowedDate + INTERVAL 27 DAY and BorrowedDate+ INTERVAL 30 DAY 
+
                 rs = stmt.executeQuery(ControlQueryOver30Days0rOver27);
                 int inLast3Days = 0;
                 while (rs.next()) {

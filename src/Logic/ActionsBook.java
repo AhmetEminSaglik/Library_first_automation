@@ -381,7 +381,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         SqlConnection sqlConnection = new SqlConnection();
 
         BookCanUpdate = true;
-        boolean BookDeleted = true;
+
         boolean AlreadyCame = true;
         boolean StudentTookBook = false;
 
@@ -494,7 +494,8 @@ public class ActionsBook implements ActionListener, FocusListener {
             }
             if (!BookBringCame) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, burg.getTxtBarcodeNo().getText() + " Barkod Nolu Kitap Kaydı YOKTUR", "EKSİK KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, burg.getTxtBarcodeNo().getText() + " Barkod Nolu Kitap Kaydı YOKTUR",
+                        "EKSİK KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
                 burg.getTxtNewBarcodeNo().setText("");
                 burg.getTxtNewBookName().setText("");
                 burg.getTxtNewAuthorName().setText("");
@@ -569,7 +570,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 java.awt.Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null, "Lütfen Bilgileri Eksiksiz Bir Şekilde Doldurunuz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
                 burg.getTxtResult().setText("Eksik Bilgi, Güncelleme Başarısız");
-                burg.getTxtResult().setBackground(new Color(225, 112, 85));//rgb(225, 112, 85)
+                burg.getTxtResult().setBackground(new Color(225, 112, 85));
             }
         } finally {
             sqlConnection.CloseAllConnections();
@@ -703,7 +704,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             @Override
             public void run() {
                 jmu.sendEmail(StudentEmail, Debt);
-                JOptionPane.showMessageDialog(null, jmu.CounterOfMail + " tane mail atıldı");
+
             }
 
         });
@@ -725,10 +726,12 @@ public class ActionsBook implements ActionListener, FocusListener {
 
         try {
 
-            String DeliverBookToLibraryQuery = "UPDATE book SET StudentNo = NULL , BorrowedDate = NULL , book.Condition = NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
+            String DeliverBookToLibraryQuery = "UPDATE book SET StudentNo = NULL , BorrowedDate = NULL ,"
+                    + " book.Condition = NULL  WHERE StudentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "' and "
                     + "BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' ";
 
-            String addFine = "SELECT * FROM book INNER JOIN student ON book.studentNo=student.No where BarcodeNo LIKE'" + brg.getTxtBarcodeNo().getText().trim() + "' and "
+            String addFine = "SELECT * FROM book INNER JOIN student ON book.studentNo=student.No "
+                    + "where BarcodeNo LIKE'" + brg.getTxtBarcodeNo().getText().trim() + "' and "
                     + "studentNo LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
             sqlConnection.setResultSet(addFine);
             if (sqlConnection.getResultSet().next()) {
@@ -782,7 +785,8 @@ public class ActionsBook implements ActionListener, FocusListener {
                 sqlConnection.Update(Query);
 
             } else {
-                DeliverBookToLibraryQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "' and StudentNo  IS NULL ";
+                DeliverBookToLibraryQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + brg.getTxtBarcodeNo().getText().trim() + "'"
+                        + " and StudentNo  IS NULL ";
                 sqlConnection.setResultSet(DeliverBookToLibraryQuery);
                 if (sqlConnection.getResultSet().next()) {
 
@@ -800,7 +804,7 @@ public class ActionsBook implements ActionListener, FocusListener {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + " : 2 SQL HATASI");
         } finally {
-            // closeConnections(conn, stmt, rs, null);
+
             sqlConnection.CloseAllConnections();
         }
 

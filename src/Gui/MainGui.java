@@ -174,7 +174,7 @@ public class MainGui {
             jf = new JFrame();
             double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
             double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
-            int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);// (int) (screenSize.getWidth() / 5.464);
+            int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);
             int jframeY = (int) ((screenSize.getHeight() - jframeHeight) / 2);
 
             jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
@@ -314,8 +314,7 @@ public class MainGui {
     public JTextField gettxtStudentNo() {
         if (txtStudentNo == null) {
             txtStudentNo = build_JTextfiledForNulls(txtStudentNo);
-            //   txtStudentNo.getDocument().addDocumentListener(action);
-            //    txtStudentNo.getDocument().putProperty("StudentNoBookBarcodetxt", 1); // first one is key , the other one is value
+
             txtStudentNo.addActionListener(action);
             txtStudentNo.addFocusListener(action);
             txtStudentNo.setForeground(Color.GRAY);
@@ -353,6 +352,7 @@ public class MainGui {
             ttm.setInitialDelay(100);
             ttm.setDismissDelay(1000);
             txtResultScreen.setBackground(new Color(206, 214, 224));
+            txtResultScreen.setForeground(Color.BLACK);
         }
         return txtResultScreen;
     }
@@ -586,7 +586,6 @@ public class MainGui {
         if (aboutUs == null) {
             aboutUs = build_JbuttonForNulls(aboutUs, FloorOf_Time_Exit_X, ThirdButtons_Y);
             aboutUs.setText("Hakkımızda / Parola");
-            //aboutUs.setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 80));
 
         }
         return aboutUs;

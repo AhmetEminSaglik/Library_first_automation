@@ -118,7 +118,8 @@ public class BookReturnGui {
     public JLabel getLblBarcodeNo() {
         if (lblBarcodeNo == null) {
             lblBarcodeNo = new JLabel("Kitap Barkod No");
-            lblBarcodeNo.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushUnderCounter * lblPushSpaceUnder, lblWidth, lblHeight);
+            lblBarcodeNo.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter),
+                    lblTopSpace + lblPushUnderCounter * lblPushSpaceUnder, lblWidth, lblHeight);
             lblBarcodeNo.setForeground(Color.white);
             lblBarcodeNo.setFont(lblFont);
             lblPushRightCounter++;
@@ -134,7 +135,8 @@ public class BookReturnGui {
     public JLabel getLblStudentNo() {
         if (lblStudentNo == null) {
             lblStudentNo = new JLabel("Öğrenci Numarası");
-            lblStudentNo.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter), lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
+            lblStudentNo.setBounds(lblLeftSpace + (lblPushSpaceRight * lblPushRightCounter),
+                    lblTopSpace + lblPushSpaceUnder * lblPushUnderCounter, lblWidth, lblHeight);
             lblStudentNo.setForeground(Color.white);
             lblStudentNo.setFont(lblFont);
             lblPushUnderCounter++;

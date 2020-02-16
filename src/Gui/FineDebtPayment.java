@@ -226,8 +226,10 @@ public class FineDebtPayment {
         if (txtAmountOfPayment == null) {
             txtAmountOfPayment = new JTextField("Ödeme Miktarı");
             txtAmountOfPayment.setBounds(LeftSpace + (pushRightCounter * pushRightSpace), txtTopSpace + lblHeight + txtHeight + 15, lblWidth, lblHeight);
-            txtAmountOfPayment.setForeground(Color.BLACK);
-            txtAmountOfPayment.setForeground(Color.gray);
+            txtAmountOfPayment.setForeground(Color.GRAY);
+            txtAmountOfPayment.setBackground(Color.DARK_GRAY);
+            txtAmountOfPayment.setEditable(false);
+            txtAmountOfPayment.setFocusable(false);
             txtAmountOfPayment.setFont(new Font("", Font.ITALIC, (int) screenSizeWidth / 97));
 
             pushRightCounter++;

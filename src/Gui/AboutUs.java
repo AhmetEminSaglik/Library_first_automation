@@ -81,19 +81,10 @@ public class AboutUs {
                 + "kolaylaştırmak için bu otomasyonu 13.02.2020 tarihinde \n"
                 + "Karadeniz Teknoloji Üniversitesi, Of Teknoloji  \n"
                 + "Fakültesindeki kütüphanemize hediye ediyorum.\n"
-                + "Daha huzurlu olmanız dileğiyle ...\n\n"
+                + "Daha huzurlu çalışmanız dileğiyle ...\n\n"
                 + "                    Ahmet Emin SAĞLIK 385931 \n"
                 + "                           13.02.2020";
-        String txt2 = "    2. Sınıf öğrencisiyken gönüllü  olarak , \n"
-                + "Öncelikle kütüphanemizdeki çalışan arkadaşlara ve \n"
-                + "kitap kontrolü için dekanımıza  sonrasında da \n"
-                + "diğer tüm arkadaşların işlerini kolaylaştırmak için   \n"
-                + "bu  otomasyonu    13.02. 2020    tarihinde   \n"
-                + "Karadeniz Teknoloji Üniversitesi \n"
-                + "Of Teknoloji Fakültesindeki kütüphanemize \n"
-                + "hediye ediyorum.   \n"
-                + "                    Ahmet Emin SAĞLIK 385931 \n"
-                + "                        13.02.2020";
+
         return txt1;
     }
 
@@ -147,7 +138,7 @@ public class AboutUs {
 
     public void ChangeBackground(int colorIndex, int Color) {
         try {
-            Thread.sleep(50);
+            Thread.sleep(30);
             if (colorIndex == 0) {
                 firstColor = Color;
             } else if (colorIndex == 1) {
@@ -216,9 +207,9 @@ public class AboutUs {
                             ChangeColor2(0, firstColor, firstCountUp);
 
                         } else if (randomNumber == 1) {
-                            ChangeColor2(1, secondColor, SecondCountUp);   // changePanelBackGround(1, secondColor, SecondCountDown);
+                            ChangeColor2(1, secondColor, SecondCountUp);
                         } else {
-                            ChangeColor2(2, thirdColor, ThirdCountUp);   //  changePanelBackGround(2, thirdColor, ThirdCountDown);
+                            ChangeColor2(2, thirdColor, ThirdCountUp);
 
                         }
 

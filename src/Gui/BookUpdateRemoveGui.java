@@ -127,19 +127,6 @@ public class BookUpdateRemoveGui extends JPanel {
         this.jf = jf;
     }
 
-    /* public JPanel getJp() {
-        if (jp == null) {
-            jp = new JPanel();
-            jp.setBounds(getJf().getBounds());
-            jp.setBackground(new Color(0, 170, 0));
-        }
-
-        return jp;
-    }
-
-    public void setJp(JPanel jp) {
-        this.jp = jp;
-    }*/
     public JLabel getLblToBeChangedBarcodeNo() {
         if (lblToBeChangedBarcodeNo == null) {
             lblToBeChangedBarcodeNo = new JLabel("Güncellenecek kitap Barkod Numarası");
@@ -226,7 +213,7 @@ public class BookUpdateRemoveGui extends JPanel {
     public JLabel getLblResult() {
         if (lblResult == null) {
             lblResult = new JLabel("SONUÇ");
-            //lblResult.setBounds(leftSpace, lblTopSpace + (lblHeight + txtHeight + 30) * lblPushUnderCounter, lblWidth, lblHeight);
+
             lblResult.setBounds(leftSpace + lblWidth + (int) (screenSizeWidth / 32.523809523809526),
                     (int) (screenSizeHeight / 51.2), lblWidth, lblHeight);
             lblResult.setForeground(Color.WHITE);
@@ -272,7 +259,7 @@ public class BookUpdateRemoveGui extends JPanel {
     }
 
     public JTextField getTxtNewCategory() {
-        //lblNewCategory.setBounds(leftSpace + txtWidth + 50, lblTopSpace + (lblHeight + txtHeight) * lblPushUnderCounter, lblWidth, lblHeight);
+
         if (txtNewCategory == null) {
             txtNewCategory = new JTextField("");
             txtNewCategory.setBounds(leftSpace + txtWidth + (int) (screenSizeHeight / 15.36),
@@ -320,7 +307,7 @@ public class BookUpdateRemoveGui extends JPanel {
     public JTextField getTxtResult() {
         if (txtResult == null) {
             txtResult = new JTextField();
-            //txtResult.setBounds(leftSpace, txtTopSpace + (txtPushSpaceUnder * txtPushUnderCounter), txtWidth, txtHeight);
+
             txtResult.setBounds(txtWidth + leftSpace + (int) (screenSizeWidth / 27.32),
                     (int) (screenSizeHeight / 15.36), txtWidth, txtHeight);
             txtResult.setFont(txtFont);
