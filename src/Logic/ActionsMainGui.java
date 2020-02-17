@@ -88,39 +88,39 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
 
             getMg().getJp().setVisible(false);
 
-            BookAddGui bag = new BookAddGui(getMg());
+            new BookAddGui(getMg());
 
         }
         if (e.getSource() == getMg().getBookReturn()) {
 
             getMg().getJp().setVisible(false);
-            BookReturnGui brg = new BookReturnGui(getMg());
+            new BookReturnGui(getMg());
 
         }
         if (e.getSource() == getMg().getBookSearchList()) {
             mg.getJp().setVisible(false);
-            BookSearchListGui bslg = new BookSearchListGui(getMg());
+            new BookSearchListGui(getMg());
         }
         if (e.getSource() == getMg().getBookUpdateRemove()) {
             getMg().getJp().setVisible(false);
-            BookUpdateRemoveGui burg = new BookUpdateRemoveGui(getMg());
+            new BookUpdateRemoveGui(getMg());
         }
         if (e.getSource() == getMg().getStudentAdd()) {
             StudentAddGui sag = new StudentAddGui(getMg());
         }
         if (e.getSource() == getMg().getStudentUpdate()) {
             getMg().getJp().setVisible(false);
-            StudentUpdateGui sug = new StudentUpdateGui(getMg());
+            new StudentUpdateGui(getMg());
 
         }
         if (e.getSource() == getMg().getStudentState()) {
 
-            StudentStateGui ssg = new StudentStateGui(getMg());
+            new StudentStateGui(getMg());
 
         }
         if (e.getSource() == getMg().getRegisteredStudent()) {
             getMg().getJp().setVisible(false);
-            RegisteredStudentGui rsg = new RegisteredStudentGui(getMg());
+            new RegisteredStudentGui(getMg());
 
         }
         if (e.getSource() == getMg().getTimeControlExtraTime()) {
@@ -132,11 +132,11 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().getAboutUs()) {
             getMg().getJp().setVisible(false);
 
-            AboutUs aug = new AboutUs(getMg());
+            new AboutUs(getMg());
         }
         if (e.getSource() == getMg().getFineDebtPayment()) {
             getMg().getJp().setVisible(false);
-            FineDebtPayment fdp = new FineDebtPayment(getMg());
+            new FineDebtPayment(getMg());
         }
         if (e.getSource() == getMg().getExit()) {
             Object[] options = {"Çıkış", "Giriş Sayfası ", "İptal"};
@@ -147,7 +147,7 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 System.exit(0);
             } else if (answer == 1) {
                 getMg().getJf().dispose();
-                Login login = new Login();
+                new Login();
             }
         }
 
@@ -162,8 +162,6 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                 Integer.parseInt(getMg().gettxtStudentNo().getText());
 
             } catch (NumberFormatException nfe) {
-
-                int txtLength = getMg().gettxtStudentNo().getText().length();
 
                 int i = getMg().gettxtStudentNo().getText().length();
                 while (i > 0) {

@@ -73,17 +73,8 @@ public class ActionStudent implements ActionListener, FocusListener {
                         && !sag.getTxtSurname().getText().trim().equals("")
                         && !sag.getTxtEmail().getText().trim().equals("")
                         && !sag.getTxtPhoneNo().getText().trim().equals("")) {
-                    if (Pattern.matches("^[a-zA-z0-9]+[@]{1}+[a-zA-z0-9]+[.]{1}[a-zA-z0-9]+$", sag.getTxtEmail().getText().trim())) {
-                        DbStudentAdd();
 
-                    } else {
-                        java.awt.Toolkit.getDefaultToolkit().beep();
-                        JOptionPane.showMessageDialog(null, "lütfen geçerli bir email adresi girin", "GEÇERSİZ EMAİL", JOptionPane.ERROR_MESSAGE);
-                        sag.getTxtResult().setText("Geçersiz Eposta Adresi");
-                        sag.getTxtResult().setForeground(Color.BLACK);
-                        sag.getTxtResult().setBackground(new Color(237, 76, 103));
-
-                    }
+                    DbStudentAdd();
                 } else {
                     java.awt.Toolkit.getDefaultToolkit().beep();
                     sag.getTxtResult().setText("Lütfen Hepsini Eksiksiz  Doldurun");

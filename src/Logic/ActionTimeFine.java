@@ -4,6 +4,8 @@ import Gui.AboutUs;
 import Gui.FineDebtPayment;
 import Gui.Login;
 import Gui.TimeControlExtraTimeGui;
+import Logic.ActionsBook;
+import Logic.SqlConnection;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -25,8 +27,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 public class ActionTimeFine implements ActionListener, FocusListener {
 
