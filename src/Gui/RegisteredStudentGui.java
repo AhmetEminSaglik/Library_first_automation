@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class RegisteredStudentGui {
@@ -189,6 +190,11 @@ public class RegisteredStudentGui {
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        table.setCellSelectionEnabled(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+       // table.getSelectionModel().addListSelectionListener(action);
+        table.setRowSelectionAllowed(true);
+
         return table;
 
     }

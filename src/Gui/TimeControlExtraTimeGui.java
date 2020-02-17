@@ -319,7 +319,8 @@ public final class TimeControlExtraTimeGui extends JPanel {
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-
+        table.setRowSelectionAllowed(true);
+//      table.getSelectionModel().addListSelectionListener(action);
         model = table.getModel();
 
         return table;

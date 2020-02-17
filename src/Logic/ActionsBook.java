@@ -27,6 +27,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ActionsBook implements ActionListener, FocusListener {
 
@@ -41,7 +43,7 @@ public class ActionsBook implements ActionListener, FocusListener {
     public final int DB_BOOKNAME = 1;
     public final int DB_AUTHORNAME = 2;
     public final int DB_CATEGORYNAME = 3;
-
+    boolean firstValueChangedActionWillPerform = true;
     Boolean BookCanAdd;
     boolean BookBringCame;
     boolean BookCanUpdate;

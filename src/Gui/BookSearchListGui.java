@@ -219,7 +219,8 @@ public class BookSearchListGui {
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-
+        //  table.getSelectionModel().addListSelectionListener(action);
+        table.setRowSelectionAllowed(true);
         return table;
 
     }

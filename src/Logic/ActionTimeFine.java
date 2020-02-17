@@ -25,6 +25,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ActionTimeFine implements ActionListener, FocusListener {
 
@@ -43,6 +45,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
     boolean StopUpdate = false;
     final int FAILED = 0;
     final int CANCELED = 1;
+    boolean firstValueChangedActionWillPerform = true;
 
     public ActionTimeFine(TimeControlExtraTimeGui tcet) {
         this.tcet = tcet;
@@ -816,18 +819,22 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             }
         } else if (tcet != null) {
 
-            if (e.getSource() == tcet.getTxtSearchStudentNo() && tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderStudent)) {
-
-                tcet.getTxtSearchStudentNo().setText("");
+            if (e.getSource() == tcet.getTxtSearchStudentNo()) {
+                if (tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderBook)) {
+                    tcet.getTxtSearchStudentNo().setText("");
+                }
                 tcet.getTxtSearchStudentNo().setForeground(Color.BLACK);
                 tcet.getTxtSearchStudentNo().setFont(FocusFont);
 
                 tcet.getTxtSearchBookBarcodeNo().setText(PlaceHolderBook);
                 tcet.getTxtSearchBookBarcodeNo().setFont(LostFocusFont);
                 tcet.getTxtSearchBookBarcodeNo().setForeground(Color.gray);
-            } else if (e.getSource() == tcet.getTxtSearchBookBarcodeNo() && tcet.getTxtSearchBookBarcodeNo().getText().equals(PlaceHolderBook)) {
+            } else if (e.getSource() == tcet.getTxtSearchBookBarcodeNo()) {
 
-                tcet.getTxtSearchBookBarcodeNo().setText("");
+                if (tcet.getTxtSearchBookBarcodeNo().getText().equals(PlaceHolderBook)) {
+                    tcet.getTxtSearchBookBarcodeNo().setText("");
+                }
+
                 tcet.getTxtSearchBookBarcodeNo().setFont(FocusFont);
                 tcet.getTxtSearchBookBarcodeNo().setForeground(Color.BLACK);
 

@@ -292,6 +292,8 @@ public class FineDebtPayment {
         tbl.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tbl.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tbl.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        tbl.setRowSelectionAllowed(true);
+        //tbl.getSelectionModel().addListSelectionListener(action);
         tbl.setRowHeight((int) (screenSizeHeight / 38.4));
 
         return tbl;

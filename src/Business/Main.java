@@ -8,6 +8,6 @@ public class Main {
     public static void main(String[] args) {
         new Login();
 
-        JOptionPane.showMessageDialog(null, "");
+        JOptionPane.showMessageDialog(null, "1-) Of teknoloji fakültesi için gmail hesabı");
     }
 }

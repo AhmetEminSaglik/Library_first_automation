@@ -41,6 +41,7 @@ public class ActionStudent implements ActionListener, FocusListener {
 
     Color rsgPlaceHolder = Color.GRAY;
     Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
+    boolean firstValueChangedActionWillPerform = true;
 
     public ActionStudent(StudentAddGui sag) {
         this.sag = sag;
@@ -940,4 +941,36 @@ public class ActionStudent implements ActionListener, FocusListener {
 
     }
 
+    /*  @Override
+    public void valueChanged(ListSelectionEvent e) {
+        System.out.println(rsg.getTable().
+                getValueAt(rsg.getTable().
+                        getColumnModel().getColumnIndex(StudentCanAdd),
+                        rsg.getTable().getRowSorter().getModelRowCount()));
+        if (rsg.getTable().getCellSelectionEnabled() == true) {
+            int rowIndex = rsg.getTable().getSelectedRow();
+            int colIndex = rsg.getTable().getSelectedColumn();
+            JOptionPane.showMessageDialog(null, "row : " + rowIndex + " column : " + colIndex);
+        }
+        //if (firstValueChangedActionWillPerform == false) {
+        firstValueChangedActionWillPerform = true;
+        if (rsg.getTable().getRowSelectionAllowed()) {
+            System.out.println("");
+            int first = e.getLastIndex();
+            System.out.println(e.getLastIndex());
+            System.out.println(e.getFirstIndex());
+
+            rsg.getTxtNo().setForeground(Color.BLACK);
+            rsg.getTxtName().setForeground(Color.BLACK);
+            rsg.getTxtSurname().setForeground(Color.BLACK);
+            rsg.getTxtNo().setText(rsg.DataOfTable[first][1]);
+            rsg.getTxtName().setText(rsg.DataOfTable[first][2]);
+            rsg.getTxtSurname().setText(rsg.DataOfTable[first][3]);
+//                System.out.print(rsg.DataOfTable[first][0]);
+            SuccessVoice();
+        }
+        //  } else {
+        //    firstValueChangedActionWillPerform = false;
+        //   }
+    }*/
 }

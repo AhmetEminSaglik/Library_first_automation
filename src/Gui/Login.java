@@ -21,12 +21,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class Login extends JLayeredPane {
+public class Login extends JPanel {
 
     JFrame jf = null;
 
@@ -43,6 +43,7 @@ public class Login extends JLayeredPane {
     JLabel lblImageBook;
     JLabel lblusername;
     JLabel lblPass;
+    JLabel lblTitle;
 
     JTextField txtusername;
     JPasswordField jPass;
@@ -55,14 +56,15 @@ public class Login extends JLayeredPane {
     public Login() {
 
         this.setLayout(null);
-        this.setBackground(new Color(255, 234, 167));
-        this.add(getLblImageKtu(), new Integer(0));
-        this.add(getLblImageBook(), new Integer(0));
-        this.add(getLblusername(), new Integer(1));
-        this.add(getLblPass(), new Integer(1));
-        this.add(getTxtusername(), new Integer(1));
-        this.add(getjPass(), new Integer(1));
-        this.add(getSignIn(), new Integer(1));
+        this.setBackground(new Color(246, 229, 141));
+        this.add(getLblImageKtu());
+        this.add(getLblImageBook());
+        this.add(getLblusername());
+        this.add(getLblPass());
+        this.add(getLblTitle());
+        this.add(getTxtusername());
+        this.add(getjPass());
+        this.add(getSignIn());
 
         getJf().add(this);
         getJf().setVisible(true);
@@ -136,6 +138,21 @@ public class Login extends JLayeredPane {
 
     public void setLblPass(JLabel lblPass) {
         this.lblPass = lblPass;
+    }
+
+    public JLabel getLblTitle() {
+        if (lblTitle == null) {
+            lblTitle = new JLabel("OF TEKNOLOJİ FAKÜLTESİ KÜTÜPHANESİ");
+            lblTitle.setBounds((int) (screenSizeWidth /6), (int) (screenSizeHeight / 7.5), screenSizeWidth / 3, screenSizeHeight / 19);
+
+            lblTitle.setFont(new Font("", Font.BOLD, (int) (screenSizeWidth / 70)));
+
+        }
+        return lblTitle;
+    }
+
+    public void setLblTitle(JLabel lblTitle) {
+        this.lblTitle = lblTitle;
     }
 
     public JTextField getTxtusername() {
