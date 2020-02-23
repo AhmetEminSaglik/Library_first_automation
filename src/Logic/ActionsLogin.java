@@ -19,7 +19,9 @@ public class ActionsLogin implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (login != null) {
-            if (e.getSource() == login.getSignIn()) {
+            if (e.getSource() == login.getSignIn()
+                    || e.getSource() == login.getTxtusername()
+                    || e.getSource() == login.getjPass()) {
                 String JDBC_DRIVER = "com.mysql.jdbc.Driver";
                 String DB_URL = "jdbc:mysql://localhost/library";
 

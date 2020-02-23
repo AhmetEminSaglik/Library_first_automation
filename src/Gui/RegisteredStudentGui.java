@@ -191,8 +191,8 @@ public class RegisteredStudentGui {
         table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         table.setCellSelectionEnabled(true);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-       // table.getSelectionModel().addListSelectionListener(action);
+        // table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // table.getSelectionModel().addListSelectionListener(action);
         table.setRowSelectionAllowed(true);
 
         return table;

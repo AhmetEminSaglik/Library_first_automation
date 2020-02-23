@@ -4,10 +4,10 @@ import Gui.AboutUs;
 import Gui.FineDebtPayment;
 import Gui.Login;
 import Gui.TimeControlExtraTimeGui;
-import Logic.ActionsBook;
-import Logic.SqlConnection;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -30,14 +30,18 @@ import javax.swing.JTable;
 
 public class ActionTimeFine implements ActionListener, FocusListener {
 
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+
     TimeControlExtraTimeGui tcet;
     FineDebtPayment fdp;
     AboutUs au;
     public boolean noVoice = false;
     String PlaceHolderStudent = "Öğrenci No";
     String PlaceHolderBook = "Kitap Barkod No";
-    Font FocusFont = new Font("", Font.BOLD, 15);
-    Font LostFocusFont = new Font("", Font.ITALIC, 15);
+    Font FocusFont = new Font("", Font.BOLD, (int) screenSizeWidth / 91);
+    Font LostFocusFont = new Font("", Font.ITALIC, (int) screenSizeWidth / 91);
     boolean visibleOfTxt = false;
     boolean firstEnrty = true;
     boolean usernameChanged = false;
@@ -142,6 +146,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
 
                 BringStudentWhoHasDebt(1);
             } else if (e.getSource() == fdp.getTxtAmountOfPayment() || e.getSource() == fdp.getBtnPay()) {
+
                 if (!fdp.getTxtStudentNo().getText().trim().equals("") && !fdp.getTxtDebt().getText().equals("")) {
                     payDebt();
                     BringStudentWhoHasDebt(1);
@@ -475,13 +480,34 @@ public class ActionTimeFine implements ActionListener, FocusListener {
     public void ExtendTime() {
         SqlConnection sqlconnection = new SqlConnection();
 
-        String ExtendTimeQuery = "UPDATE book SET BorrowedDate= NOW() WHERE BarcodeNo LIKE '" + tcet.getTxtBookBarcodeNoToExtendTime().getText().trim() + "'";
+        String ExtendTimeQuery = "UPDATE book SET BorrowedDate= NOW() , book.Condition = NULL WHERE BarcodeNo LIKE '" + tcet.getTxtBookBarcodeNoToExtendTime().getText().trim() + "'";
         try {
             sqlconnection.Update(ExtendTimeQuery);
             tcet.getTxtResult().setText(" Kitap Süresi Uzatıldı");
             tcet.getTxtResult().setBackground(new Color(29, 209, 161));
 
             SearchStudentBarkodNo(3);
+            Thread sendEmail = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //String name, String surname, String bacodeNo, String bookName, String email
+                    String Query = "SELECT * FROM book INNER JOIN student ON book.StudentNo=Student.No";
+                    sqlconnection.setResultSet(Query);
+                    try {
+                        if (sqlconnection.getResultSet().next()) {
+                            new JavaMailUtil().MailStudentWhoExtendTime(sqlconnection.getResultSet().getString("Student.Name"),
+                                    sqlconnection.getResultSet().getString("Student.Surname"),
+                                    sqlconnection.getResultSet().getString("book.BarcodeNo"),
+                                    sqlconnection.getResultSet().getString("book.Name"),
+                                    sqlconnection.getResultSet().getString("Student.Email"));
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ActionTimeFine.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            });
+            sendEmail.start();
 
         } finally {
             sqlconnection.CloseAllConnections();
@@ -574,6 +600,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 break;
 
         }
+        SearchQuery += "  ORDER BY student.No   ASC";
         try {
 
             int counter = 0;
@@ -638,13 +665,11 @@ public class ActionTimeFine implements ActionListener, FocusListener {
         fdp.getTxtResult().setBackground(new Color(206, 214, 224));
     }
 
-    public void fillDebtAndResult(Double Debt) {
-        if (Debt > 0) {
+    public void fillDebtAndResult(String NameSurname, Double AmountOfPayment, Double Debt, String Email) {
+        if (Debt > 0.0) {
             fdp.getTxtResult().setText(Debt + " TL borcunuz kalmıştır");
             fdp.getTxtResult().setBackground(new Color(255, 118, 117));
-            fdp.getTxtDebt().setBackground(Color.red);
-
-            fdp.getTxtDebt().setBackground(Color.orange);
+            // fdp.getTxtDebt().setBackground(Color.red);
 
         } else if (Debt < 0) {
 
@@ -659,35 +684,51 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             fdp.getTxtDebt().setText("0.0");
             fdp.getTxtDebt().setBackground(new Color(206, 214, 224));
         }
+        Thread sendMail = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new JavaMailUtil().MaidStudentWhoPayDebt(NameSurname,
+                        AmountOfPayment, Double.parseDouble(fdp.getTxtDebt().getText()), Email
+                );
+            }
+        });
+        sendMail.start();
+        fdp.getTxtDebt().setBackground(Color.orange);
     }
 
     public void payDebt() {
         SqlConnection sqlConnection = new SqlConnection();
 
         try {
-            String BringDebt = "SELECT * FROM Student WHERE No LIKE '" + fdp.getTxtStudentNo().getText().trim() + "'";
-            sqlConnection.setResultSet(BringDebt);
-            double MoneyFromStudent = Double.parseDouble(fdp.getTxtAmountOfPayment().getText().trim());
-            String UpdateDebt = "";
-            Double LastDebt = 0.0;
-            if (sqlConnection.getResultSet().next() || (sqlConnection.getResultSet().getDouble("Debt") > 0)) {
-                UpdateDebt = "UPDATE Student SET Debt = " + (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent) + " WHERE No like'" + fdp.getTxtStudentNo().getText().trim() + "' ";
-                LastDebt = (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent);
+            if (Double.parseDouble(fdp.getTxtAmountOfPayment().getText().trim()) != 0.0) {
+
+                String BringDebt = "SELECT * FROM Student WHERE No LIKE '" + fdp.getTxtStudentNo().getText().trim() + "'";
+                sqlConnection.setResultSet(BringDebt);
+                double MoneyFromStudent = Double.parseDouble(fdp.getTxtAmountOfPayment().getText().trim());
+                String UpdateDebt = "";
+                Double LastDebt = 0.0;
+                if (sqlConnection.getResultSet().next() || (sqlConnection.getResultSet().getDouble("Debt") > 0)) {
+                    UpdateDebt = "UPDATE Student SET Debt = " + (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent) + " WHERE No like'" + fdp.getTxtStudentNo().getText().trim() + "' ";
+                    LastDebt = (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent);
+                } else {
+
+                    UpdateDebt = "UPDATE Student SET Debt = " + (sqlConnection.getResultSet().getDouble("Debt") + MoneyFromStudent) + " ";
+                    LastDebt = (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent);
+                }
+                sqlConnection.Update(UpdateDebt);
+
+                BringDebt = "SELECT * FROM Student WHERE No LIKE '" + fdp.getTxtStudentNo().getText().trim() + "'";
+                sqlConnection.setResultSet(BringDebt);
+                if (sqlConnection.getResultSet().next()) {
+                    fdp.getTxtDebt().setText(sqlConnection.getResultSet().getString("Debt"));
+                    String nameSurname = sqlConnection.getResultSet().getString("Name") + " " + sqlConnection.getResultSet().getString("Surname").toUpperCase();
+                    fillDebtAndResult(nameSurname, MoneyFromStudent, LastDebt, sqlConnection.getResultSet().getString("Email"));
+                    // öğrenci adı soyadı ,  ödediği miktar, kalan borcu,  
+                }
+                SuccessVoice();
             } else {
-
-                UpdateDebt = "UPDATE Student SET Debt = " + (sqlConnection.getResultSet().getDouble("Debt") + MoneyFromStudent) + " ";
-                LastDebt = (sqlConnection.getResultSet().getDouble("Debt") - MoneyFromStudent);
+                JOptionPane.showMessageDialog(null, "0 Tl ödeme yapamazsınız");
             }
-            sqlConnection.Update(UpdateDebt);
-
-            BringDebt = "SELECT * FROM Student WHERE No LIKE '" + fdp.getTxtStudentNo().getText().trim() + "'";
-            sqlConnection.setResultSet(BringDebt);
-            if (sqlConnection.getResultSet().next()) {
-                fdp.getTxtDebt().setText(sqlConnection.getResultSet().getString("Debt"));
-                fillDebtAndResult(LastDebt);
-            }
-            SuccessVoice();
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex + " hatası ");
         } catch (NumberFormatException ex) {
@@ -800,9 +841,9 @@ public class ActionTimeFine implements ActionListener, FocusListener {
 
                 }
                 fdp.getTxtStudentNo().setForeground(Color.BLACK);
-                fdp.getTxtStudentNo().setFont(new Font("", Font.BOLD, 15));
+                fdp.getTxtStudentNo().setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 91));
                 fdp.getTxtAmountOfPayment().setForeground(Color.gray);
-                fdp.getTxtAmountOfPayment().setFont(new Font("", Font.ITALIC, 14));
+                fdp.getTxtAmountOfPayment().setFont(new Font("", Font.ITALIC, (int) screenSizeWidth / 97));
                 fdp.getTxtAmountOfPayment().setText("Ödeme Miktarı");
 
             } else if (e.getSource() == fdp.getTxtAmountOfPayment()) {
@@ -814,15 +855,18 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                     }
                 }
                 fdp.getTxtAmountOfPayment().setForeground(Color.BLACK);
-                fdp.getTxtAmountOfPayment().setFont(new Font("", Font.BOLD, 15));
+                fdp.getTxtAmountOfPayment().setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 91));
 
             }
         } else if (tcet != null) {
 
             if (e.getSource() == tcet.getTxtSearchStudentNo()) {
-                if (tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderBook)) {
+
+                if (tcet.getTxtSearchStudentNo().getText().equals(PlaceHolderStudent)) {
+
                     tcet.getTxtSearchStudentNo().setText("");
                 }
+
                 tcet.getTxtSearchStudentNo().setForeground(Color.BLACK);
                 tcet.getTxtSearchStudentNo().setFont(FocusFont);
 

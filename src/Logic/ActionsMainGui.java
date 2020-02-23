@@ -456,14 +456,37 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
                     + "' , BorrowedDate = NOW()  "
                     + " \n where  BarcodeNo LIKE '" + getMg().getTxtBookBarcode().getText() + "'";
             sqlConnection.Update(SqlDeliverBookStudent);//  stmt.executeUpdate(SqlDeliverBookStudent);
-
+            sqlConnection.setResultSet("SELECT * FROM student WHERE No LIKE '" + getMg().gettxtStudentNo().getText().trim() + "' ");
+            if (sqlConnection.getResultSet().next()) {
+                sendEmail(sqlConnection.getResultSet().getString("Name"),
+                        sqlConnection.getResultSet().getString("Surname"),
+                        getMg().getTxtBookBarcode().getText().trim(),
+                        getMg().getTxtBookName().getText().trim(),
+                        sqlConnection.getResultSet().getString("Email"));
+            }
             getMg().gettxtResultScreen().setBackground(Color.GREEN);
             getMg().gettxtResultScreen().setText("EŞLEŞME BAŞARILI");
             SuccessVoice();
+        } catch (SQLException ex) {
+            Logger.getLogger(ActionsMainGui.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             sqlConnection.CloseAllConnections();
 
         }
+
+    }
+
+    public void sendEmail(String name, String surname, String bacodeNo, String bookName, String email) {
+
+        Thread sendEmailThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new JavaMailUtil().MailStudentWhoTakeBook(name, surname, bacodeNo, bookName, email);
+            }
+
+        });
+
+        sendEmailThread.start();
 
     }
 

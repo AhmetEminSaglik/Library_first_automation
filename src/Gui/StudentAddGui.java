@@ -114,7 +114,7 @@ public class StudentAddGui {
         if (jp == null) {
             jp = new JPanel();
             jp.setBounds(getJf().getBounds());
-            jp.setBackground(new Color(11, 11, 11));
+            jp.setBackground(new Color(246, 229, 141));
             jp.setLayout(null);
         }
         return jp;
@@ -128,7 +128,7 @@ public class StudentAddGui {
         if (lblNo == null) {
             lblNo = new JLabel("Öğrenci No");
             lblNo.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
-            lblNo.setForeground(Color.white);
+            lblNo.setForeground(Color.BLACK);
             lblNo.setFont(lblFont);
 
         }
@@ -146,7 +146,7 @@ public class StudentAddGui {
             lblResult.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
                     topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
 
-            lblResult.setForeground(Color.white);
+            lblResult.setForeground(Color.BLACK);
             lblResult.setFont(lblFont);
             lblPushCounter++;
 
@@ -162,7 +162,7 @@ public class StudentAddGui {
         if (lblName == null) {
             lblName = new JLabel("Öğrenci Adı");
             lblName.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
-            lblName.setForeground(Color.white);
+            lblName.setForeground(Color.BLACK);
             lblName.setFont(lblFont);
 
         }
@@ -179,7 +179,7 @@ public class StudentAddGui {
             lblSurname = new JLabel("Öğrenci Soyadı");
             lblSurname.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
                     topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
-            lblSurname.setForeground(Color.white);
+            lblSurname.setForeground(Color.BLACK);
             lblSurname.setFont(lblFont);
             lblPushCounter++;
 
@@ -196,7 +196,7 @@ public class StudentAddGui {
 
             lblEmail = new JLabel("Öğrenci Email");
             lblEmail.setBounds(leftSpace, topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
-            lblEmail.setForeground(Color.white);
+            lblEmail.setForeground(Color.BLACK);
             lblEmail.setFont(lblFont);
 
         }
@@ -213,7 +213,7 @@ public class StudentAddGui {
 
         lblPhoneNo.setBounds(leftSpace + txtWidth + (int) (screenSizeWidth / 17.075),
                 topSpace + (lblpushUnder * lblPushCounter), lblWidth, lblheight);
-        lblPhoneNo.setForeground(Color.white);
+        lblPhoneNo.setForeground(Color.BLACK);
         lblPhoneNo.setFont(lblFont);
         lblPushCounter++;
         return lblPhoneNo;

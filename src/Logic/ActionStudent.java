@@ -5,7 +5,9 @@ import Gui.StudentAddGui;
 import Gui.StudentStateGui;
 import Gui.StudentUpdateGui;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -19,7 +21,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -38,9 +39,12 @@ public class ActionStudent implements ActionListener, FocusListener {
     boolean StudentCanAdd;
     boolean StudentBringCame;
     boolean StudentCanUpdate;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
 
     Color rsgPlaceHolder = Color.GRAY;
-    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
+    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, (int) screenSizeWidth / 91);
     boolean firstValueChangedActionWillPerform = true;
 
     public ActionStudent(StudentAddGui sag) {
@@ -166,7 +170,7 @@ public class ActionStudent implements ActionListener, FocusListener {
 
         StudentCanUpdate = true;
 
-        boolean StudentDeleted = true;
+        //  boolean StudentDeleted = true;
         boolean AlreadyCame = true;
         boolean StudentHasDebt = false;
 
@@ -201,6 +205,17 @@ public class ActionStudent implements ActionListener, FocusListener {
             if (answer == JOptionPane.YES_OPTION) {
                 SuccessVoice();
 
+                Thread SendEmail = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new JavaMailUtil().MailStudentWhoDeleted(sug.getTxtno().getText().trim(),
+                                sug.getTxtNewName().getText().trim(), sug.getTxtNewSurname().getText().trim(),
+                                sug.getTxtNewEmail().getText().trim()
+                        );
+                    }
+                }
+                );
+                SendEmail.start();
                 sug.getTxtNewNo().setText("");
                 sug.getTxtNewName().setText("");
                 sug.getTxtNewSurname().setText("");
@@ -398,7 +413,17 @@ public class ActionStudent implements ActionListener, FocusListener {
 
             sag.getTxtResult().setBackground(Color.GREEN);
             sag.getTxtResult().setText("Öğrenci Kayıt edilmiştir");
+            Thread SendEmail = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    new JavaMailUtil().MailStudentWhoRegister(sag.getTxtNo().getText().trim(), sag.getTxtName().getText().trim(), sag.getTxtSurname().getText().trim().toUpperCase(),
+                            sag.getTxtEmail().getText().trim());
+                }
+            }
+            );
+            SendEmail.start();
             SuccessVoice();
+
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex);
         } catch (Exception ex) {
@@ -530,7 +555,7 @@ public class ActionStudent implements ActionListener, FocusListener {
         if (rsg != null) {
             if (e.getSource() == rsg.getTxtNo()) {
                 rsg.getTxtNo().setForeground(Color.BLACK);
-                rsg.getTxtNo().setFont(new Font("", Font.BOLD, 15));
+                rsg.getTxtNo().setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 91));
                 rsg.getTxtName().setForeground(rsgPlaceHolder);
                 rsg.getTxtName().setFont(fontTxtPlaceHolder);
                 rsg.getTxtName().setText("İsim Giriniz");
@@ -543,7 +568,7 @@ public class ActionStudent implements ActionListener, FocusListener {
 
             } else if (e.getSource() == rsg.getTxtName()) {
                 rsg.getTxtName().setForeground(Color.BLACK);
-                rsg.getTxtName().setFont(new Font("", Font.BOLD, 15));
+                rsg.getTxtName().setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 91));
                 rsg.getTxtNo().setForeground(rsgPlaceHolder);
                 rsg.getTxtNo().setText("Numara Giriniz");
                 rsg.getTxtNo().setFont(fontTxtPlaceHolder);
@@ -555,7 +580,7 @@ public class ActionStudent implements ActionListener, FocusListener {
                 }
             } else if (e.getSource() == rsg.getTxtSurname()) {
                 rsg.getTxtSurname().setForeground(Color.BLACK);
-                rsg.getTxtSurname().setFont(new Font("", Font.BOLD, 15));
+                rsg.getTxtSurname().setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 91));
                 rsg.getTxtName().setForeground(rsgPlaceHolder);
                 rsg.getTxtName().setFont(fontTxtPlaceHolder);
                 rsg.getTxtName().setText("İsim Giriniz");
@@ -885,7 +910,7 @@ public class ActionStudent implements ActionListener, FocusListener {
                 searchQuery = "SELECT * FROM student ";
                 noVoice = true;
         }
-
+        searchQuery += " ORDER BY No  ASC";
         try {
 
             sqlConnection.setResultSet(searchQuery);
@@ -930,38 +955,5 @@ public class ActionStudent implements ActionListener, FocusListener {
 
         }
 
-    }
-
-    /*  @Override
-    public void valueChanged(ListSelectionEvent e) {
-        System.out.println(rsg.getTable().
-                getValueAt(rsg.getTable().
-                        getColumnModel().getColumnIndex(StudentCanAdd),
-                        rsg.getTable().getRowSorter().getModelRowCount()));
-        if (rsg.getTable().getCellSelectionEnabled() == true) {
-            int rowIndex = rsg.getTable().getSelectedRow();
-            int colIndex = rsg.getTable().getSelectedColumn();
-            JOptionPane.showMessageDialog(null, "row : " + rowIndex + " column : " + colIndex);
-        }
-        //if (firstValueChangedActionWillPerform == false) {
-        firstValueChangedActionWillPerform = true;
-        if (rsg.getTable().getRowSelectionAllowed()) {
-            System.out.println("");
-            int first = e.getLastIndex();
-            System.out.println(e.getLastIndex());
-            System.out.println(e.getFirstIndex());
-
-            rsg.getTxtNo().setForeground(Color.BLACK);
-            rsg.getTxtName().setForeground(Color.BLACK);
-            rsg.getTxtSurname().setForeground(Color.BLACK);
-            rsg.getTxtNo().setText(rsg.DataOfTable[first][1]);
-            rsg.getTxtName().setText(rsg.DataOfTable[first][2]);
-            rsg.getTxtSurname().setText(rsg.DataOfTable[first][3]);
-//                System.out.print(rsg.DataOfTable[first][0]);
-            SuccessVoice();
-        }
-        //  } else {
-        //    firstValueChangedActionWillPerform = false;
-        //   }
-    }*/
+    } 
 }

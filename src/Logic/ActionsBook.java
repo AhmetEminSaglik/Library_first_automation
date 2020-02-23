@@ -5,7 +5,9 @@ import Gui.BookReturnGui;
 import Gui.BookSearchListGui;
 import Gui.BookUpdateRemoveGui;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -27,8 +29,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 public class ActionsBook implements ActionListener, FocusListener {
 
@@ -48,7 +48,11 @@ public class ActionsBook implements ActionListener, FocusListener {
     boolean BookBringCame;
     boolean BookCanUpdate;
     Color bslgPlaceHolder = Color.GRAY;
-    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, 15);
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double screenSizeWidth = screenSize.getWidth();
+    final double screenSizeHeight = screenSize.getHeight();
+    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, (int) screenSizeWidth / 91);
+
     int[] dizi = new int[2];
 
     public ActionsBook(BookReturnGui brg) {
@@ -276,7 +280,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 || jtxt.getText().trim().equals("Kategori ismi giriniz")) {
             jtxt.setText("");
         }
-        jtxt.setFont(new Font("", Font.BOLD, 15));
+        jtxt.setFont(new Font("", Font.BOLD, (int) screenSizeWidth / 91));
         jtxt.setForeground(Color.BLACK);
         return jtxt;
     }
@@ -699,13 +703,28 @@ public class ActionsBook implements ActionListener, FocusListener {
         return true;
     }
 
-    public void sendEmail(String StudentEmail, double Debt) {
+    public void sendEmailHasDebt(String nameSurname, String StudentEmail, double Debt) {
         JavaMailUtil jmu = new JavaMailUtil();
 
         Thread sendEmailThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                jmu.sendEmail(StudentEmail, Debt);
+                jmu.sendEmail(nameSurname, StudentEmail, Debt);
+
+            }
+
+        });
+
+        sendEmailThread.start();
+
+    }
+
+    public void sendEmailHasNoDebt(String name, String surname, String bacodeNo, String bookName, String email) {
+
+        Thread sendEmailThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new JavaMailUtil().MailStudentWhoDeliverBookBack(name, surname, bacodeNo, bookName, email);
 
             }
 
@@ -761,9 +780,25 @@ public class ActionsBook implements ActionListener, FocusListener {
                         delay = delay - 30;
                         Fine = FineFee * delay + debt;
                         FineAdded = true;
-                        sendEmail(StudentEmail, Fine);
+                        String Query = "SELECT * FROM student WHERE No LIKE '" + brg.getTxtStudentNo().getText().trim() + "'";
+                        sqlConnection.setResultSet(Query);
+                        if (sqlConnection.getResultSet().next()) {
+                            String nameSurname = sqlConnection.getResultSet().getString("Name") + " " + sqlConnection.getResultSet().getString("Surname");
+                            sendEmailHasDebt(nameSurname, StudentEmail, Fine);
+                        }
+
                     } else {
                         Fine = debt;
+                        sqlConnection.setResultSet("SELECT * FROM student WHERE no LIKE '" + brg.getTxtStudentNo().getText().trim()
+                                + "'");
+                        if (sqlConnection.getResultSet().next()) {
+                            sendEmailHasNoDebt(sqlConnection.getResultSet().getString("Name"),
+                                    sqlConnection.getResultSet().getString("Surname"),
+                                    brg.getTxtBarcodeNo().getText().trim(),
+                                    brg.getTxtBookName().getText().trim(),
+                                    sqlConnection.getResultSet().getString("Email"));
+                        }
+                        //String name, String surname, String bacodeNo, String bookName, String email) {
                     }
 
                 }
@@ -841,7 +876,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                 searchQuery = "SELECT * FROM book ";
                 noVoice = true;
         }
-
+        searchQuery += " ORDER BY BarcodeNo  ASC";
         try {
 
             sqlConnection.setResultSet(searchQuery);
@@ -867,7 +902,7 @@ public class ActionsBook implements ActionListener, FocusListener {
                     bslg.DataOfTable[counter][3] = "Öğrencide";
 
                 } catch (NullPointerException e) {
-                    bslg.DataOfTable[counter][3] = "Müsayit";
+                    bslg.DataOfTable[counter][3] = "Rafta";
                 }
 
                 bslg.DataOfTable[counter][4] = sqlConnection.getResultSet().getString("CategoryName");

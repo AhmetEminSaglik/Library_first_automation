@@ -93,7 +93,7 @@ public class MainGui {
         getJp().setVisible(true);
         addAllThingsONPanel();
 
-        getJp().setBackground(Color.black);
+        getJp().setBackground(new Color(47, 53, 66));
 
     }
 

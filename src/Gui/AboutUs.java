@@ -53,13 +53,13 @@ public class AboutUs {
     boolean SecondCountUp = true;
     boolean ThirdCountUp = true;
 
-    final int txtHeight = 25;
-    final int txtWidth = 180;
-    final int LeftSpace = 220;
-    final int txtTopSpace = 370;
-    final int lblHeight = 20;
+    final int txtHeight = (int) (screenSizeHeight / 30.72);
+    final int txtWidth = (int) (screenSizeWidth / 7.588888888888889);
+    final int LeftSpace = (int) (screenSizeWidth / 6.209090909090909);
+    final int txtTopSpace = (int) (screenSizeHeight / 2.075675675675676);
+    final int lblHeight = (int) (screenSizeHeight / 38.4);
     final int lblWidth = txtWidth;
-    final int lblTopSpace = 350;
+    final int lblTopSpace = (int) (screenSizeHeight / 2.1942857142857144);
 
     int txtpushRight = 0;
     int txtpushUnder = 0;
@@ -74,17 +74,19 @@ public class AboutUs {
     Font lblFont = new Font("", 0, (int) (screenSizeWidth / 75.88));
 
     public String FillTextArea() {
-        String txt1 = "    Yazılım mühendisliği 2. Sınıf öğrencisiyken \n"
-                + "gönüllü  olarak, Öncelikle kütüphanemizdeki çalışan \n"
-                + "arkadaşlarımıza ve kitap kontrolü için dekanımıza  \n"
-                + "sonrasında da diğer tüm arkadaşların işlerini \n"
-                + "kolaylaştırmak için bu otomasyonu 13.02.2020 tarihinde \n"
-                + "Karadeniz Teknoloji Üniversitesi, Of Teknoloji  \n"
-                + "Fakültesindeki kütüphanemize hediye ediyorum.\n"
-                + "Daha huzurlu çalışmanız dileğiyle ...\n\n"
-                + "                    Ahmet Emin SAĞLIK 385931 \n"
-                + "                           13.02.2020";
 
+        String txt1 = "    Yazılım mühendisliği 2. Sınıf öğrencisiyken \n"
+                + "gönüllü olarak  bu projeyi gerçekleştirip \n"
+                + "kütüphanemizin işlerini kolaylaştırmasını diliyorum.\n"
+                + "20.02.2020 tarihinde kütüphanemize \n"
+                + "bağışlıyorum.\n\n"
+                + "                    Ahmet Emin SAĞLIK 385931 \n"
+                + "                           20.02.2020";
+        String txt = "Yazılım mühendisliği 2. Sınıf öğrensiyken \n"
+                + "gönüllü olarak  bu projeyi gerçekleştirip \n"
+                + "20.02.2020 tarihinde kütüphanemize hediye ediyorum.\n\n"
+                + "                    Ahmet Emin SAĞLIK 385931 \n"
+                + "                           20.02.2020";
         return txt1;
     }
 
@@ -261,8 +263,8 @@ public class AboutUs {
             txtAreaAboutMe = new JTextArea();
             txtAreaAboutMe.setFocusable(false);
             txtAreaAboutMe.setFont(new Font("", Font.BOLD, (int) (screenSizeWidth / 75.88)));
-            txtAreaAboutMe.setBounds((int) (screenSizeWidth / 17.075), (int) (screenSizeHeight / 30.72),
-                    (int) (screenSizeWidth / 1.9514285714285715), (int) (screenSizeHeight / 2.35));
+            txtAreaAboutMe.setBounds((int) (screenSizeWidth / 17.075), (int) (screenSizeHeight / 15.36),
+                    (int) (screenSizeWidth / 1.9514285714285715), (int) (screenSizeHeight / 3.072));
         }
         return txtAreaAboutMe;
     }
@@ -301,8 +303,8 @@ public class AboutUs {
 
         if (txtOldUsername == null) {
             txtOldUsername = new JTextField("");
-            txtOldUsername.setBounds(LeftSpace + (txtpushRight * (txtWidth + 10)),
-                    txtTopSpace + (txtpushUnder * (txtHeight + 5 + lblHeight)),
+            txtOldUsername.setBounds(LeftSpace + (txtpushRight * (txtWidth + (int) (screenSizeWidth / 136.6))),
+                    txtTopSpace + (txtpushUnder * (txtHeight + (int) (screenSizeHeight / 153.6) + lblHeight)),
                     txtWidth, txtHeight);
             txtOldUsername.setForeground(Color.BLACK);
             txtOldUsername.setFont(lblFont);
@@ -319,8 +321,8 @@ public class AboutUs {
     public JTextField getTxtNewUsername() {
         if (txtNewUsername == null) {
             txtNewUsername = new JTextField("");
-            txtNewUsername.setBounds(LeftSpace + (txtpushRight * (txtWidth + 10)),
-                    txtTopSpace + (txtpushUnder * (txtHeight + 5 + lblHeight)),
+            txtNewUsername.setBounds(LeftSpace + (txtpushRight * (txtWidth + (int) (screenSizeWidth / 136.6))),
+                    txtTopSpace + (txtpushUnder * (txtHeight + (int) (screenSizeHeight / 153.6) + lblHeight)),
                     txtWidth, txtHeight);
 
             txtNewUsername.setForeground(Color.BLACK);
@@ -340,8 +342,8 @@ public class AboutUs {
         if (txtResult == null) {
             txtResult = new JTextField("");
 
-            txtResult.setBounds(LeftSpace + (txtpushRight * (txtWidth + 10)),
-                    txtTopSpace + (txtpushUnder * (txtHeight + 5 + lblHeight)),
+            txtResult.setBounds(LeftSpace + (txtpushRight * (txtWidth + (int) (screenSizeWidth / 136.6))),
+                    txtTopSpace + (txtpushUnder * (txtHeight + (int) (screenSizeHeight / 153.6) + lblHeight)),
                     txtWidth, txtHeight);
             txtResult.setBackground(new Color(206, 214, 224));
             txtResult.setForeground(Color.BLACK);
@@ -364,8 +366,8 @@ public class AboutUs {
 
         if (txtOldPassword == null) {
             txtOldPassword = new JPasswordField("");
-            txtOldPassword.setBounds(LeftSpace + (txtpushRight * (txtWidth + 10)),
-                    txtTopSpace + (txtpushUnder * (txtHeight + 5 + lblHeight)),
+            txtOldPassword.setBounds(LeftSpace + (txtpushRight * (txtWidth + (int) (screenSizeWidth / 273.2))),
+                    txtTopSpace + (txtpushUnder * (txtHeight + (int) (screenSizeHeight / 153.6) + lblHeight)),
                     txtWidth, txtHeight);
 
             txtOldPassword.setForeground(Color.BLACK);
@@ -384,10 +386,13 @@ public class AboutUs {
     public JPasswordField getTxtNewPassword1() {
         if (txtNewPassword1 == null) {
             txtNewPassword1 = new JPasswordField("");
-            txtNewPassword1.setBounds(LeftSpace + (txtpushRight * (txtWidth + 10)),
-                    txtTopSpace + (txtpushUnder * (txtHeight + 5 + lblHeight)),
+            txtNewPassword1.setBounds(LeftSpace + (txtpushRight * (txtWidth + (int) (screenSizeWidth / 136.6))),
+                    txtTopSpace + (txtpushUnder * (txtHeight + (int) (screenSizeHeight / 153.6) + lblHeight)),
                     txtWidth, txtHeight);
-
+            /*  txtNewUsername.setBounds(LeftSpace + (txtpushRight * (txtWidth + (int) (screenSizeWidth / 136.6))),
+                    txtTopSpace + (txtpushUnder * (txtHeight + (int) (screenSizeHeight / 153.6) + lblHeight)),
+                    txtWidth, txtHeight);
+             */
             txtNewPassword1.setForeground(Color.BLACK);
             txtNewPassword1.setFont(lblFont);
             txtNewPassword1.setVisible(false);
@@ -405,8 +410,8 @@ public class AboutUs {
         if (txtNewPassword2 == null) {
 
             txtNewPassword2 = new JPasswordField("");
-            txtNewPassword2.setBounds(LeftSpace + (txtpushRight * (txtWidth + 10)),
-                    txtTopSpace + (txtpushUnder * (txtHeight + 5 + lblHeight)),
+            txtNewPassword2.setBounds(LeftSpace + (txtpushRight * (txtWidth + (int) (screenSizeWidth / 136.6))),
+                    txtTopSpace + (txtpushUnder * (txtHeight + (int) (screenSizeHeight / 153.6) + lblHeight)),
                     txtWidth, txtHeight);
 
             txtNewPassword2.setForeground(Color.BLACK);
@@ -422,11 +427,13 @@ public class AboutUs {
     }
 
     public JButton getBtnChangePassword() {
+
         if (btnChangePassword == null) {
             btnChangePassword = new JButton("Giriş bilgilerini değiştir");
             btnChangePassword.setBounds(LeftSpace + txtWidth / 2,
-                    txtTopSpace + (txtpushUnder * (txtHeight + 5)) + lblHeight,
-                    (txtWidth * 5 / 2) - 45, (int) (screenSizeHeight / 21.942857142857143));
+                    txtTopSpace + (txtpushUnder * (txtHeight + (int) (screenSizeHeight / 153.6))) + lblHeight,
+                    (txtWidth * 5 / 2) - (int) (screenSizeWidth / 30.355555555555554),
+                    (int) (screenSizeHeight / 21.942857142857143));
             btnChangePassword.setBackground(new Color(238, 238, 238));
             btnChangePassword.setFont(btnFont);
             btnChangePassword.setCursor(new Cursor(12));
@@ -445,8 +452,8 @@ public class AboutUs {
 
         if (lblOldUsername == null) {
             lblOldUsername = new JLabel("Kullanıcı Adı");
-            lblOldUsername.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
-                    lblTopSpace + (lblpushUnder * (lblHeight + 5)),
+            lblOldUsername.setBounds(LeftSpace + (lblpushRight * (lblWidth + (int) (screenSizeWidth / 136.6))),
+                    lblTopSpace + (lblpushUnder * (lblHeight + (int) (screenSizeHeight / 76.8))),
                     lblWidth, lblHeight);
             lblOldUsername.setForeground(Color.BLACK);
             lblOldUsername.setFont(lblFont);
@@ -465,8 +472,8 @@ public class AboutUs {
     public JLabel getLblNewUsername() {
         if (lblNewUsername == null) {
             lblNewUsername = new JLabel("Yeni Kullanıcı Adı");
-            lblNewUsername.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
-                    lblTopSpace + (lblpushUnder * (lblHeight + 5)),
+            lblNewUsername.setBounds(LeftSpace + (lblpushRight * (lblWidth + (int) (screenSizeWidth / 136.6))),
+                    lblTopSpace + (lblpushUnder * (lblHeight + (int) (screenSizeHeight / 76.8))),
                     lblWidth, lblHeight);
             lblNewUsername.setForeground(Color.BLACK);
             lblNewUsername.setFont(lblFont);
@@ -483,8 +490,8 @@ public class AboutUs {
     public JLabel getLblResult() {
         if (lblResult == null) {
             lblResult = new JLabel("SONUÇ ");
-            lblResult.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
-                    lblTopSpace + (lblpushUnder * (lblHeight + 5)),
+            lblResult.setBounds(LeftSpace + (lblpushRight * (lblWidth + (int) (screenSizeWidth / 136.6))),
+                    lblTopSpace + (lblpushUnder * (lblHeight + (int) (screenSizeHeight / 76.8))),
                     lblWidth, lblHeight);
             lblResult.setForeground(Color.BLACK);
             lblResult.setFont(lblFont);
@@ -503,9 +510,16 @@ public class AboutUs {
     public JLabel getLblOldPassword() {
         if (lblOldPassword == null) {
             lblOldPassword = new JLabel(" Parolanız");
-            lblOldPassword.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
-                    lblTopSpace + (lblpushUnder * (lblHeight + 5 + txtHeight)),
+            lblOldPassword.setBounds(LeftSpace + (lblpushRight * (lblWidth + (int) (screenSizeWidth / 136.6))),
+                    lblTopSpace + (lblpushUnder * (lblHeight + (int) (screenSizeHeight / 76.8) + txtHeight / 5 * 4)),
                     lblWidth, lblHeight);
+            /*   lblOldUsername.setBounds(
+            LeftSpace + (lblpushRight * (lblWidth + (int) (screenSizeWidth / 136.6))),
+            
+                    lblTopSpace + (lblpushUnder * (lblHeight + (int) (screenSizeHeight / 76.8))),
+                    lblWidth, lblHeight);
+             */
+
             lblOldPassword.setForeground(Color.BLACK);
             lblOldPassword.setFont(lblFont);
             lblOldPassword.setVisible(false);
@@ -522,8 +536,8 @@ public class AboutUs {
     public JLabel getLblNewPassword1() {
         if (lblNewPassword1 == null) {
             lblNewPassword1 = new JLabel("Yeni  Parola");
-            lblNewPassword1.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
-                    lblTopSpace + (lblpushUnder * (lblHeight + 5 + txtHeight)),
+            lblNewPassword1.setBounds(LeftSpace + (lblpushRight * (lblWidth + (int) (screenSizeWidth / 136.6))),
+                    lblTopSpace + (lblpushUnder * (lblHeight + (int) (screenSizeHeight / 76.8) + txtHeight / 5 * 4)),
                     lblWidth, lblHeight);
             lblNewPassword1.setForeground(Color.BLACK);
             lblNewPassword1.setFont(lblFont);
@@ -541,8 +555,8 @@ public class AboutUs {
     public JLabel getLblNewPassword2() {
         if (lblNewPassword2 == null) {
             lblNewPassword2 = new JLabel("Parola Tekrarı");
-            lblNewPassword2.setBounds(LeftSpace + (lblpushRight * (lblWidth + 10)),
-                    lblTopSpace + (lblpushUnder * (lblHeight + 5 + txtHeight)),
+            lblNewPassword2.setBounds(LeftSpace + (lblpushRight * (lblWidth + (int) (screenSizeWidth / 136.6))),
+                    lblTopSpace + (lblpushUnder * (lblHeight + (int) (screenSizeHeight / 76.8) + txtHeight / 5 * 4)),
                     lblWidth, lblHeight);
             lblNewPassword2.setForeground(Color.BLACK);
             lblNewPassword2.setFont(lblFont);

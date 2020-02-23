@@ -63,7 +63,7 @@ public class StudentStateGui extends JPanel {
         setMg(mg);
         getMg().getJf().setTitle("ÖĞRENCİ DURUMU");
         this.setBounds(getJf().getBounds());
-        this.setBackground(new Color(0, 0, 0));
+        this.setBackground(new Color(44, 58, 71));
         this.setLayout(null);
 
         setJf(mg.getJf());

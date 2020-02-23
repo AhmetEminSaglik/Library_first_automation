@@ -33,8 +33,8 @@ public class Login extends JPanel {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final double jframeWidth = screenSize.getWidth() / 1.6070588235294119;
     final double jframeHeight = screenSize.getHeight() / 1.3963636363636365;
-    final int scaleWidth = (int) (screenSize.getWidth() / 1.6070588235294119);
-    final int scaleHeight = (int) (screenSize.getHeight() / 1.3963636363636365);
+    //final int scaleWidth = (injat) (screenSize.getWidth() / 1.6070588235294119);
+    //final int scaleHeight = (int) (screenSize.getHeight() / 1.3963636363636365);
     final int screenSizeWidth = (int) screenSize.getWidth();
     final int screenSizeHeight = (int) screenSize.getHeight();
     final int jframeX = (int) ((screenSize.getWidth() - jframeWidth) / 2);
@@ -96,7 +96,7 @@ public class Login extends JPanel {
         if (jf == null) {
             jf = new JFrame("GİRİŞ SAYFASI");
 
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+         //   Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
             jf.setBounds(jframeX, jframeY, (int) jframeWidth, (int) jframeHeight);
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -143,7 +143,7 @@ public class Login extends JPanel {
     public JLabel getLblTitle() {
         if (lblTitle == null) {
             lblTitle = new JLabel("OF TEKNOLOJİ FAKÜLTESİ KÜTÜPHANESİ");
-            lblTitle.setBounds((int) (screenSizeWidth /6), (int) (screenSizeHeight / 7.5), screenSizeWidth / 3, screenSizeHeight / 19);
+            lblTitle.setBounds((int) (screenSizeWidth / 6), (int) (screenSizeHeight / 7.5), screenSizeWidth / 3, screenSizeHeight / 19);
 
             lblTitle.setFont(new Font("", Font.BOLD, (int) (screenSizeWidth / 70)));
 
@@ -161,7 +161,7 @@ public class Login extends JPanel {
 
             txtusername.setBounds((screenSizeWidth * 3 / 12), (int) (screenSizeHeight / 3.2), ((screenSizeWidth / 5)), (screenSizeHeight / 19));
             txtusername.setFont(txtFont);
-
+            txtusername.addActionListener(action);
         }
         return txtusername;
     }
@@ -175,6 +175,7 @@ public class Login extends JPanel {
             jPass = new JPasswordField("");
             jPass.setBounds((screenSizeWidth * 3 / 12), (int) (screenSizeHeight / 2.7), (screenSizeWidth / 5), (screenSizeHeight / 19));
             jPass.setFont(txtFont);
+            jPass.addActionListener(action);
 
         }
         return jPass;
@@ -187,7 +188,8 @@ public class Login extends JPanel {
     public JButton getSignIn() {
         if (signIn == null) {
             signIn = new JButton("Oturum aç");
-            signIn.setBounds((screenSizeWidth / 3) - (screenSizeWidth / 70), (int) (screenSizeHeight / 2.2), screenSizeWidth / 9 + (screenSizeWidth / 50), screenSizeHeight / 19);
+            signIn.setBounds((screenSizeWidth / 3) - (screenSizeWidth / 70), (int) (screenSizeHeight / 2.2),
+                    screenSizeWidth / 9 + (screenSizeWidth / 50), screenSizeHeight / 19);
 
             signIn.setFont(txtFont);
             signIn.addActionListener(action);
@@ -203,7 +205,8 @@ public class Login extends JPanel {
     public JLabel getLblImageKtu() {
         if (lblImageKtu == null) {
             lblImageKtu = new JLabel();
-            lblImageKtu.setBounds(640, 5, 200, 200);
+
+            lblImageKtu.setBounds((int) (screenSizeWidth / 2.134375), (int) (screenSizeHeight / 153.6), (int) (screenSizeWidth / 6.83), (int) (screenSizeHeight / 3.84));
             ImageIcon imageIconKtu = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("ktuLogo.png")));
             Image imageKtu = imageIconKtu.getImage();
             Image imageKtu2 = imageKtu.getScaledInstance(lblImageKtu.getWidth(), lblImageKtu.getHeight(), Image.SCALE_SMOOTH);
@@ -222,7 +225,8 @@ public class Login extends JPanel {
     public JLabel getLblImageBook() {
         if (lblImageBook == null) {
             lblImageBook = new JLabel();
-            lblImageBook.setBounds(10, 10, 250, 200);
+            lblImageBook.setBounds((int) (screenSizeWidth / 136.6), (int) (screenSizeHeight / 76.8),
+                    (int) (screenSizeWidth / 5.464), (int) (screenSizeHeight / 3.84));
             ImageIcon imageIconbook = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("5.gif")));
             Image imageBook = imageIconbook.getImage();
             Image imageBook2 = imageBook.getScaledInstance(lblImageKtu.getWidth(), lblImageKtu.getHeight(), Image.SCALE_SMOOTH);
