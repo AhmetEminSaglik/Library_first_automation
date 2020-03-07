@@ -51,7 +51,7 @@ public class ActionsBook implements ActionListener, FocusListener {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final double screenSizeWidth = screenSize.getWidth();
     final double screenSizeHeight = screenSize.getHeight();
-    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, (int) screenSizeWidth / 91);
+    Font fontTxtPlaceHolder = new Font("", Font.ITALIC, (int) screenSizeWidth / 80);
 
     int[] dizi = new int[2];
 
@@ -112,11 +112,13 @@ public class ActionsBook implements ActionListener, FocusListener {
                 brg.getMg().getJf().setTitle("ANA SAYFA");
                 clearAllTxtMainGui();
             } else if (e.getSource() == brg.getTxtBarcodeNo() || e.getSource() == brg.getTxtStudentNo()) {
+                java.awt.Toolkit.getDefaultToolkit().beep();
                 if (brg.getTxtBarcodeNo().getText().trim().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası boş bırakılamaz");
-
+                    brg.getTxtResult().setText("Kitap Barkod Numarasını Doldurun");
+                    brg.getTxtResult().setBackground(Color.ORANGE);
                 } else if (brg.getTxtStudentNo().getText().trim().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Öğrenci Numarası boş bırakılamaz");
+                    brg.getTxtResult().setText("Öğrenci Numarasını Doldurun");
+                    brg.getTxtResult().setBackground(Color.YELLOW);
 
                 } else {
                     if (StudentExist() == true && BookExist() == true) {
@@ -329,9 +331,9 @@ public class ActionsBook implements ActionListener, FocusListener {
                     + "(`Id`,`BarcodeNo`,`Name`,`AuthorName`,`CategoryName`) VALUES "
                     + "(NULL,"
                     + "'" + (bag.getTxtBookBarcodeNo().getText().trim()) + "',"
-                    + "'" + bag.getTxtBookName().getText() + "',"
-                    + "'" + bag.getTxtAuthorName().getText() + "',"
-                    + "'" + bag.getTxtCategory().getText() + "')";
+                    + "'" + bag.getTxtBookName().getText().trim() + "',"
+                    + "'" + bag.getTxtAuthorName().getText().trim() + "',"
+                    + "'" + bag.getTxtCategory().getText().trim() + "')";
 
             sqlConnection.Update(SqlBookAdd);
 
@@ -397,10 +399,10 @@ public class ActionsBook implements ActionListener, FocusListener {
 
             if (sqlConnection.getResultSet().next()) {
 
-                if (!burg.getTxtNewBarcodeNo().getText().equals((sqlConnection.getResultSet().getString("BarcodeNo")))
-                        || !burg.getTxtNewBookName().getText().equals(sqlConnection.getResultSet().getString("Name"))
-                        || !burg.getTxtNewAuthorName().getText().equals(sqlConnection.getResultSet().getString("AuthorName"))
-                        || !burg.getTxtNewCategory().getText().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
+                if (!burg.getTxtNewBarcodeNo().getText().trim().equals((sqlConnection.getResultSet().getString("BarcodeNo")))
+                        || !burg.getTxtNewBookName().getText().trim().equals(sqlConnection.getResultSet().getString("Name"))
+                        || !burg.getTxtNewAuthorName().getText().trim().equals(sqlConnection.getResultSet().getString("AuthorName"))
+                        || !burg.getTxtNewCategory().getText().trim().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
 
                     AlreadyCame = false;
                     throw new Exception();
@@ -479,10 +481,10 @@ public class ActionsBook implements ActionListener, FocusListener {
             while (sqlConnection.getResultSet().next()) {
 
                 BarcodeNoEmpty = true;
-                if (burg.getTxtNewBarcodeNo().getText().equals((sqlConnection.getResultSet().getString("BarcodeNo")))
-                        && burg.getTxtNewBookName().getText().equals(sqlConnection.getResultSet().getString("Name"))
-                        && burg.getTxtNewAuthorName().getText().equals(sqlConnection.getResultSet().getString("AuthorName"))
-                        && burg.getTxtNewCategory().getText().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
+                if (burg.getTxtNewBarcodeNo().getText().trim().equals((sqlConnection.getResultSet().getString("BarcodeNo")))
+                        && burg.getTxtNewBookName().getText().trim().equals(sqlConnection.getResultSet().getString("Name"))
+                        && burg.getTxtNewAuthorName().getText().trim().equals(sqlConnection.getResultSet().getString("AuthorName"))
+                        && burg.getTxtNewCategory().getText().trim().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
                     AlreadyCame = true;
 
                     throw new Exception();
@@ -500,7 +502,7 @@ public class ActionsBook implements ActionListener, FocusListener {
             }
             if (!BookBringCame) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, burg.getTxtBarcodeNo().getText() + " Barkod Nolu Kitap Kaydı YOKTUR",
+                JOptionPane.showMessageDialog(null, burg.getTxtBarcodeNo().getText().trim() + " Barkod Nolu Kitap Kaydı YOKTUR",
                         "EKSİK KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
                 burg.getTxtNewBarcodeNo().setText("");
                 burg.getTxtNewBookName().setText("");
@@ -612,10 +614,10 @@ public class ActionsBook implements ActionListener, FocusListener {
 
                 if (burg.getTxtBarcodeNo().getText().equals(sqlConnection.getResultSet().getString("BarcodeNo"))) {
 
-                    if (burg.getTxtNewBarcodeNo().getText().equals(sqlConnection.getResultSet().getString("BarcodeNo"))
-                            && burg.getTxtNewBookName().getText().equals(sqlConnection.getResultSet().getString("Name"))
-                            && burg.getTxtNewAuthorName().getText().equals(sqlConnection.getResultSet().getString("AuthorName"))
-                            && burg.getTxtNewCategory().getText().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
+                    if (burg.getTxtNewBarcodeNo().getText().trim().equals(sqlConnection.getResultSet().getString("BarcodeNo"))
+                            && burg.getTxtNewBookName().getText().trim().equals(sqlConnection.getResultSet().getString("Name"))
+                            && burg.getTxtNewAuthorName().getText().trim().equals(sqlConnection.getResultSet().getString("AuthorName"))
+                            && burg.getTxtNewCategory().getText().trim().equals(sqlConnection.getResultSet().getString("CategoryName"))) {
                         allSame = true;
 
                         throw new Exception();
@@ -867,16 +869,16 @@ public class ActionsBook implements ActionListener, FocusListener {
                 searchQuery = "SELECT * FROM book WHERE Name LIKE '%" + bslg.getTxtBookName().getText().trim() + "%'";
                 break;
             case searchBarcodeNo:
-                searchQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '%" + bslg.getTxtBarcodeNo().getText().trim() + "%'";
+                searchQuery = "SELECT * FROM book WHERE BarcodeNo LIKE '" + bslg.getTxtBarcodeNo().getText().trim() + "'";
                 break;
             case searchCategory:
-                searchQuery = "SELECT * FROM book WHERE CategoryName LIKE '%" + bslg.getTxtCategory().getText().trim() + "%'";
+                searchQuery = "SELECT * FROM book WHERE CategoryName LIKE '" + bslg.getTxtCategory().getText().trim() + "'";
                 break;
             case searchAll:
                 searchQuery = "SELECT * FROM book ";
                 noVoice = true;
         }
-        searchQuery += " ORDER BY BarcodeNo  ASC";
+        searchQuery += " ORDER BY Name ASC";
         try {
 
             sqlConnection.setResultSet(searchQuery);

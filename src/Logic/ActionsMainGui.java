@@ -66,13 +66,15 @@ public class ActionsMainGui implements ActionListener, MouseListener, FocusListe
         if (e.getSource() == getMg().gettxtStudentNo() || e.getSource() == getMg().getTxtBookBarcode()) {
             if (getMg().gettxtStudentNo().getText().trim().equals("") || getMg().gettxtStudentNo().getText().equals(StudentPlaceHolder)) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-
-                JOptionPane.showMessageDialog(null, "Öğrenci numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
+                getMg().gettxtResultScreen().setText("Öğrenci No doldurun");
+                getMg().gettxtResultScreen().setBackground(Color.YELLOW);
+                //JOptionPane.showMessageDialog(null, "Öğrenci numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
             } else if (getMg().getTxtBookBarcode().getText().trim().equals("")
                     || getMg().getTxtBookBarcode().getText().equals(BarcodeNoPlaceHolder)) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-
-                JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
+                getMg().gettxtResultScreen().setText("Kitap BarkodNo doldurun");
+                getMg().gettxtResultScreen().setBackground(Color.ORANGE);
+                //JOptionPane.showMessageDialog(null, "Kitap Barkod Numarası boş bırakılamaz", "EKSİK BİLGİ", JOptionPane.ERROR_MESSAGE);
             } else {
                 getMg().getTxtBookName().setText("");
 

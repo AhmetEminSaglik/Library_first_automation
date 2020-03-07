@@ -1,4 +1,4 @@
-//      ahmeteminsaglik@gmail.com
+﻿//      ahmeteminsaglik@gmail.com
 package Logic;
 
 import java.awt.Color;
@@ -31,8 +31,8 @@ public class JavaMailUtil {
     static boolean saveConditionOnMysql = true;
     static Message message;
 
-    static final String usernameEmail = "example@gmail.com";
-    static final String passwordEmail = "password";
+    static final String usernameEmail = "YourEmail@example.com";
+    static final String passwordEmail = "YourApplicationPassword";
 
     Icon icon = new ImageIcon("GitHub-Mark-64px.png");
 
@@ -101,7 +101,7 @@ public class JavaMailUtil {
 
         //String Text = StudentNo + " numaralı " + name + " " + surname.toUpperCase() + " isimli Değerli Öğrencimiz,<br><br>"
         String Text = "Değerli Öğrencimiz " + name + " " + surname.toUpperCase() + ",<br><br>"
-                + "Of Teknoloji Fakültesi Kütüphanesinden kaydınız silinmiştir. Hayatınızda Başarılar dileriz. ";
+                + "Of Teknoloji Fakültesi Kütüphanesinden kaydınız silinmiştir. Hayatınızda başarılar dileriz. ";
         String MessageSubject = "Kayıt Silme İşlemi ";
 
         Text += WhoSendMail;

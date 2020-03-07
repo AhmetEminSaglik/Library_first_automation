@@ -1,3 +1,4 @@
+// süre kontrolde en düşük zamanlar en üste çıkacak
 package Logic;
 
 import Gui.AboutUs;
@@ -570,7 +571,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
         switch (SearchNumber) {
 
             case bringAll:
-                SearchQuery = "SELECT * FROM book LEFT JOIN student ON book.StudentNo=student.No  WHERE book.studentNo IS NOT NULL";
+                SearchQuery = "SELECT * FROM book  LEFT JOIN student ON book.StudentNo=student.No  WHERE book.studentNo IS NOT NULL ";
 
                 break;
             case Student:
@@ -600,7 +601,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 break;
 
         }
-        SearchQuery += "  ORDER BY student.No   ASC";
+        SearchQuery += "ORDER BY book.BorrowedDate ASC ";
         try {
 
             int counter = 0;
@@ -616,7 +617,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
                 //{"", "Öğrenci No", "Öğrenci Adı Soyadı", "Kitap Barkod No", "Kalan gün sayısı ", "Kitap adı"};
                 tcet.DataForTable[counter][0] = Integer.toString(counter + 1);
                 tcet.DataForTable[counter][1] = sqlConnection.getResultSet().getString("student.No");
-                tcet.DataForTable[counter][2] = sqlConnection.getResultSet().getString("student.Name") + sqlConnection.getResultSet().getString("student.Surname");
+                tcet.DataForTable[counter][2] = sqlConnection.getResultSet().getString("student.Name") + "   " + sqlConnection.getResultSet().getString("student.Surname");
                 tcet.DataForTable[counter][3] = sqlConnection.getResultSet().getString("book.BarcodeNo");
                 tcet.DataForTable[counter][4] = Integer.toString(TimeOfBook(sqlConnection.getResultSet().getString("book.BarcodeNo")));
                 tcet.DataForTable[counter][5] = sqlConnection.getResultSet().getString("book.Name");
@@ -752,7 +753,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             } else {
                 bringStudent = "SELECT * FROM student  WHERE Debt != 0 and No LIKE '%" + fdp.getTxtStudentNo().getText().trim() + "%' ORDER BY Debt DESC";
             }
-
+            //bringStudent += " ORDER BY Debt ASC ";
             sqlConnection.setResultSet(bringStudent);
             int StudentNumberWhoHasDebt = 0;
             while (sqlConnection.getResultSet().next()) {
@@ -765,7 +766,7 @@ public class ActionTimeFine implements ActionListener, FocusListener {
             while (sqlConnection.getResultSet().next()) {
                 fdp.DataOfTable[counter][0] = Integer.toString(counter + 1);
                 fdp.DataOfTable[counter][1] = sqlConnection.getResultSet().getString("No");
-                fdp.DataOfTable[counter][2] = sqlConnection.getResultSet().getString("Name") + " " + sqlConnection.getResultSet().getString("Surname");
+                fdp.DataOfTable[counter][2] = sqlConnection.getResultSet().getString("Name") + "   " + sqlConnection.getResultSet().getString("Surname");
                 fdp.DataOfTable[counter][3] = sqlConnection.getResultSet().getString("Email");
                 fdp.DataOfTable[counter][4] = sqlConnection.getResultSet().getString("Phone");
                 fdp.DataOfTable[counter][5] = sqlConnection.getResultSet().getString("Debt");

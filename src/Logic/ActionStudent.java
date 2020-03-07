@@ -180,11 +180,11 @@ public class ActionStudent implements ActionListener, FocusListener {
             SqlConnection.setResultSet(SqlStudentControlQuery);
 
             if (SqlConnection.getResultSet().next()) {
-                if (!sug.getTxtNewNo().getText().equals((SqlConnection.getResultSet().getString("No")))
-                        || !sug.getTxtNewName().getText().equals(SqlConnection.getResultSet().getString("Name"))
-                        || !sug.getTxtNewSurname().getText().equals(SqlConnection.getResultSet().getString("Surname"))
-                        || !sug.getTxtNewEmail().getText().equals(SqlConnection.getResultSet().getString("Email"))
-                        || !sug.getTxtPhoneNo().getText().equals(SqlConnection.getResultSet().getString("Phone"))) {
+                if (!sug.getTxtNewNo().getText().trim().equals((SqlConnection.getResultSet().getString("No")))
+                        || !sug.getTxtNewName().getText().trim().equals(SqlConnection.getResultSet().getString("Name"))
+                        || !sug.getTxtNewSurname().getText().trim().equals(SqlConnection.getResultSet().getString("Surname"))
+                        || !sug.getTxtNewEmail().getText().trim().equals(SqlConnection.getResultSet().getString("Email"))
+                        || !sug.getTxtPhoneNo().getText().trim().equals(SqlConnection.getResultSet().getString("Phone"))) {
                     AlreadyCame = false;
                     throw new Exception();
                 }
@@ -196,7 +196,7 @@ public class ActionStudent implements ActionListener, FocusListener {
                 throw new Exception("Kayıtlı Öğrenci Bulunamadı");
             }
 
-            String SqlStudentdDeleteQuery = "DELETE FROM `student` WHERE No LIKE '" + sug.getTxtNewNo().getText() + "'";
+            String SqlStudentdDeleteQuery = "DELETE FROM `student` WHERE No LIKE '" + sug.getTxtNewNo().getText().trim() + "'";
 
             SqlConnection.setPrepareStatement(SqlStudentdDeleteQuery);
 
@@ -210,8 +210,7 @@ public class ActionStudent implements ActionListener, FocusListener {
                     public void run() {
                         new JavaMailUtil().MailStudentWhoDeleted(sug.getTxtno().getText().trim(),
                                 sug.getTxtNewName().getText().trim(), sug.getTxtNewSurname().getText().trim(),
-                                sug.getTxtNewEmail().getText().trim()
-                        );
+                                sug.getTxtNewEmail().getText().trim());
                     }
                 }
                 );
@@ -249,7 +248,7 @@ public class ActionStudent implements ActionListener, FocusListener {
                 sug.getTxtResult().setBackground(new Color(255, 82, 82));
                 sug.getTxtResult().setText("Silme Başarısız");
             } else {
-                JOptionPane.showConfirmDialog(null, sug.getTxtno().getText() + " Nolu Kayıtlı Öğrenci bulunamadı", "SİLME HATASI", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showConfirmDialog(null, sug.getTxtno().getText().trim() + " Nolu Kayıtlı Öğrenci bulunamadı", "SİLME HATASI", JOptionPane.ERROR_MESSAGE);
                 java.awt.Toolkit.getDefaultToolkit().beep();
                 sug.getTxtResult().setBackground(new Color(255, 82, 82));
                 sug.getTxtResult().setText("Silme Başarısız");
@@ -331,16 +330,16 @@ public class ActionStudent implements ActionListener, FocusListener {
         Boolean AlreadyCame = false;
         try {
 
-            String SqlStudentUpdateQuery = "SELECT * FROM `student` WHERE  No LIKE '" + sug.getTxtno().getText() + "' ";
+            String SqlStudentUpdateQuery = "SELECT * FROM `student` WHERE  No LIKE '" + sug.getTxtno().getText().trim() + "' ";
             sqlConnection.setResultSet(SqlStudentUpdateQuery);
 
             while (sqlConnection.getResultSet().next()) {
 
-                if (sug.getTxtNewNo().getText().equals(sqlConnection.getResultSet().getString("No"))
-                        && sug.getTxtNewName().getText().equals(sqlConnection.getResultSet().getString("Name"))
-                        && sug.getTxtNewSurname().getText().equals(sqlConnection.getResultSet().getString("Surname"))
-                        && sug.getTxtNewEmail().getText().equals(sqlConnection.getResultSet().getString("Email"))
-                        && sug.getTxtPhoneNo().getText().equals(sqlConnection.getResultSet().getString("Phone"))) {
+                if (sug.getTxtNewNo().getText().trim().equals(sqlConnection.getResultSet().getString("No"))
+                        && sug.getTxtNewName().getText().trim().equals(sqlConnection.getResultSet().getString("Name"))
+                        && sug.getTxtNewSurname().getText().trim().equals(sqlConnection.getResultSet().getString("Surname"))
+                        && sug.getTxtNewEmail().getText().trim().equals(sqlConnection.getResultSet().getString("Email"))
+                        && sug.getTxtPhoneNo().getText().trim().equals(sqlConnection.getResultSet().getString("Phone"))) {
                     AlreadyCame = true;
                     throw new Exception();
                 }
@@ -358,7 +357,7 @@ public class ActionStudent implements ActionListener, FocusListener {
             }
             if (!StudentBringCame) {
                 java.awt.Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, sug.getTxtno().getText() + " Nolu öğrenci Kaydı YOKTUR", "EKSİK KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, sug.getTxtno().getText().trim() + " Nolu öğrenci Kaydı YOKTUR", "EKSİK KAYIT HATASI", JOptionPane.ERROR_MESSAGE);
                 sug.getTxtNewNo().setText("");
                 sug.getTxtNewName().setText("");
                 sug.getTxtNewSurname().setText("");
@@ -403,10 +402,10 @@ public class ActionStudent implements ActionListener, FocusListener {
                     + "(`Id`,`No`,`Name`,`Surname`,`Email`,`Phone`,`Debt`) VALUES "
                     + "(NULL,"
                     + "'" + sag.getTxtNo().getText().trim() + "',"
-                    + "'" + sag.getTxtName().getText() + "',"
-                    + "'" + sag.getTxtSurname().getText() + "',"
-                    + "'" + sag.getTxtEmail().getText() + "',"
-                    + "'" + sag.getTxtPhoneNo().getText() + "',"
+                    + "'" + sag.getTxtName().getText().trim() + "',"
+                    + "'" + sag.getTxtSurname().getText().trim().toUpperCase() + "',"
+                    + "'" + sag.getTxtEmail().getText().trim() + "',"
+                    + "'" + sag.getTxtPhoneNo().getText().trim() + "',"
                     + "'0.0' )";
 
             sqlConnection.Update(SqlStudentAdd);
@@ -449,7 +448,7 @@ public class ActionStudent implements ActionListener, FocusListener {
 
         try {
 
-            String SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sug.getTxtno().getText() + "'";
+            String SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sug.getTxtno().getText().trim() + "'";
 
             sqlConnection.setResultSet(SqlStudentControlQuery);
             while (sqlConnection.getResultSet().next()) {
@@ -460,17 +459,17 @@ public class ActionStudent implements ActionListener, FocusListener {
                 throw new Exception();
 
             }
-            SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sug.getTxtNewNo().getText() + "'";
+            SqlStudentControlQuery = "SELECT * FROM  `student` WHERE No LIKE '" + sug.getTxtNewNo().getText().trim() + "'";
 
             sqlConnection.setResultSet(SqlStudentControlQuery);
 
             while (sqlConnection.getResultSet().next()) {
                 if (sug.getTxtno().getText().equals(sqlConnection.getResultSet().getString("No"))) {
-                    if (sug.getTxtNewNo().getText().equals(sqlConnection.getResultSet().getString("No"))
-                            && sug.getTxtNewName().getText().equals(sqlConnection.getResultSet().getString("Name"))
-                            && sug.getTxtNewSurname().getText().equals(sqlConnection.getResultSet().getString("Surname"))
-                            && sug.getTxtNewEmail().getText().equals(sqlConnection.getResultSet().getString("Email"))
-                            && sug.getTxtPhoneNo().getText().equals(sqlConnection.getResultSet().getString("Phone"))) {
+                    if (sug.getTxtNewNo().getText().trim().equals(sqlConnection.getResultSet().getString("No"))
+                            && sug.getTxtNewName().getText().trim().equals(sqlConnection.getResultSet().getString("Name"))
+                            && sug.getTxtNewSurname().getText().trim().equals(sqlConnection.getResultSet().getString("Surname"))
+                            && sug.getTxtNewEmail().getText().trim().equals(sqlConnection.getResultSet().getString("Email"))
+                            && sug.getTxtPhoneNo().getText().trim().equals(sqlConnection.getResultSet().getString("Phone"))) {
 
                         allSame = true;
                         throw new Exception();
@@ -669,7 +668,7 @@ public class ActionStudent implements ActionListener, FocusListener {
 
         try {
 
-            String BookExistQuery = "Select * FROM book WHERE StudentNo LIKE '" + sug.getTxtNewNo().getText() + "'";
+            String BookExistQuery = "Select * FROM book WHERE StudentNo LIKE '" + sug.getTxtNewNo().getText().trim() + "'";
             int BookCounter = 0;
             sqlConnection.setResultSet(BookExistQuery);
             while (sqlConnection.getResultSet().next()) //    ;
@@ -955,5 +954,5 @@ public class ActionStudent implements ActionListener, FocusListener {
 
         }
 
-    } 
+    }
 }
