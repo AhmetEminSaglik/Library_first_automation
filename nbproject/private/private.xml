@@ -2,6 +2,28 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/FineDebtPayment.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Logic/ActionsMainGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/BookReturnGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/Login.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/MainGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Logic/ActionStudent.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/RegisteredStudentGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/BookAddGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Logic/SqlConnection.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Business/Main.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/TimeControlExtraTimeGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/StudentAddGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Logic/ActionTimeFine.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/StudentStateGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/StudentUpdateGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Logic/ActionsLogin.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/AboutUs.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/BookSearchListGui.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Logic/ActionsBook.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Logic/JavaMailUtil.java</file>
+            <file>file:/C:/Users/Ahmet%20Emin%20SAĞLIK/Documents/NetBeansProjects/AAA_LIBRARY_7_1/src/Gui/BookUpdateRemoveGui.java</file>
+        </group>
     </open-files>
 </project-private>

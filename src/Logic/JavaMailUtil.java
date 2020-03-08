@@ -1,4 +1,4 @@
-﻿//      ahmeteminsaglik@gmail.com
+//      ahmeteminsaglik@gmail.com
 package Logic;
 
 import java.awt.Color;
@@ -31,8 +31,8 @@ public class JavaMailUtil {
     static boolean saveConditionOnMysql = true;
     static Message message;
 
-    static final String usernameEmail = "YourEmail@example.com";
-    static final String passwordEmail = "YourApplicationPassword";
+    public static final String usernameEmail = "example@gmail.com";
+    public static final String passwordEmail = "passwrods";
 
     Icon icon = new ImageIcon("GitHub-Mark-64px.png");
 
